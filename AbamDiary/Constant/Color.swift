@@ -14,6 +14,7 @@ struct Color {
     struct BaseColorWtihDark {
         static let backgorund = UIColor { systemcolorChange(traitCollection: $0).backgroundColor }
         static let navigationBarItem = UIColor { systemcolorChange(traitCollection: $0).navigationBarItem }
+        static let cellTtitle = UIColor { systemcolorChange(traitCollection: $0).cellTitle }
         static func setDiaryInCell(type: MorningAndNight) -> UIColor {
             UIColor { systemcolorChange(traitCollection: $0).setDiaryInCell(type: type) }}
         static func setDiaryInCellPlacholder(type: MorningAndNight) -> UIColor {
@@ -110,6 +111,17 @@ enum Theme: Int {
         }
     }
     
+    var cellTitle: UIColor {
+        switch self {
+        case .anycase:
+            return UIColor(hex: "#2B2A25")
+        case .lignt:
+            return UIColor(hex: "#2B2A25")
+        case .dark:
+            return UIColor(hex: "#FDFDF9")
+        }
+    }
+
     func setDiaryInCell(type: MorningAndNight) -> UIColor {
         switch self {
         case .anycase:

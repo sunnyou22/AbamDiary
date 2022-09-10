@@ -15,7 +15,7 @@ struct FontSize {
     static let label_14: CGFloat = 14
     static let subTitle_16: CGFloat = 16
     static let largeTitle_20: CGFloat = 20
-    static let navigationTitle: CGFloat = 28
+    static let navigationTitle: CGFloat = 24
     static let hugeTitle_60: CGFloat = 60
     static let hugeTitle_48: CGFloat = 48
     static let hugeTitle_40: CGFloat = 40

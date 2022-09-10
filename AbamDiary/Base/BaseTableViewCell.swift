@@ -22,12 +22,4 @@ class BaseTableViewCell: UITableViewCell {
     
     func configuration() { }
     func setConstraints() { }
-    
-    func setupShadow() {
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.5
-        layer.shadowRadius = 10
-        contentView.layer.cornerRadius = 10
-        contentView.layer.masksToBounds = true
-    }
 }
