@@ -37,7 +37,7 @@ class MainTableViewCell: BaseTableViewCell {
     override func configuration() {
         [systemImageView, diaryLabel, diaryLabel].forEach { contentView.addSubview($0) }
        
-        setupShadow()
+        setupShadow() // 커스텀뷰 레이아웃지정하기
     }
     
     override func setConstraints() {
