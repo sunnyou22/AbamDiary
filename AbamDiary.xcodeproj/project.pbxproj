@@ -17,7 +17,10 @@
 		900AEE0C28CC6E6F00F18360 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 900AEE0B28CC6E6F00F18360 /* SnapKit */; };
 		900AEE0F28CC6E8400F18360 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 900AEE0E28CC6E8400F18360 /* Toast */; };
 		900AEE1228CC6E9900F18360 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 900AEE1128CC6E9900F18360 /* FSCalendar */; };
-		900AEE1528CC947200F18360 /* GageCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900AEE1428CC947200F18360 /* GageCollectionView.swift */; };
+		900AEE1A28CC9A5300F18360 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900AEE1928CC9A5300F18360 /* Observable.swift */; };
+		900AEE1C28CC9A5B00F18360 /* GageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900AEE1B28CC9A5B00F18360 /* GageModel.swift */; };
+		900AEE1E28CC9EA000F18360 /* UserDefaultHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900AEE1D28CC9EA000F18360 /* UserDefaultHelper.swift */; };
+		900AEE2028CC9F5300F18360 /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900AEE1F28CC9F5300F18360 /* Reusable.swift */; };
 		90F8261428CB799A008E8E6B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F8261328CB799A008E8E6B /* AppDelegate.swift */; };
 		90F8261628CB799A008E8E6B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F8261528CB799A008E8E6B /* SceneDelegate.swift */; };
 		90F8261828CB799A008E8E6B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F8261728CB799A008E8E6B /* ViewController.swift */; };
@@ -36,7 +39,10 @@
 		900AEE0428CC5DB500F18360 /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		900AEE0628CC5DE600F18360 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		900AEE0828CC642D00F18360 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
-		900AEE1428CC947200F18360 /* GageCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GageCollectionView.swift; sourceTree = "<group>"; };
+		900AEE1928CC9A5300F18360 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
+		900AEE1B28CC9A5B00F18360 /* GageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GageModel.swift; sourceTree = "<group>"; };
+		900AEE1D28CC9EA000F18360 /* UserDefaultHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultHelper.swift; sourceTree = "<group>"; };
+		900AEE1F28CC9F5300F18360 /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
 		90F8261028CB799A008E8E6B /* AbamDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AbamDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90F8261328CB799A008E8E6B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		90F8261528CB799A008E8E6B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -76,7 +82,6 @@
 		900AEE0128CC5D0E00F18360 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				900AEE1328CC945A00F18360 /* Gage */,
 				900AEE0228CC5D6700F18360 /* MainViewController.swift */,
 				900AEE0428CC5DB500F18360 /* MainTableViewCell.swift */,
 				900AEE0628CC5DE600F18360 /* MainView.swift */,
@@ -84,12 +89,13 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
-		900AEE1328CC945A00F18360 /* Gage */ = {
+		900AEE1828CC9A3200F18360 /* Observable */ = {
 			isa = PBXGroup;
 			children = (
-				900AEE1428CC947200F18360 /* GageCollectionView.swift */,
+				900AEE1928CC9A5300F18360 /* Observable.swift */,
+				900AEE1B28CC9A5B00F18360 /* GageModel.swift */,
 			);
-			path = Gage;
+			path = Observable;
 			sourceTree = "<group>";
 		};
 		90F8260728CB799A008E8E6B = {
@@ -112,6 +118,7 @@
 		90F8261228CB799A008E8E6B /* AbamDiary */ = {
 			isa = PBXGroup;
 			children = (
+				900AEE1828CC9A3200F18360 /* Observable */,
 				900AEE0128CC5D0E00F18360 /* Main */,
 				900AEDF828CC5A7E00F18360 /* Base */,
 				90F8262B28CB9F0C008E8E6B /* Constant */,
@@ -131,6 +138,8 @@
 			children = (
 				90F8262C28CB9F24008E8E6B /* Color.swift */,
 				900AEE0828CC642D00F18360 /* Font.swift */,
+				900AEE1D28CC9EA000F18360 /* UserDefaultHelper.swift */,
+				900AEE1F28CC9F5300F18360 /* Reusable.swift */,
 			);
 			path = Constant;
 			sourceTree = "<group>";
@@ -219,15 +228,18 @@
 			files = (
 				900AEDFA28CC5A9100F18360 /* BaseViewController.swift in Sources */,
 				900AEE0928CC642D00F18360 /* Font.swift in Sources */,
+				900AEE1E28CC9EA000F18360 /* UserDefaultHelper.swift in Sources */,
 				900AEE0528CC5DB500F18360 /* MainTableViewCell.swift in Sources */,
 				90F8261828CB799A008E8E6B /* ViewController.swift in Sources */,
+				900AEE1A28CC9A5300F18360 /* Observable.swift in Sources */,
 				900AEE0728CC5DE600F18360 /* MainView.swift in Sources */,
 				90F8262D28CB9F24008E8E6B /* Color.swift in Sources */,
+				900AEE1C28CC9A5B00F18360 /* GageModel.swift in Sources */,
+				900AEE2028CC9F5300F18360 /* Reusable.swift in Sources */,
 				900AEDFC28CC5AB100F18360 /* BaseView.swift in Sources */,
 				900AEE0028CC5BA700F18360 /* BaseTableViewCell.swift in Sources */,
 				90F8261428CB799A008E8E6B /* AppDelegate.swift in Sources */,
 				90F8261628CB799A008E8E6B /* SceneDelegate.swift in Sources */,
-				900AEE1528CC947200F18360 /* GageCollectionView.swift in Sources */,
 				900AEE0328CC5D6700F18360 /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

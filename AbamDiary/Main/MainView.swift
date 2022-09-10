@@ -41,7 +41,7 @@ class MainView: BaseView {
         view.font = .systemFont(ofSize: FontSize.largeTitle_20, weight: .bold)
         view.textColor = Color.BaseColorWtihDark.backgorund
         return view
-    }
+    }()
     
     override func configuration() {
        self.addSubview(calendar)
