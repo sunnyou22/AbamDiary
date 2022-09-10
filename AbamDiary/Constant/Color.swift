@@ -20,6 +20,9 @@ struct Color {
         UIColor { systemcolorChange(traitCollection: $0).setDiaryInCellPlacholder(type: type) }}
     static func setSymbolInCell(type: MorningAndNight) -> UIColor {
         UIColor { systemcolorChange(traitCollection: $0).setSymbolInCell(type: type) }}
+        static func setCellBackgroundColor(type: MorningAndNight) -> UIColor {
+            UIColor { systemcolorChange(traitCollection: $0).setCellBackgroundColor(type: type) }
+        }
     static func setGage(type: MorningAndNight) -> UIColor {
         UIColor { systemcolorChange(traitCollection: $0).setGage(type: type) }}
     static let thineBar = UIColor { systemcolorChange(traitCollection: $0).thineBar }
@@ -62,9 +65,20 @@ extension UIColor {
 }
 
 //MARK: 컬러차트
-enum MorningAndNight {
+enum MorningAndNight: Int, CaseIterable {
     case morning
     case night
+    
+    func setsymbolImage(_ imageview: UIImageView) {
+        
+        
+        switch self {
+        case .morning:
+            imageview.image = UIImage(systemName: "sun.max.fill")
+        case .night:
+            imageview.image = UIImage(systemName: "moon.stars")
+        }
+    }
 }
 
 enum Theme: Int {
@@ -173,6 +187,33 @@ enum Theme: Int {
             }
         }
         
+    func setCellBackgroundColor (type: MorningAndNight) -> UIColor {
+        switch self {
+        case .anycase:
+            switch type {
+            case .morning:
+               return UIColor(hex: "#FFF3D4")
+            case .night:
+                return UIColor(hex: "#6A7BA8")
+            }
+        case .lignt:
+            switch type {
+            case .morning:
+               return UIColor(hex: "#FFF3D4")
+            case .night:
+                return UIColor(hex: "#6A7BA8")
+            }
+        case .dark:
+            switch type {
+            case .morning:
+                return UIColor(hex: "#565751")
+            case .night:
+                return UIColor(hex: "#403F5F")
+            }
+        }
+    
+    }
+    
         func setGage(type: MorningAndNight) -> UIColor {
             switch self {
             case .anycase:
