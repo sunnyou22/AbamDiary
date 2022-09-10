@@ -13,19 +13,16 @@ class MainViewController: BaseViewController {
     let mainview = MainView()
     
     override func loadView() {
-        
-        mainview.calendar.dataSource = self
-        mainview.calendar.delegate = self
-        
         self.view = mainview
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      
+        navigationItem.title = "ABAM"
+        mainview.calendar.dataSource = self
+        mainview.calendar.delegate = self
+        
     }
-    
-    
 }
 
 extension MainViewController: FSCalendarDataSource, FSCalendarDelegate {
