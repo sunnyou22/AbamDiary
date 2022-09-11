@@ -17,7 +17,7 @@ class Observable<T> {
     
     var value: T {
         didSet {
-            print("🗓 didSet, value")
+            print("🗓 didSet", value)
             listener?(value)
             
         }

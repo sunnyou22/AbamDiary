@@ -36,7 +36,7 @@ class MainTableViewCell: BaseTableViewCell {
     
     let diaryLabel: UILabel = {
        let view = UILabel()
-        view.font = .systemFont(ofSize: FontSize.label_13, weight: .ultraLight)
+        view.font = .systemFont(ofSize: FontSize.label_13, weight: .regular)
         view.numberOfLines = 1
         view.lineBreakMode = .byTruncatingTail
         view.text = "안녕하세요"
@@ -46,8 +46,6 @@ class MainTableViewCell: BaseTableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.isHighlighted = false
-        
     }
     
     required init?(coder: NSCoder) {
