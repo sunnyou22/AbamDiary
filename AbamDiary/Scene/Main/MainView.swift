@@ -115,7 +115,7 @@ class MainView: BaseView {
     //MARK: 이니셜라이저
     override init(frame: CGRect) {
         super.init(frame: frame)
-
+        
     }
     
     required init?(coder: NSCoder) {
@@ -193,5 +193,37 @@ class MainView: BaseView {
             make.trailing.equalTo(morningBar.snp.trailing)
 //            make.trailing.equalTo(morningBar.snp.trailing).offset((UIScreen.main.bounds.height * 0.065) / 2) // frame으로 구하기
         }
+        
+    
     }
 }
+//
+//morningBar.snp.makeConstraints { make in
+//    make.top.equalTo(gageTitle.snp.bottom).offset(28)
+//    make.leading.equalTo(self.snp.leading).offset(24)
+//    make.height.equalTo(UIScreen.main.bounds.height * 0.022)
+//    make.trailing.equalTo(self.snp.trailing).offset(-24)
+//
+//
+//    make.width.equalTo((UIScreen.main.bounds.width - 48) / 2) // 모닝바를 위주로 움직이기
+//}
+//
+//nightBar.snp.makeConstraints { make in
+//    make.top.equalTo(gageTitle.snp.bottom).offset(28)
+//    make.trailing.equalTo(self.snp.trailing).offset(-24)
+//    make.height.equalTo(UIScreen.main.bounds.height * 0.022)
+//    make.leading.equalTo(self.snp.leading).offset(24)
+//
+//    make.leading.equalTo(morningBar.snp.trailing) // 모닝바에 의존
+//}
+//
+//profileImage.snp.makeConstraints { make in
+//    make.height.equalTo(UIScreen.main.bounds.height * 0.06)
+//    make.width.equalTo(profileImage.snp.height).multipliedBy(1)
+//    make.centerY.equalTo(morningBar.snp.centerY)
+//    make.centerX.equalTo(self.snp.centerX)
+////            make.trailing.equalTo(morningBar.snp.trailing)
+////            make.trailing.equalTo(morningBar.snp.trailing).offset((UIScreen.main.bounds.height * 0.065) / 2) // frame으로 구하기
+//}
+//}
+//}
