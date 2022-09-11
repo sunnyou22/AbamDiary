@@ -19,6 +19,7 @@ class Observable<T> {
         didSet {
             print("🗓 didSet, value")
             listener?(value)
+            
         }
     }
     

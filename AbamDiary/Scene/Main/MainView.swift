@@ -27,7 +27,7 @@ class MainView: BaseView {
     
     let cheerupMessage: UILabel = {
        let view = UILabel()
-        view.font = .systemFont(ofSize: FontSize.label_13, weight: .bold)
+        view.font = .systemFont(ofSize: FontSize.label_14, weight: .bold)
         view.textColor = Color.BaseColorWtihDark.cheerupMessege
         view.text = "응원의 메세지를 추가해보세요!"
         return view
@@ -87,7 +87,7 @@ class MainView: BaseView {
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(20)
             make.leading.equalTo(calendar.snp.leading).inset(4)
             make.width.equalTo(UIScreen.main.bounds.width * 0.09)
-            make.height.equalTo(ABAMImage.snp.width).multipliedBy(0.8)
+            make.height.equalTo(ABAMImage.snp.width).multipliedBy(0.85)
         }
         
         cheerupUnderView.snp.makeConstraints { make in

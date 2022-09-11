@@ -28,7 +28,8 @@ class MainTableViewCell: BaseTableViewCell {
     
     let dateLabel: UILabel = {
         let view = UILabel()
-        view.font = .systemFont(ofSize: FontSize.label_12, weight: .ultraLight)
+        view.font = .systemFont(ofSize: FontSize.label_14, weight: .ultraLight)
+        view.text = "88:88"
         
         return view
     }()
@@ -38,12 +39,14 @@ class MainTableViewCell: BaseTableViewCell {
         view.font = .systemFont(ofSize: FontSize.label_13, weight: .ultraLight)
         view.numberOfLines = 1
         view.lineBreakMode = .byTruncatingTail
+        view.text = "안녕하세요"
         
         return view
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.isHighlighted = false
         
     }
     
@@ -53,41 +56,42 @@ class MainTableViewCell: BaseTableViewCell {
 
     //MARK: 셀 레이아웃 잡기
     override func configuration() {
-        [systemImageView, dateLabel, diaryLabel].forEach { baseView.addSubview($0) }
         contentView.addSubview(baseView)
-
+        [systemImageView, dateLabel, diaryLabel].forEach { baseView.addSubview($0) }
     }
 
     override func setConstraints() {
 
-        systemImageView.snp.makeConstraints { make in
-            make.centerY.equalTo(baseView.snp.centerY)
-            make.leading.equalTo(baseView.snp.leading).offset(16)
-        }
-
-        dateLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(systemImageView.snp.centerY)
-            make.top.equalTo(systemImageView.snp.bottom).offset(4)
-        }
-
-        diaryLabel.snp.makeConstraints { make in
-            make.centerX.equalTo(systemImageView.snp.centerX)
-            make.leading.equalTo(systemImageView.snp.trailing).offset(16)
-            make.trailing.equalTo(baseView.snp.trailing).offset(16)
-
-        }
-        
         baseView.snp.makeConstraints { make in
             make.top.equalTo(contentView.snp.top).offset(0)
             make.bottom.equalTo(contentView.snp.bottom).offset(-12)
             make.horizontalEdges.equalTo(contentView.snp.horizontalEdges)
+        }
+        
+        systemImageView.snp.makeConstraints { make in
+            make.centerY.equalTo(baseView.snp.centerY).offset(-8)
+            make.leading.equalTo(baseView.snp.leading).offset(20)
+            make.width.equalTo(baseView.snp.width).multipliedBy(0.078)
+            make.height.equalTo(systemImageView.snp.height).multipliedBy(1)
+        }
+
+        dateLabel.snp.makeConstraints { make in
+            make.centerX.equalTo(systemImageView.snp.centerX)
+            make.top.equalTo(systemImageView.snp.bottom).offset(8)
+        }
+
+        diaryLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(baseView.snp.centerY)
+            make.leading.equalTo(systemImageView.snp.trailing).offset(20)
+            make.trailing.equalTo(baseView.snp.trailing).offset(-16)
+
         }
     }
     
     
 //    MARK: cellForRowAt에 적용시키기
     func setMornigAndNightConfig(index: Int) {
-
+        
         baseView.backgroundColor = Color.BaseColorWtihDark.setCellBackgroundColor(type: .allCases[index])
         diaryLabel.textColor = Color.BaseColorWtihDark.setDiaryInCell(type: .allCases[index])
         dateLabel.textColor = Color.BaseColorWtihDark.setDiaryInCell(type: .allCases[index])

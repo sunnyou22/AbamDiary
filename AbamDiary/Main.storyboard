@@ -36,9 +36,55 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="magazine.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="eVY-RT-y21">
+                                <rect key="frame" x="57" y="545" width="36" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="envelope.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Ayp-Ec-puz">
+                                <rect key="frame" x="189" y="605" width="36" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="house.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="CzE-Ls-gsg">
+                                <rect key="frame" x="40" y="455" width="36" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="lock.open.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="pGJ-NA-Baf">
+                                <rect key="frame" x="172" y="515" width="36" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="magnifyingglass" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="hSN-sq-dd3">
+                                <rect key="frame" x="112" y="649.5" width="36" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d3i-Ph-5Fg">
+                                <rect key="frame" x="87" y="416" width="240" height="64"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sun.max.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="ecw-Hq-wae">
+                                        <rect key="frame" x="16" y="15.5" width="24" height="21.5"/>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="18"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LNC-Qm-yqn">
+                                        <rect key="frame" x="7" y="41.5" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBrownColor"/>
+                                <constraints>
+                                    <constraint firstItem="ecw-Hq-wae" firstAttribute="width" secondItem="d3i-Ph-5Fg" secondAttribute="width" multiplier="0.1" id="Bvx-u5-TAD"/>
+                                    <constraint firstItem="ecw-Hq-wae" firstAttribute="top" secondItem="d3i-Ph-5Fg" secondAttribute="top" constant="16" id="G1z-aC-bdK"/>
+                                    <constraint firstItem="ecw-Hq-wae" firstAttribute="leading" secondItem="d3i-Ph-5Fg" secondAttribute="leading" constant="16" id="OBu-Yr-H1d"/>
+                                    <constraint firstItem="LNC-Qm-yqn" firstAttribute="centerX" secondItem="ecw-Hq-wae" secondAttribute="centerX" id="Tpw-ZK-pH6"/>
+                                    <constraint firstAttribute="height" constant="64" id="Vkb-23-bkn"/>
+                                    <constraint firstItem="LNC-Qm-yqn" firstAttribute="top" secondItem="ecw-Hq-wae" secondAttribute="bottom" constant="4" id="dvN-gV-qmL"/>
+                                    <constraint firstAttribute="width" constant="240" id="z02-DW-eyD"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="GJE-8Z-3Jh" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="8Bi-IS-eEe"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="sVx-lb-8Hd" secondAttribute="trailing" constant="40" id="8MB-0T-E0V"/>
@@ -49,7 +95,9 @@
                             <constraint firstItem="sVx-lb-8Hd" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="Wrj-4g-aCw"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="GJE-8Z-3Jh" secondAttribute="trailing" constant="20" id="dno-8L-Saj"/>
                             <constraint firstItem="8hB-BQ-7bH" firstAttribute="top" secondItem="GJE-8Z-3Jh" secondAttribute="bottom" constant="20" id="eh9-eU-klg"/>
+                            <constraint firstItem="d3i-Ph-5Fg" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="fYL-xT-He8"/>
                             <constraint firstItem="GJE-8Z-3Jh" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="fdZ-ot-9wM"/>
+                            <constraint firstItem="d3i-Ph-5Fg" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="nU2-Mb-DZN"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -59,8 +107,17 @@
         </scene>
     </scenes>
     <resources>
+        <image name="envelope.fill" catalog="system" width="128" height="93"/>
+        <image name="house.fill" catalog="system" width="128" height="106"/>
+        <image name="lock.open.fill" catalog="system" width="128" height="112"/>
+        <image name="magazine.fill" catalog="system" width="113" height="128"/>
+        <image name="magnifyingglass" catalog="system" width="128" height="115"/>
+        <image name="sun.max.fill" catalog="system" width="128" height="124"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBrownColor">
+            <color red="0.63529411764705879" green="0.51764705882352946" blue="0.36862745098039218" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

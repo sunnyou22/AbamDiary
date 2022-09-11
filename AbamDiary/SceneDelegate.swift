@@ -17,6 +17,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
         
+        //MARK: 탭바
+        
+        let mainVC = UINavigationController(rootViewController: MainViewController())
+        let searchVC = UINavigationController(rootViewController: SearchViewController())
+        let monthVC = UINavigationController(rootViewController: MonthDiaryViewController())
+        let cheerupVC = UINavigationController(rootViewController: CheerupViewController())
+        let settingVC = UINavigationController(rootViewController: SettiongViewController())
+        
+        let tabBarController = UITabBarController()
+        tabBarController.setViewControllers([mainVC, searchVC, monthVC, cheerupVC, settingVC], animated: true)
+        
+        if let items = tabBarController.tabBar.items {
+            for i in 0...(items.count - 1) {
+                items[i].selectedImage = UIImage(systemName: "lock.open.fill")
+                items[i].image = UIImage(systemName: TabBarImage.allCases[i].systemImage)
+                items[i].title = TabBarImage.allCases[i].tapBarSubTitle
+                
+            }
+        }
+        
+        
         //            if UserDefaultHelper.shared.First {
         //               let vc = MainViewController()
         //                guard let vc = sb.instantiateViewController(withIdentifier: IntroViewController.reuseIdentifier) as? IntroViewController else { return }
@@ -29,8 +50,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //                window?.rootViewController = UINavigationController(rootViewController: vc)
         //            }
         
-        let vc = MainViewController()
-        window?.rootViewController = UINavigationController(rootViewController: vc)
+        window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
         
     }

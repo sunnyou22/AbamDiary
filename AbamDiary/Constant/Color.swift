@@ -323,4 +323,15 @@ enum Theme: Int {
             return UIColor(hex: "#BAC8C3")
         }
     }
+    
+    var cheerupUnderView: UIColor {
+        switch self {
+        case .anycase:
+            return UIColor(hex: "#DDE4D3")
+        case .lignt:
+            return UIColor(hex: "#DDE4D3")
+        case .dark:
+            return .clear
+        }
+    }
 }
