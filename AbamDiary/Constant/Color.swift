@@ -7,8 +7,7 @@
 
 import Foundation
 import UIKit
-
-
+        
 struct Color {
     
     struct BaseColorWtihDark {

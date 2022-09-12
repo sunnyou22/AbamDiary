@@ -42,13 +42,7 @@ class MainView: BaseView {
         view.appearance.headerDateFormat = "YYYY년 MM월"
         view.scrollDirection = .vertical
         view.locale = Locale(identifier: "ko-KR")
-//        view.appearance.caseOptions = FSCalendarCaseOptionsWeekdayUsesSingleUpperCase -> 메인뷰컨에 넣어주기
-        
-        view.appearance.headerTitleFont = UIFont.systemFont(ofSize: 16, weight: .bold)
-        view.appearance.titleFont = UIFont.systemFont(ofSize: 14, weight: .light)
-        view.appearance.headerTitleAlignment = .left
-        view.appearance.headerTitleOffset = CGPoint(x: 12, y: -4)
-       
+        //        view.appearance.caseOptions = FSCalendarCaseOptionsWeekdayUsesSingleUpperCase -> 메인뷰컨에 넣어주기
         
         return view
     }()
@@ -58,10 +52,10 @@ class MainView: BaseView {
         calendar.backgroundColor =  .clear
         calendar.clipsToBounds = true
         calendar.layer.cornerRadius = 20
-       
+        
         calendar.scrollDirection = .vertical
         calendar.locale = Locale(identifier: "ko-KR")
-       
+        
         calendar.appearance.titleFont = UIFont.systemFont(ofSize: 14, weight: .light)
         
         calendar.appearance.headerTitleFont = UIFont.systemFont(ofSize: 16, weight: .bold)
@@ -71,9 +65,10 @@ class MainView: BaseView {
         calendar.appearance.weekdayTextColor = Color.BaseColorWtihDark.calendarTitle
         calendar.appearance.titleWeekendColor = .systemRed
         calendar.appearance.titleDefaultColor = Color.BaseColorWtihDark.calendarTitle
-        calendar.appearance.todayColor = .systemRed
+        calendar.appearance.todayColor = UIColor(hex: "#9D6735")
         calendar.appearance.selectionColor = UIColor(hex: "#CAB39E")
         calendar.appearance.headerTitleColor = Color.BaseColorWtihDark.calendarTitle
+        
     }
     
     
@@ -107,16 +102,16 @@ class MainView: BaseView {
     let profileImage: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(named: "고양이 1")
-//        let newWidth = UIScreen.main.bounds.width * 0.05
-//        let newimageRect = CGRect(x: 0, y: 0, width: newWidth, height: newWidth)
-//        UIGraphicsBeginImageContext(CGSize(width: <#T##Int#>, height: <#T##Int#>))
-//
-//
-//        //        view.image = UIImage(named: "morningpop") // 프로필 사진으로 바꾸기
-//        view.backgroundColor = .green
+        //        let newWidth = UIScreen.main.bounds.width * 0.05
+        //        let newimageRect = CGRect(x: 0, y: 0, width: newWidth, height: newWidth)
+        //        UIGraphicsBeginImageContext(CGSize(width: <#T##Int#>, height: <#T##Int#>))
+        //
+        //
+        //        //        view.image = UIImage(named: "morningpop") // 프로필 사진으로 바꾸기
+        //        view.backgroundColor = .green
         DispatchQueue.main.async {
-           
-
+            
+            
             view.contentMode = .scaleAspectFill
             view.clipsToBounds = true
             view.layer.cornerRadius = view.frame.size.height / 2
@@ -161,7 +156,7 @@ class MainView: BaseView {
     override func configuration() {
         [ABAMImage, cheerupUnderView, cheerupMessage, calendar, cellTitle, tableView, gageTitle, progressBar, profilebackgroundView, profileImage].forEach { self.addSubview($0) }
         self.backgroundColor = Color.BaseColorWtihDark.backgorund
-
+        
     }
     
     override func setConstraints() {
@@ -184,11 +179,15 @@ class MainView: BaseView {
             make.horizontalEdges.equalTo(cheerupUnderView.snp.horizontalEdges).inset(12)
         }
         
+        //MARK: 캘린더 디바이스 크기 대응 분기처리
         calendar.snp.makeConstraints { make in
+//            let widthRatio: Double = UIScreen.main.isWiderThan375pt ? 0.84 : 0.8
+            
             make.top.equalTo(ABAMImage.snp.bottom).offset(16)
             make.centerX.equalTo(self.snp.centerX)
-            make.width.equalTo(UIScreen.main.bounds.width *  0.84)
+            make.width.greaterThanOrEqualTo(UIScreen.main.bounds.width * 0.8)
             make.height.equalTo(calendar.snp.width).multipliedBy(0.7)
+            make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(28)
         }
         
         cellTitle.snp.makeConstraints { make in
@@ -204,16 +203,18 @@ class MainView: BaseView {
         }
         
         gageTitle.snp.makeConstraints { make in
-            make.top.equalTo(tableView.snp.bottom).offset(-4)
+//            let topSpacing = UIScreen.main.isWiderThan375pt ? 0 : -4
+            make.top.greaterThanOrEqualTo(tableView.snp.bottom).offset(-4)
+            make.bottom.lessThanOrEqualTo(progressBar.snp.top).offset(-28)
             make.leading.equalTo(self.snp.leading).offset(28)
         }
         
         progressBar.snp.makeConstraints { make in
-    
-            make.top.equalTo(gageTitle.snp.bottom).offset(28)
-            make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(24)
+            
+//            make.top.equalTo(gageTitle.snp.bottom).offset(28)
+            make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(32)
             make.height.equalTo(UIScreen.main.bounds.height * 0.025)
-          
+            make.bottom.greaterThanOrEqualTo(self.safeAreaLayoutGuide.snp.bottom).offset(-28)
         }
         
         profileImage.snp.makeConstraints { make in
@@ -234,19 +235,19 @@ class MainView: BaseView {
 }
 
 //MARK: 이미지 리사이즈
- extension UIImage {
-     func resize(newWidthRato: CGFloat) -> UIImage {
-         let newWidth = UIScreen.main.bounds.width * newWidthRato
-
-         let size = CGSize(width: newWidth, height: newWidth)
-         let render = UIGraphicsImageRenderer(size: size)
-         let renderImage = render.image { context in
-             self.draw(in: CGRect(origin: .zero, size: size))
-         }
-         
-         print("화면 배율: \(UIScreen.main.scale)")// 배수
-         print("origin: \(self), resize: \(renderImage)")
-//         printDataSize(renderImage)
-         return renderImage
-     }
- }
+extension UIImage {
+    func resize(newWidthRato: CGFloat) -> UIImage {
+        let newWidth = UIScreen.main.bounds.width * newWidthRato
+        
+        let size = CGSize(width: newWidth, height: newWidth)
+        let render = UIGraphicsImageRenderer(size: size)
+        let renderImage = render.image { context in
+            self.draw(in: CGRect(origin: .zero, size: size))
+        }
+        
+        print("화면 배율: \(UIScreen.main.scale)")// 배수
+        print("origin: \(self), resize: \(renderImage)")
+        //         printDataSize(renderImage)
+        return renderImage
+    }
+}

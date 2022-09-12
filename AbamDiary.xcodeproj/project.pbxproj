@@ -22,7 +22,8 @@
 		900AEE1E28CC9EA000F18360 /* UserDefaultHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900AEE1D28CC9EA000F18360 /* UserDefaultHelper.swift */; };
 		900AEE2028CC9F5300F18360 /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900AEE1F28CC9F5300F18360 /* Reusable.swift */; };
 		900AEE2228CCC0C000F18360 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 900AEE2128CCC0C000F18360 /* Main.storyboard */; };
-		9034EFA228CF00B50027F8F7 /* GradientProgressBar in Frameworks */ = {isa = PBXBuildFile; productRef = 9034EFA128CF00B50027F8F7 /* GradientProgressBar */; };
+		9034EFA728CF9F5A0027F8F7 /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9034EFA628CF9F5A0027F8F7 /* DeviceManager.swift */; };
+		9034EFAA28CFA54C0027F8F7 /* DeviceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9034EFA928CFA54C0027F8F7 /* DeviceKit */; };
 		90B7210E28CDACBE00B243AE /* CheerupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B7210D28CDACBE00B243AE /* CheerupViewController.swift */; };
 		90B7211028CDACC900B243AE /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B7210F28CDACC900B243AE /* SearchViewController.swift */; };
 		90B7211228CDACE300B243AE /* MonthDiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B7211128CDACE300B243AE /* MonthDiaryViewController.swift */; };
@@ -50,6 +51,7 @@
 		900AEE1D28CC9EA000F18360 /* UserDefaultHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultHelper.swift; sourceTree = "<group>"; };
 		900AEE1F28CC9F5300F18360 /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
 		900AEE2128CCC0C000F18360 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		9034EFA628CF9F5A0027F8F7 /* DeviceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceManager.swift; sourceTree = "<group>"; };
 		90B7210D28CDACBE00B243AE /* CheerupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheerupViewController.swift; sourceTree = "<group>"; };
 		90B7210F28CDACC900B243AE /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		90B7211128CDACE300B243AE /* MonthDiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthDiaryViewController.swift; sourceTree = "<group>"; };
@@ -72,9 +74,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				900AEE0F28CC6E8400F18360 /* Toast in Frameworks */,
+				9034EFAA28CFA54C0027F8F7 /* DeviceKit in Frameworks */,
 				900AEE1228CC6E9900F18360 /* FSCalendar in Frameworks */,
 				900AEE0C28CC6E6F00F18360 /* SnapKit in Frameworks */,
-				9034EFA228CF00B50027F8F7 /* GradientProgressBar in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,6 +110,14 @@
 				900AEE1B28CC9A5B00F18360 /* GageModel.swift */,
 			);
 			path = Observable;
+			sourceTree = "<group>";
+		};
+		9034EFA528CF9F4B0027F8F7 /* DeviceManager */ = {
+			isa = PBXGroup;
+			children = (
+				9034EFA628CF9F5A0027F8F7 /* DeviceManager.swift */,
+			);
+			path = DeviceManager;
 			sourceTree = "<group>";
 		};
 		90B7210828CDAC5100B243AE /* Scene */ = {
@@ -192,6 +202,7 @@
 		90F8262B28CB9F0C008E8E6B /* Constant */ = {
 			isa = PBXGroup;
 			children = (
+				9034EFA528CF9F4B0027F8F7 /* DeviceManager */,
 				90F8262C28CB9F24008E8E6B /* Color.swift */,
 				900AEE0828CC642D00F18360 /* Font.swift */,
 				900AEE1D28CC9EA000F18360 /* UserDefaultHelper.swift */,
@@ -221,7 +232,7 @@
 				900AEE0B28CC6E6F00F18360 /* SnapKit */,
 				900AEE0E28CC6E8400F18360 /* Toast */,
 				900AEE1128CC6E9900F18360 /* FSCalendar */,
-				9034EFA128CF00B50027F8F7 /* GradientProgressBar */,
+				9034EFA928CFA54C0027F8F7 /* DeviceKit */,
 			);
 			productName = AbamDiary;
 			productReference = 90F8261028CB799A008E8E6B /* AbamDiary.app */;
@@ -255,7 +266,7 @@
 				900AEE0A28CC6E6F00F18360 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				900AEE0D28CC6E8400F18360 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				900AEE1028CC6E9900F18360 /* XCRemoteSwiftPackageReference "FSCalendar" */,
-				9034EFA028CF00B50027F8F7 /* XCRemoteSwiftPackageReference "GradientProgressBar" */,
+				9034EFA828CFA54C0027F8F7 /* XCRemoteSwiftPackageReference "DeviceKit" */,
 			);
 			productRefGroup = 90F8261128CB799A008E8E6B /* Products */;
 			projectDirPath = "";
@@ -292,6 +303,7 @@
 				90B7211028CDACC900B243AE /* SearchViewController.swift in Sources */,
 				900AEE1E28CC9EA000F18360 /* UserDefaultHelper.swift in Sources */,
 				90B7211628CDAD0500B243AE /* SettiongViewController.swift in Sources */,
+				9034EFA728CF9F5A0027F8F7 /* DeviceManager.swift in Sources */,
 				900AEE0528CC5DB500F18360 /* MainTableViewCell.swift in Sources */,
 				90F8261828CB799A008E8E6B /* ViewController.swift in Sources */,
 				90B7211828CDB53D00B243AE /* TabBarImage.swift in Sources */,
@@ -542,12 +554,12 @@
 				minimumVersion = 2.0.0;
 			};
 		};
-		9034EFA028CF00B50027F8F7 /* XCRemoteSwiftPackageReference "GradientProgressBar" */ = {
+		9034EFA828CFA54C0027F8F7 /* XCRemoteSwiftPackageReference "DeviceKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/fxm90/GradientProgressBar.git";
+			repositoryURL = "https://github.com/devicekit/DeviceKit.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
+				minimumVersion = 4.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -568,10 +580,10 @@
 			package = 900AEE1028CC6E9900F18360 /* XCRemoteSwiftPackageReference "FSCalendar" */;
 			productName = FSCalendar;
 		};
-		9034EFA128CF00B50027F8F7 /* GradientProgressBar */ = {
+		9034EFA928CFA54C0027F8F7 /* DeviceKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9034EFA028CF00B50027F8F7 /* XCRemoteSwiftPackageReference "GradientProgressBar" */;
-			productName = GradientProgressBar;
+			package = 9034EFA828CFA54C0027F8F7 /* XCRemoteSwiftPackageReference "DeviceKit" */;
+			productName = DeviceKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
