@@ -14,8 +14,10 @@ class MainViewController: BaseViewController {
     let mainview = MainView()
     //MARK: observable 변경하기
     var viewModel = GageModel()
-    var changeMorningcount: Double = 0
-    var changeNightcount: Double = 0
+    var changeMorningcount: Float = 0
+    var changeNightcount: Float = 0
+    var progress: Float = 0
+    let digit: Float = pow(10, 2) // 10의 2제곱
     
     override func loadView() {
         self.view = mainview
@@ -47,82 +49,98 @@ class MainViewController: BaseViewController {
     
     @objc func testPlusM() {
         self.changeMorningcount += 20.0
-        viewModel.morningDiaryCount.value = changeMorningcount
-        animateMorningBar()
+        let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeMorningcount + self.changeNightcount)) * digit) / digit)
         
+        print(moringCountRatio, "----")
+
+        if moringCountRatio.isNaN {
+            progress = 0
+        } else {
+            progress = moringCountRatio
+            print(progress)
+        }
+        print("================", progress)
+        viewModel.morningDiaryCount.value = changeMorningcount
+        mainview.progressBar.setProgress(progress, animated: true)
+        animationUIImage()
     }
     
     @objc func testPlusN() {
+       
         self.changeNightcount += 20.0
-        viewModel.nightDiaryCount.value = changeNightcount
-        animateMorningBar()
+        let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeMorningcount + self.changeNightcount)) * digit) / digit)
+
         
+       
+        
+        if moringCountRatio.isNaN {
+            progress = 0
+        } else {
+            progress = moringCountRatio
+            print(progress)
+        }
+        print("================", progress)
+        viewModel.nightDiaryCount.value = changeNightcount
+
+        mainview.progressBar.setProgress(progress, animated: true)
+        animationUIImage()
     }
     
-    func animateMorningBar() {
-        let digit: Double = pow(10, 2) // 10의 2제곱
-        
-    //어차피 애니메이션들어가면 변경된 값이 계속 들어감 -> 디바이스 대응
-        let testM = self.mainview.morningBar.frame.size.width
-        let testN = self.mainview.nightBar.frame.size.width
-        let moringCountRatio: Double = round((self.changeMorningcount / (self.viewModel.morningDiaryCount.value + self.viewModel.nightDiaryCount.value)) * digit) / digit
-        let nightCountRatio: Double = round((self.changeNightcount / (self.viewModel.morningDiaryCount.value + self.viewModel.nightDiaryCount.value)) * digit) / digit
-        
-        //사이드에 뷰를 넣어버릴까
-        UIView.animate(withDuration: 0) {
-            if moringCountRatio > nightCountRatio {
-                if moringCountRatio == 1 {
-                    self.mainview.morningBar.transform = CGAffineTransform(a: 2, b: 0, c: 0, d: 1, tx: testM / 2, ty: 0)
-                } else if moringCountRatio > 0.5 {
-                    print("🟢===> 아침 두번째 조건", moringCountRatio)
-                    self.mainview.morningBar.transform = CGAffineTransform(scaleX: 1 + moringCountRatio, y: 1)
-                    self.mainview.nightBar.transform = CGAffineTransform(scaleX: 1 - moringCountRatio, y: 1)
-                    self.mainview.morningBar.frame.origin.x = 24
-                    self.mainview.nightBar.frame.origin.x = self.mainview.morningBar.frame.size.width
-                    
-                    print(moringCountRatio)
-                print("====> 모닝바 너비", self.mainview.morningBar.frame.size.width)
-                    print("====> 저녁바 엑스좌표", self.mainview.nightBar.bounds.origin.x)
-                }
-            } else if moringCountRatio < nightCountRatio {
+    
+    
+    //MARK: 이미지 애니메이션
+    
+    func animationUIImage() {
+        UIImageView.animate(withDuration: 1) {
+            let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeNightcount + self.changeMorningcount)) * self.digit) / self.digit)
+           
+            let width = Float(self.mainview.progressBar.frame.size.width) * moringCountRatio - (Float(self.mainview.progressBar.frame.size.width) / 2)
+//
+            
+            print(self.mainview.progressBar.frame.size.width)
+//            print(Float(self.mainview.progressBar.frame.size.width) * moringCountRatio)
+            self.mainview.progressBar.transform = .identity
+            
+            let newWidth = (round(width) * self.digit) / self.digit
+            
+            if moringCountRatio < 0.5 {
+                self.mainview.profileImage.transform = .identity
+                self.mainview.profileImage.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
                 
-            } else {
-                self.mainview.morningBar.transform = .identity
-                self.mainview.nightBar.transform = .identity
-                print("🔴====> 바를 움직일 수 없습니다")
-            }
+                print("🔥 0.5이하", moringCountRatio)
+                print("🟢 0.5이하", width)
+                print("👉 new 0.5이하", newWidth)
+                
+                } else if moringCountRatio > 0.5 {
+                    print("🔥 0.5이상", moringCountRatio)
+                    print("🟢 0.5이상", width)
+                    self.mainview.profileImage.transform = .identity
+                    self.mainview.profileImage.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
+                } else {
+                    self.mainview.profileImage.transform = .identity
+                }
+            
             
         } completion: { _ in
-            if moringCountRatio == 1{
-                self.mainview.morningBar.transform = .identity
-                self.mainview.morningBar.transform = CGAffineTransform(a: 2, b: 0, c: 0, d: 1, tx: self.mainview.morningBar.frame.size.width / 2, ty: 0)
-            } else if moringCountRatio > 0.5 {
-                print("🟢===> 아침 두번째 조건", moringCountRatio)
-                self.mainview.morningBar.transform = CGAffineTransform(scaleX: (1 + moringCountRatio), y: 1)
-                self.mainview.nightBar.transform = CGAffineTransform(scaleX: (1 - moringCountRatio), y: 1)
-                self.mainview.nightBar.bounds.origin.x = self.mainview.morningBar.frame.size.width
-                self.mainview.morningBar.frame.origin.x = 24
-            print("====> 모닝바 너비", self.mainview.morningBar.frame.size.width)
-                print("====> 저녁바 엑스좌표", self.mainview.nightBar.bounds.origin.x)
-            }
-           
+            let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeMorningcount + self.changeNightcount)) * self.digit) / self.digit)
+            let width: Float = Float(self.mainview.progressBar.frame.size.width) * moringCountRatio - (Float(self.mainview.progressBar.frame.size.width) / 2)
+            let newWidth = (round(width) * self.digit) / self.digit
             
+            
+            if moringCountRatio < 0.5 {
+                self.mainview.profileImage.transform = .identity
+                self.mainview.profileImage.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
+                } else if moringCountRatio > 0.5 {
+                    self.mainview.profileImage.transform = .identity
+                    self.mainview.profileImage.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
+                } else {
+                    self.mainview.profileImage.transform = .identity
+                }
         }
-        
+
     }
 }
-
-
-//    func animateProfileImageView() {
-//        UIView.animate(withDuration: 1) {
-//            self.mainview.profileImage.transform = CGAffineTransform(translationX: <#T##CGFloat#>, y: <#T##CGFloat#>)
-//        } completion: { _ in
-//            <#code#>
-//        }
-//
-//    }
-
-
+  
 //램 데이터 기반으로 바꾸기
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -173,49 +191,3 @@ class navigationTitleVIew: BaseView {
         }
     }
 }
-
-
-//UIView.animate(withDuration: 1) {
-//
-//    if moringCountRatio != 0, moringCountRatio < 0.5 {
-//        self.mainview.morningBar.transform = CGAffineTransform(scaleX: 1 + moringCountRatio, y: 1)
-//        self.mainview.nightBar.transform = CGAffineTransform(scaleX: (1 - moringCountRatio), y: 1)
-//        print("🔴 ====> 1번 조건", moringCountRatio)
-//    } else if moringCountRatio != 0, moringCountRatio > 0.5 {
-//
-//        self.mainview.morningBar.transform = CGAffineTransform(scaleX: 1 + moringCountRatio, y: 1)
-//        self.mainview.nightBar.transform = CGAffineTransform(scaleX: (1 - moringCountRatio), y: 1)
-//        print("🔴 ====> 2번조건C", moringCountRatio)
-//        print("🔴 ====> 2번조건C moringCountRatio", moringCountRatio)
-//        print("🔴 ====> 2번조건C width", self.mainview.morningBar.frame.size.width)
-//    } else if moringCountRatio == 0 {
-//        self.mainview.morningBar.frame.size.width = (UIScreen.main.bounds.width - 48) / 2
-//        print("🔴 ====> 3번조건", moringCountRatio)
-//    } else {
-//        print("🔴 ====> 바를 움직일 수 없습니다", moringCountRatio)
-//    }
-//
-//
-//} completion: { _ in
-//
-//        if moringCountRatio != 0, moringCountRatio < 0.5 {
-//
-//            self.mainview.nightBar.transform = CGAffineTransform(scaleX: (1 - moringCountRatio), y: 1)
-//
-//            print("🔴 ====> 1번 조건", moringCountRatio)
-//        } else if moringCountRatio != 0, moringCountRatio > 0.5 {
-//            self.mainview.morningBar.transform = CGAffineTransform(scaleX: 1 + moringCountRatio, y: 1).translatedBy(x: 0, y: 0)
-//
-//            self.mainview.nightBar.transform = CGAffineTransform(scaleX: (1 - moringCountRatio), y: 1)
-//            print("🔴 ====> 2번조건C", moringCountRatio)
-//            print("🔴 ====> 2번조건C moringCountRatio", moringCountRatio)
-//            print("🔴 ====> 2번조건C width", self.mainview.morningBar.frame.size.width)
-//
-//        } else if moringCountRatio == 0 {
-//            self.mainview.morningBar.frame.size.width = (UIScreen.main.bounds.width - 48) / 2
-//            print("🔴 ====> 3번조건", moringCountRatio)
-//        } else {
-//            print("🔴 ====> 바를 움직일 수 없습니다", moringCountRatio)
-//        }
-//}          }
-//}

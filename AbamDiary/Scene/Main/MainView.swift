@@ -12,9 +12,9 @@ import SnapKit
 class MainView: BaseView {
     
     let ABAMImage: UIImageView = {
-       let view = UIImageView()
+        let view = UIImageView()
         view.image = UIImage(named: "ABAM")
-       return view
+        return view
     }()
     
     let cheerupUnderView: UIView = {
@@ -26,7 +26,7 @@ class MainView: BaseView {
     }()
     
     let cheerupMessage: UILabel = {
-       let view = UILabel()
+        let view = UILabel()
         view.font = .systemFont(ofSize: FontSize.label_14, weight: .bold)
         view.textColor = Color.BaseColorWtihDark.cheerupMessege
         view.text = "응원의 메세지를 추가해보세요!"
@@ -49,10 +49,10 @@ class MainView: BaseView {
         
         return view
     }()
-     
+    
     //헤더로 넣는게 나을까
     let cellTitle: UILabel = {
-       let view = UILabel()
+        let view = UILabel()
         view.text = "한줄일기"
         view.font = .systemFont(ofSize: FontSize.subTitle_16, weight: .bold)
         view.textColor = Color.BaseColorWtihDark.cellTtitle
@@ -76,48 +76,27 @@ class MainView: BaseView {
         return view
     }()
     
-    let morningBar: UIView = {
-       let view = UIView()
-        view.backgroundColor = UIColor(hex: "#FF3B30", alpha: 0.7)
-        view.layer.borderColor = UIColor.black.cgColor
-        view.layer.borderWidth = 2
-        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
-        view.layer.masksToBounds = true
+    
+    let profileImage: UIImageView = {
+        let view = UIImageView()
+        //        view.image = UIImage(named: "morningpop") // 프로필 사진으로 바꾸기
+        view.backgroundColor = .green
         DispatchQueue.main.async {
             view.layer.cornerRadius = view.frame.size.height / 2
         }
         return view
     }()
     
-    let nightBar: UIView = {
-        let view = UIView()
-         view.backgroundColor = UIColor(hex: "#4F5CCB")
-         view.layer.borderColor = UIColor.black.cgColor
-         view.layer.borderWidth = 2
-         view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
-         view.layer.masksToBounds = true
+    let progressBar: UIProgressView = {
+        let view = UIProgressView()
+        view.trackTintColor = UIColor(hex: "#001AFF", alpha: 0.6)
+        view.progressTintColor = UIColor(hex: "#FF3B30", alpha: 0.7)
+        view.clipsToBounds = true
         DispatchQueue.main.async {
-            view.layer.cornerRadius = view.frame.size.height / 2
+            view.layer.cornerRadius = view.frame.height / 2
         }
-         return view
-    }()
-    
-    lazy var stackview: UIStackView = {
-       let view = UIStackView(arrangedSubviews: [morningBar, nightBar])
-        view.axis = .horizontal
-        view.distribution = .fill
-        view.alignment = .fill
-        view.spacing = 0
-        view.addsu
-    }()
-    
-    let profileImage: UIImageView = {
-       let view = UIImageView()
-//        view.image = UIImage(named: "morningpop") // 프로필 사진으로 바꾸기
-        view.backgroundColor = .green
-        DispatchQueue.main.async {
-            view.layer.cornerRadius = view.frame.size.height / 2
-        }
+        view.progress = 0.5 // 초기값
+        
         return view
     }()
     
@@ -132,9 +111,9 @@ class MainView: BaseView {
     }
     
     override func configuration() {
-        [ABAMImage, cheerupUnderView, cheerupMessage, calendar, cellTitle, tableView, gageTitle, morningBar, nightBar, profileImage].forEach { self.addSubview($0) }
+        [ABAMImage, cheerupUnderView, cheerupMessage, calendar, cellTitle, tableView, gageTitle, progressBar, profileImage].forEach { self.addSubview($0) }
         self.backgroundColor = Color.BaseColorWtihDark.backgorund
-//       self.addSubview(calendar)
+
     }
     
     override func setConstraints() {
@@ -181,58 +160,19 @@ class MainView: BaseView {
             make.leading.equalTo(self.snp.leading).offset(28)
         }
         
-        morningBar.snp.makeConstraints { make in
+        progressBar.snp.makeConstraints { make in
+    
             make.top.equalTo(gageTitle.snp.bottom).offset(28)
-            make.leading.equalTo(self.snp.leading).offset(24)
-            make.height.equalTo(UIScreen.main.bounds.height * 0.022)
-            make.width.equalTo((UIScreen.main.bounds.width - 48) / 2) // 모닝바를 위주로 움직이기
-        }
-        
-        nightBar.snp.makeConstraints { make in
-            make.top.equalTo(gageTitle.snp.bottom).offset(28)
-            make.trailing.equalTo(self.snp.trailing).offset(-24)
-            make.height.equalTo(UIScreen.main.bounds.height * 0.022)
-            make.leading.equalTo(morningBar.snp.trailing) // 모닝바에 의존
+            make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(24)
+            make.height.equalTo(UIScreen.main.bounds.height * 0.03)
+          
         }
         
         profileImage.snp.makeConstraints { make in
             make.height.equalTo(UIScreen.main.bounds.height * 0.06)
             make.width.equalTo(profileImage.snp.height).multipliedBy(1)
-            make.centerY.equalTo(morningBar.snp.centerY)
-            make.trailing.equalTo(morningBar.snp.trailing)
-//            make.trailing.equalTo(morningBar.snp.trailing).offset((UIScreen.main.bounds.height * 0.065) / 2) // frame으로 구하기
+            make.centerY.equalTo(progressBar.snp.centerY)
+            make.centerX.equalTo(self.snp.centerX)
         }
-        
-    
     }
 }
-//
-//morningBar.snp.makeConstraints { make in
-//    make.top.equalTo(gageTitle.snp.bottom).offset(28)
-//    make.leading.equalTo(self.snp.leading).offset(24)
-//    make.height.equalTo(UIScreen.main.bounds.height * 0.022)
-//    make.trailing.equalTo(self.snp.trailing).offset(-24)
-//
-//
-//    make.width.equalTo((UIScreen.main.bounds.width - 48) / 2) // 모닝바를 위주로 움직이기
-//}
-//
-//nightBar.snp.makeConstraints { make in
-//    make.top.equalTo(gageTitle.snp.bottom).offset(28)
-//    make.trailing.equalTo(self.snp.trailing).offset(-24)
-//    make.height.equalTo(UIScreen.main.bounds.height * 0.022)
-//    make.leading.equalTo(self.snp.leading).offset(24)
-//
-//    make.leading.equalTo(morningBar.snp.trailing) // 모닝바에 의존
-//}
-//
-//profileImage.snp.makeConstraints { make in
-//    make.height.equalTo(UIScreen.main.bounds.height * 0.06)
-//    make.width.equalTo(profileImage.snp.height).multipliedBy(1)
-//    make.centerY.equalTo(morningBar.snp.centerY)
-//    make.centerX.equalTo(self.snp.centerX)
-////            make.trailing.equalTo(morningBar.snp.trailing)
-////            make.trailing.equalTo(morningBar.snp.trailing).offset((UIScreen.main.bounds.height * 0.065) / 2) // frame으로 구하기
-//}
-//}
-//}
