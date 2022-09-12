@@ -37,6 +37,8 @@ class MainViewController: BaseViewController {
         mainview.calendar.dataSource = self
         mainview.calendar.delegate = self
         
+        
+        
         //MARK: 변하는 값에 대한 관찰시작
         viewModel.morningDiaryCount.bind { count in
             self.changeMorningcount = count
@@ -70,9 +72,6 @@ class MainViewController: BaseViewController {
         self.changeNightcount += 20.0
         let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeMorningcount + self.changeNightcount)) * digit) / digit)
 
-        
-       
-        
         if moringCountRatio.isNaN {
             progress = 0
         } else {
@@ -106,7 +105,8 @@ class MainViewController: BaseViewController {
             if moringCountRatio < 0.5 {
                 self.mainview.profileImage.transform = .identity
                 self.mainview.profileImage.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
-                
+                self.mainview.profilebackgroundView.transform = .identity
+                self.mainview.profilebackgroundView.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
                 print("🔥 0.5이하", moringCountRatio)
                 print("🟢 0.5이하", width)
                 print("👉 new 0.5이하", newWidth)
@@ -116,7 +116,10 @@ class MainViewController: BaseViewController {
                     print("🟢 0.5이상", width)
                     self.mainview.profileImage.transform = .identity
                     self.mainview.profileImage.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
+                    self.mainview.profilebackgroundView.transform = .identity
+                    self.mainview.profilebackgroundView.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
                 } else {
+                    self.mainview.profilebackgroundView.transform = .identity
                     self.mainview.profileImage.transform = .identity
                 }
             
@@ -130,10 +133,16 @@ class MainViewController: BaseViewController {
             if moringCountRatio < 0.5 {
                 self.mainview.profileImage.transform = .identity
                 self.mainview.profileImage.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
+                self.mainview.profilebackgroundView.transform = .identity
+                self.mainview.profilebackgroundView.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
                 } else if moringCountRatio > 0.5 {
+                    
                     self.mainview.profileImage.transform = .identity
                     self.mainview.profileImage.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
+                    self.mainview.profilebackgroundView.transform = .identity
+                    self.mainview.profilebackgroundView.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
                 } else {
+                    self.mainview.profilebackgroundView.transform = .identity
                     self.mainview.profileImage.transform = .identity
                 }
         }

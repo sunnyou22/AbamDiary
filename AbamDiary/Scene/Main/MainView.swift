@@ -48,10 +48,7 @@ class MainView: BaseView {
         view.appearance.titleFont = UIFont.systemFont(ofSize: 14, weight: .light)
         view.appearance.headerTitleAlignment = .left
         view.appearance.headerTitleOffset = CGPoint(x: 12, y: -4)
-        view.appearance.weekdayTextColor = Color.BaseColorWtihDark.calendarTitle
-        view.appearance.titleWeekendColor = .systemRed
-        view.appearance.titleDefaultColor = Color.BaseColorWtihDark.calendarTitle
-        view.appearance.todaySelectionColor = .systemRed
+       
         
         return view
     }()
@@ -71,8 +68,12 @@ class MainView: BaseView {
         calendar.appearance.headerDateFormat = "YYYY년 MM월"
         calendar.appearance.headerTitleAlignment = .left
         calendar.appearance.headerTitleOffset = CGPoint(x: 12, y: -4)
+        calendar.appearance.weekdayTextColor = Color.BaseColorWtihDark.calendarTitle
+        calendar.appearance.titleWeekendColor = .systemRed
+        calendar.appearance.titleDefaultColor = Color.BaseColorWtihDark.calendarTitle
+        calendar.appearance.todayColor = .systemRed
+        calendar.appearance.selectionColor = UIColor(hex: "#CAB39E")
         calendar.appearance.headerTitleColor = Color.BaseColorWtihDark.calendarTitle
-        calendar.appearance
     }
     
     
@@ -105,9 +106,7 @@ class MainView: BaseView {
     //여기에 이미지 받아서 넣어주기
     let profileImage: UIImageView = {
         let view = UIImageView()
-        let profileImage = UIImage(named: "고양이 1")
-        
-        view.contentMode = .scaleAspectFill
+        view.image = UIImage(named: "고양이 1")
 //        let newWidth = UIScreen.main.bounds.width * 0.05
 //        let newimageRect = CGRect(x: 0, y: 0, width: newWidth, height: newWidth)
 //        UIGraphicsBeginImageContext(CGSize(width: <#T##Int#>, height: <#T##Int#>))
@@ -116,18 +115,30 @@ class MainView: BaseView {
 //        //        view.image = UIImage(named: "morningpop") // 프로필 사진으로 바꾸기
 //        view.backgroundColor = .green
         DispatchQueue.main.async {
-            view.image = profileImage
+           
+
+            view.contentMode = .scaleAspectFill
+            view.clipsToBounds = true
             view.layer.cornerRadius = view.frame.size.height / 2
         }
         return view
     }()
     
+    let profilebackgroundView: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: "profileBackImage")
+        
+        return view
+    }()
     
     let progressBar: UIProgressView = {
         let view = UIProgressView()
-        view.trackTintColor = UIColor(hex: "#001AFF", alpha: 0.6)
-        view.progressTintColor = UIColor(hex: "#FF3B30", alpha: 0.7)
+        view.trackTintColor = UIColor(hex: "#424CAA")
+        view.progressTintColor = UIColor(hex: "#FF6969")
         view.clipsToBounds = true
+        view.layer.borderWidth = 2
+        view.layer.borderColor = UIColor.black.cgColor
+        
         DispatchQueue.main.async {
             view.layer.cornerRadius = view.frame.height / 2
         }
@@ -139,6 +150,7 @@ class MainView: BaseView {
     //MARK: 이니셜라이저
     override init(frame: CGRect) {
         super.init(frame: frame)
+        calendarconfig()
         
     }
     
@@ -147,7 +159,7 @@ class MainView: BaseView {
     }
     
     override func configuration() {
-        [ABAMImage, cheerupUnderView, cheerupMessage, calendar, cellTitle, tableView, gageTitle, progressBar, profileImage].forEach { self.addSubview($0) }
+        [ABAMImage, cheerupUnderView, cheerupMessage, calendar, cellTitle, tableView, gageTitle, progressBar, profilebackgroundView, profileImage].forEach { self.addSubview($0) }
         self.backgroundColor = Color.BaseColorWtihDark.backgorund
 
     }
@@ -200,7 +212,7 @@ class MainView: BaseView {
     
             make.top.equalTo(gageTitle.snp.bottom).offset(28)
             make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(24)
-            make.height.equalTo(UIScreen.main.bounds.height * 0.03)
+            make.height.equalTo(UIScreen.main.bounds.height * 0.025)
           
         }
         
@@ -209,6 +221,14 @@ class MainView: BaseView {
             make.width.equalTo(profileImage.snp.height).multipliedBy(1)
             make.centerY.equalTo(progressBar.snp.centerY)
             make.centerX.equalTo(self.snp.centerX)
+        }
+        
+        profilebackgroundView.snp.makeConstraints { make in
+            make.size.equalTo(profileImage.snp.size).multipliedBy(1.14)
+            make.top.equalTo(profileImage.snp.top).offset(-6)
+            make.trailing.equalTo(profileImage.snp.trailing).offset(6)
+            
+            
         }
     }
 }
