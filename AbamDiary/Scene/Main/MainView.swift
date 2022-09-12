@@ -102,6 +102,15 @@ class MainView: BaseView {
          return view
     }()
     
+    lazy var stackview: UIStackView = {
+       let view = UIStackView(arrangedSubviews: [morningBar, nightBar])
+        view.axis = .horizontal
+        view.distribution = .fill
+        view.alignment = .fill
+        view.spacing = 0
+        view.addsu
+    }()
+    
     let profileImage: UIImageView = {
        let view = UIImageView()
 //        view.image = UIImage(named: "morningpop") // 프로필 사진으로 바꾸기

@@ -61,6 +61,8 @@ class MainViewController: BaseViewController {
     
     func animateMorningBar() {
         let digit: Double = pow(10, 2) // 10의 2제곱
+        
+    //어차피 애니메이션들어가면 변경된 값이 계속 들어감 -> 디바이스 대응
         let testM = self.mainview.morningBar.frame.size.width
         let testN = self.mainview.nightBar.frame.size.width
         let moringCountRatio: Double = round((self.changeMorningcount / (self.viewModel.morningDiaryCount.value + self.viewModel.nightDiaryCount.value)) * digit) / digit
@@ -78,6 +80,9 @@ class MainViewController: BaseViewController {
                     self.mainview.morningBar.frame.origin.x = 24
                     self.mainview.nightBar.frame.origin.x = self.mainview.morningBar.frame.size.width
                     
+                    print(moringCountRatio)
+                print("====> 모닝바 너비", self.mainview.morningBar.frame.size.width)
+                    print("====> 저녁바 엑스좌표", self.mainview.nightBar.bounds.origin.x)
                 }
             } else if moringCountRatio < nightCountRatio {
                 
@@ -91,6 +96,14 @@ class MainViewController: BaseViewController {
             if moringCountRatio == 1{
                 self.mainview.morningBar.transform = .identity
                 self.mainview.morningBar.transform = CGAffineTransform(a: 2, b: 0, c: 0, d: 1, tx: self.mainview.morningBar.frame.size.width / 2, ty: 0)
+            } else if moringCountRatio > 0.5 {
+                print("🟢===> 아침 두번째 조건", moringCountRatio)
+                self.mainview.morningBar.transform = CGAffineTransform(scaleX: (1 + moringCountRatio), y: 1)
+                self.mainview.nightBar.transform = CGAffineTransform(scaleX: (1 - moringCountRatio), y: 1)
+                self.mainview.nightBar.bounds.origin.x = self.mainview.morningBar.frame.size.width
+                self.mainview.morningBar.frame.origin.x = 24
+            print("====> 모닝바 너비", self.mainview.morningBar.frame.size.width)
+                print("====> 저녁바 엑스좌표", self.mainview.nightBar.bounds.origin.x)
             }
            
             
