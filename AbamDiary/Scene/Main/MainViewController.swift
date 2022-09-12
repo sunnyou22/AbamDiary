@@ -98,7 +98,7 @@ class MainViewController: BaseViewController {
 //
             
             print(self.mainview.progressBar.frame.size.width)
-//            print(Float(self.mainview.progressBar.frame.size.width) * moringCountRatio)
+
             self.mainview.progressBar.transform = .identity
             
             let newWidth = (round(width) * self.digit) / self.digit

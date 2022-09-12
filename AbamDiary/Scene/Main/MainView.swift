@@ -42,13 +42,39 @@ class MainView: BaseView {
         view.appearance.headerDateFormat = "YYYY년 MM월"
         view.scrollDirection = .vertical
         view.locale = Locale(identifier: "ko-KR")
+//        view.appearance.caseOptions = FSCalendarCaseOptionsWeekdayUsesSingleUpperCase -> 메인뷰컨에 넣어주기
+        
         view.appearance.headerTitleFont = UIFont.systemFont(ofSize: 16, weight: .bold)
         view.appearance.titleFont = UIFont.systemFont(ofSize: 14, weight: .light)
         view.appearance.headerTitleAlignment = .left
         view.appearance.headerTitleOffset = CGPoint(x: 12, y: -4)
+        view.appearance.weekdayTextColor = Color.BaseColorWtihDark.calendarTitle
+        view.appearance.titleWeekendColor = .systemRed
+        view.appearance.titleDefaultColor = Color.BaseColorWtihDark.calendarTitle
+        view.appearance.todaySelectionColor = .systemRed
         
         return view
     }()
+    
+    func calendarconfig() {
+        calendar.placeholderType = .none
+        calendar.backgroundColor =  .clear
+        calendar.clipsToBounds = true
+        calendar.layer.cornerRadius = 20
+       
+        calendar.scrollDirection = .vertical
+        calendar.locale = Locale(identifier: "ko-KR")
+       
+        calendar.appearance.titleFont = UIFont.systemFont(ofSize: 14, weight: .light)
+        
+        calendar.appearance.headerTitleFont = UIFont.systemFont(ofSize: 16, weight: .bold)
+        calendar.appearance.headerDateFormat = "YYYY년 MM월"
+        calendar.appearance.headerTitleAlignment = .left
+        calendar.appearance.headerTitleOffset = CGPoint(x: 12, y: -4)
+        calendar.appearance.headerTitleColor = Color.BaseColorWtihDark.calendarTitle
+        calendar.appearance
+    }
+    
     
     //헤더로 넣는게 나을까
     let cellTitle: UILabel = {
@@ -76,16 +102,26 @@ class MainView: BaseView {
         return view
     }()
     
-    
+    //여기에 이미지 받아서 넣어주기
     let profileImage: UIImageView = {
         let view = UIImageView()
-        //        view.image = UIImage(named: "morningpop") // 프로필 사진으로 바꾸기
-        view.backgroundColor = .green
+        let profileImage = UIImage(named: "고양이 1")
+        
+        view.contentMode = .scaleAspectFill
+//        let newWidth = UIScreen.main.bounds.width * 0.05
+//        let newimageRect = CGRect(x: 0, y: 0, width: newWidth, height: newWidth)
+//        UIGraphicsBeginImageContext(CGSize(width: <#T##Int#>, height: <#T##Int#>))
+//
+//
+//        //        view.image = UIImage(named: "morningpop") // 프로필 사진으로 바꾸기
+//        view.backgroundColor = .green
         DispatchQueue.main.async {
+            view.image = profileImage
             view.layer.cornerRadius = view.frame.size.height / 2
         }
         return view
     }()
+    
     
     let progressBar: UIProgressView = {
         let view = UIProgressView()
@@ -176,3 +212,21 @@ class MainView: BaseView {
         }
     }
 }
+
+//MARK: 이미지 리사이즈
+ extension UIImage {
+     func resize(newWidthRato: CGFloat) -> UIImage {
+         let newWidth = UIScreen.main.bounds.width * newWidthRato
+
+         let size = CGSize(width: newWidth, height: newWidth)
+         let render = UIGraphicsImageRenderer(size: size)
+         let renderImage = render.image { context in
+             self.draw(in: CGRect(origin: .zero, size: size))
+         }
+         
+         print("화면 배율: \(UIScreen.main.scale)")// 배수
+         print("origin: \(self), resize: \(renderImage)")
+//         printDataSize(renderImage)
+         return renderImage
+     }
+ }

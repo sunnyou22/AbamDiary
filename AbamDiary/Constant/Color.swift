@@ -33,7 +33,10 @@ struct Color {
         static let  cheerupMessege = UIColor {
             systemcolorChange(traitCollection: $0).cheerupMessege
         }
-   
+   //calendar
+        static let calendarTitle = UIColor {
+            systemcolorChange(traitCollection: $0).calendarTitle
+        }
         
         static private func systemcolorChange(traitCollection: UITraitCollection) -> Theme {
             guard let theme = Theme(rawValue: traitCollection.userInterfaceStyle.rawValue) else { return .anycase}
@@ -332,6 +335,18 @@ enum Theme: Int {
             return UIColor(hex: "#DDE4D3")
         case .dark:
             return .clear
+        }
+    }
+    
+    //MARK: 캘린더
+    var calendarTitle: UIColor {
+        switch self {
+        case .anycase:
+            return UIColor(hex: "#5F4A37")
+        case .lignt:
+            return UIColor(hex: "#5F4A37")
+        case .dark:
+            return UIColor(hex: "#FFFFFF")
         }
     }
 }
