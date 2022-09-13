@@ -46,7 +46,7 @@ extension WriteViewController {
         
         switch type {
         case .morning:
-            
+            repository.a
         case .night:
             repository.addItem(item: task)
         }
@@ -59,7 +59,7 @@ extension WriteViewController {
 extension WriteViewController: UITextViewDelegate {
  
     func textViewDidChange(_ textView: UITextView) {
-        let task = 
+        let task =
         repository.addItem(item: task)
     }
     
