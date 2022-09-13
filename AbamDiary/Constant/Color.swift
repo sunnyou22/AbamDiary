@@ -69,23 +69,6 @@ extension UIColor {
     
 }
 
-//MARK: 컬러차트
-enum MorningAndNight: Int, CaseIterable {
-    case morning
-    case night
-    
-    func setsymbolImage(_ imageview: UIImageView) {
-        
-        
-        switch self {
-        case .morning:
-            imageview.image = UIImage(systemName: "sun.max.fill")
-        case .night:
-            imageview.image = UIImage(systemName: "moon.stars")
-        }
-    }
-}
-
 enum Theme: Int {
     case anycase
     case lignt

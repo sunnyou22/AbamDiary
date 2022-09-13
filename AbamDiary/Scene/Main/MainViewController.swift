@@ -170,6 +170,15 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         cell.isSelected = false
         return cell
     }
+    
+    //MARK: - 메서드
+    
+    //네비게이션 이동 메서드
+    func foWriteVC(to: MorningAndNight, tasks: MainList) {
+        let vc = WriteViewController(type: to)
+        vc.data = tasks
+        transition(vc, transitionStyle: TransitionStyle.push)
+    }
 }
 
 //MARK: 캘린더 디자인하기
