@@ -88,7 +88,6 @@ class MainViewController: BaseViewController {
     
     
     //MARK: 이미지 애니메이션
-    
     func animationUIImage() {
         UIImageView.animate(withDuration: 1) {
             let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeNightcount + self.changeMorningcount)) * self.digit) / self.digit)
@@ -166,8 +165,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.setMornigAndNightConfig(index: indexPath.row)
         cell.backgroundColor = .clear
-        cell.isHighlighted = false
-        cell.isSelected = false
+        cell.selectionStyle = .none
         return cell
     }
     
