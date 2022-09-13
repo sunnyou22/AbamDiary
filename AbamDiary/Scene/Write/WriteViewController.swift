@@ -32,12 +32,16 @@ class WriteViewController: BaseViewController {
         
         //데이터 패치
         repository.fetchLatestOrder()
+        
+        //뷰에 데이터 반영
+        
     }
 }
 
-//데이터 넣고 반영하기
+//데이터 넣고 화면반영하기
 extension WriteViewController {
     
+    //데이터 추가 및 수정
     func writeDiary(type: MorningAndNight, mode: WriteMode, task: MainList) {
         
         switch type {
@@ -57,26 +61,6 @@ extension WriteViewController {
             }
         }
     }
+    
+    func fetchDiary(type: MainRepositoryType)
 }
-        
-//        self.writeView.textView.text = self.writeView.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? self.writeView.textView.text : setPlaceholder(type: <#T##MorningAndNight#>)
-//    }
-//
-//    //text에 realm넣어줘야함
-//    func setPlaceholder(type: MorningAndNight) -> String {
-//        var placeholder: String?
-//
-//        guard var placeholder = placeholder else { return "일기를 입력해주세요"}
-//        switch type {
-//        case .morning:
-//            placeholder = "오늘 \(type.title)! 당신의 한줄은 무엇인가요?"
-//            return placeholder
-//        case .night:
-//            placeholder = "오늘 \(type.title)! 당신의 한줄은 무엇인가요?"
-//            return placeholder
-//        }
-//
-//        return placeholder
-//    }
-//}
-//

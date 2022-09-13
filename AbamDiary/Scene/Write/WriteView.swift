@@ -34,7 +34,6 @@ class WriteView: BaseView {
     
     override func configuration() {
         [dateLabel, sectionBar, textView].forEach { self.addSubview($0) }
-        textView.text = setPlaceholder(type: "아침") // 뷰컨 나눠서 설정해주기
     }
     
     override func setConstraints() {
@@ -53,4 +52,26 @@ class WriteView: BaseView {
             make.leading.equalTo(self.snp.leading).offset(24)
         }
     }
+   
+    //placeholder메서드
+    func setWriteVCPlaceholder(type: MorningAndNight) -> String {
+        var placeholder: String?
+        guard var placeholder = placeholder else { return "일기를 입력해주세요"}
+        
+        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+         
+            switch type {
+            case .morning:
+                placeholder = "오늘 \(type.title)! 당신의 한줄은 무엇인가요?"
+                return placeholder
+            case .night:
+                placeholder = "오늘 \(type.title)! 당신의 한줄은 무엇인가요?"
+                return placeholder
+            }
+        }
+        return placeholder
+    }
 }
+
+
+

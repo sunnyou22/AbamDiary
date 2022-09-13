@@ -52,6 +52,26 @@ class MainTableViewCell: BaseTableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    
+    //placeholder메서드
+    func setMainCellPlaceholder(type: MorningAndNight) -> String {
+        var placeholder: String?
+        
+        guard var placeholder = placeholder else { return "일기를 입력해주세요"}
+        guard let diaryLabel = diaryLabel.text else { return "\(self), 알 수 없는 일기입니다." }
+        
+        if diaryLabel.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            switch type {
+            case .morning:
+                placeholder = "\(type.title)일기를 쓰러 가볼까요?"
+                return placeholder
+            case .night:
+                placeholder = "\(type.title)일기를 쓰러 가볼까요?"
+                return placeholder
+            }
+        }
+    }
+    
     //MARK: 셀 레이아웃 잡기
     override func configuration() {
         contentView.addSubview(baseView)
@@ -85,7 +105,6 @@ class MainTableViewCell: BaseTableViewCell {
 
         }
     }
-    
     
 //    MARK: cellForRowAt에 적용시키기
     func setMornigAndNightConfig(index: Int) {

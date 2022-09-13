@@ -10,7 +10,7 @@ import UIKit
 
 extension UIViewController {
     
-    enum TransitionStyle {
+    enum TransitionStyle: Int, CaseIterable {
         case push
         case presentFullScreen
         case presentFullNavigation
@@ -29,8 +29,9 @@ extension UIViewController {
         }
     }
     
-    func setWritModeAndTransition(_ mode: WriteMode, diaryType: MorningAndNight) {
+    func setWritModeAndTransition(_ mode: WriteMode, diaryType: MorningAndNight, tasks: MainList?) {
         let vc = WriteViewController()
+        vc.data = tasks
         
         switch mode {
         case .modified:

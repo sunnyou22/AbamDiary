@@ -19,6 +19,12 @@ class MainViewController: BaseViewController {
     var progress: Float = 0
     let digit: Float = pow(10, 2) // 10의 2제곱
     
+    var tasks: Results<MainList>! {
+        didSet {
+            mainview.tableView.reloadData()
+        }
+    }
+    
     override func loadView() {
         self.view = mainview
     }
@@ -157,28 +163,32 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return MorningAndNight.allCases.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.reuseIdentifier, for: indexPath) as? MainTableViewCell else { return UITableViewCell() }
         
         cell.setMornigAndNightConfig(index: indexPath.row)
+        cell.diaryLabel.text = cell.setMainCellPlaceholder(type: .allCases[indexPath.row])
         cell.backgroundColor = .clear
         cell.selectionStyle = .none
         return cell
     }
     
-    //MARK: - 메서드
-    
-    //네비게이션 이동 메서드
-    func foWriteVC(to: MorningAndNight, tasks: MainList) {
-        let vc = WriteViewController(type: to)
-        vc.data = tasks
-        transition(vc, transitionStyle: TransitionStyle.push)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.reuseIdentifier, for: indexPath) as? MainTableViewCell else { return }
+       
+        if cell.diaryLabel.text == cell.setMainCellPlaceholder(type: .allCases[indexPath.row]) {
+            setWritModeAndTransition(.newDiary, diaryType: .allCases[indexPath.row], tasks: nil)
+        } else {
+            setWritModeAndTransition(.modified, diaryType: .allCases[indexPath.row], tasks: tasks)
+        }
     }
 }
-
+    //MARK: - 메서드
+   
+    
 //MARK: 캘린더 디자인하기
 extension MainViewController: FSCalendarDataSource, FSCalendarDelegate {
 

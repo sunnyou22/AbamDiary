@@ -222,8 +222,8 @@
 			isa = PBXGroup;
 			children = (
 				90CCDB6328D04BF800CDEE06 /* Realm */,
-				90B7210828CDAC5100B243AE /* Scene */,
 				900AEE1828CC9A3200F18360 /* Observable */,
+				90B7210828CDAC5100B243AE /* Scene */,
 				900AEDF828CC5A7E00F18360 /* Base */,
 				90F8262B28CB9F0C008E8E6B /* Constant */,
 				90F8261328CB799A008E8E6B /* AppDelegate.swift */,
