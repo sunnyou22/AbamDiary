@@ -29,6 +29,13 @@
 		90B7211228CDACE300B243AE /* MonthDiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B7211128CDACE300B243AE /* MonthDiaryViewController.swift */; };
 		90B7211628CDAD0500B243AE /* SettiongViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B7211528CDAD0500B243AE /* SettiongViewController.swift */; };
 		90B7211828CDB53D00B243AE /* TabBarImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B7211728CDB53D00B243AE /* TabBarImage.swift */; };
+		90CB363C28D08BA6002FCB45 /* WriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CB363B28D08BA6002FCB45 /* WriteView.swift */; };
+		90CCDB6728D056C800CDEE06 /* MainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CCDB6628D056C800CDEE06 /* MainModel.swift */; };
+		90CCDB6928D056E300CDEE06 /* MonthDiaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CCDB6828D056E300CDEE06 /* MonthDiaryModel.swift */; };
+		90CCDB6C28D057FB00CDEE06 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 90CCDB6B28D057FB00CDEE06 /* Realm */; };
+		90CCDB6E28D057FB00CDEE06 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 90CCDB6D28D057FB00CDEE06 /* RealmSwift */; };
+		90CCDB7328D06F6B00CDEE06 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CCDB7228D06F6B00CDEE06 /* WriteViewController.swift */; };
+		90CCDB7528D0706100CDEE06 /* CustomFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CCDB7428D0706100CDEE06 /* CustomFormatter.swift */; };
 		90F8261428CB799A008E8E6B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F8261328CB799A008E8E6B /* AppDelegate.swift */; };
 		90F8261628CB799A008E8E6B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F8261528CB799A008E8E6B /* SceneDelegate.swift */; };
 		90F8261828CB799A008E8E6B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F8261728CB799A008E8E6B /* ViewController.swift */; };
@@ -57,6 +64,11 @@
 		90B7211128CDACE300B243AE /* MonthDiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthDiaryViewController.swift; sourceTree = "<group>"; };
 		90B7211528CDAD0500B243AE /* SettiongViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettiongViewController.swift; sourceTree = "<group>"; };
 		90B7211728CDB53D00B243AE /* TabBarImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarImage.swift; sourceTree = "<group>"; };
+		90CB363B28D08BA6002FCB45 /* WriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteView.swift; sourceTree = "<group>"; };
+		90CCDB6628D056C800CDEE06 /* MainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainModel.swift; sourceTree = "<group>"; };
+		90CCDB6828D056E300CDEE06 /* MonthDiaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthDiaryModel.swift; sourceTree = "<group>"; };
+		90CCDB7228D06F6B00CDEE06 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
+		90CCDB7428D0706100CDEE06 /* CustomFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFormatter.swift; sourceTree = "<group>"; };
 		90F8261028CB799A008E8E6B /* AbamDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AbamDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90F8261328CB799A008E8E6B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		90F8261528CB799A008E8E6B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -73,10 +85,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90CCDB6E28D057FB00CDEE06 /* RealmSwift in Frameworks */,
 				900AEE0F28CC6E8400F18360 /* Toast in Frameworks */,
 				9034EFAA28CFA54C0027F8F7 /* DeviceKit in Frameworks */,
 				900AEE1228CC6E9900F18360 /* FSCalendar in Frameworks */,
 				900AEE0C28CC6E6F00F18360 /* SnapKit in Frameworks */,
+				90CCDB6C28D057FB00CDEE06 /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -123,6 +137,7 @@
 		90B7210828CDAC5100B243AE /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				90CCDB7128D06F5D00CDEE06 /* Write */,
 				90B7210C28CDAC9400B243AE /* Setting */,
 				90B7210B28CDAC8400B243AE /* MonthDiary */,
 				90B7210A28CDAC7D00B243AE /* Search */,
@@ -164,6 +179,24 @@
 			path = Setting;
 			sourceTree = "<group>";
 		};
+		90CCDB6328D04BF800CDEE06 /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+				90CCDB6628D056C800CDEE06 /* MainModel.swift */,
+				90CCDB6828D056E300CDEE06 /* MonthDiaryModel.swift */,
+			);
+			path = Realm;
+			sourceTree = "<group>";
+		};
+		90CCDB7128D06F5D00CDEE06 /* Write */ = {
+			isa = PBXGroup;
+			children = (
+				90CCDB7228D06F6B00CDEE06 /* WriteViewController.swift */,
+				90CB363B28D08BA6002FCB45 /* WriteView.swift */,
+			);
+			path = Write;
+			sourceTree = "<group>";
+		};
 		90F8260728CB799A008E8E6B = {
 			isa = PBXGroup;
 			children = (
@@ -184,6 +217,7 @@
 		90F8261228CB799A008E8E6B /* AbamDiary */ = {
 			isa = PBXGroup;
 			children = (
+				90CCDB6328D04BF800CDEE06 /* Realm */,
 				90B7210828CDAC5100B243AE /* Scene */,
 				900AEE1828CC9A3200F18360 /* Observable */,
 				900AEDF828CC5A7E00F18360 /* Base */,
@@ -208,6 +242,7 @@
 				900AEE1D28CC9EA000F18360 /* UserDefaultHelper.swift */,
 				900AEE1F28CC9F5300F18360 /* Reusable.swift */,
 				90B7211728CDB53D00B243AE /* TabBarImage.swift */,
+				90CCDB7428D0706100CDEE06 /* CustomFormatter.swift */,
 			);
 			path = Constant;
 			sourceTree = "<group>";
@@ -233,6 +268,8 @@
 				900AEE0E28CC6E8400F18360 /* Toast */,
 				900AEE1128CC6E9900F18360 /* FSCalendar */,
 				9034EFA928CFA54C0027F8F7 /* DeviceKit */,
+				90CCDB6B28D057FB00CDEE06 /* Realm */,
+				90CCDB6D28D057FB00CDEE06 /* RealmSwift */,
 			);
 			productName = AbamDiary;
 			productReference = 90F8261028CB799A008E8E6B /* AbamDiary.app */;
@@ -267,6 +304,7 @@
 				900AEE0D28CC6E8400F18360 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				900AEE1028CC6E9900F18360 /* XCRemoteSwiftPackageReference "FSCalendar" */,
 				9034EFA828CFA54C0027F8F7 /* XCRemoteSwiftPackageReference "DeviceKit" */,
+				90CCDB6A28D057FB00CDEE06 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 90F8261128CB799A008E8E6B /* Products */;
 			projectDirPath = "";
@@ -296,20 +334,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90CCDB6928D056E300CDEE06 /* MonthDiaryModel.swift in Sources */,
 				900AEDFA28CC5A9100F18360 /* BaseViewController.swift in Sources */,
 				90B7211228CDACE300B243AE /* MonthDiaryViewController.swift in Sources */,
 				90B7210E28CDACBE00B243AE /* CheerupViewController.swift in Sources */,
 				900AEE0928CC642D00F18360 /* Font.swift in Sources */,
 				90B7211028CDACC900B243AE /* SearchViewController.swift in Sources */,
+				90CCDB7328D06F6B00CDEE06 /* WriteViewController.swift in Sources */,
 				900AEE1E28CC9EA000F18360 /* UserDefaultHelper.swift in Sources */,
 				90B7211628CDAD0500B243AE /* SettiongViewController.swift in Sources */,
 				9034EFA728CF9F5A0027F8F7 /* DeviceManager.swift in Sources */,
+				90CB363C28D08BA6002FCB45 /* WriteView.swift in Sources */,
 				900AEE0528CC5DB500F18360 /* MainTableViewCell.swift in Sources */,
 				90F8261828CB799A008E8E6B /* ViewController.swift in Sources */,
 				90B7211828CDB53D00B243AE /* TabBarImage.swift in Sources */,
 				900AEE1A28CC9A5300F18360 /* Observable.swift in Sources */,
+				90CCDB6728D056C800CDEE06 /* MainModel.swift in Sources */,
 				900AEE0728CC5DE600F18360 /* MainView.swift in Sources */,
 				90F8262D28CB9F24008E8E6B /* Color.swift in Sources */,
+				90CCDB7528D0706100CDEE06 /* CustomFormatter.swift in Sources */,
 				900AEE1C28CC9A5B00F18360 /* GageModel.swift in Sources */,
 				900AEE2028CC9F5300F18360 /* Reusable.swift in Sources */,
 				900AEDFC28CC5AB100F18360 /* BaseView.swift in Sources */,
@@ -562,6 +605,14 @@
 				minimumVersion = 4.0.0;
 			};
 		};
+		90CCDB6A28D057FB00CDEE06 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -584,6 +635,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9034EFA828CFA54C0027F8F7 /* XCRemoteSwiftPackageReference "DeviceKit" */;
 			productName = DeviceKit;
+		};
+		90CCDB6B28D057FB00CDEE06 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 90CCDB6A28D057FB00CDEE06 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		90CCDB6D28D057FB00CDEE06 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 90CCDB6A28D057FB00CDEE06 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
