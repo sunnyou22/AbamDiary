@@ -29,25 +29,4 @@ extension UIViewController {
             self.present(nav, animated: true)
         }
     }
-    
-    func setWritModeAndTransition(_ mode: WriteMode, diaryType: MorningAndNight, task: MainList?) {
-        let vc = WriteViewController()
-        vc.data = task
-        
-        switch mode {
-        case .modified:
-            transition(vc, transitionStyle: .push)
-            vc.navigationItem.title = "수정"
-        case .newDiary:
-            transition(vc, transitionStyle: .push)
-            switch diaryType {
-            case .morning:
-                vc.navigationItem.title = "아침일기"
-            case .night:
-                vc.navigationItem.title = "저녁일기"
-            }
-            
-        }
-        
-    }
 }

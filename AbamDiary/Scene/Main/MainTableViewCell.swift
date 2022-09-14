@@ -34,12 +34,11 @@ class MainTableViewCell: BaseTableViewCell {
         return view
     }()
     
-    let diaryLabel: UILabel = {
+    var diaryLabel: UILabel = {
        let view = UILabel()
         view.font = .systemFont(ofSize: FontSize.label_13, weight: .regular)
         view.numberOfLines = 1
         view.lineBreakMode = .byTruncatingTail
-        view.text = "안녕하세요"
         
         return view
     }()
@@ -55,22 +54,13 @@ class MainTableViewCell: BaseTableViewCell {
     
     //placeholder메서드
     func setMainCellPlaceholder(type: MorningAndNight) -> String {
-        var placeholder: String?
-        
-        guard var placeholder = placeholder else { return "일기를 입력해주세요"}
-        guard let diaryLabel = diaryLabel.text else { return "\(self), 알 수 없는 일기입니다." }
-        
-        if diaryLabel.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             switch type {
             case .morning:
-                placeholder = "\(type.title)일기를 쓰러 가볼까요?"
-                return placeholder
+                diaryLabel.text = "\(type.title)일기를 쓰러 가볼까요?"
             case .night:
-                placeholder = "\(type.title)일기를 쓰러 가볼까요?"
-                return placeholder
+                diaryLabel.text = "\(type.title)일기를 쓰러 가볼까요?"
             }
-        }
-        return placeholder
+            return diaryLabel.text!
     }
     
     //MARK: 셀 레이아웃 잡기

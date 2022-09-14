@@ -27,7 +27,7 @@ enum MorningAndNight: Int, CaseIterable {
         case .morning:
             return "아침"
         case .night:
-            return "져녁"
+            return "밤"
         }
     }
 }

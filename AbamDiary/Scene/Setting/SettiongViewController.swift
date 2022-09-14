@@ -11,5 +11,6 @@ class SettiongViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
     }
 }

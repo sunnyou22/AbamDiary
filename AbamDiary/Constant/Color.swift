@@ -12,6 +12,8 @@ struct Color {
     
     struct BaseColorWtihDark {
         static let backgorund = UIColor { systemcolorChange(traitCollection: $0).backgroundColor }
+        
+        
         static let navigationBarItem = UIColor { systemcolorChange(traitCollection: $0).navigationBarItem }
         static let cellTtitle = UIColor { systemcolorChange(traitCollection: $0).cellTitle }
         static func setDiaryInCell(type: MorningAndNight) -> UIColor {

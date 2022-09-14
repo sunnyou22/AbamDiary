@@ -16,7 +16,7 @@ class MainList: Object {
     
     @Persisted(primaryKey: true) var objectID: ObjectId
     
-    convenience init(mornimgDiary: String, nightDiary: String, cheerupDiary: String ,date: Date) {
+    convenience init(mornimgDiary: String?, nightDiary: String?, cheerupDiary: String? ,date: Date) {
         self.init()
         self.mornimgDiary = mornimgDiary
         self.nightDiary = nightDiary

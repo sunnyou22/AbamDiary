@@ -14,7 +14,7 @@ protocol MainRepositoryType {
     func fetchSearchMoriningFilter(text: String) -> Results<MainList>
     func fetchSearchNightFilter(text: String) -> Results<MainList>
     func fetchSearchDateFilter(text: String) -> Results<MainList>
-    func fetchDate(date: Date) -> MainList
+    func fetchDate(date: Date) -> Results<MainList>
     func deleteRecord(item: MainList)
     func addItem(item: MainList)
 }
@@ -47,8 +47,8 @@ class MainListRepository: MainRepositoryType {
         return localRealm.objects(MainList.self).filter("date CONTAINS[c] '\(text)")
     }
     
-    func fetchDate(date: Date) -> MainList {
-        return localRealm.objects(MainList.self).filter("diaryDate >= %@ AND diaryDate < %@", date, Date(timeInterval: 86400, since: date)) //NSPredicate 애플이 만들어준 Filter
+    func fetchDate(date: Date) -> Results<MainList> {
+        return localRealm.objects(MainList.self).filter("date >= %@ AND date < %@", date, Date(timeInterval: 86400, since: date)) //NSPredicate 애플이 만들어준 Filter
     }
     
     func deleteRecord(item: MainList) {
