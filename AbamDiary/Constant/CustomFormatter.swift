@@ -43,7 +43,7 @@ class CustomFormatter {
 
         let dateFormatter = DateFormatter()
         dateFormatter.locale = CustomFormatter.shared.ko
-        dateFormatter.dateFormat = "yyyy. MM. dd a hh:mm"
+        dateFormatter.dateFormat = "yyyy. MM. dd "
         
         return dateFormatter.string(from: date)
     }

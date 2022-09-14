@@ -19,15 +19,18 @@ class MainViewController: BaseViewController {
     var changeNightcount: Float = 0 // 테스트용
     var progress: Float = 0 // 변수로 빼줘야 동작
     let digit: Float = pow(10, 2) // 10의 2제곱
+    var cell: MainTableViewCell? // 셀 인스턴스 통일시켜줘야 플레이스홀더 오류 없어짐
     
     var tasks: Results<MainList>! {
         didSet {
             mainview.tableView.reloadData()
-            dateFilterTask
+            print("♻️")
         }
     }
     
     var dateFilterTask: MainList? // 캘린더에 해당하는 날짜를 받아오기 위함
+    
+    var testDateFilterTasks: Results<MainList>!
     
     override func loadView() {
         self.view = mainview
@@ -62,14 +65,27 @@ class MainViewController: BaseViewController {
     //MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-       fetchRealm() // 램 패치
+        fetchRealm() // 램 패치
     }
     
     func fetchRealm() {
         tasks = MainListRepository.shared.fetchLatestOrder()
+        testfilterDate()
+        //        testDateFilterTasks = MainListRepository.shared.fetchDate(date: CustomFormatter.setDateFormatter(date: mainview.calendar.selectedDate ?? Date()))
+        print("====>🟢 패치완룡")
+    }
+    
+    func testfilterDate() {
+        let selectedDate = CustomFormatter.setDateFormatter(date: mainview.calendar.selectedDate ?? Date())
+        let filterdateArr = tasks.filter { task in
+            CustomFormatter.setDateFormatter(date: task.date) == selectedDate
+        }
+       dateFilterTask = filterdateArr.first
     }
 }
-  
+
+
+
 //램 데이터 기반으로 바꾸기
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -82,7 +98,9 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.reuseIdentifier, for: indexPath) as? MainTableViewCell else { return UITableViewCell() }
+        let cell = fetchCell(tableView, didSelectRowAt: indexPath)
+        
+        let placeholder = cell.setMainCellPlaceholder(type: .allCases[indexPath.row])
         
         if dateFilterTask != nil {
             if indexPath.row == 0 {
@@ -93,43 +111,59 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             cell.diaryLabel.text = cell.setMainCellPlaceholder(type: .allCases[indexPath.row])
         }
+        
+        if indexPath.row == 0 {
+            cell.diaryLabel.text = dateFilterTask == nil ? placeholder : dateFilterTask?.mornimgDiary
+        } else if indexPath.row == 1 {
+            cell.diaryLabel.text = self.dateFilterTask == nil ? placeholder : self.dateFilterTask?.nightDiary
+        }
+        
+        print(#function, cell.diaryLabel.text)
+        
         cell.setMornigAndNightConfig(index: indexPath.row)
         
         cell.backgroundColor = .clear
         cell.selectionStyle = .none
-       
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.reuseIdentifier, for: indexPath) as? MainTableViewCell else { return }
-      
-        let placeholder = cell.setMainCellPlaceholder(type: .allCases[indexPath.row])
         
-        guard let diaryLabel = cell.diaryLabel.text else {
-            cell.diaryLabel.text = placeholder
+        let placeholder = self.cell!.setMainCellPlaceholder(type: .allCases[indexPath.row])
+        
+        guard let diaryLabel = self.cell!.diaryLabel.text else {
+            print(self.cell!.diaryLabel.text!)
+            self.cell!.diaryLabel.text = placeholder
             return
         }
         
-        print(cell.diaryLabel.text)
+        print(self.cell!.diaryLabel.text)
         
         if diaryLabel == placeholder {
+            print("====>🚀 작성화면으로 가기")
             setWritModeAndTransition(.newDiary, diaryType: .allCases[indexPath.row], task: nil)
-            viewModel.diaryTextView.bind { text in
-                cell.diaryLabel.text = text
-            }
+            
         } else {
             //해당 날짜와 같은 칼럼을 넘겨줌
+            print("====>🚀 수정화면으로 가기")
             setWritModeAndTransition(.modified, diaryType: .allCases[indexPath.row], task: dateFilterTask)
-            viewModel.diaryTextView.bind { text in
-                cell.diaryLabel.text = text
-            }
+            
         }
+    }
+    
+    //cell을 통일시켜주기
+    func fetchCell(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) -> MainTableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.reuseIdentifier, for: indexPath) as? MainTableViewCell else { return MainTableViewCell()}
+        self.cell = cell
+        
+        return cell
     }
     
     func setWritModeAndTransition(_ mode: WriteMode, diaryType: MorningAndNight, task: MainList?) {
         let vc = WriteViewController(diarytype: diaryType)
         vc.data = task
+        vc.fetch = fetchRealm
         
         switch mode {
         case .newDiary:
@@ -137,11 +171,11 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             switch diaryType {
             case .morning:
                 vc.navigationItem.title = "아침일기"
-                 vc.writeView.setWriteVCPlaceholder(type: .morning)
-               
+                vc.writeView.setWriteVCPlaceholder(type: .morning)
+                
             case .night:
                 vc.navigationItem.title = "저녁일기"
-              vc.writeView.setWriteVCPlaceholder(type: .night)
+                vc.writeView.setWriteVCPlaceholder(type: .night)
                 
             }
         case .modified:
@@ -152,15 +186,15 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         
     }
 }
-    //MARK: - 메서드
-   
-    
+//MARK: - 메서드
+
+
 //MARK: 캘린더 디자인하기
 extension MainViewController: FSCalendarDataSource, FSCalendarDelegate {
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         dateFilterTask = MainListRepository.shared.fetchDate(date: date)[0]
         tasks = MainListRepository.shared.fetchDate(date: date)
-    // 여기서 디자인해놓은 것들 반영하기
+        // 여기서 디자인해놓은 것들 반영하기
     }
 }
 
@@ -196,7 +230,7 @@ extension MainViewController {
         let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeMorningcount + self.changeNightcount)) * digit) / digit)
         
         print(moringCountRatio, "----")
-
+        
         if moringCountRatio.isNaN {
             progress = 0
         } else {
@@ -210,10 +244,10 @@ extension MainViewController {
     }
     
     @objc func testPlusN() {
-       
+        
         self.changeNightcount += 20.0
         let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeMorningcount + self.changeNightcount)) * digit) / digit)
-
+        
         if moringCountRatio.isNaN {
             progress = 0
         } else {
@@ -222,7 +256,7 @@ extension MainViewController {
         }
         print("================", progress)
         viewModel.nightDiaryCount.value = changeNightcount
-
+        
         mainview.progressBar.setProgress(progress, animated: true)
         animationUIImage()
     }
@@ -233,12 +267,12 @@ extension MainViewController {
     func animationUIImage() {
         UIImageView.animate(withDuration: 1) {
             let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeNightcount + self.changeMorningcount)) * self.digit) / self.digit)
-           
+            
             let width = Float(self.mainview.progressBar.frame.size.width) * moringCountRatio - (Float(self.mainview.progressBar.frame.size.width) / 2)
-//
+            //
             
             print(self.mainview.progressBar.frame.size.width)
-
+            
             self.mainview.progressBar.transform = .identity
             
             let newWidth = (round(width) * self.digit) / self.digit
@@ -252,17 +286,17 @@ extension MainViewController {
                 print("🟢 0.5이하", width)
                 print("👉 new 0.5이하", newWidth)
                 
-                } else if moringCountRatio > 0.5 {
-                    print("🔥 0.5이상", moringCountRatio)
-                    print("🟢 0.5이상", width)
-                    self.mainview.profileImage.transform = .identity
-                    self.mainview.profileImage.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
-                    self.mainview.profilebackgroundView.transform = .identity
-                    self.mainview.profilebackgroundView.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
-                } else {
-                    self.mainview.profilebackgroundView.transform = .identity
-                    self.mainview.profileImage.transform = .identity
-                }
+            } else if moringCountRatio > 0.5 {
+                print("🔥 0.5이상", moringCountRatio)
+                print("🟢 0.5이상", width)
+                self.mainview.profileImage.transform = .identity
+                self.mainview.profileImage.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
+                self.mainview.profilebackgroundView.transform = .identity
+                self.mainview.profilebackgroundView.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
+            } else {
+                self.mainview.profilebackgroundView.transform = .identity
+                self.mainview.profileImage.transform = .identity
+            }
             
             
         } completion: { _ in
@@ -276,17 +310,17 @@ extension MainViewController {
                 self.mainview.profileImage.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
                 self.mainview.profilebackgroundView.transform = .identity
                 self.mainview.profilebackgroundView.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
-                } else if moringCountRatio > 0.5 {
-                    
-                    self.mainview.profileImage.transform = .identity
-                    self.mainview.profileImage.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
-                    self.mainview.profilebackgroundView.transform = .identity
-                    self.mainview.profilebackgroundView.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
-                } else {
-                    self.mainview.profilebackgroundView.transform = .identity
-                    self.mainview.profileImage.transform = .identity
-                }
+            } else if moringCountRatio > 0.5 {
+                
+                self.mainview.profileImage.transform = .identity
+                self.mainview.profileImage.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
+                self.mainview.profilebackgroundView.transform = .identity
+                self.mainview.profilebackgroundView.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
+            } else {
+                self.mainview.profilebackgroundView.transform = .identity
+                self.mainview.profileImage.transform = .identity
+            }
         }
-
+        
     }
 }

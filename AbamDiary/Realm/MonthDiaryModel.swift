@@ -52,7 +52,7 @@ class MainListRepository: MainRepositoryType {
     }
     
     func deleteRecord(item: MainList) {
-
+        
         try! localRealm.write({
             localRealm.delete(item)
             print(item)

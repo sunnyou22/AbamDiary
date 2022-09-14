@@ -54,13 +54,15 @@ class MainTableViewCell: BaseTableViewCell {
     
     //placeholder메서드
     func setMainCellPlaceholder(type: MorningAndNight) -> String {
-            switch type {
-            case .morning:
-                diaryLabel.text = "\(type.title)일기를 쓰러 가볼까요?"
-            case .night:
-                diaryLabel.text = "\(type.title)일기를 쓰러 가볼까요?"
-            }
-            return diaryLabel.text!
+        var placeholder: String?
+        
+        switch type {
+        case .morning:
+            placeholder = "\(type.title)일기를 쓰러 가볼까요?"
+        case .night:
+            placeholder = "\(type.title)일기를 쓰러 가볼까요?"
+        }
+        return placeholder!
     }
     
     //MARK: 셀 레이아웃 잡기

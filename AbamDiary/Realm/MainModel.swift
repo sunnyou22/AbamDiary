@@ -24,3 +24,4 @@ class MainList: Object {
         self.date = Date()
     }
 }
+//self.date = CustomFormatter.setDateFormatter(date: date)

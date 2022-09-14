@@ -19,6 +19,7 @@ class WriteViewController: BaseViewController {
     var data: MainList?
     var viewModel = GageModel()
     var diarytype: MorningAndNight
+    var fetch: (() -> Void)?
     
     init(diarytype: MorningAndNight) {
         self.diarytype = diarytype
@@ -51,15 +52,23 @@ class WriteViewController: BaseViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        if writeView.textView.text == "오늘 아침! 당신의 한줄은 무엇인가요?" || writeView.textView.text == "오늘 밤! 당신의 한줄은 무엇인가요?" || writeView.textView.text.isEmpty {
+        let task = MainList(mornimgDiary: writeView.textView.text, nightDiary: writeView.textView.text, cheerupDiary: nil, date: Date())
+        let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
+        let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
+        
+        //초기화면
+        if writeView.textView.text == morningPlaceholer || writeView.textView.text == nightPlaceholder || writeView.textView.text.isEmpty {
             self.navigationController?.popViewController(animated: true)
+            
+            // 수정화면
+        } else if (writeView.textView.text != morningPlaceholer && writeView.textView.text != nightPlaceholder) && !writeView.textView.text.isEmpty {
+            
+            print("Realm is located at:", MainListRepository.shared.localRealm.configuration.fileURL!)
+            writeDiary(type: diarytype, mode: .modified, task: data!)
+           
+            // 메모추가
         } else {
-            switch diarytype {
-            case .morning:
-                data?.mornimgDiary = writeView.textView.text
-            case .night:
-                data?.nightDiary = writeView.textView.text
-            }
+            writeDiary(type: diarytype, mode: .newDiary, task: task)
         }
         
         
@@ -99,18 +108,23 @@ extension WriteViewController: UITextViewDelegate {
             switch mode {
             case .newDiary:
                 MainListRepository.shared.addItem(item: task)
+                fetch!()
             case .modified:
                 try! MainListRepository.shared.localRealm.write {
+                    print("-====>🟢 아침일기 수정되는 순간")
                     task.mornimgDiary = writeView.textView.text
+                    fetch!()
                 }
             }
         case .night:
             switch mode {
             case .newDiary:
                 MainListRepository.shared.addItem(item: task)
+                fetch!()
             case .modified:
                 try! MainListRepository.shared.localRealm.write {
                     task.nightDiary = writeView.textView.text
+                    fetch!()
                 }
             }
         }
