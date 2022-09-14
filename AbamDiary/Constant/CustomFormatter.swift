@@ -9,8 +9,7 @@ import Foundation
 
 class CustomFormatter {
     
-    static let shared = CustomFormatter()
-    let ko = Locale(identifier:"ko_KR")
+   static let ko = Locale(identifier:"ko_KR")
     
     //넘버포맷터
    static func setNumberFormat(for number: Int) -> String {
@@ -24,7 +23,7 @@ class CustomFormatter {
     //시간 24시간 형태
     static func setTime(date: Date) -> String {
         let timeFormatter = DateFormatter()
-        timeFormatter.locale = CustomFormatter.shared.ko
+        timeFormatter.locale = CustomFormatter.ko
         timeFormatter.dateFormat = "kk:mm"
         
        return timeFormatter.string(from: date)
@@ -42,7 +41,7 @@ class CustomFormatter {
     static func setDateFormatter(date: Date) -> String {
 
         let dateFormatter = DateFormatter()
-        dateFormatter.locale = CustomFormatter.shared.ko
+        dateFormatter.locale = CustomFormatter.ko
         dateFormatter.dateFormat = "yyyy. MM. dd "
         
         return dateFormatter.string(from: date)

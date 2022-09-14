@@ -20,6 +20,7 @@ class MainViewController: BaseViewController {
     var progress: Float = 0 // 변수로 빼줘야 동작
     let digit: Float = pow(10, 2) // 10의 2제곱
     var cell: MainTableViewCell? // 셀 인스턴스 통일시켜줘야 플레이스홀더 오류 없어짐
+    var preparedCell: MainTableViewCell?
     
     var tasks: Results<MainList>! {
         didSet {
@@ -30,8 +31,7 @@ class MainViewController: BaseViewController {
     
     var dateFilterTask: MainList? // 캘린더에 해당하는 날짜를 받아오기 위함
     
-    var testDateFilterTasks: Results<MainList>!
-    
+    //MARK: - LoadView
     override func loadView() {
         self.view = mainview
     }
@@ -71,8 +71,8 @@ class MainViewController: BaseViewController {
     func fetchRealm() {
         tasks = MainListRepository.shared.fetchLatestOrder()
         testfilterDate()
-        //        testDateFilterTasks = MainListRepository.shared.fetchDate(date: CustomFormatter.setDateFormatter(date: mainview.calendar.selectedDate ?? Date()))
-        print("====>🟢 패치완룡")
+        
+        print("====>🟢 패치완료")
     }
     
     func testfilterDate() {
@@ -80,7 +80,7 @@ class MainViewController: BaseViewController {
         let filterdateArr = tasks.filter { task in
             CustomFormatter.setDateFormatter(date: task.date) == selectedDate
         }
-       dateFilterTask = filterdateArr.first
+        dateFilterTask = filterdateArr.first
     }
 }
 
@@ -102,22 +102,24 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         
         let placeholder = cell.setMainCellPlaceholder(type: .allCases[indexPath.row])
         
-        if dateFilterTask != nil {
-            if indexPath.row == 0 {
-                cell.diaryLabel.text = dateFilterTask?.mornimgDiary
-            } else {
-                cell.diaryLabel.text = dateFilterTask?.nightDiary
-            }
-        } else {
-            cell.diaryLabel.text = cell.setMainCellPlaceholder(type: .allCases[indexPath.row])
-        }
+        //fscalendar로 뺄까
+        
+//        if dateFilterTask != nil {
+//            if indexPath.row == 0 {
+//                cell.diaryLabel.text = dateFilterTask?.mornimgDiary
+//            } else {
+//                cell.diaryLabel.text = dateFilterTask?.nightDiary
+//            }
+//        } else {
+//            cell.diaryLabel.text = cell.setMainCellPlaceholder(type: .allCases[indexPath.row])
+//        }
         
         if indexPath.row == 0 {
             cell.diaryLabel.text = dateFilterTask == nil ? placeholder : dateFilterTask?.mornimgDiary
         } else if indexPath.row == 1 {
             cell.diaryLabel.text = self.dateFilterTask == nil ? placeholder : self.dateFilterTask?.nightDiary
         }
-        
+//
         print(#function, cell.diaryLabel.text)
         
         cell.setMornigAndNightConfig(index: indexPath.row)
@@ -137,8 +139,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             self.cell!.diaryLabel.text = placeholder
             return
         }
-        
-        print(self.cell!.diaryLabel.text)
         
         if diaryLabel == placeholder {
             print("====>🚀 작성화면으로 가기")
@@ -160,10 +160,24 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func setPreparedCell(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) -> MainTableViewCell {
+        guard let cell2 = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.reuseIdentifier, for: indexPath) as? MainTableViewCell else { return MainTableViewCell()}
+        
+        let placeholder = cell2.setMainCellPlaceholder(type: .allCases[indexPath.row])
+        
+        cell2.diaryLabel.text = placeholder
+        cell2.dateLabel.text = CustomFormatter.setTime(date: Date())
+        
+        self.preparedCell = cell
+        
+        return cell2
+    }
+    
     func setWritModeAndTransition(_ mode: WriteMode, diaryType: MorningAndNight, task: MainList?) {
         let vc = WriteViewController(diarytype: diaryType)
         vc.data = task
         vc.fetch = fetchRealm
+        vc.writeMode = mode
         
         switch mode {
         case .newDiary:
@@ -172,7 +186,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             case .morning:
                 vc.navigationItem.title = "아침일기"
                 vc.writeView.setWriteVCPlaceholder(type: .morning)
-                
+               
             case .night:
                 vc.navigationItem.title = "저녁일기"
                 vc.writeView.setWriteVCPlaceholder(type: .night)
@@ -186,12 +200,13 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         
     }
 }
-//MARK: - 메서드
+//MARK: - 캘린더
 
 
 //MARK: 캘린더 디자인하기
 extension MainViewController: FSCalendarDataSource, FSCalendarDelegate {
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        let PreparingCell = MainTableViewCell()
         dateFilterTask = MainListRepository.shared.fetchDate(date: date)[0]
         tasks = MainListRepository.shared.fetchDate(date: date)
         // 여기서 디자인해놓은 것들 반영하기
@@ -228,8 +243,6 @@ extension MainViewController {
     @objc func testPlusM() {
         self.changeMorningcount += 20.0
         let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeMorningcount + self.changeNightcount)) * digit) / digit)
-        
-        print(moringCountRatio, "----")
         
         if moringCountRatio.isNaN {
             progress = 0

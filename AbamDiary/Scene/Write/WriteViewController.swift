@@ -19,10 +19,12 @@ class WriteViewController: BaseViewController {
     var data: MainList?
     var viewModel = GageModel()
     var diarytype: MorningAndNight
+    var writeMode: WriteMode?
     var fetch: (() -> Void)?
     
-    init(diarytype: MorningAndNight) {
+    init(diarytype: MorningAndNight, writeMode: WriteMode) {
         self.diarytype = diarytype
+        self.writeMode = writeMode
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -56,22 +58,32 @@ class WriteViewController: BaseViewController {
         let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
         let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
         
-        //초기화면
-        if writeView.textView.text == morningPlaceholer || writeView.textView.text == nightPlaceholder || writeView.textView.text.isEmpty {
-            self.navigationController?.popViewController(animated: true)
-            
-            // 수정화면
-        } else if (writeView.textView.text != morningPlaceholer && writeView.textView.text != nightPlaceholder) && !writeView.textView.text.isEmpty {
-            
+        switch writeMode {
+        case .newDiary:
+            if writeView.textView.text == morningPlaceholer || writeView.textView.text == nightPlaceholder || writeView.textView.text.isEmpty {
+                self.navigationController?.popViewController(animated: true)
+            } else {
+                writeDiary(type: diarytype, mode: .newDiary, task: task)
+            }
+        case .modified:
             print("Realm is located at:", MainListRepository.shared.localRealm.configuration.fileURL!)
             writeDiary(type: diarytype, mode: .modified, task: data!)
-           
-            // 메모추가
-        } else {
-            writeDiary(type: diarytype, mode: .newDiary, task: task)
         }
         
         
+//        //초기화면
+//
+//            // 수정화면
+//        } else if (writeView.textView.text != morningPlaceholer && writeView.textView.text != nightPlaceholder) && !writeView.textView.text.isEmpty {
+//
+//
+//
+//            // 메모추가
+//        } else {
+//
+//        }
+//
+//
         
         //
         //
