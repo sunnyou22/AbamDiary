@@ -8,6 +8,7 @@
 import UIKit
 import FSCalendar
 import SnapKit
+import RealmSwift
 
 class MainViewController: BaseViewController {
     
@@ -24,6 +25,8 @@ class MainViewController: BaseViewController {
             mainview.tableView.reloadData()
         }
     }
+    
+    var dateFilterTask: MainList?
     
     override func loadView() {
         self.view = mainview
@@ -180,9 +183,9 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.reuseIdentifier, for: indexPath) as? MainTableViewCell else { return }
        
         if cell.diaryLabel.text == cell.setMainCellPlaceholder(type: .allCases[indexPath.row]) {
-            setWritModeAndTransition(.newDiary, diaryType: .allCases[indexPath.row], tasks: nil)
+            setWritModeAndTransition(.newDiary, diaryType: .allCases[indexPath.row], task: nil)
         } else {
-            setWritModeAndTransition(.modified, diaryType: .allCases[indexPath.row], tasks: tasks)
+            setWritModeAndTransition(.modified, diaryType: .allCases[indexPath.row], task: dateFilterTask)
         }
     }
 }
@@ -191,7 +194,11 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
 //MARK: 캘린더 디자인하기
 extension MainViewController: FSCalendarDataSource, FSCalendarDelegate {
-
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        dateFilterTask = MainListRepository.shared.fetchDate(date: date)
+        
+    // 여기서 디자인해놓은 것들 반영하기
+    }
 }
 
 //MARK: 네비게이션 타이틀 뷰 커스텀

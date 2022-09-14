@@ -70,6 +70,7 @@ class MainTableViewCell: BaseTableViewCell {
                 return placeholder
             }
         }
+        return placeholder
     }
     
     //MARK: 셀 레이아웃 잡기

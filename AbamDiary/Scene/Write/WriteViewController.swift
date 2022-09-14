@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 enum WriteMode {
     case modified
@@ -43,24 +44,29 @@ extension WriteViewController {
     
     //데이터 추가 및 수정
     func writeDiary(type: MorningAndNight, mode: WriteMode, task: MainList) {
-        
         switch type {
         case .morning:
             switch mode {
             case .modified:
-                // 램 업데이트
+               try! repository.localRealm.write {
+                    task.mornimgDiary = writeView.textView.text
+                }
             case .newDiary:
                 repository.addItem(item: task)
             }
         case .night:
             switch mode {
             case .modified:
-                // 램 업데이트
+               try! repository.localRealm.write {
+                    task.nightDiary = writeView.textView.text
+                }
             case .newDiary:
                 repository.addItem(item: task)
             }
         }
     }
-    
-    func fetchDiary(type: MainRepositoryType)
+
+    func fetchDiary(type: MainRepositoryType) {
+        
+    }
 }

@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import RealmSwift
 
 extension UIViewController {
     
@@ -29,9 +30,9 @@ extension UIViewController {
         }
     }
     
-    func setWritModeAndTransition(_ mode: WriteMode, diaryType: MorningAndNight, tasks: MainList?) {
+    func setWritModeAndTransition(_ mode: WriteMode, diaryType: MorningAndNight, task: MainList?) {
         let vc = WriteViewController()
-        vc.data = tasks
+        vc.data = task
         
         switch mode {
         case .modified:

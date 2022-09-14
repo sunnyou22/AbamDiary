@@ -9,9 +9,9 @@ import RealmSwift
 import Foundation
 
 class MainList: Object {
-    @Persisted var mornimgDiary: String
-    @Persisted var nightDiary: String
-    @Persisted var cheerupDiary: String
+    @Persisted var mornimgDiary: String?
+    @Persisted var nightDiary: String?
+    @Persisted var cheerupDiary: String?
     @Persisted var date = Date()
     
     @Persisted(primaryKey: true) var objectID: ObjectId
@@ -20,5 +20,7 @@ class MainList: Object {
         self.init()
         self.mornimgDiary = mornimgDiary
         self.nightDiary = nightDiary
+        self.cheerupDiary = cheerupDiary
+        self.date = Date()
     }
 }
