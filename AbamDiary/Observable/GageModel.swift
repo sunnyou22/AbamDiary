@@ -9,8 +9,6 @@ import Foundation
 
 class GageModel {
 
-    var diaryTextView: Observable<String> = Observable("")
-
     var morningDiaryCount: Observable<Float> = Observable(0)
     var nightDiaryCount: Observable<Float> = Observable(0)
 
@@ -21,4 +19,10 @@ class GageModel {
         
         completion()
     }
+}
+
+class DateModel {
+    var morningDiaryteDate: Observable<Date> = Observable(Date())
+    var nightDiaryDate: Observable<Date> = Observable(Date())
+
 }

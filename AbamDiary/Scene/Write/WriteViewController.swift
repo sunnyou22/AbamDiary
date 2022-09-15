@@ -17,7 +17,7 @@ class WriteViewController: BaseViewController {
     
     var writeView = WriteView()
     var data: MainList?
-    var viewModel = GageModel()
+    var viewModel = DateModel()
     var diarytype: MorningAndNight
     var writeMode: WriteMode
     var fetch: (() -> Void)?
@@ -38,7 +38,8 @@ class WriteViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        let saveButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(save))
+        let saveButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(save))
+        navigationItem.rightBarButtonItem = saveButton
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,10 +50,9 @@ class WriteViewController: BaseViewController {
         MainListRepository.shared.fetchLatestOrder()
         
         //뷰에 데이터 반영
+        writeView.dateLabel.text = CustomFormatter.setFullFormatter(date: data?.date ?? Date())
         
         // 플레이스 홀더
-        let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
-        let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
         
         switch diarytype {
         case .morning:
@@ -78,9 +78,7 @@ class WriteViewController: BaseViewController {
         let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
         let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
         
-        let task = MainList(mornimgDiary: writeView.textView.text, nightDiary: writeView.textView.text, cheerupDiary: nil, date: Date())
-        
-        
+        var task = MainList(mornimgDiary: writeView.textView.text, nightDiary: nil, cheerupDiary: nil, date: Date())
         
         //초기화면
         if writeView.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -101,95 +99,136 @@ class WriteViewController: BaseViewController {
             case .morning:
                 switch writeMode {
                 case .newDiary:
-                    writeDiary(type: diarytype, mode: .newDiary, task: task)
+                    if data?.date == nil {
+                        
+                        writeDiary(type: diarytype, mode: .newDiary, task: task)
+                        
+                    } else {
+                        writeDiary(type: diarytype, mode: .modified, task: data!)
+                        
+                    }
                 case .modified:
                     print("Realm is located at:", MainListRepository.shared.localRealm.configuration.fileURL!)
                     writeDiary(type: diarytype, mode: .modified, task: data!)
+                    
                 }
             case .night:
-              
+                task = MainList(mornimgDiary: nil, nightDiary: writeView.textView.text, cheerupDiary: nil, date: Date())
                 switch writeMode {
                 case .newDiary:
-                    
+                    if data?.date == nil {
+                        
                         writeDiary(type: diarytype, mode: .newDiary, task: task)
-                  
-                    case .modified:
+                        
+                        
+                    } else {
                         writeDiary(type: diarytype, mode: .modified, task: data!)
                     }
+                case .modified:
+                    writeDiary(type: diarytype, mode: .modified, task: data!)
                 }
             }
         }
-    
-        
-//        func settestView(type: MorningAndNight) {
-//            switch type {
-//            case .morning:
-//                <#code#>
-//            case .night:
-//                <#code#>
-//            }
-//        }
-    
+    }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        switch writeMode {
+        case .newDiary:
+            switch diarytype {
+            case .morning:
+                viewModel.morningDiaryteDate.value = Date()
+                print("아침 새 일기 작성 날짜 변경")
+            case .night:
+                viewModel.nightDiaryDate.value = Date()
+                print("저녁 새 일기 작성 날짜 변경")
+            }
+        case .modified:
+            switch diarytype {
+            case .morning:
+                viewModel.morningDiaryteDate.value = Date()
+                print("아침 수정 일기 작성 날짜 변경")
+            case .night:
+                viewModel.nightDiaryDate.value = Date()
+                print("저녁 수정 일기 작성 날짜 변경")
+            }
+        }
+        
+        print("아침: \(viewModel.morningDiaryteDate.value ), 저녁: \(viewModel.nightDiaryDate.value )")
+        
         fetch!()
-        
-        
-        //    @objc func save() {
-        //        if writeView.textView.text == "오늘 아침! 당신의 한줄은 무엇인가요?" || writeView.textView.text != "오늘 밤! 당신의 한줄은 무엇인가요?" {
-        //            let task = MainList(mornimgDiary: writeView.textView.text, nightDiary: writeView.textView.text, cheerupDiary: nil, date: Date())
-        //            writeDiary(type: .morning, mode: .newDiary, task: task)
-        //        } else {
-        //            writeDiary(type: <#T##MorningAndNight#>, mode: <#T##WriteMode#>, task: <#T##MainList#>)
-        //        }
-        //    }
     }
+    
+    @objc func save() {
+        switch writeMode {
+        case .newDiary:
+            switch diarytype {
+            case .morning:
+                viewModel.morningDiaryteDate.value = Date()
+            case .night:
+                viewModel.nightDiaryDate.value = Date()
+            }
+            
+            case .modified:
+            switch diarytype {
+            case .morning:
+                print("수정 아침 날짜 변경")
+                viewModel.morningDiaryteDate.value = Date()
+            case .night:
+                print("수정 저녁 날짜 변경")
+                viewModel.nightDiaryDate.value = Date()
+            }
+        }
+        navigationController?.popViewController(animated: true)
+    }
+    
     
     //아마 플레이스 홀더가 겹쳐질거임 -> 처리해주기
     override func configuration() {
         
     }
 }
+
+//데이터 넣고 화면반영하기
+extension WriteViewController: UITextViewDelegate {
     
-    //데이터 넣고 화면반영하기
-    extension WriteViewController: UITextViewDelegate {
+    //플레이스 홀더 없애기 생각하기
+    func textViewDidBeginEditing(_ textView: UITextView) {
         
-        //플레이스 홀더 없애기 생각하기
-        func textViewDidBeginEditing(_ textView: UITextView) {
-            
-            if textView.text == "오늘 아침! 당신의 한줄은 무엇인가요?" || textView.text == "오늘 밤! 당신의 한줄은 무엇인가요?" {
-                textView.text = nil
-            }
+        if textView.text == "오늘 아침! 당신의 한줄은 무엇인가요?" || textView.text == "오늘 밤! 당신의 한줄은 무엇인가요?" {
+            textView.text = nil
         }
-        
-        //데이터 추가 및 수정
-        func writeDiary(type: MorningAndNight, mode: WriteMode, task: MainList) {
-            switch type {
-            case .morning:
-                switch mode {
-                case .newDiary:
-                    MainListRepository.shared.addItem(item: task)
-                    //                fetch!()
-                    print("-====>🟢 아침일기 작성되는 순간")
-                case .modified:
-                    try! MainListRepository.shared.localRealm.write {
-                        print("-====>🟢 아침일기 수정되는 순간")
-                        task.mornimgDiary = writeView.textView.text
-                        //                    fetch!()
-                    }
+    }
+    
+    //데이터 추가 및 수정
+    func writeDiary(type: MorningAndNight, mode: WriteMode, task: MainList) {
+        switch type {
+        case .morning:
+            switch mode {
+            case .newDiary:
+                MainListRepository.shared.addItem(item: task)
+                //                fetch!()
+                print("-====>🟢 아침일기 작성되는 순간")
+            case .modified:
+                try! MainListRepository.shared.localRealm.write {
+                    print("-====>🟢 아침일기 수정되는 순간")
+                    task.mornimgDiary = writeView.textView.text
+                    task.date = Date()
+                    //                    fetch!()
                 }
-            case .night:
-                switch mode {
-                case .newDiary:
-                    MainListRepository.shared.addItem(item: task)
-                    //                fetch!()
-                case .modified:
-                    try! MainListRepository.shared.localRealm.write {
-                        task.nightDiary = writeView.textView.text
-                    }
+            }
+        case .night:
+            switch mode {
+            case .newDiary:
+                MainListRepository.shared.addItem(item: task)
+                //                fetch!()
+            case .modified:
+                try! MainListRepository.shared.localRealm.write {
+                    task.nightDiary = writeView.textView.text
+                    task.date = Date()
                 }
             }
         }
     }
+}
 

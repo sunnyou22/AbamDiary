@@ -32,6 +32,7 @@ class CustomFormatter {
     //full 날짜 & 시간
     static func setFullFormatter(date: Date) -> String {
         let fullFormatter = DateFormatter()
+        
         fullFormatter.dateFormat = "yy.MM.dd a kk:mm"
         
         return fullFormatter.string(from: date)
