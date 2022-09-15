@@ -50,20 +50,6 @@ class MainTableViewCell: BaseTableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    
-    //placeholder메서드
-    func setMainCellPlaceholder(type: MorningAndNight) -> String {
-        var placeholder: String?
-        
-        switch type {
-        case .morning:
-            placeholder = "\(type.title)일기를 쓰러 가볼까요?"
-        case .night:
-            placeholder = "\(type.title)일기를 쓰러 가볼까요?"
-        }
-        return placeholder!
-    }
     
     //MARK: 셀 레이아웃 잡기
     override func configuration() {
