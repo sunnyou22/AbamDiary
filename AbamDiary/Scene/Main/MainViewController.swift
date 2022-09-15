@@ -205,7 +205,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
                 vc.writeView.setWriteVCPlaceholder(type: .night)
                 
             }
-        case .modified:ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ.
+        case .modified:
             print("====>🚀 수정화면으로 가기")
             transition(vc, transitionStyle: .push)
             vc.navigationItem.title = "수정"

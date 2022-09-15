@@ -78,7 +78,7 @@ class WriteViewController: BaseViewController {
         let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
         let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
         
-        var task = MainList(mornimgDiary: writeView.textView.text, nightDiary: nil, cheerupDiary: nil, date: Date())
+        let task = MainList(mornimgDiary: writeView.textView.text, nightDiary: writeView.textView.text, cheerupDiary: nil, date: Date())
         
         
         
@@ -101,24 +101,18 @@ class WriteViewController: BaseViewController {
             case .morning:
                 switch writeMode {
                 case .newDiary:
-                    if data?.date == nil {
-                        writeDiary(type: diarytype, mode: .newDiary, task: task)
-                    } else {
-                        writeDiary(type: diarytype, mode: .newDiary, task: data!)
-                    }
+                    writeDiary(type: diarytype, mode: .newDiary, task: task)
                 case .modified:
                     print("Realm is located at:", MainListRepository.shared.localRealm.configuration.fileURL!)
                     writeDiary(type: diarytype, mode: .modified, task: data!)
                 }
             case .night:
-                task = MainList(mornimgDiary: nil, nightDiary: writeView.textView.text, cheerupDiary: nil, date: Date())
+              
                 switch writeMode {
                 case .newDiary:
-                    if data?.date == nil {
+                    
                         writeDiary(type: diarytype, mode: .newDiary, task: task)
-                    } else {
-                        writeDiary(type: diarytype, mode: .newDiary, task: data!)
-                    }
+                  
                     case .modified:
                         writeDiary(type: diarytype, mode: .modified, task: data!)
                     }
