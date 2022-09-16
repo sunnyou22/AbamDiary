@@ -70,6 +70,10 @@ class CalendarViewController: BaseViewController {
         super.viewWillAppear(animated)
         fetchRealm() // 램 패치
         print("Realm is located at:", OneDayDiaryRepository.shared.localRealm.configuration.fileURL!)
+        
+        //MARK: test
+        let selectedDate = CustomFormatter.setDateFormatter(date: mainview.calendar.selectedDate ?? Date())
+        print(selectedDate, "===============")
     }
     
    
@@ -77,17 +81,21 @@ class CalendarViewController: BaseViewController {
     
     func fetchRealm() {
         tasks = OneDayDiaryRepository.shared.fetchLatestOrder()
-        testfilterDate()
+//        testfilterDate()
         
         print("====>🟢 패치완료")
     }
     
     func testfilterDate() {
+        
+        let placeholder = ["오늘 아침! 당신의 한줄은 무엇인가요?", "오늘 밤! 당신의 한줄은 무엇인가요?"]
+        
         let selectedDate = CustomFormatter.setDateFormatter(date: mainview.calendar.selectedDate ?? Date())
         let filterdateArr = tasks.filter { task in
             CustomFormatter.setDateFormatter(date: task.initialWritedate) == selectedDate
         }
-        dateFilterTask = filterdateArr.first ?? Diary(morning: <#T##String?#>, night: <#T##String?#>, cheerup: <#T##String?#>, initialWritedate: <#T##Date#>, morningTime: <#T##Date?#>, nightTime: <#T##Date?#>)
+        
+        dateFilterTask = filterdateArr.first ?? Diary(morning: placeholder[0], night: placeholder[1], cheerup: "", initialWritedate: mainview.calendar.selectedDate ?? Date(), morningTime: nil, nightTime: nil)
     }
 }
 
@@ -97,6 +105,9 @@ class CalendarViewController: BaseViewController {
 extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+      view
+        
         return mainview.tableView.frame.height / 2.2
     }
     // 타이틀적인 요소는 섹션도 좋음
@@ -193,12 +204,18 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
 
 //MARK: 캘린더 디자인하기
 extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate {
-    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        let PreparingCell = MainTableViewCell()
-        dateFilterTask = OneDayDiaryRepository.shared.fetchDate(date: date)[0]
-        tasks = OneDayDiaryRepository.shared.fetchDate(date: date)
-        // 여기서 디자인해놓은 것들 반영하기
-    }
+    
+//    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+//        let PreparingCell = MainTableViewCell()
+//        dateFilterTask = OneDayDiaryRepository.shared.fetchDate(date: date)[0]
+//        tasks = OneDayDiaryRepository.shared.fetchDate(date: date)
+//        // 여기서 디자인해놓은 것들 반영하기
+//        let placeholder = ["오늘 아침! 당신의 한줄은 무엇인가요?", "오늘 밤! 당신의 한줄은 무엇인가요?"]
+//        let filterdateArr = tasks.filter { task in
+//            CustomFormatter.setDateFormatter(date: task.initialWritedate) == CustomFormatter.setDateFormatter(date: date)
+//        }
+//        dateFilterTask = filterdateArr.first ?? Diary(morning: placeholder[0], night: placeholder[1], cheerup: "", initialWritedate: date, morningTime: nil, nightTime: nil)
+//    }
 }
 
 //MARK: 네비게이션 타이틀 뷰 커스텀
