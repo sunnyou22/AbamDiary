@@ -58,7 +58,7 @@ class WriteViewController: BaseViewController {
         }
         
         
-       
+        
         
         // 플레이스 홀더
         
@@ -91,14 +91,28 @@ class WriteViewController: BaseViewController {
         //초기화면
         if writeView.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             print("=====> 🟠 입력된 문자가 없는데 뒤고가기를 누를 때")
+            
             switch diarytype {
             case .morning:
-                if writeView.textView.text == morningPlaceholer {
+                switch writeMode {
+                case .newDiary:
                     writeView.textView.text = morningPlaceholer
+                    print("🟠 새로운 작성화면 아침일기")
+                case .modified:
+                    writeView.textView.text = morningPlaceholer
+                    writeDiary(type: .morning, mode: .modified, task: data!)
+                    print("🟠 수정 작성화면 아침일기")
                 }
             case .night:
-                if writeView.textView.text == nightPlaceholder {
-                    writeView.textView.text = nightPlaceholder
+                
+                switch writeMode {
+                case .newDiary:
+                    writeView.textView.text = morningPlaceholer
+                    print("🟠 새로운 작성화면 저녁일기")
+                case .modified:
+                    writeView.textView.text = morningPlaceholer
+                    writeDiary(type: .morning, mode: .modified, task: data!)
+                    print("🟠 수정 작성화면 저녁일기")
                 }
             }
         } else {
@@ -136,30 +150,6 @@ class WriteViewController: BaseViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        switch writeMode {
-        case .newDiary:
-            switch diarytype {
-            case .morning:
-                dateModel.morning.value = Date()
-                print("아침 새 일기 작성 날짜 변경")
-            case .night:
-                dateModel.night.value = Date()
-                print("저녁 새 일기 작성 날짜 변경")
-            }
-        case .modified:
-            switch diarytype {
-            case .morning:
-                dateModel.morning.value = Date()
-                print("아침 수정 일기 작성 날짜 변경")
-                print("=====> 아침: \(dateModel.morning.value), 저녁: \(   dateModel.night .value)")
-            case .night:
-                dateModel.night.value = Date()
-                print("저녁 수정 일기 작성 날짜 변경")
-            }
-        }
-        
-        print("아침: \(dateModel.morning.value ), 저녁: \(dateModel.night.value )")
-        
         fetch!()
     }
     
@@ -168,12 +158,12 @@ class WriteViewController: BaseViewController {
         case .newDiary:
             switch diarytype {
             case .morning:
-               dateModel.morning.value = Date()
+                dateModel.morning.value = Date()
             case .night:
                 dateModel.night.value = Date()
             }
             
-            case .modified:
+        case .modified:
             switch diarytype {
             case .morning:
                 print("수정 아침 날짜 변경")

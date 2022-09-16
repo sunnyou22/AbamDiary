@@ -16,7 +16,7 @@ class CalendarViewController: BaseViewController {
     
     let mainview = MainView()
     //MARK: observable 변경하기
-    var dateModel = DateModel()
+
     var changeMorningcount: Float = 0 // 테스트용
     var changeNightcount: Float = 0 // 테스트용
     var progress: Float = 0 // 변수로 빼줘야 동작
@@ -28,7 +28,7 @@ class CalendarViewController: BaseViewController {
         didSet {
           
             mainview.tableView.reloadData()
-            print("♻️")
+            print("리로드♻️")
         }
     }
     
@@ -108,22 +108,12 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = fetchCell(tableView, didSelectRowAt: indexPath)
         let placeholder = ["오늘 아침! 당신의 한줄은 무엇인가요?", "오늘 밤! 당신의 한줄은 무엇인가요?"]
      
-        dateModel.morning.bind { date in
-            cell.dateLabel.text = CustomFormatter.setWritedate(date: date)
-        }
-        
-        dateModel.night.bind { date in
-            cell.dateLabel.text = CustomFormatter.setWritedate(date: date)
-        }
-        
         if indexPath.row == 0  {
             cell.diaryLabel.text = dateFilterTask?.morning != nil ? dateFilterTask?.morning : placeholder[0]
             cell.dateLabel.text = dateFilterTask?.morningTime != nil ? CustomFormatter.setTime(date: (dateFilterTask?.morningTime)!) : "--:--"
-            print(cell.dateLabel.text, "아침일기 날짜")
             } else if indexPath.row == 1 {
                 cell.diaryLabel.text = self.dateFilterTask?.night != nil ? dateFilterTask?.night : placeholder[1]
                 cell.dateLabel.text = dateFilterTask?.nightTime != nil ? CustomFormatter.setTime(date: (dateFilterTask?.nightTime)!) : "--:--"
-                print(cell.dateLabel.text, "저녁일기 날짜")
             }
         
         cell.setMornigAndNightConfig(index: indexPath.row)
