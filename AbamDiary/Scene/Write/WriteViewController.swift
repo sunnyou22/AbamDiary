@@ -23,6 +23,7 @@ class WriteViewController: BaseViewController {
     var diarytype: MorningAndNight
     var writeMode: WriteMode
     var fetch: (() -> Void)?
+    var selectedDate: Date?
     
     init(diarytype: MorningAndNight, writeMode: WriteMode) {
         self.diarytype = diarytype
@@ -85,7 +86,7 @@ class WriteViewController: BaseViewController {
         let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
         let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
         
-        var task = Diary(morning: writeView.textView.text, night: nil, cheerup: nil, initialWritedate: Date(), morningTime: Date(), nightTime: nil)
+        var task = Diary(morning: writeView.textView.text, night: nil, cheerup: nil, createdDate: Date(), selecteddate: selectedDate ?? Date(), morningTime: Date(), nightTime: nil)
         
         //초기화면
         if writeView.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -106,10 +107,10 @@ class WriteViewController: BaseViewController {
                 
                 switch writeMode {
                 case .newDiary:
-                    writeView.textView.text = morningPlaceholer
+                    writeView.textView.text = nightPlaceholder
                     print("🟠 새로운 작성화면 저녁일기")
                 case .modified:
-                    writeView.textView.text = morningPlaceholer
+                    writeView.textView.text = nightPlaceholder
                     writeDiary(type: .morning, mode: .modified, task: data!)
                     print("🟠 수정 작성화면 저녁일기")
                 }
@@ -119,9 +120,11 @@ class WriteViewController: BaseViewController {
             case .morning:
                 switch writeMode {
                 case .newDiary:
-                    if data?.initialWritedate == nil {
+                    if data?.createdDate == nil {
+                        
                         writeDiary(type: diarytype, mode: .newDiary, task: task)
                     } else {
+                        print(data?.createdDate)
                         writeDiary(type: diarytype, mode: .modified, task: data!)
                     }
                 case .modified:
@@ -130,10 +133,10 @@ class WriteViewController: BaseViewController {
                     
                 }
             case .night:
-                task = Diary(morning: nil, night: writeView.textView.text, cheerup: nil, initialWritedate: Date(), morningTime: nil, nightTime: Date())
+                task = Diary(morning: nil, night: writeView.textView.text, cheerup: nil, createdDate: Date(), selecteddate: selectedDate ?? Date(), morningTime: nil, nightTime: Date())
                 switch writeMode {
                 case .newDiary:
-                    if data?.initialWritedate == nil {
+                    if data?.createdDate == nil {
                         writeDiary(type: diarytype, mode: .newDiary, task: task)
                         
                     } else {

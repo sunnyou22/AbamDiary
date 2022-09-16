@@ -71,11 +71,9 @@ class MainView: BaseView {
         
     }
     
-    
     //헤더로 넣는게 나을까
     let cellTitle: UILabel = {
         let view = UILabel()
-        view.text = "한줄일기"
         view.font = .systemFont(ofSize: FontSize.subTitle_16, weight: .bold)
         view.textColor = Color.BaseColorWtihDark.cellTtitle
         return view
@@ -145,8 +143,10 @@ class MainView: BaseView {
     //MARK: 이니셜라이저
     override init(frame: CGRect) {
         super.init(frame: frame)
-        calendarconfig()
+        let date = CustomFormatter.setCellTitleDateFormatter(date: Date())
         
+        calendarconfig()
+        cellTitle.text = "\(date)"
     }
     
     required init?(coder: NSCoder) {

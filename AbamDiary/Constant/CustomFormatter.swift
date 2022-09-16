@@ -48,10 +48,17 @@ class CustomFormatter {
         return dateFormatter.string(from: date)
     }
     
+    static func setCellTitleDateFormatter(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = CustomFormatter.ko
+        dateFormatter.dateFormat = "M월의 아밤, dd번째"
+        
+        return dateFormatter.string(from: date)
+    }
+    
     static func setWritedate(date: Date) -> String {
         
         let ampm = setAMPM(date: date) == "오전" ? "AM " : "PM "
-        
         return setDateFormatter(date: date) + ampm + setTime(date: date)
     }
 }
