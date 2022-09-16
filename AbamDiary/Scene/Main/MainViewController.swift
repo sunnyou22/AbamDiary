@@ -5,12 +5,14 @@
 //  Created by 방선우 on 2022/09/10.
 //
 
+
+
 import UIKit
 import FSCalendar
 import SnapKit
 import RealmSwift
 
-class MainViewController: BaseViewController {
+class CalendarViewController: BaseViewController {
     
     let mainview = MainView()
     //MARK: observable 변경하기
@@ -22,7 +24,7 @@ class MainViewController: BaseViewController {
     var cell: MainTableViewCell? // 셀 인스턴스 통일시켜줘야 플레이스홀더 오류 없어짐
     var preparedCell: MainTableViewCell?
     
-    var tasks: Results<MainList>! {
+    var tasks: Results<Diary>! {
         didSet {
           
             mainview.tableView.reloadData()
@@ -30,7 +32,7 @@ class MainViewController: BaseViewController {
         }
     }
     
-    var dateFilterTask: MainList? // 캘린더에 해당하는 날짜를 받아오기 위함
+    var dateFilterTask: Diary? // 캘린더에 해당하는 날짜를 받아오기 위함
     
     //MARK: - LoadView
     override func loadView() {
@@ -92,7 +94,7 @@ class MainViewController: BaseViewController {
 
 
 //램 데이터 기반으로 바꾸기
-extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return mainview.tableView.frame.height / 2.2
@@ -169,7 +171,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         return cell2
     }
     
-    func setWritModeAndTransition(_ mode: WriteMode, diaryType: MorningAndNight, task: MainList?) {
+    func setWritModeAndTransition(_ mode: WriteMode, diaryType: MorningAndNight, task: Diary?) {
         let vc = WriteViewController(diarytype: diaryType, writeMode: mode)
         vc.data = task
         vc.fetch = fetchRealm
@@ -203,7 +205,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
 
 
 //MARK: 캘린더 디자인하기
-extension MainViewController: FSCalendarDataSource, FSCalendarDelegate {
+extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate {
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         let PreparingCell = MainTableViewCell()
         dateFilterTask = MainListRepository.shared.fetchDate(date: date)[0]
@@ -237,7 +239,7 @@ class navigationTitleVIew: BaseView {
 }
 
 //MARK: - 애니메이션 Extension => 모델로 빼주기
-extension MainViewController {
+extension CalendarViewController {
     
     @objc func testPlusM() {
         self.changeMorningcount += 20.0

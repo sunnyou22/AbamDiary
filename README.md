@@ -34,7 +34,7 @@
 > 1. 0913의 고민지점에서 writeViewController(일기작성 뷰컨, 이하 작성뷰컨)을 인스턴스로 하지 않으려고 했다.  
 하지만 어차피 뷰컨의 인스턴스가 생성되도 화면이 캘린더뷰컨으로 전환되면 디이닛이 되기 때문에, 메모리에 계속 남아있지 않아 그냥 아침일기(작성/수정), 저녁일기(작성/수정)  
 4개 화면을 enum케이스로 구분하고 인스턴스로 생성하여 화면전환하기로 했다.
-<img src="https://user-images.githubusercontent.com/101683386/190527596-bf7cebe1-c0fd-4db3-9a77-9adfa1ccf571.jpg" width="450" height="200">
+<img src="https://user-images.githubusercontent.com/101683386/190527596-bf7cebe1-c0fd-4db3-9a77-9adfa1ccf571.jpg" width="500" height="200">
 
 ## 고민했던 부분
 - 아침일기와 저녁일기의 작성유무를 어떻게 알 수 있을까? -> 이에 따라 작성과 수정페이지로 이동
@@ -62,7 +62,7 @@
 ### 이슈해결
 - 해당 날짜에 일기가 있냐 없냐로 구분 
 
-<img src="https://user-images.githubusercontent.com/101683386/190529667-8b0b90b9-d646-416d-951a-4ed06e61490c.jpg" width="450" height="200">
+<img src="https://user-images.githubusercontent.com/101683386/190529667-8b0b90b9-d646-416d-951a-4ed06e61490c.jpg" width="500" height="200">
 
 ## 고민중인 지점
 ### 일기종류에 따라 시간을 다르게 반영해줘야함

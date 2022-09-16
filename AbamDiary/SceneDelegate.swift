@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         //MARK: 탭바
         
-        let mainVC = UINavigationController(rootViewController: MainViewController())
+        let mainVC = UINavigationController(rootViewController: CalendarViewController())
         let searchVC = UINavigationController(rootViewController: SearchViewController())
         let monthVC = UINavigationController(rootViewController: MonthDiaryViewController())
         let cheerupVC = UINavigationController(rootViewController: CheerupViewController())
@@ -39,7 +39,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         
         //            if UserDefaultHelper.shared.First {
-        //               let vc = MainViewController()
+        //               let vc = CalendarViewController()
         //                guard let vc = sb.instantiateViewController(withIdentifier: IntroViewController.reuseIdentifier) as? IntroViewController else { return }
         //
         //                window?.rootViewController = UINavigationController(rootViewController: vc)

@@ -20,9 +20,3 @@ class GageModel {
         completion()
     }
 }
-
-class DateModel {
-    var morningDiaryteDate: Observable<Date> = Observable(Date())
-    var nightDiaryDate: Observable<Date> = Observable(Date())
-
-}

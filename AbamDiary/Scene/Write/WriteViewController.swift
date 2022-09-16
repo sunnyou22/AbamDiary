@@ -16,7 +16,7 @@ enum WriteMode {
 class WriteViewController: BaseViewController {
     
     var writeView = WriteView()
-    var data: MainList?
+    var data: Diary?
     var viewModel = DateModel()
     var diarytype: MorningAndNight
     var writeMode: WriteMode
@@ -60,7 +60,7 @@ class WriteViewController: BaseViewController {
             case .newDiary:
                 writeView.setWriteVCPlaceholder(type: .morning)
             case .modified:
-                writeView.textView.text = data?.mornimgDiary
+                writeView.textView.text = data?.morning
             }
             
         case .night:
@@ -68,7 +68,7 @@ class WriteViewController: BaseViewController {
             case .newDiary:
                 writeView.setWriteVCPlaceholder(type: .night)
             case .modified:
-                writeView.textView.text = data?.nightDiary
+                writeView.textView.text = data?.night
             }
         }
     }
@@ -78,7 +78,7 @@ class WriteViewController: BaseViewController {
         let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
         let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
         
-        var task = MainList(mornimgDiary: writeView.textView.text, nightDiary: nil, cheerupDiary: nil, date: Date())
+        var task = Diary(morning: writeView.textView.text, night: nil, cheerup: nil, date: Date())
         
         //초기화면
         if writeView.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -113,7 +113,7 @@ class WriteViewController: BaseViewController {
                     
                 }
             case .night:
-                task = MainList(mornimgDiary: nil, nightDiary: writeView.textView.text, cheerupDiary: nil, date: Date())
+                task = Diary(morning: nil, night: writeView.textView.text, cheerup: nil, date: Date())
                 switch writeMode {
                 case .newDiary:
                     if data?.date == nil {
@@ -201,7 +201,7 @@ extension WriteViewController: UITextViewDelegate {
     }
     
     //데이터 추가 및 수정
-    func writeDiary(type: MorningAndNight, mode: WriteMode, task: MainList) {
+    func writeDiary(type: MorningAndNight, mode: WriteMode, task: Diary) {
         switch type {
         case .morning:
             switch mode {
@@ -212,7 +212,7 @@ extension WriteViewController: UITextViewDelegate {
             case .modified:
                 try! MainListRepository.shared.localRealm.write {
                     print("-====>🟢 아침일기 수정되는 순간")
-                    task.mornimgDiary = writeView.textView.text
+                    task.morning = writeView.textView.text
                     task.date = Date()
                     //                    fetch!()
                 }
@@ -224,7 +224,7 @@ extension WriteViewController: UITextViewDelegate {
                 //                fetch!()
             case .modified:
                 try! MainListRepository.shared.localRealm.write {
-                    task.nightDiary = writeView.textView.text
+                    task.night = writeView.textView.text
                     task.date = Date()
                 }
             }

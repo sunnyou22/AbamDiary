@@ -13,19 +13,19 @@ import Foundation
 //일기 종류별 개수 -> 쿼리 계산 가능
     // 일기종류별 개수가 많아지면 비효율적일수도
 
-class MainList: Object {
-    @Persisted var mornimgDiary: String?
-    @Persisted var nightDiary: String?
-    @Persisted var cheerupDiary: String?
+class Diary: Object {
+    @Persisted var morning: String?
+    @Persisted var night: String?
+    @Persisted var cheerup: String?
     @Persisted var date = Date()
     
     @Persisted(primaryKey: true) var objectID: ObjectId
     
-    convenience init(mornimgDiary: String?, nightDiary: String?, cheerupDiary: String? ,date: Date) {
+    convenience init(morning: String?, night: String?, cheerup: String? ,date: Date) {
         self.init()
-        self.mornimgDiary = mornimgDiary
-        self.nightDiary = nightDiary
-        self.cheerupDiary = cheerupDiary
+        self.morning = morning
+        self.night = night
+        self.cheerup = cheerup
         self.date = Date()
     }
 }
