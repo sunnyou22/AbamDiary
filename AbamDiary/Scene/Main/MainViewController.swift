@@ -87,7 +87,7 @@ class CalendarViewController: BaseViewController {
         let filterdateArr = tasks.filter { task in
             CustomFormatter.setDateFormatter(date: task.initialWritedate) == selectedDate
         }
-        dateFilterTask = filterdateArr.first
+        dateFilterTask = filterdateArr.first ?? Diary(morning: <#T##String?#>, night: <#T##String?#>, cheerup: <#T##String?#>, initialWritedate: <#T##Date#>, morningTime: <#T##Date?#>, nightTime: <#T##Date?#>)
     }
 }
 

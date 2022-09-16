@@ -6,7 +6,9 @@
 //
 
 import UIKit
+
 import RealmSwift
+import Toast
 
 enum WriteMode {
     case newDiary
@@ -56,10 +58,7 @@ class WriteViewController: BaseViewController {
         case .night:
             writeView.dateLabel.text = CustomFormatter.setWritedate(date: data?.nightTime ?? Date())
         }
-        
-        
-        
-        
+    
         // 플레이스 홀더
         
         switch diarytype {
@@ -154,26 +153,11 @@ class WriteViewController: BaseViewController {
     }
     
     @objc func save() {
-        switch writeMode {
-        case .newDiary:
-            switch diarytype {
-            case .morning:
-                dateModel.morning.value = Date()
-            case .night:
-                dateModel.night.value = Date()
-            }
-            
-        case .modified:
-            switch diarytype {
-            case .morning:
-                print("수정 아침 날짜 변경")
-                dateModel.morning.value = Date()
-            case .night:
-                print("수정 저녁 날짜 변경")
-                dateModel.night.value = Date()
-            }
+      
+        //토스트 커스텀하기
+        writeView.makeToast("저장완료!", duration: 2.0, position: .center, title: nil, image: UIImage(named: "ABAM")) { didTap in
+            self.navigationController?.popViewController(animated: true)
         }
-        navigationController?.popViewController(animated: true)
     }
     
     
