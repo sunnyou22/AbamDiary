@@ -47,7 +47,7 @@ class WriteViewController: BaseViewController {
         self.writeView.textView.delegate = self
         
         //데이터 패치
-        MainListRepository.shared.fetchLatestOrder()
+        OneDayDiaryRepository.shared.fetchLatestOrder()
         
         //뷰에 데이터 반영
         writeView.dateLabel.text = CustomFormatter.setFullFormatter(date: data?.date ?? Date())
@@ -108,7 +108,7 @@ class WriteViewController: BaseViewController {
                         
                     }
                 case .modified:
-                    print("Realm is located at:", MainListRepository.shared.localRealm.configuration.fileURL!)
+                    print("Realm is located at:", OneDayDiaryRepository.shared.localRealm.configuration.fileURL!)
                     writeDiary(type: diarytype, mode: .modified, task: data!)
                     
                 }
@@ -206,11 +206,11 @@ extension WriteViewController: UITextViewDelegate {
         case .morning:
             switch mode {
             case .newDiary:
-                MainListRepository.shared.addItem(item: task)
+                OneDayDiaryRepository.shared.addItem(item: task)
                 //                fetch!()
                 print("-====>🟢 아침일기 작성되는 순간")
             case .modified:
-                try! MainListRepository.shared.localRealm.write {
+                try! OneDayDiaryRepository.shared.localRealm.write {
                     print("-====>🟢 아침일기 수정되는 순간")
                     task.morning = writeView.textView.text
                     task.date = Date()
@@ -220,10 +220,10 @@ extension WriteViewController: UITextViewDelegate {
         case .night:
             switch mode {
             case .newDiary:
-                MainListRepository.shared.addItem(item: task)
+                OneDayDiaryRepository.shared.addItem(item: task)
                 //                fetch!()
             case .modified:
-                try! MainListRepository.shared.localRealm.write {
+                try! OneDayDiaryRepository.shared.localRealm.write {
                     task.night = writeView.textView.text
                     task.date = Date()
                 }

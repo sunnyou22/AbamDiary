@@ -8,7 +8,7 @@
 import Foundation
 import RealmSwift
 
-protocol MainRepositoryType {
+protocol OnedayDiaryRepositoryType {
     func fetchLatestOrder() -> Results<Diary> // 기본정렬값
     func fetchOlderOrder() -> Results<Diary>
     func fetchSearchMoriningFilter(text: String) -> Results<Diary>
@@ -19,11 +19,11 @@ protocol MainRepositoryType {
     func addItem(item: Diary)
 }
 
-class MainListRepository: MainRepositoryType {
+class OneDayDiaryRepository: OnedayDiaryRepositoryType {
   
     private init() { }
     
-    static let shared = MainListRepository()
+    static let shared = OneDayDiaryRepository()
     let localRealm = try! Realm()
     
     @discardableResult

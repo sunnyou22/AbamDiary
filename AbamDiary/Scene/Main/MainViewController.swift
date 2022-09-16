@@ -69,14 +69,14 @@ class CalendarViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchRealm() // 램 패치
-        print("Realm is located at:", MainListRepository.shared.localRealm.configuration.fileURL!)
+        print("Realm is located at:", OneDayDiaryRepository.shared.localRealm.configuration.fileURL!)
     }
     
    
     
     
     func fetchRealm() {
-        tasks = MainListRepository.shared.fetchLatestOrder()
+        tasks = OneDayDiaryRepository.shared.fetchLatestOrder()
         testfilterDate()
         
         print("====>🟢 패치완료")
@@ -117,11 +117,11 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         if indexPath.row == 0  {
-            cell.diaryLabel.text = dateFilterTask?.mornimgDiary != nil ? dateFilterTask?.mornimgDiary : placeholder[0]
+            cell.diaryLabel.text = dateFilterTask?.morning != nil ? dateFilterTask?.morning : placeholder[0]
             cell.dateLabel.text = dateFilterTask?.date != nil ? CustomFormatter.setTime(date: viewModel.morningDiaryteDate.value) : "--:--"
             print(cell.dateLabel.text, "아침일기 날짜")
             } else if indexPath.row == 1 {
-                cell.diaryLabel.text = self.dateFilterTask?.nightDiary != nil ? dateFilterTask?.nightDiary : placeholder[1]
+                cell.diaryLabel.text = self.dateFilterTask?.night != nil ? dateFilterTask?.night : placeholder[1]
                 cell.dateLabel.text = dateFilterTask?.date != nil ? CustomFormatter.setTime(date: viewModel.nightDiaryDate.value) : "--:--"
                 print(cell.dateLabel.text, "저녁일기 날짜")
             }
@@ -141,7 +141,7 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         //클로저에서는 그냥 [weak self]
         //deinit() 뷰디드디스어피에서 이후에 호출되는지 확인
         
-            if dateFilterTask?.mornimgDiary == nil || dateFilterTask?.nightDiary == nil {
+            if dateFilterTask?.morning == nil || dateFilterTask?.night == nil {
                 print("====>🚀 작성화면으로 가기")
 
                 setWritModeAndTransition(.newDiary, diaryType: .allCases[indexPath.row], task: dateFilterTask)
@@ -208,8 +208,8 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
 extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate {
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         let PreparingCell = MainTableViewCell()
-        dateFilterTask = MainListRepository.shared.fetchDate(date: date)[0]
-        tasks = MainListRepository.shared.fetchDate(date: date)
+        dateFilterTask = OneDayDiaryRepository.shared.fetchDate(date: date)[0]
+        tasks = OneDayDiaryRepository.shared.fetchDate(date: date)
         // 여기서 디자인해놓은 것들 반영하기
     }
 }
