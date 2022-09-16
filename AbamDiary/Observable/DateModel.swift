@@ -8,7 +8,7 @@
 import Foundation
 
 class DateModel {
-    var morningDiaryteDate: Observable<Date> = Observable(Date())
-    var nightDiaryDate: Observable<Date> = Observable(Date())
+    var morning: Observable<Date> = Observable(Date())
+    var night: Observable<Date> = Observable(Date())
 
 }

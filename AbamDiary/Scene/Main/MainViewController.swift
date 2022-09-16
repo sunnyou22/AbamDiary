@@ -16,7 +16,7 @@ class CalendarViewController: BaseViewController {
     
     let mainview = MainView()
     //MARK: observable 변경하기
-    var viewModel = DateModel()
+    var dateModel = DateModel()
     var changeMorningcount: Float = 0 // 테스트용
     var changeNightcount: Float = 0 // 테스트용
     var progress: Float = 0 // 변수로 빼줘야 동작
@@ -55,11 +55,11 @@ class CalendarViewController: BaseViewController {
         mainview.calendar.delegate = self
         
 //        //MARK: 변하는 값에 대한 관찰시작
-//        viewModel.morningDiaryCount.bind { count in
+//        dateModel.morningDiaryCount.bind { count in
 //            self.changeMorningcount = count
 //        }
 //
-//        viewModel.nightDiaryCount.bind { count in
+//        dateModel.nightDiaryCount.bind { count in
 //            self.changeNightcount = count
 //        }
 //
@@ -85,7 +85,7 @@ class CalendarViewController: BaseViewController {
     func testfilterDate() {
         let selectedDate = CustomFormatter.setDateFormatter(date: mainview.calendar.selectedDate ?? Date())
         let filterdateArr = tasks.filter { task in
-            CustomFormatter.setDateFormatter(date: task.date) == selectedDate
+            CustomFormatter.setDateFormatter(date: task.initialWritedate) == selectedDate
         }
         dateFilterTask = filterdateArr.first
     }
@@ -108,21 +108,21 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = fetchCell(tableView, didSelectRowAt: indexPath)
         let placeholder = ["오늘 아침! 당신의 한줄은 무엇인가요?", "오늘 밤! 당신의 한줄은 무엇인가요?"]
      
-        viewModel.morningDiaryteDate.bind { date in
-            cell.dateLabel.text = CustomFormatter.setFullFormatter(date: date)
+        dateModel.morning.bind { date in
+            cell.dateLabel.text = CustomFormatter.setWritedate(date: date)
         }
         
-        viewModel.nightDiaryDate.bind { date in
-            cell.dateLabel.text = CustomFormatter.setFullFormatter(date: date)
+        dateModel.night.bind { date in
+            cell.dateLabel.text = CustomFormatter.setWritedate(date: date)
         }
         
         if indexPath.row == 0  {
             cell.diaryLabel.text = dateFilterTask?.morning != nil ? dateFilterTask?.morning : placeholder[0]
-            cell.dateLabel.text = dateFilterTask?.date != nil ? CustomFormatter.setTime(date: viewModel.morningDiaryteDate.value) : "--:--"
+            cell.dateLabel.text = dateFilterTask?.morningTime != nil ? CustomFormatter.setTime(date: (dateFilterTask?.morningTime)!) : "--:--"
             print(cell.dateLabel.text, "아침일기 날짜")
             } else if indexPath.row == 1 {
                 cell.diaryLabel.text = self.dateFilterTask?.night != nil ? dateFilterTask?.night : placeholder[1]
-                cell.dateLabel.text = dateFilterTask?.date != nil ? CustomFormatter.setTime(date: viewModel.nightDiaryDate.value) : "--:--"
+                cell.dateLabel.text = dateFilterTask?.nightTime != nil ? CustomFormatter.setTime(date: (dateFilterTask?.nightTime)!) : "--:--"
                 print(cell.dateLabel.text, "저녁일기 날짜")
             }
         
@@ -141,16 +141,13 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         //클로저에서는 그냥 [weak self]
         //deinit() 뷰디드디스어피에서 이후에 호출되는지 확인
         
-            if dateFilterTask?.morning == nil || dateFilterTask?.night == nil {
-                print("====>🚀 작성화면으로 가기")
-
-                setWritModeAndTransition(.newDiary, diaryType: .allCases[indexPath.row], task: dateFilterTask)
-            } else {
-                //해당 날짜와 같은 칼럼을 넘겨줌
-                print("====>🚀 수정화면으로 가기")
-                setWritModeAndTransition(.modified, diaryType: .allCases[indexPath.row], task: dateFilterTask)
-                
-            }
+        
+        if indexPath.row == 0 {
+            dateFilterTask?.morning != nil ? setWritModeAndTransition(.modified, diaryType: .morning, task: dateFilterTask) : setWritModeAndTransition(.newDiary, diaryType: .morning, task: dateFilterTask)
+        } else {
+            dateFilterTask?.night != nil ? setWritModeAndTransition(.modified, diaryType: .night, task: dateFilterTask) : setWritModeAndTransition(.newDiary, diaryType: .night, task: dateFilterTask)
+        }
+        
     }
     
     //cell을 통일시켜주기
@@ -252,7 +249,7 @@ extension CalendarViewController {
             print(progress)
         }
         print("================", progress)
-//        viewModel.morningDiaryCount.value = changeMorningcount
+//        dateModel.morningDiaryCount.value = changeMorningcount
         mainview.progressBar.setProgress(progress, animated: true)
         animationUIImage()
     }
@@ -269,7 +266,7 @@ extension CalendarViewController {
             print(progress)
         }
         print("================", progress)
-//        viewModel.nightDiaryCount.value = changeNightcount
+//        dateModel.nightDiaryCount.value = changeNightcount
         
         mainview.progressBar.setProgress(progress, animated: true)
         animationUIImage()

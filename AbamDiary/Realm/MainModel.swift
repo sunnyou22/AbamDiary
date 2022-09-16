@@ -17,16 +17,22 @@ class Diary: Object {
     @Persisted var morning: String?
     @Persisted var night: String?
     @Persisted var cheerup: String?
-    @Persisted var date = Date()
+    @Persisted var initialWritedate = Date()
+    @Persisted var morningTime: Date?
+    @Persisted var nightTime: Date?
+    
+    // string 추가햅ㄱ
     
     @Persisted(primaryKey: true) var objectID: ObjectId
     
-    convenience init(morning: String?, night: String?, cheerup: String? ,date: Date) {
+    convenience init(morning: String?, night: String?, cheerup: String? ,initialWritedate: Date, morningTime: Date?, nightTime: Date?) {
         self.init()
         self.morning = morning
         self.night = night
         self.cheerup = cheerup
-        self.date = Date()
+        self.initialWritedate = Date()
+        self.morningTime = morningTime
+        self.nightTime = nightTime
     }
 }
 //self.date = CustomFormatter.setDateFormatter(date: date)

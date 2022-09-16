@@ -28,11 +28,11 @@ class OneDayDiaryRepository: OnedayDiaryRepositoryType {
     
     @discardableResult
     func fetchLatestOrder() -> Results<Diary> {
-        return localRealm.objects(Diary.self).sorted(byKeyPath: "date", ascending: false)
+        return localRealm.objects(Diary.self).sorted(byKeyPath: "initialWritedate", ascending: false)
     }
     
     func fetchOlderOrder() -> Results<Diary> {
-        return localRealm.objects(Diary.self).sorted(byKeyPath: "date", ascending: true)
+        return localRealm.objects(Diary.self).sorted(byKeyPath: "initialWritedate", ascending: true)
     }
      
     func fetchSearchMoriningFilter(text: String) -> Results<Diary> {
@@ -44,11 +44,11 @@ class OneDayDiaryRepository: OnedayDiaryRepositoryType {
     }
     
     func fetchSearchDateFilter(text: String) -> Results<Diary> {
-        return localRealm.objects(Diary.self).filter("date CONTAINS[c] '\(text)")
+        return localRealm.objects(Diary.self).filter("initialWritedate CONTAINS[c] '\(text)")
     }
     
     func fetchDate(date: Date) -> Results<Diary> {
-        return localRealm.objects(Diary.self).filter("date >= %@ AND date < %@", date, Date(timeInterval: 86400, since: date)) //NSPredicate 애플이 만들어준 Filter
+        return localRealm.objects(Diary.self).filter("initialWritedate >= %@ AND initialWritedate < %@", date, Date(timeInterval: 86400, since: date)) //NSPredicate 애플이 만들어준 Filter
     }
     
     func deleteRecord(item: Diary) {

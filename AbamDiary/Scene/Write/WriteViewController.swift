@@ -17,7 +17,7 @@ class WriteViewController: BaseViewController {
     
     var writeView = WriteView()
     var data: Diary?
-    var viewModel = DateModel()
+    var dateModel = DateModel()
     var diarytype: MorningAndNight
     var writeMode: WriteMode
     var fetch: (() -> Void)?
@@ -50,7 +50,15 @@ class WriteViewController: BaseViewController {
         OneDayDiaryRepository.shared.fetchLatestOrder()
         
         //뷰에 데이터 반영
-        writeView.dateLabel.text = CustomFormatter.setFullFormatter(date: data?.date ?? Date())
+        switch diarytype {
+        case .morning:
+            writeView.dateLabel.text = CustomFormatter.setWritedate(date: data?.morningTime ?? Date())
+        case .night:
+            writeView.dateLabel.text = CustomFormatter.setWritedate(date: data?.nightTime ?? Date())
+        }
+        
+        
+       
         
         // 플레이스 홀더
         
@@ -78,7 +86,7 @@ class WriteViewController: BaseViewController {
         let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
         let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
         
-        var task = Diary(morning: writeView.textView.text, night: nil, cheerup: nil, date: Date())
+        var task = Diary(morning: writeView.textView.text, night: nil, cheerup: nil, initialWritedate: Date(), morningTime: Date(), nightTime: nil)
         
         //초기화면
         if writeView.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -88,7 +96,6 @@ class WriteViewController: BaseViewController {
                 if writeView.textView.text == morningPlaceholer {
                     writeView.textView.text = morningPlaceholer
                 }
-                
             case .night:
                 if writeView.textView.text == nightPlaceholder {
                     writeView.textView.text = nightPlaceholder
@@ -99,13 +106,10 @@ class WriteViewController: BaseViewController {
             case .morning:
                 switch writeMode {
                 case .newDiary:
-                    if data?.date == nil {
-                        
+                    if data?.initialWritedate == nil {
                         writeDiary(type: diarytype, mode: .newDiary, task: task)
-                        
                     } else {
                         writeDiary(type: diarytype, mode: .modified, task: data!)
-                        
                     }
                 case .modified:
                     print("Realm is located at:", OneDayDiaryRepository.shared.localRealm.configuration.fileURL!)
@@ -113,13 +117,11 @@ class WriteViewController: BaseViewController {
                     
                 }
             case .night:
-                task = Diary(morning: nil, night: writeView.textView.text, cheerup: nil, date: Date())
+                task = Diary(morning: nil, night: writeView.textView.text, cheerup: nil, initialWritedate: Date(), morningTime: nil, nightTime: Date())
                 switch writeMode {
                 case .newDiary:
-                    if data?.date == nil {
-                        
+                    if data?.initialWritedate == nil {
                         writeDiary(type: diarytype, mode: .newDiary, task: task)
-                        
                         
                     } else {
                         writeDiary(type: diarytype, mode: .modified, task: data!)
@@ -133,28 +135,30 @@ class WriteViewController: BaseViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        
         switch writeMode {
         case .newDiary:
             switch diarytype {
             case .morning:
-                viewModel.morningDiaryteDate.value = Date()
+                dateModel.morning.value = Date()
                 print("아침 새 일기 작성 날짜 변경")
             case .night:
-                viewModel.nightDiaryDate.value = Date()
+                dateModel.night.value = Date()
                 print("저녁 새 일기 작성 날짜 변경")
             }
         case .modified:
             switch diarytype {
             case .morning:
-                viewModel.morningDiaryteDate.value = Date()
+                dateModel.morning.value = Date()
                 print("아침 수정 일기 작성 날짜 변경")
+                print("=====> 아침: \(dateModel.morning.value), 저녁: \(   dateModel.night .value)")
             case .night:
-                viewModel.nightDiaryDate.value = Date()
+                dateModel.night.value = Date()
                 print("저녁 수정 일기 작성 날짜 변경")
             }
         }
         
-        print("아침: \(viewModel.morningDiaryteDate.value ), 저녁: \(viewModel.nightDiaryDate.value )")
+        print("아침: \(dateModel.morning.value ), 저녁: \(dateModel.night.value )")
         
         fetch!()
     }
@@ -164,19 +168,19 @@ class WriteViewController: BaseViewController {
         case .newDiary:
             switch diarytype {
             case .morning:
-                viewModel.morningDiaryteDate.value = Date()
+               dateModel.morning.value = Date()
             case .night:
-                viewModel.nightDiaryDate.value = Date()
+                dateModel.night.value = Date()
             }
             
             case .modified:
             switch diarytype {
             case .morning:
                 print("수정 아침 날짜 변경")
-                viewModel.morningDiaryteDate.value = Date()
+                dateModel.morning.value = Date()
             case .night:
                 print("수정 저녁 날짜 변경")
-                viewModel.nightDiaryDate.value = Date()
+                dateModel.night.value = Date()
             }
         }
         navigationController?.popViewController(animated: true)
@@ -213,7 +217,7 @@ extension WriteViewController: UITextViewDelegate {
                 try! OneDayDiaryRepository.shared.localRealm.write {
                     print("-====>🟢 아침일기 수정되는 순간")
                     task.morning = writeView.textView.text
-                    task.date = Date()
+                    task.morningTime = Date()
                     //                    fetch!()
                 }
             }
@@ -225,7 +229,7 @@ extension WriteViewController: UITextViewDelegate {
             case .modified:
                 try! OneDayDiaryRepository.shared.localRealm.write {
                     task.night = writeView.textView.text
-                    task.date = Date()
+                    task.nightTime = Date()
                 }
             }
         }

@@ -30,10 +30,10 @@ class CustomFormatter {
     }
     
     //full 날짜 & 시간
-    static func setFullFormatter(date: Date) -> String {
+    static func setAMPM(date: Date) -> String {
         let fullFormatter = DateFormatter()
-        
-        fullFormatter.dateFormat = "yy.MM.dd a kk:mm"
+        fullFormatter.locale = CustomFormatter.ko
+        fullFormatter.dateFormat = "a"
         
         return fullFormatter.string(from: date)
     }
@@ -46,5 +46,12 @@ class CustomFormatter {
         dateFormatter.dateFormat = "yyyy. MM. dd "
         
         return dateFormatter.string(from: date)
+    }
+    
+    static func setWritedate(date: Date) -> String {
+        
+        let ampm = setAMPM(date: date) == "오전" ? "AM " : "PM "
+        
+        return setDateFormatter(date: date) + ampm + setTime(date: date)
     }
 }
