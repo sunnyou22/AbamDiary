@@ -27,7 +27,7 @@ class MainView: BaseView {
     
     let cheerupMessage: UILabel = {
         let view = UILabel()
-        view.font = .systemFont(ofSize: FontSize.label_14, weight: .bold)
+        view.font = .systemFont(ofSize: FontSize.subTitle_16, weight: .bold)
         view.textColor = Color.BaseColorWtihDark.cheerupMessege
         view.text = "응원의 메세지를 추가해보세요!"
         return view
@@ -55,10 +55,9 @@ class MainView: BaseView {
         
         calendar.scrollDirection = .vertical
         calendar.locale = Locale(identifier: "ko-KR")
-        
-        calendar.appearance.titleFont = UIFont.systemFont(ofSize: 14, weight: .light)
-        
-        calendar.appearance.headerTitleFont = UIFont.systemFont(ofSize: 16, weight: .bold)
+        calendar.appearance.titleFont = UIFont.systemFont(ofSize: 16, weight: .regular)
+        calendar.appearance.weekdayFont = UIFont.systemFont(ofSize: 16, weight: .medium)
+        calendar.appearance.headerTitleFont = UIFont.systemFont(ofSize: 17, weight: .bold)
         calendar.appearance.headerDateFormat = "YYYY년 MM월"
         calendar.appearance.headerTitleAlignment = .left
         calendar.appearance.headerTitleOffset = CGPoint(x: 12, y: -4)
@@ -74,7 +73,7 @@ class MainView: BaseView {
     //헤더로 넣는게 나을까
     let cellTitle: UILabel = {
         let view = UILabel()
-        view.font = .systemFont(ofSize: FontSize.subTitle_16, weight: .bold)
+        view.font = .systemFont(ofSize: 17, weight: .bold)
         view.textColor = Color.BaseColorWtihDark.cellTtitle
         return view
     }()
@@ -91,7 +90,7 @@ class MainView: BaseView {
     let gageTitle: UILabel = {
         let view = UILabel()
         view.text = "나는 어떤 아밤이?"
-        view.font = .systemFont(ofSize: FontSize.subTitle_16, weight: .bold)
+        view.font = .systemFont(ofSize: 17, weight: .bold)
         view.textColor = Color.BaseColorWtihDark.cellTtitle
         return view
     }()
@@ -162,15 +161,16 @@ class MainView: BaseView {
     override func setConstraints() {
         ABAMImage.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(20)
+         
             make.leading.equalTo(calendar.snp.leading).inset(4)
-            make.width.equalTo(UIScreen.main.bounds.width * 0.09)
+            make.width.equalTo(self.snp.width).multipliedBy(0.1)
             make.height.equalTo(ABAMImage.snp.width).multipliedBy(0.85)
         }
         
         cheerupUnderView.snp.makeConstraints { make in
             make.centerY.equalTo(ABAMImage.snp.centerY)
             make.leading.equalTo(ABAMImage.snp.trailing).offset(14)
-            make.verticalEdges.equalTo(cheerupMessage.snp.verticalEdges).inset(-8)
+            make.verticalEdges.equalTo(cheerupMessage.snp.verticalEdges).inset(-12)
             make.trailing.equalTo(calendar.snp.trailing).inset(8)
         }
         
@@ -184,41 +184,42 @@ class MainView: BaseView {
 //            let widthRatio: Double = UIScreen.main.isWiderThan375pt ? 0.84 : 0.8
             
             make.top.equalTo(ABAMImage.snp.bottom).offset(16)
+            make.bottom.equalTo(cellTitle.snp.top).offset(-12)
             make.centerX.equalTo(self.snp.centerX)
-            make.width.greaterThanOrEqualTo(UIScreen.main.bounds.width * 0.8)
-            make.height.equalTo(calendar.snp.width).multipliedBy(0.7)
+//            make.width.greaterThanOrEqualTo(UIScreen.main.bounds.width * 0.8)
+//            make.height.equalTo(calendar.snp.width).multipliedBy(0.7)
             make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(28)
         }
         
         cellTitle.snp.makeConstraints { make in
-            make.top.equalTo(calendar.snp.bottom).offset(20)
+            make.bottom.equalTo(tableView.snp.top).offset(-8)
             make.leading.equalTo(self.snp.leading).offset(28)
         }
         
         tableView.snp.makeConstraints { make in
             make.centerX.equalTo(self.snp.centerX)
-            make.top.equalTo(cellTitle.snp.bottom).offset(8)
+            make.bottom.greaterThanOrEqualTo(gageTitle.snp.top).offset(-12)
             make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(24)
-            make.height.equalTo(UIScreen.main.bounds.height * 0.22)
+            make.height.equalTo(self.snp.height).dividedBy(4.32)
         }
         
         gageTitle.snp.makeConstraints { make in
 //            let topSpacing = UIScreen.main.isWiderThan375pt ? 0 : -4
-            make.top.greaterThanOrEqualTo(tableView.snp.bottom).offset(-4)
-            make.bottom.lessThanOrEqualTo(progressBar.snp.top).offset(-28)
+            
+            make.bottom.equalTo(progressBar.snp.top).offset(-24)
             make.leading.equalTo(self.snp.leading).offset(28)
         }
         
         progressBar.snp.makeConstraints { make in
-            
-//            make.top.equalTo(gageTitle.snp.bottom).offset(28)
+
             make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(32)
-            make.height.equalTo(UIScreen.main.bounds.height * 0.025)
-            make.bottom.greaterThanOrEqualTo(self.safeAreaLayoutGuide.snp.bottom).offset(-28)
+            make.height.equalTo(self.snp.height).multipliedBy(0.028)
+            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-40)
         }
         
         profileImage.snp.makeConstraints { make in
-            make.height.equalTo(UIScreen.main.bounds.height * 0.06)
+            make.height.equalTo(self.snp.width).multipliedBy(0.12)
+            
             make.width.equalTo(profileImage.snp.height).multipliedBy(1)
             make.centerY.equalTo(progressBar.snp.centerY)
             make.centerX.equalTo(self.snp.centerX)

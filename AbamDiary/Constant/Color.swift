@@ -31,9 +31,18 @@ struct Color {
         static func setCalendarPoint(type: MorningAndNight) -> UIColor {
             UIColor { systemcolorChange(traitCollection: $0).setCalendarPoint(type: type) }}
         static let date = UIColor { systemcolorChange(traitCollection: $0).date }
-        static let  cheerupMessege = UIColor {
+        static let cheerupMessege = UIColor {
             systemcolorChange(traitCollection: $0).cheerupMessege
         }
+        
+        static let cheerupMsgPlaceholder = UIColor {
+            systemcolorChange(traitCollection: $0).cheerupMsgPlaceholder
+        }
+        
+        static let messageCount = UIColor {
+            systemcolorChange(traitCollection: $0).messageCount
+        }
+        
    //calendar
         static let calendarTitle = UIColor {
             systemcolorChange(traitCollection: $0).calendarTitle
@@ -317,6 +326,17 @@ enum Theme: Int {
             return UIColor(hex: "#DDE4D3")
         case .dark:
             return .clear
+        }
+    }
+    
+    var messageCount: UIColor {
+        switch self {
+        case .anycase:
+            return UIColor(hex: "#016E8F")
+        case .lignt:
+            return UIColor(hex: "#016E8F")
+        case .dark:
+            return UIColor(hex: "5FFFFF")
         }
     }
     

@@ -114,7 +114,7 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        return mainview.tableView.frame.height / 2.2
+        return mainview.tableView.frame.height / 2.1
     }
     // 타이틀적인 요소는 섹션도 좋음
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -24,6 +24,8 @@
 		900AEE2228CCC0C000F18360 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 900AEE2128CCC0C000F18360 /* Main.storyboard */; };
 		9034EFA728CF9F5A0027F8F7 /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9034EFA628CF9F5A0027F8F7 /* DeviceManager.swift */; };
 		9034EFAA28CFA54C0027F8F7 /* DeviceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9034EFA928CFA54C0027F8F7 /* DeviceKit */; };
+		904492B328D5ACC90028F920 /* CheeupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904492B228D5ACC90028F920 /* CheeupView.swift */; };
+		904492B528D5BD1D0028F920 /* CheerupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904492B428D5BD1D0028F920 /* CheerupTableViewCell.swift */; };
 		905E099428D1C3700084ADAE /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905E099328D1C3700084ADAE /* SearchView.swift */; };
 		90B3090D28D3FCD900A7BCC7 /* DateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B3090C28D3FCD900A7BCC7 /* DateModel.swift */; };
 		90B7210E28CDACBE00B243AE /* CheerupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B7210D28CDACBE00B243AE /* CheerupViewController.swift */; };
@@ -63,6 +65,8 @@
 		900AEE1F28CC9F5300F18360 /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
 		900AEE2128CCC0C000F18360 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		9034EFA628CF9F5A0027F8F7 /* DeviceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceManager.swift; sourceTree = "<group>"; };
+		904492B228D5ACC90028F920 /* CheeupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheeupView.swift; sourceTree = "<group>"; };
+		904492B428D5BD1D0028F920 /* CheerupTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheerupTableViewCell.swift; sourceTree = "<group>"; };
 		905E099328D1C3700084ADAE /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		90B3090C28D3FCD900A7BCC7 /* DateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateModel.swift; sourceTree = "<group>"; };
 		90B7210D28CDACBE00B243AE /* CheerupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheerupViewController.swift; sourceTree = "<group>"; };
@@ -160,6 +164,8 @@
 			isa = PBXGroup;
 			children = (
 				90B7210D28CDACBE00B243AE /* CheerupViewController.swift */,
+				904492B228D5ACC90028F920 /* CheeupView.swift */,
+				904492B428D5BD1D0028F920 /* CheerupTableViewCell.swift */,
 			);
 			path = Cheerup;
 			sourceTree = "<group>";
@@ -350,10 +356,12 @@
 				900AEDFA28CC5A9100F18360 /* BaseViewController.swift in Sources */,
 				90B7211228CDACE300B243AE /* MonthDiaryViewController.swift in Sources */,
 				905E099428D1C3700084ADAE /* SearchView.swift in Sources */,
+				904492B528D5BD1D0028F920 /* CheerupTableViewCell.swift in Sources */,
 				90B7210E28CDACBE00B243AE /* CheerupViewController.swift in Sources */,
 				90B3090D28D3FCD900A7BCC7 /* DateModel.swift in Sources */,
 				900AEE0928CC642D00F18360 /* Font.swift in Sources */,
 				90B7211028CDACC900B243AE /* SearchViewController.swift in Sources */,
+				904492B328D5ACC90028F920 /* CheeupView.swift in Sources */,
 				90CCDB7328D06F6B00CDEE06 /* WriteViewController.swift in Sources */,
 				900AEE1E28CC9EA000F18360 /* UserDefaultHelper.swift in Sources */,
 				90B7211628CDAD0500B243AE /* SettiongViewController.swift in Sources */,

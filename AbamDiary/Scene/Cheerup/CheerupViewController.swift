@@ -9,7 +9,14 @@ import Foundation
 
 class CheerupViewController: BaseViewController {
     
+    var cheerupView = CheerupView()
+    
+    override func loadView() {
+        view = cheerupView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
     }
 }
