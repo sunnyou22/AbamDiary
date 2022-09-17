@@ -35,6 +35,7 @@ class MainView: BaseView {
     
     let calendar: FSCalendar = {
         let view = FSCalendar()
+        let test = FSCalendarCell()
         view.placeholderType = .none
         view.backgroundColor =  .clear
         view.clipsToBounds = true
@@ -52,7 +53,6 @@ class MainView: BaseView {
         calendar.backgroundColor =  .clear
         calendar.clipsToBounds = true
         calendar.layer.cornerRadius = 20
-        
         calendar.scrollDirection = .vertical
         calendar.locale = Locale(identifier: "ko-KR")
         calendar.appearance.titleFont = UIFont.systemFont(ofSize: 16, weight: .regular)

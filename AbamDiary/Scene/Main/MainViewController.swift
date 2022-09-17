@@ -15,7 +15,9 @@ import RealmSwift
 class CalendarViewController: BaseViewController {
     
     let mainview = MainView()
-    //MARK: observable 변경하기
+    
+    var morningArr = [String]()
+    var nightArr = [String]()
     
     var changeMorningcount: Float = 0 // 테스트용
     var changeNightcount: Float = 0 // 테스트용
@@ -52,6 +54,7 @@ class CalendarViewController: BaseViewController {
         mainview.tableView.dataSource = self
         mainview.calendar.dataSource = self
         mainview.calendar.delegate = self
+       
         
         //        //MARK: 변하는 값에 대한 관찰시작
         //        dateModel.morningDiaryCount.bind { count in
@@ -68,7 +71,6 @@ class CalendarViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchRealm() // 램 패치
-     
         
         print("Realm is located at:", OneDayDiaryRepository.shared.localRealm.configuration.fileURL!)
         
@@ -245,15 +247,94 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
 
 
 //MARK: 캘린더 디자인하기
-extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate {
+extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance {
+    
+    func calendar(_ calendar: FSCalendar, shouldDeselect date: Date, at monthPosition: FSCalendarMonthPosition) -> Bool {
+        return date == Date() ? false : true
+    }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         testfilterDate()
         mainview.tableView.reloadData()
         mainview.cellTitle.text = CustomFormatter.setCellTitleDateFormatter(date: date)
+       
+        if dateFilterTask?.morning != nil {
+            let m = CustomFormatter.setDateFormatter(date: dateFilterTask!.selecteddate!)
+            morningArr = [m]
+        } else {
+            morningArr = []
+        }
         
+       if dateFilterTask?.morning != nil {
+           let n = CustomFormatter.setDateFormatter(date: dateFilterTask!.selecteddate!)
+           nightArr = [n]
+       } else {
+           nightArr = []
+       }
+        print(#function)
+        print(morningArr, nightArr, "===========")
+        calendar.reloadData()
+    }
+    
+    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+        let test = CustomFormatter.setCellTitleDateFormatter(date: date)
+        
+            if morningArr.contains(test) {
+                return 1
+            }
+            if nightArr.contains(test) {
+                return 1
+            }
+        return 0
+        print(#function)
+       
+        //            if dateFilterTask?.morning != nil && dateFilterTask?.night != nil {
+//                return 2
+//            } else if dateFilterTask?.morning == nil && dateFilterTask?.night == nil {
+//                return 0
+//            } else {
+//                return 1
+//            }
+//        }
+//        return 0
+    }
+    
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventDefaultColorsFor date: Date) -> [UIColor]? {
+        let test = CustomFormatter.setCellTitleDateFormatter(date: date)
+        print(test)
+        if morningArr.contains(test) {
+            return [UIColor.systemRed]
+        }
+        if nightArr.contains(test) {
+            return [UIColor.systemBlue]
+        }
+        return nil
+        print(#function)
+
+    }
+    
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventSelectionColorsFor date: Date) -> [UIColor]? {
+       
+        let test = CustomFormatter.setCellTitleDateFormatter(date: date)
+        print(test)
+        if morningArr.contains(test) {
+            return [UIColor.systemRed]
+        }
+        if nightArr.contains(test) {
+            return [UIColor.systemBlue]
+        }
+        return nil
+        print(#function)
+
     }
 }
+
+//    func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
+//        let cell = FSCalendarCell()
+//        cell.frame.
+//        }
+
+
 
 //MARK: 네비게이션 타이틀 뷰 커스텀
 class navigationTitleVIew: BaseView {
