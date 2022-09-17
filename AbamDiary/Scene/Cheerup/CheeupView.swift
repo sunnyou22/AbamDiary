@@ -59,7 +59,7 @@ class CheerupView: BaseView {
         return view
     }()
     
-    let birdImage: UIButton = {
+    let birdButton: UIButton = {
         let view = UIButton()
         view.setImage(UIImage(named: "blueBird"), for: .normal)
         view.contentMode = .scaleAspectFill
@@ -85,7 +85,7 @@ class CheerupView: BaseView {
     
     override func configuration() {
         self.backgroundColor = Color.BaseColorWtihDark.backgorund
-        [textFieldView, roundImage, textField, subTitle, title, birdImage, countLabel, tableView].forEach { self.addSubview($0) }
+        [textFieldView, roundImage, textField, subTitle, title, birdButton, countLabel, tableView].forEach { self.addSubview($0) }
     }
 
     override func setConstraints() {
@@ -121,15 +121,15 @@ class CheerupView: BaseView {
             make.height.equalTo(1)
         }
         
-        birdImage.snp.makeConstraints { make in
+        birdButton.snp.makeConstraints { make in
             make.bottom.equalTo(textFieldView.snp.top).offset(4)
             make.trailing.equalTo(textFieldView.snp.trailing).offset(16)
             make.size.equalTo(roundImage.snp.size).multipliedBy(0.9)
         }
         
         countLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(birdImage.snp.top).offset(12)
-            make.centerX.equalTo(birdImage.snp.centerX).inset(-8)
+            make.bottom.equalTo(birdButton.snp.top).offset(12)
+            make.centerX.equalTo(birdButton.snp.centerX).inset(-8)
         }
         
         tableView.snp.makeConstraints { make in

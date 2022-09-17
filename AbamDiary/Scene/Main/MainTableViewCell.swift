@@ -21,8 +21,10 @@ class MainTableViewCell: BaseTableViewCell {
     let baseView: UIView = {
         let view = UIView()
         view.clipsToBounds = true
-        view.layer.cornerRadius = 16
-       
+        DispatchQueue.main.async {
+            view.layer.cornerRadius = view.frame.height / 3
+        }
+    
         return view
     }()
     
@@ -36,7 +38,7 @@ class MainTableViewCell: BaseTableViewCell {
     
     var diaryLabel: UILabel = {
        let view = UILabel()
-        view.font = .systemFont(ofSize: FontSize.label_13, weight: .regular)
+        view.font = .systemFont(ofSize: FontSize.label_14, weight: .regular)
         view.numberOfLines = 1
         view.lineBreakMode = .byTruncatingTail
         

@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 fileprivate protocol CheerupMessageRepositoryType {
-    func fetchDate(date: Date) -> Results<CheerupMessage>
+    func fetchDate() -> Results<CheerupMessage>
     func deleteRecord(item: CheerupMessage)
     func addItem(item: CheerupMessage)
 }
@@ -21,7 +21,7 @@ class CheerupMessageRepository: CheerupMessageRepositoryType {
     static let shared = CheerupMessageRepository()
     let localRealm = try! Realm()
     
-    func fetchDate(date: Date) -> RealmSwift.Results<CheerupMessage> {
+    func fetchDate() -> RealmSwift.Results<CheerupMessage> {
         return localRealm.objects(CheerupMessage.self).sorted(byKeyPath: "date", ascending: true)
     }
     

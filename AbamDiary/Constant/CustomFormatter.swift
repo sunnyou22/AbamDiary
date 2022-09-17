@@ -48,6 +48,14 @@ class CustomFormatter {
         return dateFormatter.string(from: date)
     }
     
+    static func setCheerupDate(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = CustomFormatter.ko
+        dateFormatter.dateFormat = "yy.MM.dd"
+        
+        return dateFormatter.string(from: date)
+    }
+    
     static func setCellTitleDateFormatter(date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = CustomFormatter.ko
