@@ -16,7 +16,6 @@ import Foundation
 class Diary: Object {
     @Persisted var morning: String?
     @Persisted var night: String?
-    @Persisted var cheerup: String?
     @Persisted var selecteddate: Date?
     @Persisted var createdDate = Date()
     @Persisted var morningTime: Date?
@@ -26,11 +25,10 @@ class Diary: Object {
     
     @Persisted(primaryKey: true) var objectID: ObjectId
     
-    convenience init(morning: String?, night: String?, cheerup: String?, createdDate: Date, selecteddate: Date, morningTime: Date?, nightTime: Date?) {
+    convenience init(morning: String?, night: String?, createdDate: Date, selecteddate: Date, morningTime: Date?, nightTime: Date?) {
         self.init()
         self.morning = morning
         self.night = night
-        self.cheerup = cheerup
         self.createdDate = Date()
         self.selecteddate = selecteddate
         self.morningTime = morningTime
@@ -40,5 +38,14 @@ class Diary: Object {
 
 class CheerupMessage: Object {
     @Persisted var cheerup: String?
+    @Persisted var date = Date()
+    
+    @Persisted(primaryKey: true) var objectID: ObjectId
+    
+    convenience init(cheerup: String, date: Date) {
+        self.init()
+        self.cheerup = cheerup
+        self.date = Date()
+    }
 }
 //self.date = CustomFormatter.setDateFormatter(date: date)

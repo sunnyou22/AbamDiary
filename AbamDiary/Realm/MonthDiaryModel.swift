@@ -8,7 +8,7 @@
 import Foundation
 import RealmSwift
 
-protocol OnedayDiaryRepositoryType {
+fileprivate protocol OnedayDiaryRepositoryType {
     func fetchLatestOrder() -> Results<Diary> // 기본정렬값
     func fetchOlderOrder() -> Results<Diary>
     func fetchSearchMoriningFilter(text: String) -> Results<Diary>

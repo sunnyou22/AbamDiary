@@ -86,7 +86,7 @@ class WriteViewController: BaseViewController {
         let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
         let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
         
-        var task = Diary(morning: writeView.textView.text, night: nil, cheerup: nil, createdDate: Date(), selecteddate: selectedDate ?? Date(), morningTime: selectedDate ?? Date(), nightTime: nil)
+        var task = Diary(morning: writeView.textView.text, night: nil, createdDate: Date(), selecteddate: selectedDate ?? Date(), morningTime: selectedDate ?? Date(), nightTime: nil)
         
         //초기화면
         if writeView.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || writeView.textView.text == morningPlaceholer || writeView.textView.text == nightPlaceholder {
@@ -133,7 +133,7 @@ class WriteViewController: BaseViewController {
                     
                 }
             case .night:
-                task = Diary(morning: nil, night: writeView.textView.text, cheerup: nil, createdDate: Date(), selecteddate: selectedDate ?? Date(), morningTime: nil, nightTime: selectedDate ?? Date())
+                task = Diary(morning: nil, night: writeView.textView.text, createdDate: Date(), selecteddate: selectedDate ?? Date(), morningTime: nil, nightTime: selectedDate ?? Date())
                 switch writeMode {
                 case .newDiary:
                     if data?.createdDate == nil {

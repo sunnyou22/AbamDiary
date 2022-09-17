@@ -15,19 +15,26 @@ class CheerupView: BaseView {
     let title: UILabel = {
        let view = UILabel()
         view.font = UIFont.systemFont(ofSize: 44, weight: .heavy)
-        view.text = "어떤 말을 듣고싶나요?"
+        view.text = "당신을 응원해요"
         
         return view
     }()
     
     let subTitle: UILabel = {
         let view = UILabel()
-        view.text =
+        let massege =
 """
 오늘 하루
 당신의 파랑새는
 어떤 메세지를 전해줄까요?
 """
+        
+        let attrString = NSMutableAttributedString(string: massege)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 8
+        attrString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attrString.length))
+        view.attributedText = attrString
+
         view.font = UIFont.systemFont(ofSize: 20, weight: .regular)
         view.numberOfLines = 0
         view.textColor = Color.BaseColorWtihDark.cellTtitle
@@ -52,9 +59,10 @@ class CheerupView: BaseView {
         return view
     }()
     
-    let birdImage: UIImageView = {
-        let view = UIImageView()
-        view.image = UIImage(named: "blueBird")
+    let birdImage: UIButton = {
+        let view = UIButton()
+        view.setImage(UIImage(named: "blueBird"), for: .normal)
+        view.contentMode = .scaleAspectFill
         return view
     }()
     

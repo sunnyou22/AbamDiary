@@ -33,6 +33,7 @@
 		90B7211228CDACE300B243AE /* MonthDiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B7211128CDACE300B243AE /* MonthDiaryViewController.swift */; };
 		90B7211628CDAD0500B243AE /* SettiongViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B7211528CDAD0500B243AE /* SettiongViewController.swift */; };
 		90B7211828CDB53D00B243AE /* TabBarImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B7211728CDB53D00B243AE /* TabBarImage.swift */; };
+		90BCB60D28D5EA3600602FA0 /* CheerupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90BCB60C28D5EA3600602FA0 /* CheerupModel.swift */; };
 		90CB363C28D08BA6002FCB45 /* WriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CB363B28D08BA6002FCB45 /* WriteView.swift */; };
 		90CB363E28D09562002FCB45 /* MorningAndNight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CB363D28D09562002FCB45 /* MorningAndNight.swift */; };
 		90CB364028D0A530002FCB45 /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CB363F28D0A530002FCB45 /* Transition.swift */; };
@@ -74,6 +75,7 @@
 		90B7211128CDACE300B243AE /* MonthDiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthDiaryViewController.swift; sourceTree = "<group>"; };
 		90B7211528CDAD0500B243AE /* SettiongViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettiongViewController.swift; sourceTree = "<group>"; };
 		90B7211728CDB53D00B243AE /* TabBarImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarImage.swift; sourceTree = "<group>"; };
+		90BCB60C28D5EA3600602FA0 /* CheerupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheerupModel.swift; sourceTree = "<group>"; };
 		90CB363B28D08BA6002FCB45 /* WriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteView.swift; sourceTree = "<group>"; };
 		90CB363D28D09562002FCB45 /* MorningAndNight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorningAndNight.swift; sourceTree = "<group>"; };
 		90CB363F28D0A530002FCB45 /* Transition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transition.swift; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 			children = (
 				90CCDB6628D056C800CDEE06 /* MainModel.swift */,
 				90CCDB6828D056E300CDEE06 /* MonthDiaryModel.swift */,
+				90BCB60C28D5EA3600602FA0 /* CheerupModel.swift */,
 			);
 			path = Realm;
 			sourceTree = "<group>";
@@ -365,6 +368,7 @@
 				90CCDB7328D06F6B00CDEE06 /* WriteViewController.swift in Sources */,
 				900AEE1E28CC9EA000F18360 /* UserDefaultHelper.swift in Sources */,
 				90B7211628CDAD0500B243AE /* SettiongViewController.swift in Sources */,
+				90BCB60D28D5EA3600602FA0 /* CheerupModel.swift in Sources */,
 				9034EFA728CF9F5A0027F8F7 /* DeviceManager.swift in Sources */,
 				90CB363C28D08BA6002FCB45 /* WriteView.swift in Sources */,
 				900AEE0528CC5DB500F18360 /* MainTableViewCell.swift in Sources */,
