@@ -25,6 +25,8 @@ class CheerupViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let navigationtitleView = navigationTitleVIew()
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navigationtitleView)
         cheerupView.tableView.delegate = self
         cheerupView.tableView.dataSource = self
         cheerupView.birdButton.addTarget(self, action: #selector(insertMessage), for: .touchUpInside)
@@ -53,20 +55,36 @@ class CheerupViewController: BaseViewController {
         guard let text = cheerupView.textField.text else {
             return
         }
+        let ok = UIAlertAction(title: "OK", style: .default) { _ in
+            self.cheerupView.textField.text = nil
+        }
+        let cancel = UIAlertAction(title: "NO", style: .default)
+        
         
         if text.isEmpty {
             let alert = UIAlertController(title: nil, message: "글자를 입력해주세요", preferredStyle: .alert)
-            let ok = UIAlertAction(title: "👌", style: .default)
-            
+            let ok = UIAlertAction(title: "확인", style: .default) { _ in
+                self.cheerupView.textField.text = nil
+            }
             alert.addAction(ok)
             present(alert, animated: true)
         } else {
-            let task = CheerupMessage(cheerup: text, date: Date())
-            CheerupMessageRepository.shared.addItem(item: task)
-            cheerupView.tableView.reloadData()
-            countMessageModel.count.value = tasks.count
+            let alert = UIAlertController(title: nil, message: "파랑새에게 전송할까요?", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "전송", style: .default) { _ in
+                let task = CheerupMessage(cheerup: text, date: Date())
+                CheerupMessageRepository.shared.addItem(item: task)
+                self.cheerupView.tableView.reloadData()
+                self.countMessageModel.count.value = self.tasks.count
+                
+                self.cheerupView.textField.text = nil
+            }
+            let cancel = UIAlertAction(title: "취소", style: .default)
+            
+            alert.addAction(ok)
+            alert.addAction(cancel)
+            present(alert, animated: true)
         }
-    } 
+    }
 }
 
 extension CheerupViewController: UITableViewDelegate, UITableViewDataSource {
@@ -93,8 +111,10 @@ extension CheerupViewController: UITableViewDelegate, UITableViewDataSource {
         
         let delete = UIContextualAction(style: .normal, title: nil) { action, view, completionHandler in
             CheerupMessageRepository.shared.deleteRecord(item: item)
-            self.cheerupView.tableView.reloadData()
             self.fetchRealm()
+            self.countMessageModel.count.value = self.tasks.count
+            self.cheerupView.tableView.reloadData()
+            
         }
         
         delete.image = UIImage(systemName: "trash.fill")

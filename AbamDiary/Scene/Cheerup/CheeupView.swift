@@ -12,32 +12,17 @@ import SnapKit
 
 class CheerupView: BaseView {
     
-    let title: UILabel = {
-       let view = UILabel()
-        view.font = UIFont.systemFont(ofSize: 44, weight: .heavy)
-        view.text = "당신을 응원해요"
+    let title: UIImageView = {
+       let view = UIImageView()
+        view.image = UIImage(named: "cheerupTitle")
         
         return view
     }()
     
-    let subTitle: UILabel = {
-        let view = UILabel()
-        let massege =
-"""
-오늘 하루
-당신의 파랑새는
-어떤 메세지를 전해줄까요?
-"""
-        
-        let attrString = NSMutableAttributedString(string: massege)
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 8
-        attrString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attrString.length))
-        view.attributedText = attrString
+    let subTitle: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: "cheerupSubTitle")
 
-        view.font = UIFont.systemFont(ofSize: 20, weight: .regular)
-        view.numberOfLines = 0
-        view.textColor = Color.BaseColorWtihDark.cellTtitle
         return view
     }()
     
@@ -99,15 +84,15 @@ class CheerupView: BaseView {
     override func setConstraints() {
         
         title.snp.makeConstraints { make in
-            make.top.greaterThanOrEqualTo(self.snp.top).offset(40)
-            make.bottom.equalTo(subTitle.snp.top).offset(-60)
+            make.top.greaterThanOrEqualTo(self.safeAreaLayoutGuide.snp.top).offset(40)
+            make.bottom.equalTo(subTitle.snp.top).offset(-52)
             make.centerX.equalTo(self.snp.centerX)
         }
         
-        
-        
         subTitle.snp.makeConstraints { make in
             make.bottom.greaterThanOrEqualTo(roundImage.snp.top).offset(-80)
+            make.width.equalTo(self.snp.width).dividedBy(1.8)
+            make.height.equalTo(subTitle.snp.width).dividedBy(2.9)
             make.leading.equalTo(roundImage.snp.leading)
         }
         
@@ -121,6 +106,7 @@ class CheerupView: BaseView {
         textField.snp.makeConstraints { make in
             make.bottom.equalTo(textFieldView.snp.top).offset(-4)
             make.leading.equalTo(textFieldView.snp.leading).offset(2)
+            make.trailing.equalTo(textFieldView.snp.trailing)
         }
         
         textFieldView.snp.makeConstraints { make in

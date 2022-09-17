@@ -73,7 +73,7 @@ class CheerupTableViewCell: BaseTableViewCell {
 //
         message.snp.makeConstraints { make in
             make.centerY.equalTo(contentView.snp.centerY)
-            make.leading.equalTo(sectionView.snp.trailing)
+            make.leading.equalTo(sectionView.snp.trailing).offset(8)
             make.trailing.equalTo(contentView.snp.trailing)
 
         }
