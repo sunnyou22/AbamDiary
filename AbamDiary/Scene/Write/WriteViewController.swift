@@ -55,9 +55,9 @@ class WriteViewController: BaseViewController {
         //뷰에 데이터 반영
         switch diarytype {
         case .morning:
-            writeView.dateLabel.text = CustomFormatter.setWritedate(date: data?.morningTime ?? Date())
+            writeView.dateLabel.text = CustomFormatter.setWritedate(date: (data?.morningTime ?? selectedDate) ?? Date())
         case .night:
-            writeView.dateLabel.text = CustomFormatter.setWritedate(date: data?.nightTime ?? Date())
+            writeView.dateLabel.text = CustomFormatter.setWritedate(date: (data?.morningTime ?? selectedDate) ?? Date())
         }
     
         // 플레이스 홀더
@@ -86,10 +86,10 @@ class WriteViewController: BaseViewController {
         let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
         let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
         
-        var task = Diary(morning: writeView.textView.text, night: nil, cheerup: nil, createdDate: Date(), selecteddate: selectedDate ?? Date(), morningTime: Date(), nightTime: nil)
+        var task = Diary(morning: writeView.textView.text, night: nil, cheerup: nil, createdDate: Date(), selecteddate: selectedDate ?? Date(), morningTime: selectedDate ?? Date(), nightTime: nil)
         
         //초기화면
-        if writeView.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+        if writeView.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || writeView.textView.text == morningPlaceholer || writeView.textView.text == nightPlaceholder {
             print("=====> 🟠 입력된 문자가 없는데 뒤고가기를 누를 때")
             
             switch diarytype {
@@ -133,7 +133,7 @@ class WriteViewController: BaseViewController {
                     
                 }
             case .night:
-                task = Diary(morning: nil, night: writeView.textView.text, cheerup: nil, createdDate: Date(), selecteddate: selectedDate ?? Date(), morningTime: nil, nightTime: Date())
+                task = Diary(morning: nil, night: writeView.textView.text, cheerup: nil, createdDate: Date(), selecteddate: selectedDate ?? Date(), morningTime: nil, nightTime: selectedDate ?? Date())
                 switch writeMode {
                 case .newDiary:
                     if data?.createdDate == nil {

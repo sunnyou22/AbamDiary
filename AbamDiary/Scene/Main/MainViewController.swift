@@ -16,7 +16,7 @@ class CalendarViewController: BaseViewController {
     
     let mainview = MainView()
     //MARK: observable 변경하기
-
+    
     var changeMorningcount: Float = 0 // 테스트용
     var changeNightcount: Float = 0 // 테스트용
     var progress: Float = 0 // 변수로 빼줘야 동작
@@ -53,23 +53,25 @@ class CalendarViewController: BaseViewController {
         mainview.calendar.dataSource = self
         mainview.calendar.delegate = self
         
-//        //MARK: 변하는 값에 대한 관찰시작
-//        dateModel.morningDiaryCount.bind { count in
-//            self.changeMorningcount = count
-//        }
-//
-//        dateModel.nightDiaryCount.bind { count in
-//            self.changeNightcount = count
-//        }
-//
+        //        //MARK: 변하는 값에 대한 관찰시작
+        //        dateModel.morningDiaryCount.bind { count in
+        //            self.changeMorningcount = count
+        //        }
+        //
+        //        dateModel.nightDiaryCount.bind { count in
+        //            self.changeNightcount = count
+        //        }
+        //
     }
     
     //MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchRealm() // 램 패치
+     
+        
         print("Realm is located at:", OneDayDiaryRepository.shared.localRealm.configuration.fileURL!)
-
+        
     }
     
     func fetchRealm() {
@@ -81,19 +83,27 @@ class CalendarViewController: BaseViewController {
     
     func testfilterDate() {
         
+        //        switch mainview.calendar.selectedDate {
+        //        case mainview.calendar.today:
+        //            dateFilterTask = OneDayDiaryRepository.shared.fetchDate(date: Date()).first
+        //        default :
         let selectedDate = CustomFormatter.setDateFormatter(date: mainview.calendar.selectedDate ?? Date())
+        let today = CustomFormatter.setDateFormatter(date: Date())
         var filterdateArr: LazyFilterSequence<Results<Diary>>?
+        
+        
+        
         if mainview.calendar.selectedDate == nil {
             filterdateArr = tasks.filter { task in
-                CustomFormatter.setDateFormatter(date: task.createdDate) == selectedDate
+                CustomFormatter.setDateFormatter(date: self.mainview.calendar.today!) == today
             }
+            self.dateFilterTask = filterdateArr?.first
         } else {
             filterdateArr = tasks.filter { task in
                 CustomFormatter.setDateFormatter(date: task.selecteddate!) == selectedDate
             }
+            self.dateFilterTask = filterdateArr?.first
         }
-        dateFilterTask = filterdateArr?.first
-        
     }
 }
 
@@ -125,21 +135,43 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         //        }
         
         // 이거 디버그 찍기
+        
+        let today = CustomFormatter.setDateFormatter(date: Date())
+        let calendarToday = CustomFormatter.setDateFormatter(date: mainview.calendar.today ?? Date())
+        let creatDate = CustomFormatter.setDateFormatter(date: dateFilterTask?.selecteddate ?? Date())
+        let selecedDate = CustomFormatter.setDateFormatter(date: mainview.calendar.selectedDate ?? Date())
+        
         print(dateFilterTask?.selecteddate)
         print(mainview.calendar.selectedDate)
-     
+        print(dateFilterTask?.morning)
+        //    print(CustomFormatter.setDateFormatter(date: dateFilterTask!.createdDate) == selecedDate)
+        print(dateFilterTask?.morning != nil && (creatDate == selecedDate))
+        
+        if mainview.calendar.selectedDate != nil {
             if indexPath.row == 0 {
-                cell.diaryLabel.text = dateFilterTask?.morning != nil && dateFilterTask?.selecteddate == mainview.calendar.selectedDate ?? Date() ? dateFilterTask?.morning : placeholder[0]
-                cell.dateLabel.text = dateFilterTask?.morningTime != nil && dateFilterTask?.selecteddate == mainview.calendar.selectedDate ?? Date() ? CustomFormatter.setTime(date: (dateFilterTask?.morningTime)!) : "--:--"
+                
+                cell.diaryLabel.text = dateFilterTask?.morning != nil && (creatDate == selecedDate) ? dateFilterTask?.morning : placeholder[0]
+                cell.dateLabel.text = dateFilterTask?.morningTime != nil && (creatDate == selecedDate) ? CustomFormatter.setTime(date: (dateFilterTask?.morningTime)!) : "--:--"
             } else if indexPath.row == 1 {
-                cell.diaryLabel.text = self.dateFilterTask?.night != nil && dateFilterTask?.selecteddate == mainview.calendar.selectedDate ? dateFilterTask?.night : placeholder[1]
-                cell.dateLabel.text = dateFilterTask?.nightTime != nil && dateFilterTask?.selecteddate == mainview.calendar.selectedDate ?? Date() ? CustomFormatter.setTime(date: (dateFilterTask?.nightTime)!) : "--:--"
+                cell.diaryLabel.text = self.dateFilterTask?.night != nil && (creatDate == selecedDate) ? dateFilterTask?.night : placeholder[1]
+                cell.dateLabel.text = dateFilterTask?.nightTime != nil && (creatDate == selecedDate) ? CustomFormatter.setTime(date: (dateFilterTask?.nightTime)!) : "--:--"
             }
+        } else {
+            
+            if indexPath.row == 0 {
+                cell.diaryLabel.text = dateFilterTask?.morning != nil && (calendarToday == today) ? dateFilterTask?.morning : placeholder[0]
+                cell.dateLabel.text = dateFilterTask?.morningTime != nil && (calendarToday == today) ? CustomFormatter.setTime(date: (dateFilterTask?.morningTime)!) : "--:--"
+            } else if indexPath.row == 1 {
+                cell.diaryLabel.text = self.dateFilterTask?.night != nil && (calendarToday == today) ? dateFilterTask?.night : placeholder[1]
+                cell.dateLabel.text = dateFilterTask?.nightTime != nil && (calendarToday == today) ? CustomFormatter.setTime(date: (dateFilterTask?.nightTime)!) : "--:--"
+            }
+        }
         
         
-            cell.setMornigAndNightConfig(index: indexPath.row)
-            cell.backgroundColor = .clear
-            cell.selectionStyle = .none
+        
+        cell.setMornigAndNightConfig(index: indexPath.row)
+        cell.backgroundColor = .clear
+        cell.selectionStyle = .none
         
         return cell
     }
@@ -147,7 +179,7 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         //데이터의 일기종류가 nil 인지에 따라 화면나누기
-       
+        
         //self를 쓰는것만으로도 캡쳐됨
         //클로저에서는 그냥 [weak self]
         //deinit() 뷰디드디스어피에서 이후에 호출되는지 확인
@@ -186,7 +218,7 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         //task nil 로 분기해보기
         
         switch mode {
-           
+            
         case .newDiary:
             print("====>🚀 작성화면으로 가기")
             transition(vc, transitionStyle: .push)
@@ -217,7 +249,7 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate {
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         testfilterDate()
-        
+        mainview.tableView.reloadData()
         mainview.cellTitle.text = CustomFormatter.setCellTitleDateFormatter(date: date)
         
     }
@@ -261,7 +293,7 @@ extension CalendarViewController {
             print(progress)
         }
         print("================", progress)
-//        dateModel.morningDiaryCount.value = changeMorningcount
+        //        dateModel.morningDiaryCount.value = changeMorningcount
         mainview.progressBar.setProgress(progress, animated: true)
         animationUIImage()
     }
@@ -278,7 +310,7 @@ extension CalendarViewController {
             print(progress)
         }
         print("================", progress)
-//        dateModel.nightDiaryCount.value = changeNightcount
+        //        dateModel.nightDiaryCount.value = changeNightcount
         
         mainview.progressBar.setProgress(progress, animated: true)
         animationUIImage()
