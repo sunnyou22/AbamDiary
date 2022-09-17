@@ -76,10 +76,18 @@ class CheerupView: BaseView {
     
     let tableView: UITableView = {
         let view = UITableView(frame: .zero, style: .plain)
-        view.backgroundColor = .brown
+        view.backgroundColor = Color.BaseColorWtihDark.backgorund
+        view.layer.borderColor = Color.BaseColorWtihDark.thineBar.cgColor
+        view.layer.borderWidth = 1
         view.separatorStyle = .none
         view.register(CheerupTableViewCell.self, forCellReuseIdentifier: CheerupTableViewCell.reuseIdentifier)
-        view.isScrollEnabled = false
+        view.isScrollEnabled = true
+        
+        DispatchQueue.main.async {
+            view.clipsToBounds = true
+            view.layer.cornerRadius = 16
+        }
+        
         return view
     }()
     
@@ -135,7 +143,7 @@ class CheerupView: BaseView {
         tableView.snp.makeConstraints { make in
             make.top.equalTo(roundImage.snp.bottom).offset(28)
             make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-20)
-            make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(20)
+            make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(28)
         }
     }
 }

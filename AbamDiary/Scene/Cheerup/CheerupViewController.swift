@@ -11,9 +11,9 @@ import RealmSwift
 class CheerupViewController: BaseViewController {
     
     var cheerupView = CheerupView()
+    var countMessageModel = CountMessage()
     var tasks: Results<CheerupMessage>! {
         didSet {
-          fetchRealm()
             cheerupView.tableView.reloadData()
             print("♻️ 응원메세지뷰컨 리로등~")
         }
@@ -35,38 +35,50 @@ class CheerupViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         fetchRealm()
+        print("Realm is located at:", CheerupMessageRepository.shared.localRealm.configuration.fileURL!)
+        
+        countMessageModel.count.bind { value in
+            self.cheerupView.countLabel.text = "\(value)"
+        }
+        
+        cheerupView.countLabel.text = "\(tasks.count)"
     }
     //MARK: 메서드
     
     func fetchRealm() {
-       tasks = CheerupMessageRepository.shared.fetchDate()
+        tasks = CheerupMessageRepository.shared.fetchDate()
     }
     
     @objc func insertMessage() {
         guard let text = cheerupView.textField.text else {
+            return
+        }
+        
+        if text.isEmpty {
             let alert = UIAlertController(title: nil, message: "글자를 입력해주세요", preferredStyle: .alert)
             let ok = UIAlertAction(title: "👌", style: .default)
             
             alert.addAction(ok)
             present(alert, animated: true)
-            return
+        } else {
+            let task = CheerupMessage(cheerup: text, date: Date())
+            CheerupMessageRepository.shared.addItem(item: task)
+            cheerupView.tableView.reloadData()
+            countMessageModel.count.value = tasks.count
         }
-        
-        let task = CheerupMessage(cheerup: text, date: Date())
-        CheerupMessageRepository.shared.addItem(item: task)
-    }
+    } 
 }
 
 extension CheerupViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tasks.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       guard let cell = tableView.dequeueReusableCell(withIdentifier: CheerupTableViewCell.reuseIdentifier, for: indexPath) as? CheerupTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CheerupTableViewCell.reuseIdentifier, for: indexPath) as? CheerupTableViewCell else {
             return UITableViewCell()
         }
-     
+        
         let item = tasks[indexPath.row]
         
         cell.message.text = item.cheerup

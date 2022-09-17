@@ -19,7 +19,6 @@ class WriteViewController: BaseViewController {
     
     var writeView = WriteView()
     var data: Diary?
-    var dateModel = DateModel()
     var diarytype: MorningAndNight
     var writeMode: WriteMode
     var fetch: (() -> Void)?

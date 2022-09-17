@@ -14,7 +14,14 @@ class CheerupTableViewCell: BaseTableViewCell {
     let dateLabel: UILabel = {
         let view = UILabel()
         view.font = UIFont.systemFont(ofSize: FontSize.label_14, weight: .medium)
+        view.backgroundColor = .clear
         view.textAlignment = .center
+        return view
+    }()
+    
+    let labelContainView: UIView = {
+      let view = UIView()
+        view.backgroundColor = .clear
         return view
     }()
     
@@ -28,6 +35,7 @@ class CheerupTableViewCell: BaseTableViewCell {
         let view = UILabel()
         view.font = UIFont.systemFont(ofSize: FontSize.label_14, weight: .medium)
         view.textAlignment = .center
+        view.text = "rdadfa"
         return view
     }()
     
@@ -42,24 +50,32 @@ class CheerupTableViewCell: BaseTableViewCell {
     }
     
     override func configuration() {
-        
+       
+        [labelContainView, dateLabel, sectionView, message].forEach { contentView.addSubview($0) }
     }
     
     override func setConstraints() {
         dateLabel.snp.makeConstraints { make in
-            make.leading.equalTo(contentView.snp.leading).offset(12)
-            make.width.equalTo(60)
-            make.centerY.equalTo(contentView.snp.centerY)
+            make.center.equalTo(labelContainView.snp.center)
         }
         
+        labelContainView.snp.makeConstraints { make in
+            make.leading.equalTo(contentView.snp.leading)
+            make.verticalEdges.equalTo(contentView.snp.verticalEdges)
+            make.width.equalTo(80)
+        }
+//
         sectionView.snp.makeConstraints { make in
-            make.leading.equalTo(dateLabel.snp.trailing).offset(-12)
+            make.leading.equalTo(labelContainView.snp.trailing).offset(0)
+            make.verticalEdges.equalTo(contentView.snp.verticalEdges)
+            make.width.equalTo(1)
         }
-        
+//
         message.snp.makeConstraints { make in
             make.centerY.equalTo(contentView.snp.centerY)
             make.leading.equalTo(sectionView.snp.trailing)
-            make.trailing.equalTo(contentView.snp.leading)
+            make.trailing.equalTo(contentView.snp.trailing)
+
         }
     }
 }

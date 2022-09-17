@@ -7,8 +7,7 @@
 
 import Foundation
 
-class DateModel {
-    var morning: Observable<Date> = Observable(Date())
-    var night: Observable<Date> = Observable(Date())
+class CountMessage {
+    var count: Observable<Int> = Observable(0)
 
 }
