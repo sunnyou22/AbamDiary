@@ -5,8 +5,9 @@
 //  Created by 방선우 on 2022/09/11.
 //
 
-import Foundation
 import UIKit
+import Photos
+import PhotosUI
 
 enum Setting: Int, CaseIterable {
     case notification, backup, reset
@@ -37,15 +38,15 @@ enum Setting: Int, CaseIterable {
 class SettiongViewController: BaseViewController {
     
     var settingView = SettingView()
-    let picker = UIImagePickerController()
-
-    
+   
     override func loadView() {
         self.view = settingView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         
     }
     
@@ -57,8 +58,6 @@ class SettiongViewController: BaseViewController {
 
         settingView.tableView.delegate = self
         settingView.tableView.dataSource = self
-        
-        picker.delegate = self
         
         settingView.changeButton.addTarget(self, action: #selector(changeProfileButtonClicked), for: .touchUpInside)
         //        DispatchQueue.main.async { [self] in
