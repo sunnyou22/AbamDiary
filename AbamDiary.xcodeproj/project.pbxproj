@@ -26,8 +26,8 @@
 		904492B328D5ACC90028F920 /* CheeupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904492B228D5ACC90028F920 /* CheeupView.swift */; };
 		904492B528D5BD1D0028F920 /* CheerupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904492B428D5BD1D0028F920 /* CheerupTableViewCell.swift */; };
 		905E099428D1C3700084ADAE /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905E099328D1C3700084ADAE /* SearchView.swift */; };
-		907FF54628D72F1F0037BF28 /* YPImagePicker in Frameworks */ = {isa = PBXBuildFile; productRef = 907FF54528D72F1F0037BF28 /* YPImagePicker */; };
 		907FF54828D769930037BF28 /* Photos + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907FF54728D769930037BF28 /* Photos + Extension.swift */; };
+		907FF54A28D78F5A0037BF28 /* FileManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907FF54928D78F5A0037BF28 /* FileManager+Extension.swift */; };
 		90B3090D28D3FCD900A7BCC7 /* DateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B3090C28D3FCD900A7BCC7 /* DateModel.swift */; };
 		90B7210E28CDACBE00B243AE /* CheerupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B7210D28CDACBE00B243AE /* CheerupViewController.swift */; };
 		90B7211028CDACC900B243AE /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B7210F28CDACC900B243AE /* SearchViewController.swift */; };
@@ -72,6 +72,7 @@
 		904492B428D5BD1D0028F920 /* CheerupTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheerupTableViewCell.swift; sourceTree = "<group>"; };
 		905E099328D1C3700084ADAE /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		907FF54728D769930037BF28 /* Photos + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photos + Extension.swift"; sourceTree = "<group>"; };
+		907FF54928D78F5A0037BF28 /* FileManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extension.swift"; sourceTree = "<group>"; };
 		90B3090C28D3FCD900A7BCC7 /* DateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateModel.swift; sourceTree = "<group>"; };
 		90B7210D28CDACBE00B243AE /* CheerupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheerupViewController.swift; sourceTree = "<group>"; };
 		90B7210F28CDACC900B243AE /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -106,7 +107,6 @@
 				90CCDB6E28D057FB00CDEE06 /* RealmSwift in Frameworks */,
 				900AEE0F28CC6E8400F18360 /* Toast in Frameworks */,
 				900AEE1228CC6E9900F18360 /* FSCalendar in Frameworks */,
-				907FF54628D72F1F0037BF28 /* YPImagePicker in Frameworks */,
 				900AEE0C28CC6E6F00F18360 /* SnapKit in Frameworks */,
 				90CCDB6C28D057FB00CDEE06 /* Realm in Frameworks */,
 			);
@@ -270,6 +270,7 @@
 				90CB363D28D09562002FCB45 /* MorningAndNight.swift */,
 				90CB363F28D0A530002FCB45 /* Transition.swift */,
 				907FF54728D769930037BF28 /* Photos + Extension.swift */,
+				907FF54928D78F5A0037BF28 /* FileManager+Extension.swift */,
 			);
 			path = Constant;
 			sourceTree = "<group>";
@@ -296,7 +297,6 @@
 				900AEE1128CC6E9900F18360 /* FSCalendar */,
 				90CCDB6B28D057FB00CDEE06 /* Realm */,
 				90CCDB6D28D057FB00CDEE06 /* RealmSwift */,
-				907FF54528D72F1F0037BF28 /* YPImagePicker */,
 			);
 			productName = AbamDiary;
 			productReference = 90F8261028CB799A008E8E6B /* AbamDiary.app */;
@@ -331,7 +331,6 @@
 				900AEE0D28CC6E8400F18360 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				900AEE1028CC6E9900F18360 /* XCRemoteSwiftPackageReference "FSCalendar" */,
 				90CCDB6A28D057FB00CDEE06 /* XCRemoteSwiftPackageReference "realm-swift" */,
-				907FF54428D72F1F0037BF28 /* XCRemoteSwiftPackageReference "YPImagePicker" */,
 			);
 			productRefGroup = 90F8261128CB799A008E8E6B /* Products */;
 			projectDirPath = "";
@@ -378,6 +377,7 @@
 				90B7211628CDAD0500B243AE /* SettiongViewController.swift in Sources */,
 				90BCB60D28D5EA3600602FA0 /* CheerupModel.swift in Sources */,
 				9034EFA728CF9F5A0027F8F7 /* DeviceManager.swift in Sources */,
+				907FF54A28D78F5A0037BF28 /* FileManager+Extension.swift in Sources */,
 				90CB363C28D08BA6002FCB45 /* WriteView.swift in Sources */,
 				900AEE0528CC5DB500F18360 /* MainTableViewCell.swift in Sources */,
 				90F8261828CB799A008E8E6B /* ViewController.swift in Sources */,
@@ -639,14 +639,6 @@
 				minimumVersion = 2.0.0;
 			};
 		};
-		907FF54428D72F1F0037BF28 /* XCRemoteSwiftPackageReference "YPImagePicker" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Yummypets/YPImagePicker";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
-			};
-		};
 		90CCDB6A28D057FB00CDEE06 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
@@ -672,11 +664,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 900AEE1028CC6E9900F18360 /* XCRemoteSwiftPackageReference "FSCalendar" */;
 			productName = FSCalendar;
-		};
-		907FF54528D72F1F0037BF28 /* YPImagePicker */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 907FF54428D72F1F0037BF28 /* XCRemoteSwiftPackageReference "YPImagePicker" */;
-			productName = YPImagePicker;
 		};
 		90CCDB6B28D057FB00CDEE06 /* Realm */ = {
 			isa = XCSwiftPackageProductDependency;

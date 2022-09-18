@@ -98,7 +98,7 @@ class MainView: BaseView {
     //여기에 이미지 받아서 넣어주기
     let profileImage: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "고양이 1")
+        view.image = UIImage(systemName: "person")
         //        let newWidth = UIScreen.main.bounds.width * 0.05
         //        let newimageRect = CGRect(x: 0, y: 0, width: newWidth, height: newWidth)
         //        UIGraphicsBeginImageContext(CGSize(width: <#T##Int#>, height: <#T##Int#>))

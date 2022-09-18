@@ -4,8 +4,7 @@
 //
 //  Created by 방선우 on 2022/09/13.
 //
-
-import Foundation
+import UIKit
 import RealmSwift
 
 fileprivate protocol OnedayDiaryRepositoryType {

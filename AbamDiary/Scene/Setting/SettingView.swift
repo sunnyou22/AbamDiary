@@ -5,14 +5,15 @@
 //  Created by 방선우 on 2022/09/18.
 //
 
-import Foundation
 import UIKit
 import SnapKit
 
 class SettingView: BaseView {
+    
     lazy var profileimageView: UIImageView = {
        let view = UIImageView()
         view.backgroundColor = .systemGray5
+        view.contentMode = .scaleAspectFill
         DispatchQueue.main.async {
             view.clipsToBounds = true
             view.layer.cornerRadius = 16
@@ -35,7 +36,7 @@ class SettingView: BaseView {
     let tableView: UITableView = {
         let view = UITableView(frame: .zero, style: .plain)
         view.register(CheerupTableViewCell.self, forCellReuseIdentifier: CheerupTableViewCell.reuseIdentifier)
-        
+        view.isScrollEnabled = false
         view.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         view.separatorStyle = .singleLine
         view.layer.borderColor = Color.BaseColorWtihDark.thineBar.cgColor

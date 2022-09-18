@@ -65,6 +65,9 @@ class SettiongViewController: BaseViewController {
 //            settingView.profileimageView.image = UIImage(systemName: "camera.fill", withConfiguration: config)
 //        }
        
+        
+        //MARK: 프로필 이미지 test
+        settingView.profileimageView.image = loadImageFromDocument(fileName: "profile.jpg")
     }
 }
 
@@ -92,12 +95,21 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
     @objc func changeProfileButtonClicked() {
         let alert = UIAlertController(title: nil, message: "프로필 사진 변경하기", preferredStyle: .alert)
        
-        let cameraButton = UIAlertAction(title: "사진찍기", style: .default) { _ in
-            self.cameraButtonClicked()
+        let cancel = UIAlertAction(title: "취소", style: .destructive)
+        
+        let cameraButton = UIAlertAction(title: "카메라", style: .default) { [weak self] _ in
+            
+            self?.presentCamara()
         }
         
-        let photoLibrary = UIAlertAction(title: "사진찍기", style: .default) { _ in
-            self.photoLibraryClicked()
+        let photoLibrary = UIAlertAction(title: "앨범", style: .default) { [weak self] _ in
+            self?.presentAlbum()
         }
+        
+        alert.addAction(cameraButton)
+        alert.addAction(photoLibrary)
+        alert.addAction(cancel)
+        
+        present(alert, animated: true, completion: nil)
     }
 }

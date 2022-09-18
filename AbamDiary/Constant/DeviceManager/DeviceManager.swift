@@ -7,7 +7,6 @@
 
 
 //MARK: 폰트크기 및 레이아웃 대응 가기
-import Foundation
 import UIKit
 //import DeviceKit
 

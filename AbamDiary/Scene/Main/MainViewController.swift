@@ -69,7 +69,7 @@ class CalendarViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchRealm() // 램 패치
-        
+        mainview.profileImage.image = loadImageFromDocument(fileName: "profile.jpg")
         print("Realm is located at:", OneDayDiaryRepository.shared.localRealm.configuration.fileURL!)
         
     }

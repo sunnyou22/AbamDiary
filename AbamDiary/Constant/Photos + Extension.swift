@@ -9,8 +9,8 @@ import UIKit
 import Photos
 import PhotosUI
 
-extension SettiongViewController: PHPickerViewControllerDelegate {
-   
+extension SettiongViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
     func setAuthorizationStatus() {
         
         //권한 요청
@@ -42,35 +42,46 @@ extension SettiongViewController: PHPickerViewControllerDelegate {
         }
     }
     
-    func clickedSelectProfileButton() {
+    func presentCamara() {
         
-        var configuration = PHPickerConfiguration()
-        configuration.selectionLimit = 1
-        configuration.filter = .any(of: [.images, .screenshots])
+        let vc = UIImagePickerController()
+        vc.sourceType = .camera
+        vc.delegate = self
+        vc.allowsEditing = true
+        vc.cameraFlashMode = .off
         
-        let picker = PHPickerViewController(configuration: configuration)
-        
-        picker.modalPresentationStyle = .fullScreen
-        picker
-        picker.delegate = self
-        self.present(picker, animated: true, completion: nil)
-        
+        present(vc, animated: true, completion: nil)
     }
     
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+    func presentAlbum() {
+        let vc = UIImagePickerController()
+        vc.sourceType = .photoLibrary // 사라질 예정 그럼 크롭은...?
+        vc.delegate = self
+        vc.allowsEditing = true
         
-        picker.dismiss(animated: true)
-        
-        let itemProvider = results.first?.itemProvider
-        
-        if let itemProvider = itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) {
-            itemProvider.loadObject(ofClass: UIImage.self) { image, error in
-                DispatchQueue.main.async {
-                    self.settingView.profileimageView.image = image as? UIImage
-                }
-            }
-        } else {
-            // noimage
-        }
+        present(vc, animated: true, completion: nil)
     }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        if let image = info[.editedImage] as? UIImage {
+            self.settingView.profileimageView.image = image
+        }
+        
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+
+            saveImageToDocument(fileName: "profile.jpg", image: (self.settingView.profileimageView.image ?? UIImage(systemName: "person"))!)
+           
+        } else if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            saveImageToDocument(fileName: "profile.jpg", image: (self.settingView.profileimageView.image ?? UIImage(systemName: "person"))!)
+        }
+        
+        dismiss(animated: true)
+        settingView.profileimageView.image = loadImageFromDocument(fileName: "profile.jpg")
+    }
+
 }

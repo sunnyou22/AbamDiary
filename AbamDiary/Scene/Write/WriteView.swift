@@ -5,7 +5,6 @@
 //  Created by 방선우 on 2022/09/13.
 //
 
-import Foundation
 import UIKit
 
 class WriteView: BaseView {
