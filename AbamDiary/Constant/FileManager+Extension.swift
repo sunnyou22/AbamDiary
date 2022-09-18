@@ -44,6 +44,18 @@ extension UIViewController {
         return image
     }
     
+    func removeImageFromDocument(fileName: String) {
+        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return } // 내 앱에 해당되는 도큐먼트 폴더가 있늬?
+        let fileURL = documentDirectory.appendingPathComponent(fileName)
+
+        do {
+            try FileManager.default.removeItem(at: fileURL)
+        } catch let error {
+            view.makeToast("삭제할 이미지가 없습니다", duration: 1.5, position: .center)
+            print(error)
+        }
+    }
+    
     func fetchDocumentZipFile() {
         
         do {

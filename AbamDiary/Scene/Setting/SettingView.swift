@@ -10,7 +10,7 @@ import SnapKit
 
 class SettingView: BaseView {
     
-    lazy var profileimageView: UIImageView = {
+    let profileimageView: UIImageView = {
        let view = UIImageView()
         view.backgroundColor = .systemGray5
         view.contentMode = .scaleAspectFill

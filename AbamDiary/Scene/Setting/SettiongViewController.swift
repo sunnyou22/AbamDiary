@@ -6,8 +6,8 @@
 //
 
 import UIKit
-import Photos
-import PhotosUI
+import Toast
+
 
 enum Setting: Int, CaseIterable {
     case notification, backup, reset
@@ -38,6 +38,7 @@ enum Setting: Int, CaseIterable {
 class SettiongViewController: BaseViewController {
     
     var settingView = SettingView()
+    let profileImage = "profile.jpg"
    
     override func loadView() {
         self.view = settingView
@@ -67,7 +68,7 @@ class SettiongViewController: BaseViewController {
        
         
         //MARK: 프로필 이미지 test
-        settingView.profileimageView.image = loadImageFromDocument(fileName: "profile.jpg")
+        settingView.profileimageView.image = loadImageFromDocument(fileName: profileImage)
     }
 }
 
@@ -106,6 +107,15 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
             self?.presentAlbum()
         }
         
+        let delete = UIAlertAction(title: "현재 사진 삭제", style: .default) { [weak self] _ in
+            guard let image = self?.profileImage else {
+                return
+            }
+            self?.removeImageFromDocument(fileName: image)
+            self?.settingView.profileimageView.image = UIImage(systemName: "person")
+        }
+    
+        alert.addAction(delete)
         alert.addAction(cameraButton)
         alert.addAction(photoLibrary)
         alert.addAction(cancel)
