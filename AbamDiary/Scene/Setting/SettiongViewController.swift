@@ -7,6 +7,7 @@
 
 import UIKit
 import Toast
+import SnapKit
 
 
 enum Setting: Int, CaseIterable {
@@ -40,14 +41,25 @@ class SettiongViewController: BaseViewController {
     var settingView = SettingView()
     let profileImage = "profile.jpg"
    
+    //MARK: 스위치 넣어주기
+    let notificationSwitch: UISwitch = {
+        let view = UISwitch()
+        return view
+    }()
+    
+    let goBackUPVCImage: UIImageView = {
+        let view = UIImageView()
+        let config = UIImage.SymbolConfiguration(pointSize: 32, weight: .medium)
+        view.image = UIImage(systemName: "chevron.forward", withConfiguration: config)
+        return view
+    }()
+    
     override func loadView() {
         self.view = settingView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
         
     }
     
@@ -67,8 +79,10 @@ class SettiongViewController: BaseViewController {
 //        }
        
         
-        //MARK: 프로필 이미지 test
+        //MARK: 프로필 이미지
         settingView.profileimageView.image = loadImageFromDocument(fileName: profileImage)
+        
+     
     }
 }
 
@@ -89,6 +103,21 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.leftLabel.text = Setting.allCases[indexPath.row].leftTitle
         cell.rightLabel.text = Setting.allCases[indexPath.row].rightLabel
+        
+        if indexPath.row == 0 {
+            cell.contentView.addSubview(notificationSwitch)
+            notificationSwitch.snp.makeConstraints { make in
+                make.trailing.equalTo(cell.contentView.snp.trailing).offset(-28)
+                make.centerY.equalTo(cell.contentView.snp.centerY)
+            }
+        } else if indexPath.row == 1 {
+            //didSelect로 화면 넘어가는거 구현하기
+            cell.contentView.addSubview(goBackUPVCImage)
+            goBackUPVCImage.snp.makeConstraints { make in
+                make.centerY.equalTo(cell.contentView.snp.centerY)
+                make.centerX.equalTo(notificationSwitch.snp.centerX)
+            }
+        }
         
         return cell
     }

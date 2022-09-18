@@ -89,4 +89,8 @@ class CheerupTableViewCell: BaseTableViewCell {
         rightLabel.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         rightLabel.textAlignment = .left
     }
+    
+//    func setTest(tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell.
+//    }
 }
