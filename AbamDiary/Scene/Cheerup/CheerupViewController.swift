@@ -55,11 +55,6 @@ class CheerupViewController: BaseViewController {
         guard let text = cheerupView.textField.text else {
             return
         }
-        let ok = UIAlertAction(title: "OK", style: .default) { _ in
-            self.cheerupView.textField.text = nil
-        }
-        let cancel = UIAlertAction(title: "NO", style: .default)
-        
         
         if text.isEmpty {
             let alert = UIAlertController(title: nil, message: "글자를 입력해주세요", preferredStyle: .alert)
@@ -99,8 +94,10 @@ extension CheerupViewController: UITableViewDelegate, UITableViewDataSource {
         
         let item = tasks[indexPath.row]
         
-        cell.message.text = item.cheerup
-        cell.dateLabel.text = CustomFormatter.setCheerupDate(date: Date())
+        cell.setCheerupTableCellConfig(leftLabel: cell.leftLabel, right: cell.rightLabel)
+        
+        cell.rightLabel.text = item.cheerup
+        cell.leftLabel.text = CustomFormatter.setCheerupDate(date: Date())
         
         return cell
     }

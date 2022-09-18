@@ -11,16 +11,14 @@ import SnapKit
 
 class CheerupTableViewCell: BaseTableViewCell {
     
-    let dateLabel: UILabel = {
+    let leftLabel: UILabel = {
         let view = UILabel()
-        view.font = UIFont.systemFont(ofSize: FontSize.label_14, weight: .medium)
         view.backgroundColor = .clear
-        view.textAlignment = .center
         return view
     }()
     
     let labelContainView: UIView = {
-      let view = UIView()
+        let view = UIView()
         view.backgroundColor = .clear
         return view
     }()
@@ -31,10 +29,8 @@ class CheerupTableViewCell: BaseTableViewCell {
         return view
     }()
     
-    let message: UILabel = {
+    let rightLabel: UILabel = {
         let view = UILabel()
-        view.font = UIFont.systemFont(ofSize: FontSize.label_14, weight: .medium)
-        view.textAlignment = .center
         view.text = "rdadfa"
         return view
     }()
@@ -50,12 +46,12 @@ class CheerupTableViewCell: BaseTableViewCell {
     }
     
     override func configuration() {
-       
-        [labelContainView, dateLabel, sectionView, message].forEach { contentView.addSubview($0) }
+        
+        [labelContainView, leftLabel, sectionView, rightLabel].forEach { contentView.addSubview($0) }
     }
     
     override func setConstraints() {
-        dateLabel.snp.makeConstraints { make in
+        leftLabel.snp.makeConstraints { make in
             make.center.equalTo(labelContainView.snp.center)
         }
         
@@ -64,18 +60,34 @@ class CheerupTableViewCell: BaseTableViewCell {
             make.verticalEdges.equalTo(contentView.snp.verticalEdges)
             make.width.equalTo(80)
         }
-//
+        //
         sectionView.snp.makeConstraints { make in
             make.leading.equalTo(labelContainView.snp.trailing).offset(0)
             make.verticalEdges.equalTo(contentView.snp.verticalEdges)
             make.width.equalTo(1)
         }
-//
-        message.snp.makeConstraints { make in
+        //
+        rightLabel.snp.makeConstraints { make in
             make.centerY.equalTo(contentView.snp.centerY)
             make.leading.equalTo(sectionView.snp.trailing).offset(8)
             make.trailing.equalTo(contentView.snp.trailing)
-
+            
         }
+    }
+    
+    func setCheerupTableCellConfig(leftLabel: UILabel, right: UILabel) {
+        leftLabel.font = UIFont.systemFont(ofSize: FontSize.label_14, weight: .medium)
+        leftLabel.textAlignment = .center
+        
+        rightLabel.font = UIFont.systemFont(ofSize: FontSize.label_14, weight: .medium)
+        rightLabel.textAlignment = .center
+    }
+    
+    func setSettingTableCellConfig(leftLabel: UILabel, right: UILabel) {
+        leftLabel.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        leftLabel.textAlignment = .center
+        
+        rightLabel.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        rightLabel.textAlignment = .left
     }
 }
