@@ -59,6 +59,8 @@ class SettiongViewController: BaseViewController {
         settingView.tableView.dataSource = self
         
         picker.delegate = self
+        
+        settingView.changeButton.addTarget(self, action: #selector(changeProfileButtonClicked), for: .touchUpInside)
         //        DispatchQueue.main.async { [self] in
 //            let config = UIImage.SymbolConfiguration(pointSize: 17, weight: .semibold)
 //            settingView.profileimageView.image = UIImage(systemName: "camera.fill", withConfiguration: config)
@@ -88,5 +90,15 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    
+    @objc func changeProfileButtonClicked() {
+        let alert = UIAlertController(title: nil, message: "프로필 사진 변경하기", preferredStyle: .alert)
+       
+        let cameraButton = UIAlertAction(title: "사진찍기", style: .default) { _ in
+            self.cameraButtonClicked()
+        }
+        
+        let photoLibrary = UIAlertAction(title: "사진찍기", style: .default) { _ in
+            self.photoLibraryClicked()
+        }
+    }
 }
