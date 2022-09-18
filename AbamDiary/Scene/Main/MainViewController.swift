@@ -16,9 +16,6 @@ class CalendarViewController: BaseViewController {
     
     let mainview = MainView()
     
-    var morningArr = [String]()
-    var nightArr = [String]()
-    
     var changeMorningcount: Float = 0 // 테스트용
     var changeNightcount: Float = 0 // 테스트용
     var progress: Float = 0 // 변수로 빼줘야 동작
@@ -29,6 +26,7 @@ class CalendarViewController: BaseViewController {
     var tasks: Results<Diary>! {
         didSet {
             mainview.tableView.reloadData()
+            mainview.calendar.reloadData()
             print("리로드♻️")
         }
     }
@@ -83,6 +81,19 @@ class CalendarViewController: BaseViewController {
         print("====>🟢 패치완료")
     }
     
+    /*
+     선택된 날짜가 없음 -> 캘린더가 오늘 날짜를 기본을 선택상태로 두지 않음
+     
+     1. 선택된 날짜가 없음 -> 오늘꺼 보여주기
+     - 선택상태가 nil이고 캘린더 상의 오늘날짜와 생성날짜가 같은걸 뱉어주기
+     2. 선택된 날짜가 있는데 오늘인 경우
+     - 오늘 작성한 일기가 여러개인경우
+     - 오늘 작성한 일기와 선택된 날짜가 같은 경우로 뱉어주기
+     3. 선택된 날짜가 있는데 오늘이 아닌경우
+     - 선택된 날짜에 작성된 일기가 여러개인경우
+     - 선택된날짜와 생성된 날짜가 같은경 뱉여주기
+     */
+    
     func testfilterDate() {
         
         let selectedDate = CustomFormatter.setDateFormatter(date: mainview.calendar.selectedDate ?? Date())
@@ -93,27 +104,31 @@ class CalendarViewController: BaseViewController {
         print("=======>날짜가선택됐습니까? ", mainview.calendar.selectedDate)
         print("캘린더 오늘 날짜", calendarToday)
         print("걍 오늘 날짜", today)
+        //self.dateFilterTask = OneDayDiaryRepository.shared.fetchDate(date: Date())[0] -> 왜 이렇게 하면안됨? 오늘 작성한게 많을수도 있잖아
         
         if mainview.calendar.selectedDate == nil, calendarToday == today  {
-            filterdateArr = tasks.filter { task in
-                calendarToday == today
-            }
+            filterdateArr = tasks.filter({ task in
+                CustomFormatter.setDateFormatter(date: task.selecteddate!) == calendarToday
+            })
             self.dateFilterTask = filterdateArr?.first
-        } else if mainview.calendar.selectedDate != nil, calendarToday == today {
-            filterdateArr = tasks.filter { task in
-                calendarToday == today
-            }
-            self.dateFilterTask = filterdateArr?.first
-        } else {
-            filterdateArr = tasks.filter { task in
-                CustomFormatter.setDateFormatter(date: task.selecteddate!) == selectedDate
-            }
+        } else if mainview.calendar.selectedDate != nil, selectedDate == today {
+            filterdateArr = tasks.filter({ task in
+                CustomFormatter.setDateFormatter(date: task.selecteddate!) == calendarToday
+            })
             self.dateFilterTask = filterdateArr?.first
             //  mainview.calendar.selectedDate != nil, calendarToday != today 와 둘다 nil일 때의 처리를 담고 있음
             // 둘다 nil면 아래에서 플레이스 홀더가 나오도록 분기처리해줌
+        } else if mainview.calendar.selectedDate != nil, selectedDate != today {
+            filterdateArr = tasks.filter({ task in
+                CustomFormatter.setDateFormatter(date: task.selecteddate!) == selectedDate
+            })
+            self.dateFilterTask = filterdateArr?.first
+        } else {
+            self.dateFilterTask = nil
         }
     }
 }
+
 
 
 
@@ -263,21 +278,26 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
         testfilterDate()
         mainview.tableView.reloadData()
         mainview.cellTitle.text = CustomFormatter.setCellTitleDateFormatter(date: date)
-       
+        
     }
     
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
         let test = CustomFormatter.setCellTitleDateFormatter(date: date)
-
-        if CustomFormatter.setCellTitleDateFormatter(date: dateFilterTask?.createdDate ?? Date()) == test {
-            
-            if dateFilterTask?.morning != nil && dateFilterTask?.night != nil {
+        let testArr = tasks.filter { task in
+            CustomFormatter.setCellTitleDateFormatter(date: task.selecteddate ?? Date()) == test
+        } // 해당 날짜에 포함되는 데이터들을 뽑아옵
+        
+        print(testArr)
+        
+        for task in testArr {
+            if task.morning != nil && task.night != nil {
                 return 2
-            } else if dateFilterTask?.morning == nil && dateFilterTask?.night == nil {
+            } else if task.morning == nil && task.night == nil {
                 return 0
             } else {
                 return 1
             }
+            
         }
         return 0
     }
@@ -285,48 +305,50 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventDefaultColorsFor date: Date) -> [UIColor]? {
         
         let test = CustomFormatter.setCellTitleDateFormatter(date: date)
-        print(test)
-        if CustomFormatter.setCellTitleDateFormatter(date: dateFilterTask?.createdDate ?? Date()) == test {
-            
-            if dateFilterTask?.morning != nil && dateFilterTask?.night == nil {
-                return [UIColor.systemRed]
-            } else if dateFilterTask?.morning == nil && dateFilterTask?.night != nil {
-                return [UIColor.systemBlue]
-            } else if dateFilterTask?.morning != nil && dateFilterTask?.night != nil {
+        let testArr = tasks.filter { task in
+            CustomFormatter.setCellTitleDateFormatter(date: task.selecteddate ?? Date()) == test
+        } // 해당 날짜에 포함되는 데이터들을 뽑아옵
+        print(testArr)
+        
+        for task in testArr {
+            if task.morning != nil && task.night != nil {
                 return [UIColor.systemRed, UIColor.systemBlue]
+            } else if task.morning == nil && task.night == nil {
+                return nil
+            } else if task.morning != nil && task.night == nil {
+                return [UIColor.systemRed]
+            } else if task.morning == nil && task.night != nil {
+                return [UIColor.systemBlue]
             }
         }
         return nil
-        //        print(#function)
-        
     }
+    
+    
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventSelectionColorsFor date: Date) -> [UIColor]? {
         
         let test = CustomFormatter.setCellTitleDateFormatter(date: date)
-        print(test)
+        let testArr = tasks.filter { task in
+            CustomFormatter.setCellTitleDateFormatter(date: task.selecteddate ?? Date()) == test
+        } // 해당 날짜에 포함되는 데이터들을 뽑아옵
+        print(testArr)
         
-        if CustomFormatter.setCellTitleDateFormatter(date: dateFilterTask?.createdDate ?? Date()) == test {
-            
-            if dateFilterTask?.morning != nil && dateFilterTask?.night == nil {
-                return [UIColor.systemRed]
-            } else if dateFilterTask?.morning == nil && dateFilterTask?.night != nil {
-                return [UIColor.systemBlue]
-            } else if dateFilterTask?.morning != nil && dateFilterTask?.night != nil {
+        for task in testArr {
+            if task.morning != nil && task.night != nil {
                 return [UIColor.systemRed, UIColor.systemBlue]
+            } else if task.morning == nil && task.night == nil {
+                return nil
+            } else if task.morning != nil && task.night == nil {
+                return [UIColor.systemRed]
+            } else if task.morning == nil && task.night != nil {
+                return [UIColor.systemBlue]
             }
         }
         return nil
-        
     }
+    
 }
-
-//    func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
-//        let cell = FSCalendarCell()
-//        cell.frame.
-//        }
-
-
 
 //MARK: 네비게이션 타이틀 뷰 커스텀
 class navigationTitleVIew: BaseView {
