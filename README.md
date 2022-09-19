@@ -91,4 +91,76 @@
 14. cell에서 굳이 재호출되지 않고 고정적으로 쓰이는 기능은 과연 cellForRowAt에서 써주는게 맞는지 생각하기
 15. **셀의 높이같은 경우 고정적으로 짧아줌 작은 디바이스에서 얼마나 작아질지 모르기때문 차라리 스크롤을 해주는게 나음**
 
+# 0920
+## 노티푸시
 
+### 의도: 계산하지 않고 원하는 시간에 노티푸시를 보낼수있을까?
+    요구사항 1. 사용자가 선택한 시간이 저장돼야함
+    요구사항 2. 저장한 시간을 불러와야함
+
+### 시도: 
+    1. 유저디폴드에 사용자가 선택한 시간을 저장하고 노티피케이션의 Date타입과 맞출 수 없을까? -> 프린트로 찍어봤을 때 다르게 출력돼서 생각한 방법 찾지 못함...
+    2. dateComponent로 어떻게 시간 형태를 구성하여 노티로 보낼 수 있을까?
+    
+### 공식문서를 읽어보니 한방에 hh:mm로 보내지 않고 따로따로 date.hour , date.minute 이렇게 적용해도 알아서 합쳐지면서 전달됨
+
+> Declaration
+class UNCalendarNotificationTrigger : UNNotificationTrigger
+Overview
+Create a UNCalendarNotificationTrigger object when you want to schedule the delivery of a local notification at the date and time you specify. You use an NSDateComponents object to specify only the time values that you want the system to use to determine the matching date and time.
+Listing 1 creates a trigger that delivers its notification every morning at 8:30. The repeating behavior is achieved by specifying true for the repeats parameter when creating the trigger.
+Listing 1 Creating a trigger that repeats at a specific time
+```
+var date = DateComponents()
+date.hour = 8
+date.minute = 30 
+let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
+```
+
+- 위의 공식문서를 참고하여 적용된 쉐도잉 코드....
+- 유저디폴트에 array로 데이트컴포넌트를 저장해준 후 이를 빼옴
+
+```
+        //MARK: 선택완료버튼 클릭
+        let selection = UIAlertAction(title: "선택완료", style: .default) { _ in
+            UserDefaults.standard.set(dateStringFormatter.string(from: datePicker.date), forKey: "\(sender.tag)")
+            let dateString = UserDefaults.standard.string(forKey: "\(sender.tag)")
+            sender.setTitle(dateString, for: .normal)
+            print("========>", "\(datePicker.date)")
+            
+            if sender.tag == 0 {
+                var date = DateComponents(timeZone: .current)
+                var Marray = [CustomFormatter.changeHourToInt(date: datePicker.date), CustomFormatter.changeMinuteToInt(date: datePicker.date)]
+             
+                UserDefaults.standard.set(Marray, forKey: "Mdate")
+                Marray = UserDefaults.standard.array(forKey: "Mdate") as? [Int] ?? [Int]()
+            
+                date.hour = Marray[0]
+                date.minute = Marray[1]
+                
+                self.sendNotification(subTitle: "아침일기를 쓰러가볼까요?", date: date)
+                
+                print("아침 일기 알람 설정 📍")
+            } else if sender.tag == 1 {
+                var date = DateComponents(timeZone: .current)
+                var Narray = [CustomFormatter.changeHourToInt(date: datePicker.date), CustomFormatter.changeMinuteToInt(date: datePicker.date)]
+             
+                UserDefaults.standard.set(Narray, forKey: "Ndate")
+                Narray = UserDefaults.standard.array(forKey: "Ndate") as? [Int] ?? [Int]()
+            
+                date.hour = Narray[0]
+                date.minute = Narray[1]
+                
+                self.sendNotification(subTitle: "밤일기를 쓰러가볼까요?", date: date)
+                print("밤일기 알람 설정 📍")
+            }
+            
+        } 
+```
+
+### 걸리는 부분
+`UserDefaults.standard.array(forKey: "Ndate") as? [Int] ?? [Int]()`
+- 유저디폴트에 값이 없으면 빈 배열를 넣어주고있는데... 예외처리가 필요한가 내일 확인해봐야겠당
+
+## 소회
+- 공식문서가 짱이다.
