@@ -19,6 +19,12 @@ class CheerupViewController: BaseViewController {
         }
     }
     
+    let sectionView: UIView = {
+        let view = UIView()
+        view.backgroundColor = Color.BaseColorWtihDark.thineBar
+        return view
+    }()
+    
     override func loadView() {
         view = cheerupView
     }
@@ -94,10 +100,18 @@ extension CheerupViewController: UITableViewDelegate, UITableViewDataSource {
         
         let item = tasks[indexPath.row]
         
-        cell.setCheerupTableCellConfig(leftLabel: cell.leftLabel, right: cell.rightLabel)
+        cell.setCheerupTableCellConfig(leftLabel: cell.title, right: cell.subTitle)
         
-        cell.rightLabel.text = item.cheerup
-        cell.leftLabel.text = CustomFormatter.setCheerupDate(date: Date())
+        cell.subTitle.text = item.cheerup
+        cell.title.text = CustomFormatter.setCheerupDate(date: Date())
+        
+        cell.contentView.addSubview(sectionView)
+        
+        sectionView.snp.makeConstraints { make in
+            make.leading.equalTo(cell.labelContainView.snp.trailing).offset(0)
+            make.verticalEdges.equalTo(cell.contentView.snp.verticalEdges)
+            make.width.equalTo(1)
+        }
         
         return cell
     }

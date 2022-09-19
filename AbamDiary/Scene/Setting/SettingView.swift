@@ -34,13 +34,12 @@ class SettingView: BaseView {
     }()
     
     let tableView: UITableView = {
-        let view = UITableView(frame: .zero, style: .plain)
-        view.register(CheerupTableViewCell.self, forCellReuseIdentifier: CheerupTableViewCell.reuseIdentifier)
-        view.isScrollEnabled = false
+        let view = UITableView(frame: .zero, style: .insetGrouped)
+        view.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.reuseIdentifier)
+        view.isScrollEnabled = true
         view.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         view.separatorStyle = .singleLine
-        view.layer.borderColor = Color.BaseColorWtihDark.thineBar.cgColor
-        view.layer.borderWidth = 1
+//        view.backgroundColor = Color.BaseColorWtihDark.backgorund
         return view
     }()
     
@@ -72,9 +71,9 @@ class SettingView: BaseView {
         }
 //
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(changeButton.snp.bottom).offset(28)
+            make.top.equalTo(changeButton.snp.bottom).offset(20)
             make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(0)
-            make.height.equalTo(self.snp.height).multipliedBy(0.08 * 3)
+            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom)
         }
     }
 }

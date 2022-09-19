@@ -10,37 +10,13 @@ import Toast
 import SnapKit
 
 
-enum Setting: Int, CaseIterable {
-    case notification, backup, reset
-    
-    var leftTitle: String {
-        switch self {
-        case .notification:
-            return "알림"
-        case .backup:
-            return "백업"
-        case .reset:
-            return "초기화"
-        }
-    }
-    
-    var rightLabel: String {
-        switch self {
-        case .notification:
-            return "  알림받기"
-        case .backup:
-            return "  백업 및 복구"
-        case .reset:
-            return "  모든일기 삭제하기"
-        }
-    }
-}
+
 
 class SettiongViewController: BaseViewController {
     
     var settingView = SettingView()
     let profileImage = "profile.jpg"
-   
+    
     //MARK: 스위치 넣어주기
     let notificationSwitch: UISwitch = {
         let view = UISwitch()
@@ -51,6 +27,29 @@ class SettiongViewController: BaseViewController {
         let view = UIImageView()
         let config = UIImage.SymbolConfiguration(pointSize: 32, weight: .medium)
         view.image = UIImage(systemName: "chevron.forward", withConfiguration: config)
+//        view.backgroundColor = .systemBlue
+        return view
+    }()
+    
+    let morningNotoTime: UIButton = {
+        let view = UIButton()
+        view.setTitle("아침설정시간", for: .normal)
+        view.backgroundColor = .systemGray4
+        DispatchQueue.main.async {
+            view.clipsToBounds = true
+            view.layer.cornerRadius = 16
+        }
+        return view
+    }()
+    
+    let nigntNotiTime: UIButton = {
+        let view = UIButton()
+        view.setTitle("저녁설정시간", for: .normal)
+        view.backgroundColor = .systemGray4
+        DispatchQueue.main.async {
+            view.clipsToBounds = true
+            view.layer.cornerRadius = 16
+        }
         return view
     }()
     
@@ -68,63 +67,91 @@ class SettiongViewController: BaseViewController {
         
         let navigationtitleView = navigationTitleVIew()
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navigationtitleView)
-
+        
         settingView.tableView.delegate = self
         settingView.tableView.dataSource = self
         
         settingView.changeButton.addTarget(self, action: #selector(changeProfileButtonClicked), for: .touchUpInside)
         //        DispatchQueue.main.async { [self] in
-//            let config = UIImage.SymbolConfiguration(pointSize: 17, weight: .semibold)
-//            settingView.profileimageView.image = UIImage(systemName: "camera.fill", withConfiguration: config)
-//        }
-       
+        //            let config = UIImage.SymbolConfiguration(pointSize: 17, weight: .semibold)
+        //            settingView.profileimageView.image = UIImage(systemName: "camera.fill", withConfiguration: config)
+        //        }
+        
         
         //MARK: 프로필 이미지
         settingView.profileimageView.image = loadImageFromDocument(fileName: profileImage)
         
-     
+        
     }
 }
 
 extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
-   
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return Setting.allCases.count
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return Setting.allCases[section].sectionTitle
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        3
+        return Setting.allCases[section].subTitle.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        settingView.frame.size.height * 0.08
+        settingView.frame.size.height * 0.08 // 고정값으로 빼기
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CheerupTableViewCell.reuseIdentifier, for: indexPath) as? CheerupTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewCell.reuseIdentifier, for: indexPath) as? SettingTableViewCell else { return UITableViewCell() }
         
-        cell.setSettingTableCellConfig(leftLabel: cell.leftLabel, right: cell.rightLabel)
+        cell.subTitle.text = Setting.allCases[indexPath.section].subTitle[indexPath.row]
         
-        cell.leftLabel.text = Setting.allCases[indexPath.row].leftTitle
-        cell.rightLabel.text = Setting.allCases[indexPath.row].rightLabel
-        
-        if indexPath.row == 0 {
-            cell.contentView.addSubview(notificationSwitch)
-            notificationSwitch.snp.makeConstraints { make in
-                make.trailing.equalTo(cell.contentView.snp.trailing).offset(-28)
-                make.centerY.equalTo(cell.contentView.snp.centerY)
+        //메서드 따로 빼기
+        if indexPath.section == 0 {
+            if indexPath.row == 0 {
+                cell.contentView.addSubview(morningNotoTime)
+                morningNotoTime.snp.makeConstraints { make in
+                    make.trailing.equalTo(cell.contentView.snp.trailing).offset(-20)
+                    make.centerY.equalTo(cell.contentView.snp.centerY)
+                    make.width.equalTo(morningNotoTime.snp.height).multipliedBy(2.4)
+                    make.verticalEdges.equalTo(cell.contentView.snp.verticalEdges).inset(16)
+                }
             }
-        } else if indexPath.row == 1 {
-            //didSelect로 화면 넘어가는거 구현하기
-            cell.contentView.addSubview(goBackUPVCImage)
-            goBackUPVCImage.snp.makeConstraints { make in
-                make.centerY.equalTo(cell.contentView.snp.centerY)
-                make.centerX.equalTo(notificationSwitch.snp.centerX)
+                if indexPath.row == 1 {
+                    cell.contentView.addSubview(nigntNotiTime)
+                    nigntNotiTime.snp.makeConstraints { make in
+                        make.trailing.equalTo(cell.contentView.snp.trailing).offset(-20)
+                        make.centerY.equalTo(cell.contentView.snp.centerY)
+                        make.width.equalTo(nigntNotiTime.snp.height).multipliedBy(2.4)
+                        make.verticalEdges.equalTo(cell.contentView.snp.verticalEdges).inset(16)
+                    }
+                }
+                if indexPath.row == 2 {
+                    cell.contentView.addSubview(notificationSwitch)
+                    notificationSwitch.snp.makeConstraints { make in
+                        make.trailing.equalTo(cell.contentView.snp.trailing).offset(-28)
+                        make.centerY.equalTo(cell.contentView.snp.centerY)
+                    }
+                }
+            
+            } else if indexPath.section == 1 {
+                if indexPath.row == 2 {
+                    //didSelect로 화면 넘어가는거 구현하기
+                    cell.contentView.addSubview(goBackUPVCImage)
+                    goBackUPVCImage.snp.makeConstraints { make in
+                        make.centerY.equalTo(cell.contentView.snp.centerY)
+                        make.trailing.equalTo(cell.contentView.snp.trailing).offset(-28)
+                }
             }
         }
-        
         return cell
     }
     
     @objc func changeProfileButtonClicked() {
         let alert = UIAlertController(title: nil, message: "프로필 사진 변경하기", preferredStyle: .alert)
-       
+        
         let cancel = UIAlertAction(title: "취소", style: .destructive)
         
         let cameraButton = UIAlertAction(title: "카메라", style: .default) { [weak self] _ in
@@ -143,7 +170,7 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
             self?.removeImageFromDocument(fileName: image)
             self?.settingView.profileimageView.image = UIImage(systemName: "person")
         }
-    
+        
         alert.addAction(delete)
         alert.addAction(cameraButton)
         alert.addAction(photoLibrary)

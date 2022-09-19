@@ -10,7 +10,7 @@ import SnapKit
 
 class CheerupTableViewCell: BaseTableViewCell {
     
-    let leftLabel: UILabel = {
+    let title: UILabel = {
         let view = UILabel()
         view.backgroundColor = .clear
         return view
@@ -28,7 +28,7 @@ class CheerupTableViewCell: BaseTableViewCell {
         return view
     }()
     
-    let rightLabel: UILabel = {
+    let subTitle: UILabel = {
         let view = UILabel()
         view.text = "rdadfa"
         return view
@@ -46,11 +46,11 @@ class CheerupTableViewCell: BaseTableViewCell {
     
     override func configuration() {
         
-        [labelContainView, leftLabel, sectionView, rightLabel].forEach { contentView.addSubview($0) }
+        [labelContainView, title, sectionView, subTitle].forEach { contentView.addSubview($0) }
     }
     
     override func setConstraints() {
-        leftLabel.snp.makeConstraints { make in
+        title.snp.makeConstraints { make in
             make.center.equalTo(labelContainView.snp.center)
         }
         
@@ -66,7 +66,7 @@ class CheerupTableViewCell: BaseTableViewCell {
             make.width.equalTo(1)
         }
         //
-        rightLabel.snp.makeConstraints { make in
+        subTitle.snp.makeConstraints { make in
             make.centerY.equalTo(contentView.snp.centerY)
             make.leading.equalTo(sectionView.snp.trailing).offset(8)
             make.trailing.equalTo(contentView.snp.trailing)
@@ -75,19 +75,19 @@ class CheerupTableViewCell: BaseTableViewCell {
     }
     
     func setCheerupTableCellConfig(leftLabel: UILabel, right: UILabel) {
-        leftLabel.font = UIFont.systemFont(ofSize: FontSize.label_14, weight: .medium)
-        leftLabel.textAlignment = .center
+        title.font = UIFont.systemFont(ofSize: FontSize.label_14, weight: .medium)
+        title.textAlignment = .center
         
-        rightLabel.font = UIFont.systemFont(ofSize: FontSize.label_14, weight: .medium)
-        rightLabel.textAlignment = .center
+        subTitle.font = UIFont.systemFont(ofSize: FontSize.label_14, weight: .medium)
+        subTitle.textAlignment = .center
     }
     
     func setSettingTableCellConfig(leftLabel: UILabel, right: UILabel) {
-        leftLabel.font = UIFont.systemFont(ofSize: 18, weight: .medium)
-        leftLabel.textAlignment = .center
+        title.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        title.textAlignment = .center
         
-        rightLabel.font = UIFont.systemFont(ofSize: 18, weight: .medium)
-        rightLabel.textAlignment = .left
+        subTitle.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        subTitle.textAlignment = .left
     }
     
 //    func setTest(tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

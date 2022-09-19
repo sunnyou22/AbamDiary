@@ -45,9 +45,10 @@
 		90CCDB6E28D057FB00CDEE06 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 90CCDB6D28D057FB00CDEE06 /* RealmSwift */; };
 		90CCDB7328D06F6B00CDEE06 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CCDB7228D06F6B00CDEE06 /* WriteViewController.swift */; };
 		90CCDB7528D0706100CDEE06 /* CustomFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CCDB7428D0706100CDEE06 /* CustomFormatter.swift */; };
+		90F0592328D80E1D00F61899 /* SettiongConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F0592228D80E1D00F61899 /* SettiongConstants.swift */; };
+		90F0592528D8138F00F61899 /* SettiongTablleViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F0592428D8138F00F61899 /* SettiongTablleViewCell.swift */; };
 		90F8261428CB799A008E8E6B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F8261328CB799A008E8E6B /* AppDelegate.swift */; };
 		90F8261628CB799A008E8E6B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F8261528CB799A008E8E6B /* SceneDelegate.swift */; };
-		90F8261828CB799A008E8E6B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F8261728CB799A008E8E6B /* ViewController.swift */; };
 		90F8261D28CB799F008E8E6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90F8261C28CB799F008E8E6B /* Assets.xcassets */; };
 		90F8262028CB799F008E8E6B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90F8261E28CB799F008E8E6B /* LaunchScreen.storyboard */; };
 		90F8262A28CB7DB4008E8E6B /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 90F8262928CB7DB4008E8E6B /* .gitignore */; };
@@ -88,10 +89,11 @@
 		90CCDB6828D056E300CDEE06 /* MonthDiaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthDiaryModel.swift; sourceTree = "<group>"; };
 		90CCDB7228D06F6B00CDEE06 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		90CCDB7428D0706100CDEE06 /* CustomFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFormatter.swift; sourceTree = "<group>"; };
+		90F0592228D80E1D00F61899 /* SettiongConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettiongConstants.swift; sourceTree = "<group>"; };
+		90F0592428D8138F00F61899 /* SettiongTablleViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettiongTablleViewCell.swift; sourceTree = "<group>"; };
 		90F8261028CB799A008E8E6B /* AbamDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AbamDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90F8261328CB799A008E8E6B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		90F8261528CB799A008E8E6B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		90F8261728CB799A008E8E6B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		90F8261C28CB799F008E8E6B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		90F8261F28CB799F008E8E6B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		90F8262128CB799F008E8E6B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -198,6 +200,8 @@
 			children = (
 				90B7211528CDAD0500B243AE /* SettiongViewController.swift */,
 				90B8CB2328D7130F00A2C5E9 /* SettingView.swift */,
+				90F0592228D80E1D00F61899 /* SettiongConstants.swift */,
+				90F0592428D8138F00F61899 /* SettiongTablleViewCell.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -248,7 +252,6 @@
 				90F8262B28CB9F0C008E8E6B /* Constant */,
 				90F8261328CB799A008E8E6B /* AppDelegate.swift */,
 				90F8261528CB799A008E8E6B /* SceneDelegate.swift */,
-				90F8261728CB799A008E8E6B /* ViewController.swift */,
 				900AEE2128CCC0C000F18360 /* Main.storyboard */,
 				90F8261C28CB799F008E8E6B /* Assets.xcassets */,
 				90F8261E28CB799F008E8E6B /* LaunchScreen.storyboard */,
@@ -364,12 +367,14 @@
 				900AEDFA28CC5A9100F18360 /* BaseViewController.swift in Sources */,
 				90B7211228CDACE300B243AE /* MonthDiaryViewController.swift in Sources */,
 				905E099428D1C3700084ADAE /* SearchView.swift in Sources */,
+				90F0592328D80E1D00F61899 /* SettiongConstants.swift in Sources */,
 				904492B528D5BD1D0028F920 /* CheerupTableViewCell.swift in Sources */,
 				90B7210E28CDACBE00B243AE /* CheerupViewController.swift in Sources */,
 				90B3090D28D3FCD900A7BCC7 /* DateModel.swift in Sources */,
 				900AEE0928CC642D00F18360 /* Font.swift in Sources */,
 				907FF54828D769930037BF28 /* Photos + Extension.swift in Sources */,
 				90B7211028CDACC900B243AE /* SearchViewController.swift in Sources */,
+				90F0592528D8138F00F61899 /* SettiongTablleViewCell.swift in Sources */,
 				90B8CB2428D7130F00A2C5E9 /* SettingView.swift in Sources */,
 				904492B328D5ACC90028F920 /* CheeupView.swift in Sources */,
 				90CCDB7328D06F6B00CDEE06 /* WriteViewController.swift in Sources */,
@@ -380,7 +385,6 @@
 				907FF54A28D78F5A0037BF28 /* FileManager+Extension.swift in Sources */,
 				90CB363C28D08BA6002FCB45 /* WriteView.swift in Sources */,
 				900AEE0528CC5DB500F18360 /* MainTableViewCell.swift in Sources */,
-				90F8261828CB799A008E8E6B /* ViewController.swift in Sources */,
 				90B7211828CDB53D00B243AE /* TabBarImage.swift in Sources */,
 				90CB364028D0A530002FCB45 /* Transition.swift in Sources */,
 				900AEE1A28CC9A5300F18360 /* Observable.swift in Sources */,
