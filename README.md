@@ -106,7 +106,7 @@
     2. dateComponent로 어떻게 시간 형태를 구성하여 노티로 보낼 수 있을까?
     
 ### 공식문서를 읽어보니 한방에 hh:mm로 보내지 않고 따로따로 date.hour , date.minute 이렇게 적용해도 알아서 합쳐지면서 전달됨
-
+[공식문서](https://developer.apple.com/documentation/usernotifications/uncalendarnotificationtrigger)
 > Declaration
 class UNCalendarNotificationTrigger : UNNotificationTrigger
 Overview
@@ -167,3 +167,4 @@ let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
 
 ## 소회
 - 공식문서가 짱이다.
+ 
