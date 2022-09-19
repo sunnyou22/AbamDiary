@@ -9,13 +9,11 @@ import UIKit
 import Toast
 import SnapKit
 
-
-
-
 class SettiongViewController: BaseViewController {
     
     var settingView = SettingView()
     let profileImage = "profile.jpg"
+    let notificationCenter =  UNUserNotificationCenter.current()
     
     //MARK: 스위치 넣어주기
     let notificationSwitch: UISwitch = {
@@ -33,7 +31,10 @@ class SettiongViewController: BaseViewController {
     
     let morningNotoTime: UIButton = {
         let view = UIButton()
-        view.setTitle("아침설정시간", for: .normal)
+        view.tag = 0
+        let title = UserDefaults.standard.string(forKey: "\(view.tag)")
+        view.setTitle(title, for: .normal)
+        
         view.backgroundColor = .systemGray4
         DispatchQueue.main.async {
             view.clipsToBounds = true
@@ -44,7 +45,10 @@ class SettiongViewController: BaseViewController {
     
     let nigntNotiTime: UIButton = {
         let view = UIButton()
-        view.setTitle("저녁설정시간", for: .normal)
+        view.tag = 1
+        let title = UserDefaults.standard.string(forKey: "\(view.tag)")
+        view.setTitle(title, for: .normal)
+        
         view.backgroundColor = .systemGray4
         DispatchQueue.main.async {
             view.clipsToBounds = true
@@ -72,16 +76,15 @@ class SettiongViewController: BaseViewController {
         settingView.tableView.dataSource = self
         
         settingView.changeButton.addTarget(self, action: #selector(changeProfileButtonClicked), for: .touchUpInside)
-        //        DispatchQueue.main.async { [self] in
-        //            let config = UIImage.SymbolConfiguration(pointSize: 17, weight: .semibold)
-        //            settingView.profileimageView.image = UIImage(systemName: "camera.fill", withConfiguration: config)
-        //        }
-        
         
         //MARK: 프로필 이미지
         settingView.profileimageView.image = loadImageFromDocument(fileName: profileImage)
         
+        morningNotoTime.addTarget(self, action: #selector(popDatePicker), for: .touchUpInside)
+       
         
+        nigntNotiTime.addTarget(self, action: #selector(popDatePicker), for: .touchUpInside)
+      
     }
 }
 
@@ -177,5 +180,44 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
         alert.addAction(cancel)
         
         present(alert, animated: true, completion: nil)
+    }
+}
+
+//MARK: 데이트 피커
+extension SettiongViewController {
+    
+    @objc func popDatePicker(_ sender: UIButton) {
+        
+        let datePicker = UIDatePicker()
+        datePicker.datePickerMode = .time
+        datePicker.preferredDatePickerStyle = .wheels
+        
+        let dateString = DateFormatter()
+        dateString.locale = NSLocale(localeIdentifier: "ko_KO") as Locale
+        dateString.dateFormat = "hh:mm"
+//        datePicker.locale = NSLocale(localeIdentifier: "ko_KO") as Locale
+        dateString.string(from: datePicker.date)
+//        let timeStrng = CustomFormatter.setTime(date: datePicker.date)
+
+        print("========> 유저디폴트 키값", "\(sender.tag)")
+        
+        let dateChooseAlert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+        dateChooseAlert.view.addSubview(datePicker)
+        
+        let selection = UIAlertAction(title: "선택완료", style: .default) { _ in
+            UserDefaults.standard.set(dateString.string(from: datePicker.date), forKey: "\(sender.tag)")
+            let test = UserDefaults.standard.string(forKey: "\(sender.tag)")
+            sender.setTitle(test, for: .normal)
+            print("========>", "\(datePicker.date)")
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        
+        dateChooseAlert.addAction(selection)
+        dateChooseAlert.addAction(cancel)
+        
+        let height : NSLayoutConstraint = NSLayoutConstraint(item: dateChooseAlert.view!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.1, constant: 300)
+        dateChooseAlert.view.addConstraint(height)
+        
+        present(dateChooseAlert, animated: true)
     }
 }

@@ -15,6 +15,8 @@ import Foundation
         enum Key: String {
             case morningDiaryCount
             case nightDiaryCount
+            case morningNotiPush
+            case nightNotiPush
         }
         
         let userDefaults = UserDefaults.standard
@@ -28,12 +30,32 @@ import Foundation
             }
         }
         
-        var nightDiaryCount: Bool {
+        var nightDiaryCount: String {
             get  {
-                return userDefaults.bool(forKey: Key.nightDiaryCount.rawValue)
+                return userDefaults.string(forKey: Key.nightDiaryCount.rawValue) ?? "0"
             }
             set  {
                 userDefaults.set(newValue, forKey: Key.nightDiaryCount.rawValue)
             }
 }
+        
+        
+        var morningNotiPush: String {
+            get  {
+                return userDefaults.string(forKey: Key.morningNotiPush.rawValue) ?? "--:--"
+            }
+            set  {
+                userDefaults.set(newValue, forKey: Key.morningNotiPush.rawValue)
+            }
+        }
+            
+            
+        var nightNotiPush: String {
+            get  {
+                return userDefaults.string(forKey: Key.nightNotiPush.rawValue) ?? "--:--"
+            }
+            set  {
+                userDefaults.set(newValue, forKey: Key.nightNotiPush.rawValue)
+            }
+        }
     }

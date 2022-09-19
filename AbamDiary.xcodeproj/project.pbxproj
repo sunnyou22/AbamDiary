@@ -47,6 +47,7 @@
 		90CCDB7528D0706100CDEE06 /* CustomFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CCDB7428D0706100CDEE06 /* CustomFormatter.swift */; };
 		90F0592328D80E1D00F61899 /* SettiongConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F0592228D80E1D00F61899 /* SettiongConstants.swift */; };
 		90F0592528D8138F00F61899 /* SettiongTablleViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F0592428D8138F00F61899 /* SettiongTablleViewCell.swift */; };
+		90F0592728D84A4500F61899 /* NoficationPush + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F0592628D84A4500F61899 /* NoficationPush + Extension.swift */; };
 		90F8261428CB799A008E8E6B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F8261328CB799A008E8E6B /* AppDelegate.swift */; };
 		90F8261628CB799A008E8E6B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F8261528CB799A008E8E6B /* SceneDelegate.swift */; };
 		90F8261D28CB799F008E8E6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90F8261C28CB799F008E8E6B /* Assets.xcassets */; };
@@ -91,6 +92,7 @@
 		90CCDB7428D0706100CDEE06 /* CustomFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFormatter.swift; sourceTree = "<group>"; };
 		90F0592228D80E1D00F61899 /* SettiongConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettiongConstants.swift; sourceTree = "<group>"; };
 		90F0592428D8138F00F61899 /* SettiongTablleViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettiongTablleViewCell.swift; sourceTree = "<group>"; };
+		90F0592628D84A4500F61899 /* NoficationPush + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NoficationPush + Extension.swift"; sourceTree = "<group>"; };
 		90F8261028CB799A008E8E6B /* AbamDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AbamDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90F8261328CB799A008E8E6B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		90F8261528CB799A008E8E6B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				90B8CB2328D7130F00A2C5E9 /* SettingView.swift */,
 				90F0592228D80E1D00F61899 /* SettiongConstants.swift */,
 				90F0592428D8138F00F61899 /* SettiongTablleViewCell.swift */,
+				90F0592628D84A4500F61899 /* NoficationPush + Extension.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -397,6 +400,7 @@
 				900AEE2028CC9F5300F18360 /* Reusable.swift in Sources */,
 				900AEDFC28CC5AB100F18360 /* BaseView.swift in Sources */,
 				900AEE0028CC5BA700F18360 /* BaseTableViewCell.swift in Sources */,
+				90F0592728D84A4500F61899 /* NoficationPush + Extension.swift in Sources */,
 				90F8261428CB799A008E8E6B /* AppDelegate.swift in Sources */,
 				90F8261628CB799A008E8E6B /* SceneDelegate.swift in Sources */,
 				900AEE0328CC5D6700F18360 /* MainViewController.swift in Sources */,
