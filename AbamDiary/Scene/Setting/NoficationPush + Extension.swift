@@ -17,12 +17,13 @@ extension SettiongViewController {
        notificationCenter.requestAuthorization(options: authorizationOptions) {  success, error in
             if success {
                 UserDefaults.standard.set(true, forKey: "switch")
-                
+                // bool을 전역변수로 만들고 toggle로 변경해줌 -> 이 변수를 위의 true자리에 넣는것...?
                 print("노티푸시혀용!!!뷰컨")
             } else {
                 print("🔴====> 노티푸시실패")
+                print(error?.localizedDescription)
                 UserDefaults.standard.set(false, forKey: "switch")
-                
+               
             }
         }
     }
@@ -32,16 +33,9 @@ extension SettiongViewController {
         let notificationContent = UNMutableNotificationContent()
         notificationContent.title = "아밤일기"
         notificationContent.subtitle = subTitle
-        //        notificationContent.badge -> 할까말까...다마고치앱 확인하기
-        
-//        let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.hour, .minute], from: timeInterval), repeats: true)
-        
+      
         let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
         
-        //언제보낼거?
-//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
-//
-        //
         let request = UNNotificationRequest(identifier: "\(Date())", content: notificationContent, trigger: trigger)
         
         SettiongViewController.notificationCenter.add(request)

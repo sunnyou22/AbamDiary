@@ -8,6 +8,7 @@
 import UIKit
 import Toast
 import SnapKit
+import UserNotifications
 
 class SettiongViewController: BaseViewController {
     
@@ -19,6 +20,7 @@ class SettiongViewController: BaseViewController {
    static let notificationSwitch: UISwitch = {
         let view = UISwitch()
         view.setOn(UserDefaults.standard.bool(forKey: "switch"), animated: true)
+
         return view
     }()
     
@@ -78,6 +80,7 @@ class SettiongViewController: BaseViewController {
         settingView.tableView.dataSource = self
         
         settingView.changeButton.addTarget(self, action: #selector(changeProfileButtonClicked), for: .touchUpInside)
+        
         SettiongViewController.notificationSwitch.addTarget(self, action: #selector(changeSwitch), for: .valueChanged)
         
         //MARK: 프로필 이미지
@@ -91,6 +94,7 @@ class SettiongViewController: BaseViewController {
     }
 }
 
+//MARK: - 테이블 그리기
 extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -265,14 +269,26 @@ extension SettiongViewController {
     
     
     @objc func changeSwitch(_ sender: UISwitch) {
-        
+       
        if sender.isOn == true {
             SettiongViewController.requestAutorization()
-           
+           morningNotoTime.isUserInteractionEnabled = true
+           nigntNotiTime.isUserInteractionEnabled = true
+           [morningNotoTime, nigntNotiTime].forEach { btn in
+               btn.layer.borderColor = Color.BaseColorWtihDark.thineBar.cgColor
+               btn.layer.borderWidth = 1
+           }
         } else {
-            print("스위치 오프")
+            SettiongViewController.notificationCenter.removeAllPendingNotificationRequests()
+            morningNotoTime.isUserInteractionEnabled = false
+            nigntNotiTime.isUserInteractionEnabled = false
+            UserDefaults.standard.set(false, forKey: "switch")
+            print("======> 🔴 스위치 오프 및 removeAllPendingNotificationRequests")
+            [morningNotoTime, nigntNotiTime].forEach { btn in
+                btn.backgroundColor = .gray
+                btn.setTitle("--:--", for: .normal)
+                
+            }
         }
     }
 }
-
-

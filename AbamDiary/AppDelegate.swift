@@ -9,18 +9,16 @@ import UIKit
 import UserNotifications
 
  @main
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         SettiongViewController.requestAutorization()
         
         //2. 노티제거
-        UNUserNotificationCenter.current().removeAllDeliveredNotifications() // 노티에서 열기를 클릭하거나 그냥 앱을 다시 들어왓을 때 이걸 써주지 않아도 사라지던데 왜 필요한지 다시 설명듣기.. // 생명주기에 다라 다름
-        // Override point for customization after application launch.
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         
-        UNUserNotificationCenter.current().delegate = self // 인스턴스를 만들필요가 없음
-        // 해당클래스의 인스턴스를 자신이 가지고있다는 것을 의미함 //  UNUserNotificationCenterDelegate { // 액션담당
+        UNUserNotificationCenter.current().delegate = self
         
         return true
 
@@ -40,7 +38,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-
-
 }
 
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.list, .sound, .banner])
+    }
+//
+//    func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
+//        <#code#>
+//    }
+}
