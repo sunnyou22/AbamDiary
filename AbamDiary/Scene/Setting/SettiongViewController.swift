@@ -13,11 +13,12 @@ class SettiongViewController: BaseViewController {
     
     var settingView = SettingView()
     let profileImage = "profile.jpg"
-    let notificationCenter =  UNUserNotificationCenter.current()
+  static let notificationCenter =  UNUserNotificationCenter.current()
     
     //MARK: 스위치 넣어주기
-    let notificationSwitch: UISwitch = {
+   static let notificationSwitch: UISwitch = {
         let view = UISwitch()
+        view.setOn(UserDefaults.standard.bool(forKey: "switch"), animated: true)
         return view
     }()
     
@@ -57,6 +58,7 @@ class SettiongViewController: BaseViewController {
         return view
     }()
     
+    
     override func loadView() {
         self.view = settingView
     }
@@ -76,6 +78,7 @@ class SettiongViewController: BaseViewController {
         settingView.tableView.dataSource = self
         
         settingView.changeButton.addTarget(self, action: #selector(changeProfileButtonClicked), for: .touchUpInside)
+        SettiongViewController.notificationSwitch.addTarget(self, action: #selector(changeSwitch), for: .valueChanged)
         
         //MARK: 프로필 이미지
         settingView.profileimageView.image = loadImageFromDocument(fileName: profileImage)
@@ -84,7 +87,7 @@ class SettiongViewController: BaseViewController {
        
         
         nigntNotiTime.addTarget(self, action: #selector(popDatePicker), for: .touchUpInside)
-      
+        
     }
 }
 
@@ -132,8 +135,8 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
                     }
                 }
                 if indexPath.row == 2 {
-                    cell.contentView.addSubview(notificationSwitch)
-                    notificationSwitch.snp.makeConstraints { make in
+                    cell.contentView.addSubview(SettiongViewController.notificationSwitch)
+                    SettiongViewController.notificationSwitch.snp.makeConstraints { make in
                         make.trailing.equalTo(cell.contentView.snp.trailing).offset(-28)
                         make.centerY.equalTo(cell.contentView.snp.centerY)
                     }
@@ -192,24 +195,55 @@ extension SettiongViewController {
         datePicker.datePickerMode = .time
         datePicker.preferredDatePickerStyle = .wheels
         
-        let dateString = DateFormatter()
-        dateString.locale = NSLocale(localeIdentifier: "ko_KO") as Locale
-        dateString.dateFormat = "hh:mm"
-//        datePicker.locale = NSLocale(localeIdentifier: "ko_KO") as Locale
-        dateString.string(from: datePicker.date)
-//        let timeStrng = CustomFormatter.setTime(date: datePicker.date)
+        //dateformat
+        let dateStringFormatter = DateFormatter()
+        dateStringFormatter.locale = NSLocale(localeIdentifier: "ko_KO") as Locale
+        dateStringFormatter.dateFormat = "hh:mm"
+        dateStringFormatter.string(from: datePicker.date)
+
 
         print("========> 유저디폴트 키값", "\(sender.tag)")
         
         let dateChooseAlert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
         dateChooseAlert.view.addSubview(datePicker)
         
+        //MARK: 선택완료버튼 클릭
         let selection = UIAlertAction(title: "선택완료", style: .default) { _ in
-            UserDefaults.standard.set(dateString.string(from: datePicker.date), forKey: "\(sender.tag)")
-            let test = UserDefaults.standard.string(forKey: "\(sender.tag)")
-            sender.setTitle(test, for: .normal)
+            UserDefaults.standard.set(dateStringFormatter.string(from: datePicker.date), forKey: "\(sender.tag)")
+            let dateString = UserDefaults.standard.string(forKey: "\(sender.tag)")
+            sender.setTitle(dateString, for: .normal)
             print("========>", "\(datePicker.date)")
+            
+            if sender.tag == 0 {
+                var date = DateComponents(timeZone: .current)
+                var Marray = [CustomFormatter.changeHourToInt(date: datePicker.date), CustomFormatter.changeMinuteToInt(date: datePicker.date)]
+             
+                UserDefaults.standard.set(Marray, forKey: "Mdate")
+                Marray = UserDefaults.standard.array(forKey: "Mdate") as? [Int] ?? [Int]()
+            
+                date.hour = Marray[0]
+                date.minute = Marray[1]
+                
+                self.sendNotification(subTitle: "아침일기를 쓰러가볼까요?", date: date)
+                
+                print("아침 일기 알람 설정 📍")
+            } else if sender.tag == 1 {
+                var date = DateComponents(timeZone: .current)
+                var Narray = [CustomFormatter.changeHourToInt(date: datePicker.date), CustomFormatter.changeMinuteToInt(date: datePicker.date)]
+             
+                UserDefaults.standard.set(Narray, forKey: "Ndate")
+                Narray = UserDefaults.standard.array(forKey: "Ndate") as? [Int] ?? [Int]()
+            
+                date.hour = Narray[0]
+                date.minute = Narray[1]
+                
+                self.sendNotification(subTitle: "밤일기를 쓰러가볼까요?", date: date)
+                print("밤일기 알람 설정 📍")
+            }
+            
         }
+        
+        //MARK: cancel버튼
         let cancel = UIAlertAction(title: "취소", style: .cancel)
         
         dateChooseAlert.addAction(selection)
@@ -218,15 +252,27 @@ extension SettiongViewController {
         let height : NSLayoutConstraint = NSLayoutConstraint(item: dateChooseAlert.view!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.1, constant: 300)
         dateChooseAlert.view.addConstraint(height)
         
+        //MARK: 노티데스트
+        
+        if morningNotoTime.tag == 0 {
+            print(datePicker.date, "==========")
+        } else if nigntNotiTime.tag == 1 {
+            print(datePicker.date)
+        }
+        
         present(dateChooseAlert, animated: true)
-        
-        
-        //MARK: 노티 Test
-        let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.hour, .minute], from: Date()), repeats: true)
     }
     
+    
     @objc func changeSwitch(_ sender: UISwitch) {
-        requestAutorization(sendNotification(title: "아밤일기", subTitle: "아침일기를 쓰러가볼까요?", timeInterval: <#T##Double#>))
-        requestAutorization(sendNotification(title: "아밤일기", subTitle: "밤일기를 쓰러가볼까요?", timeInterval: <#T##Double#>))
+        
+       if sender.isOn == true {
+            SettiongViewController.requestAutorization()
+           
+        } else {
+            print("스위치 오프")
+        }
     }
 }
+
+

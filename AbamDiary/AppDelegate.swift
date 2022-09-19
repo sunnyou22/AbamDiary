@@ -13,17 +13,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        SettiongViewController.requestAutorization()
+        
         //2. 노티제거
         UNUserNotificationCenter.current().removeAllDeliveredNotifications() // 노티에서 열기를 클릭하거나 그냥 앱을 다시 들어왓을 때 이걸 써주지 않아도 사라지던데 왜 필요한지 다시 설명듣기.. // 생명주기에 다라 다름
         // Override point for customization after application launch.
         
         UNUserNotificationCenter.current().delegate = self // 인스턴스를 만들필요가 없음
         // 해당클래스의 인스턴스를 자신이 가지고있다는 것을 의미함 //  UNUserNotificationCenterDelegate { // 액션담당
-
         
         return true
-    }
 
+    }
+    
+    
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {

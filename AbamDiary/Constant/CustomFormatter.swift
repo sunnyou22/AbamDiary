@@ -71,12 +71,21 @@ class CustomFormatter {
     }
     
 //    이렇게 모델로 빼줘서 적용하면 시간이 제대로 적용이 안됨
-    static func datePicker(date: Date) -> String {
+    static func changeHourToInt(date: Date) -> Int {
         let formatter = DateFormatter()
         formatter.locale = NSLocale(localeIdentifier: "ko_KO") as Locale
-        formatter.dateFormat = "hh:mm"
+        formatter.dateFormat = "hh"
+    
+        return Int(formatter.string(from: date)) ?? 0
 
-       return formatter.string(from: date)
+    }
+    
+    static func changeMinuteToInt(date: Date) -> Int {
+        let formatter = DateFormatter()
+        formatter.locale = NSLocale(localeIdentifier: "ko_KO") as Locale
+        formatter.dateFormat = "mm"
+    
+        return Int(formatter.string(from: date)) ?? 0
 
     }
 }

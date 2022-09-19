@@ -7,6 +7,7 @@
 
 import RealmSwift
 import UIKit
+import Foundation
 
 //네이밍컨벤션 화면 특성에 따라 바꿔주기 (Ex: calendarVC ...)
 //=>>> Diary, mornimgDiary => morning
