@@ -219,5 +219,14 @@ extension SettiongViewController {
         dateChooseAlert.view.addConstraint(height)
         
         present(dateChooseAlert, animated: true)
+        
+        
+        //MARK: 노티 Test
+        let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.hour, .minute], from: Date()), repeats: true)
+    }
+    
+    @objc func changeSwitch(_ sender: UISwitch) {
+        requestAutorization(sendNotification(title: "아밤일기", subTitle: "아침일기를 쓰러가볼까요?", timeInterval: <#T##Double#>))
+        requestAutorization(sendNotification(title: "아밤일기", subTitle: "밤일기를 쓰러가볼까요?", timeInterval: <#T##Double#>))
     }
 }

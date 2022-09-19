@@ -39,23 +39,4 @@ import Foundation
             }
 }
         
-        
-        var morningNotiPush: String {
-            get  {
-                return userDefaults.string(forKey: Key.morningNotiPush.rawValue) ?? "--:--"
-            }
-            set  {
-                userDefaults.set(newValue, forKey: Key.morningNotiPush.rawValue)
-            }
-        }
-            
-            
-        var nightNotiPush: String {
-            get  {
-                return userDefaults.string(forKey: Key.nightNotiPush.rawValue) ?? "--:--"
-            }
-            set  {
-                userDefaults.set(newValue, forKey: Key.nightNotiPush.rawValue)
-            }
-        }
     }

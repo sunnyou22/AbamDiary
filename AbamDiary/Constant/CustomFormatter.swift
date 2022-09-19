@@ -70,13 +70,13 @@ class CustomFormatter {
         return setDateFormatter(date: date) + ampm + setTime(date: date)
     }
     
-    //이렇게 모델로 빼줘서 적용하면 시간이 제대로 적용이 안됨
-//    static func datePicker(date: Date) -> String {
-//        let formatter = DateFormatter()
-//        formatter.locale = NSLocale(localeIdentifier: "ko_KO") as Locale
-//        formatter.dateFormat = "hh:mm"
-//
-//       return formatter.string(from: date)
-//
-//    }
+//    이렇게 모델로 빼줘서 적용하면 시간이 제대로 적용이 안됨
+    static func datePicker(date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = NSLocale(localeIdentifier: "ko_KO") as Locale
+        formatter.dateFormat = "hh:mm"
+
+       return formatter.string(from: date)
+
+    }
 }
