@@ -143,25 +143,25 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
         if sender.isOn == true {
             SettiongViewController.requestAutorization()
             UserDefaults.standard.set(true, forKey: "switch")
-            
+            self.settingView.tableView.reloadData()
         } else if sender.isOn == false {
             
             sender.setOn(true, animated: true) // 2
             let alert = UIAlertController(title: "알림해제", message: "알림을 받지 않으시겠습니까?", preferredStyle: .alert)
             let ok = UIAlertAction(title: "OK", style: .default) { _ in
-                sender.setOn(false, animated: true) // 4
+              
                 SettiongViewController.notificationCenter.removeAllPendingNotificationRequests()
                 UserDefaults.standard.set(false, forKey: "switch")
                 UserDefaults.standard.removeObject(forKey: "MbtnSelected")
-                
-                
+                sender.setOn(false, animated: true) // 4
+                self.settingView.tableView.reloadData()
             }
+            
             let cancel = UIAlertAction(title: "Cancel", style: .cancel)
             alert.addAction(ok)
             alert.addAction(cancel)
             present(alert, animated: true)
         }
-        settingView.tableView.reloadData()
     }
     
     //MARK: 프로필 사진 바꾸기
