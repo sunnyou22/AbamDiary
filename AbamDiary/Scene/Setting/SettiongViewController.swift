@@ -135,9 +135,15 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == 2 {
             if indexPath.row == 0 {
                 let alert = UIAlertController(title: "알림", message: "정말 모든 데이터를 삭제하시겠습니까?", preferredStyle: .alert)
-                let ok = UIAlertAction(title: "네", style: .destructive)
-                let cacel = UIAlertAction(title: "아니오", style: .cancel)
-                OneDayDiaryRepository.shared.deleteTasks(tasks: tasks)
+                let ok = UIAlertAction(title: "네", style: .destructive) {_ in
+                    OneDayDiaryRepository.shared.deleteTasks(tasks: self.tasks)
+                }
+                let cancel = UIAlertAction(title: "아니오", style: .cancel)
+                
+                alert.addAction(ok)
+                alert.addAction(cancel)
+                
+                present(alert, animated: true)
             }
         }
     }

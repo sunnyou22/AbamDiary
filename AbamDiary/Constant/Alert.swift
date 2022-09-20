@@ -8,13 +8,19 @@
 import UIKit
 
 //Alert 따로 빼주기
-//class CustomAlert {
+//class CustomAlert: UIViewController {
+//
+//    let shared = CustomAlert()
 //
 //    private init() { }
 //
-//   func showAlertMessage(title: String, button: String = "확인") {
+//    required init?(coder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+//
+//    func showAlertMessage(title: String, ok: String = "확인", cancel: String = "취소") {
 //        let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
-//        let ok = UIAlertAction(title: button, style: .default)
+//        let ok = UIAlertAction(title: ok, style: .default)
 //        alert.addAction(ok)
 //
 //        present(alert, animated: true)

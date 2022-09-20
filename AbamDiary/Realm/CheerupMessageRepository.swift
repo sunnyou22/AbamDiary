@@ -10,6 +10,7 @@ import RealmSwift
 fileprivate protocol CheerupMessageRepositoryType {
     func fetchDate() -> Results<CheerupMessage>
     func deleteRecord(item: CheerupMessage)
+    func deleteTasks(tasks: Results<CheerupMessage>)
     func addItem(item: CheerupMessage)
 }
 
@@ -33,6 +34,17 @@ class CheerupMessageRepository: CheerupMessageRepositoryType {
             
         } catch let error {
             print("응원메세지 삭제 오류", error)
+        }
+    }
+    
+    func deleteTasks(tasks: Results<CheerupMessage>) {
+        do {
+            try localRealm.write {
+                localRealm.delete(tasks)
+                print("일기 초기화 완료👌")
+            }
+        } catch {
+            print("====> Realm deleteTasks Fail")
         }
     }
     

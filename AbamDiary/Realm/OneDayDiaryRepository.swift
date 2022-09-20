@@ -15,6 +15,7 @@ fileprivate protocol OnedayDiaryRepositoryType {
     func fetchSearchDateFilter(text: String) -> Results<Diary>
     func fetchDate(date: Date) -> Results<Diary>
     func deleteRecord(item: Diary)
+    func deleteTasks(tasks: Results<Diary>)
     func addItem(item: Diary)
 }
 

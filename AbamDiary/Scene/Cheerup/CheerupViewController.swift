@@ -37,6 +37,24 @@ class CheerupViewController: BaseViewController {
         cheerupView.tableView.dataSource = self
         cheerupView.birdButton.addTarget(self, action: #selector(insertMessage), for: .touchUpInside)
         
+        
+        //메세지 초기화
+        let reset = UIBarButtonItem(title: "초기화", style: .plain, target: self, action: #selector(resetMessage))
+        self.navigationItem.rightBarButtonItem = reset
+    }
+    
+    @objc func resetMessage() {
+        let alert = UIAlertController(title: "알림", message: "정말 모든 데이터를 삭제하시겠습니까?", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "네", style: .destructive) {_ in
+            CheerupMessageRepository.shared.deleteTasks(tasks: self.tasks)
+            self.cheerupView.tableView.reloadData()
+        }
+        let cancel = UIAlertAction(title: "아니오", style: .cancel)
+        
+        alert.addAction(ok)
+        alert.addAction(cancel)
+        
+        present(alert, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
