@@ -16,14 +16,6 @@ class SettiongViewController: BaseViewController {
     let profileImage = "profile.jpg"
   static let notificationCenter =  UNUserNotificationCenter.current()
     
-    //MARK: 스위치 넣어주기
-   static let notificationSwitch: UISwitch = {
-        let view = UISwitch()
-        view.setOn(UserDefaults.standard.bool(forKey: "switch"), animated: true)
-
-        return view
-    }()
-    
     let goBackUPVCImage: UIImageView = {
         let view = UIImageView()
         let config = UIImage.SymbolConfiguration(pointSize: 32, weight: .medium)
@@ -31,35 +23,6 @@ class SettiongViewController: BaseViewController {
 //        view.backgroundColor = .systemBlue
         return view
     }()
-    
-    let morningNotoTime: UIButton = {
-        let view = UIButton()
-        view.tag = 0
-        let title = UserDefaults.standard.string(forKey: "\(view.tag)")
-        view.setTitle(title, for: .normal)
-        
-        view.backgroundColor = .systemGray4
-        DispatchQueue.main.async {
-            view.clipsToBounds = true
-            view.layer.cornerRadius = 16
-        }
-        return view
-    }()
-    
-    let nigntNotiTime: UIButton = {
-        let view = UIButton()
-        view.tag = 1
-        let title = UserDefaults.standard.string(forKey: "\(view.tag)")
-        view.setTitle(title, for: .normal)
-        
-        view.backgroundColor = .systemGray4
-        DispatchQueue.main.async {
-            view.clipsToBounds = true
-            view.layer.cornerRadius = 16
-        }
-        return view
-    }()
-    
     
     override func loadView() {
         self.view = settingView
@@ -114,48 +77,18 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewCell.reuseIdentifier, for: indexPath) as? SettingTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingDefaultTableViewCell.reuseIdentifier, for: indexPath) as? SettingDefaultTableViewCell else { return UITableViewCell() }
         
         cell.subTitle.text = Setting.allCases[indexPath.section].subTitle[indexPath.row]
         
-        //메서드 따로 빼기
-        if indexPath.section == 0 {
-            if indexPath.row == 0 {
-                
-                
-                cell.contentView.addSubview(morningNotoTime)
-                morningNotoTime.snp.makeConstraints { make in
-                    make.trailing.equalTo(cell.contentView.snp.trailing).offset(-20)
-                    make.centerY.equalTo(cell.contentView.snp.centerY)
-                    make.width.equalTo(morningNotoTime.snp.height).multipliedBy(2.4)
-                    make.verticalEdges.equalTo(cell.contentView.snp.verticalEdges).inset(16)
-                }
-            }
-                if indexPath.row == 1 {
-                    cell.contentView.addSubview(nigntNotiTime)
-                    nigntNotiTime.snp.makeConstraints { make in
-                        make.trailing.equalTo(cell.contentView.snp.trailing).offset(-20)
-                        make.centerY.equalTo(cell.contentView.snp.centerY)
-                        make.width.equalTo(nigntNotiTime.snp.height).multipliedBy(2.4)
-                        make.verticalEdges.equalTo(cell.contentView.snp.verticalEdges).inset(16)
-                    }
-                }
+     
                 if indexPath.row == 2 {
                     cell.contentView.addSubview(SettiongViewController.notificationSwitch)
-                    SettiongViewController.notificationSwitch.snp.makeConstraints { make in
-                        make.trailing.equalTo(cell.contentView.snp.trailing).offset(-28)
-                        make.centerY.equalTo(cell.contentView.snp.centerY)
-                    }
+                  
                 }
             
             } else if indexPath.section == 1 {
-                if indexPath.row == 2 {
-                    //didSelect로 화면 넘어가는거 구현하기
-                    cell.contentView.addSubview(goBackUPVCImage)
-                    goBackUPVCImage.snp.makeConstraints { make in
-                        make.centerY.equalTo(cell.contentView.snp.centerY)
-                        make.trailing.equalTo(cell.contentView.snp.trailing).offset(-28)
-                }
+               
             }
         }
         return cell

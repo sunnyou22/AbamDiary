@@ -1,5 +1,5 @@
 //
-//  SettiongTablleViewCell.swift
+//  SettingDefaultTableViewCell.swift
 //  AbamDiary
 //
 //  Created by 방선우 on 2022/09/19.
@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class SettingTableViewCell: BaseTableViewCell {
+class SettingDefaultTableViewCell: BaseTableViewCell {
     
     let subTitle: UILabel = {
         let view = UILabel()
