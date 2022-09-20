@@ -7,9 +7,11 @@
 //
 
 import UIKit
+
 import Toast
 import SnapKit
 import UserNotifications
+import RealmSwift
 
 class SettiongViewController: BaseViewController {
     
@@ -18,6 +20,8 @@ class SettiongViewController: BaseViewController {
     static let notificationCenter =  UNUserNotificationCenter.current()
     var autorizationStatus: Bool?
     static let autorizationSwitchModel = SwitchModel() // 권한에ㅔ 대한 관찰
+    
+    var tasks: Results<Diary>!
     
     override func loadView() {
         self.view = settingView
@@ -45,6 +49,8 @@ class SettiongViewController: BaseViewController {
         
         //MARK: 프로필 이미지
         settingView.profileimageView.image = loadImageFromDocument(fileName: profileImage)
+        
+        tasks = OneDayDiaryRepository.shared.fetchLatestOrder()
     }
 }
 
@@ -124,6 +130,19 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
         return UITableViewCell()
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if indexPath.section == 2 {
+            if indexPath.row == 0 {
+                let alert = UIAlertController(title: "알림", message: "정말 모든 데이터를 삭제하시겠습니까?", preferredStyle: .alert)
+                let ok = UIAlertAction(title: "네", style: .destructive)
+                let cacel = UIAlertAction(title: "아니오", style: .cancel)
+                OneDayDiaryRepository.shared.deleteTasks(tasks: tasks)
+            }
+        }
+    }
+    
+    //MARK: - 메서드
     func setButtonConfig(_ sender: UIButton) {
         //            "MbtnSelected"
         if UserDefaults.standard.bool(forKey: "switch") == true {

@@ -19,7 +19,7 @@ fileprivate protocol OnedayDiaryRepositoryType {
 }
 
 class OneDayDiaryRepository: OnedayDiaryRepositoryType {
-  
+    
     private init() { }
     
     static let shared = OneDayDiaryRepository()
@@ -33,7 +33,7 @@ class OneDayDiaryRepository: OnedayDiaryRepositoryType {
     func fetchOlderOrder() -> Results<Diary> {
         return localRealm.objects(Diary.self).sorted(byKeyPath: "createdDate", ascending: true)
     }
-     
+    
     func fetchSearchMoriningFilter(text: String) -> Results<Diary> {
         return localRealm.objects(Diary.self).filter("mornimgDiary CONTAINS[c] '\(text)")
     }
@@ -52,21 +52,37 @@ class OneDayDiaryRepository: OnedayDiaryRepositoryType {
     
     func deleteRecord(item: Diary) {
         
-        try! localRealm.write({
-            localRealm.delete(item)
-            print(item)
-        })
+        do {
+            try localRealm.write {
+                localRealm.delete(item)
+                print(item)
+            }
+        } catch {
+            print("====> Realm deleteRecord Fail")
+        }
+    }
+    
+    func deleteTasks(tasks: Results<Diary>) {
+        do {
+            try localRealm.write {
+                localRealm.delete(tasks)
+                print("일기 초기화 완료👌")
+            }
+        } catch {
+            print("====> Realm deleteTasks Fail")
+        }
     }
     
     func addItem(item: Diary) {
         do {
-            try localRealm.write({
+            try localRealm.write{
                 localRealm.add(item)
                 print("====> Realm add Succeed")
-            })
+            }
         } catch {
             print("====> Realm add Fail")
+            // 사용자가에게 얼럿띄워주기
         }
     }
- 
+    
 }
