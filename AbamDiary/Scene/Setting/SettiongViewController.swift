@@ -16,6 +16,8 @@ class SettiongViewController: BaseViewController {
     var settingView = SettingView()
     let profileImage = "profile.jpg"
     static let notificationCenter =  UNUserNotificationCenter.current()
+    var testAutorizatio: Bool?
+    static let autorizationSwitchModel = SwitchModel() // 권한에ㅔ 대한 관찰
     
     override func loadView() {
         self.view = settingView
@@ -23,6 +25,10 @@ class SettiongViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        SettiongViewController.autorizationSwitchModel.isValid.bind { bool in
+            self.testAutorizatio = bool
+        }
         
     }
     
@@ -73,11 +79,11 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
                     return UITableViewCell()
                 }
                 
-                //                   buttonCell.tag = 0
-                let title = UserDefaults.standard.string(forKey: "0")
+                let btnTitle = UserDefaults.standard.string(forKey: "MbtnSelected")
+                let defaultTitle = "00:00"
+                buttonCell.timeButton.setTitle("\(btnTitle ?? defaultTitle)", for: .normal)
+                
                 buttonCell.subTitle.text = "아침 알림 시간"
-                buttonCell.timeButton.setTitle(title, for: .normal)
-                buttonCell.timeButton.setTitle(title, for: .normal)
                 
                 buttonCell.timeButton.addTarget(self, action: #selector(MpopDatePicker), for: .touchUpInside)
                 setButtonConfig(buttonCell.timeButton)
@@ -90,10 +96,14 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
                 guard let buttonCell = tableView.dequeueReusableCell(withIdentifier: SettingAlarmTableViewCell.reuseIdentifier, for: indexPath) as? SettingAlarmTableViewCell else {
                     return UITableViewCell()
                 }
-                //                    buttonCell.tag = 1
-                let title = UserDefaults.standard.string(forKey: "1")
+                
+                let btnTitle = UserDefaults.standard.string(forKey: "NbtnSelected")
+                let defaultTitle = "00:00"
+                buttonCell.timeButton.setTitle("\(btnTitle ?? defaultTitle)", for: .normal)
+                
+              
                 buttonCell.subTitle.text = "밤 알림 시간"
-                buttonCell.timeButton.setTitle(title, for: .normal)
+               
                 setButtonConfig(buttonCell.timeButton)
                 
                 buttonCell.timeButton.addTarget(self, action: #selector(NpopDatePicker), for: .touchUpInside)
@@ -124,9 +134,6 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
         if UserDefaults.standard.bool(forKey: "switch") == true {
             sender.isUserInteractionEnabled = true
             sender.backgroundColor = Color.BaseColorWtihDark.thineBar
-            let btnTitle = UserDefaults.standard.string(forKey: "MbtnSelected")
-            let defaultTitle = "00:00"
-            sender.setTitle("\(btnTitle ?? defaultTitle)", for: .normal)
         } else {
             sender.isUserInteractionEnabled = false
             UserDefaults.standard.set(false, forKey: "switch")
@@ -137,30 +144,50 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
         
     }
     
-    //cell 안에서 처리
+    //MARK: switch버튼 cell 안에서 처리
     @objc func changeSwitch(_ sender: UISwitch) {
         
         if sender.isOn == true {
-            SettiongViewController.requestAutorization()
-            UserDefaults.standard.set(true, forKey: "switch")
-            self.settingView.tableView.reloadData()
+            
+            sender.setOn(false, animated: true)
+            
+            let authorizationAlert = UIAlertController(title: "알림권한", message: "알림을 받기 위해서는 시스템 설정에서 권한을 허용해주세요.", preferredStyle: .alert)
+            let authorizationOk = UIAlertAction(title: "확인", style: .default)
+            
+            authorizationAlert.addAction(authorizationOk)
+            
+            guard testAutorizatio == false else {
+                SettiongViewController.requestAutorization()
+                UserDefaults.standard.set(true, forKey: "switch")
+                sender.setOn(true, animated: true)
+                self.settingView.tableView.reloadData()
+                return
+            }
+            present(authorizationAlert, animated: true)
+            
         } else if sender.isOn == false {
             
             sender.setOn(true, animated: true) // 2
             let alert = UIAlertController(title: "알림해제", message: "알림을 받지 않으시겠습니까?", preferredStyle: .alert)
-            let ok = UIAlertAction(title: "OK", style: .default) { _ in
+            let ok = UIAlertAction(title: "네", style: .default) { _ in
               
                 SettiongViewController.notificationCenter.removeAllPendingNotificationRequests()
                 UserDefaults.standard.set(false, forKey: "switch")
                 UserDefaults.standard.removeObject(forKey: "MbtnSelected")
+                UserDefaults.standard.removeObject(forKey: "NbtnSelected")
                 sender.setOn(false, animated: true) // 4
                 self.settingView.tableView.reloadData()
             }
             
-            let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+            let cancel = UIAlertAction(title: "아니오", style: .cancel)
             alert.addAction(ok)
             alert.addAction(cancel)
-            present(alert, animated: true)
+            
+            //만약 사용자가 시스템권한을 해제했을 때 대응
+         
+           
+                present(alert, animated: true)
+
         }
     }
     

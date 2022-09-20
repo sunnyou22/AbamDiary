@@ -9,6 +9,6 @@ import Foundation
 
 class SwitchModel {
     
-    var isValid: Observable<Bool> = Observable(false)
+    var isValid: Observable<Bool> = Observable(true)
    
 }

@@ -10,14 +10,14 @@ import UserNotifications
 
  @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+  
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+       
         
         SettiongViewController.requestAutorization()
         
         //2. 노티제거
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-        
         UNUserNotificationCenter.current().delegate = self
         
         return true

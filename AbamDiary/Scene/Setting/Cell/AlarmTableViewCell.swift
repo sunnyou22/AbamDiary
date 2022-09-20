@@ -17,9 +17,9 @@ class SettingAlarmTableViewCell: BaseTableViewCell {
     
     let timeButton: UIButton = {
         let view = UIButton()
-        let dateString = UserDefaults.standard.string(forKey: "MbtnSelected")
+     
         view.backgroundColor = .systemGray4
-        view.setTitle(dateString, for: .normal)
+        
         DispatchQueue.main.async {
             view.clipsToBounds = true
             view.layer.cornerRadius = 16
