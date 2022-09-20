@@ -34,12 +34,12 @@
 		90B7211628CDAD0500B243AE /* SettiongViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B7211528CDAD0500B243AE /* SettiongViewController.swift */; };
 		90B7211828CDB53D00B243AE /* TabBarImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B7211728CDB53D00B243AE /* TabBarImage.swift */; };
 		90B8CB2428D7130F00A2C5E9 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B8CB2328D7130F00A2C5E9 /* SettingView.swift */; };
-		90BCB60D28D5EA3600602FA0 /* CheerupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90BCB60C28D5EA3600602FA0 /* CheerupModel.swift */; };
+		90BCB60D28D5EA3600602FA0 /* CheerupMessageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90BCB60C28D5EA3600602FA0 /* CheerupMessageRepository.swift */; };
 		90CB363C28D08BA6002FCB45 /* WriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CB363B28D08BA6002FCB45 /* WriteView.swift */; };
 		90CB363E28D09562002FCB45 /* MorningAndNight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CB363D28D09562002FCB45 /* MorningAndNight.swift */; };
 		90CB364028D0A530002FCB45 /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CB363F28D0A530002FCB45 /* Transition.swift */; };
-		90CCDB6728D056C800CDEE06 /* MainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CCDB6628D056C800CDEE06 /* MainModel.swift */; };
-		90CCDB6928D056E300CDEE06 /* MonthDiaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CCDB6828D056E300CDEE06 /* MonthDiaryModel.swift */; };
+		90CCDB6728D056C800CDEE06 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CCDB6628D056C800CDEE06 /* Diary.swift */; };
+		90CCDB6928D056E300CDEE06 /* OneDayDiaryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CCDB6828D056E300CDEE06 /* OneDayDiaryRepository.swift */; };
 		90CCDB6C28D057FB00CDEE06 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 90CCDB6B28D057FB00CDEE06 /* Realm */; };
 		90CCDB6E28D057FB00CDEE06 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 90CCDB6D28D057FB00CDEE06 /* RealmSwift */; };
 		90CCDB7328D06F6B00CDEE06 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CCDB7228D06F6B00CDEE06 /* WriteViewController.swift */; };
@@ -84,12 +84,12 @@
 		90B7211528CDAD0500B243AE /* SettiongViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettiongViewController.swift; sourceTree = "<group>"; };
 		90B7211728CDB53D00B243AE /* TabBarImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarImage.swift; sourceTree = "<group>"; };
 		90B8CB2328D7130F00A2C5E9 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
-		90BCB60C28D5EA3600602FA0 /* CheerupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheerupModel.swift; sourceTree = "<group>"; };
+		90BCB60C28D5EA3600602FA0 /* CheerupMessageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheerupMessageRepository.swift; sourceTree = "<group>"; };
 		90CB363B28D08BA6002FCB45 /* WriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteView.swift; sourceTree = "<group>"; };
 		90CB363D28D09562002FCB45 /* MorningAndNight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorningAndNight.swift; sourceTree = "<group>"; };
 		90CB363F28D0A530002FCB45 /* Transition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transition.swift; sourceTree = "<group>"; };
-		90CCDB6628D056C800CDEE06 /* MainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainModel.swift; sourceTree = "<group>"; };
-		90CCDB6828D056E300CDEE06 /* MonthDiaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthDiaryModel.swift; sourceTree = "<group>"; };
+		90CCDB6628D056C800CDEE06 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
+		90CCDB6828D056E300CDEE06 /* OneDayDiaryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneDayDiaryRepository.swift; sourceTree = "<group>"; };
 		90CCDB7228D06F6B00CDEE06 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		90CCDB7428D0706100CDEE06 /* CustomFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFormatter.swift; sourceTree = "<group>"; };
 		90DF62FE28D8924F0046A3E7 /* SwitchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchModel.swift; sourceTree = "<group>"; };
@@ -211,9 +211,9 @@
 		90CCDB6328D04BF800CDEE06 /* Realm */ = {
 			isa = PBXGroup;
 			children = (
-				90CCDB6628D056C800CDEE06 /* MainModel.swift */,
-				90CCDB6828D056E300CDEE06 /* MonthDiaryModel.swift */,
-				90BCB60C28D5EA3600602FA0 /* CheerupModel.swift */,
+				90CCDB6628D056C800CDEE06 /* Diary.swift */,
+				90CCDB6828D056E300CDEE06 /* OneDayDiaryRepository.swift */,
+				90BCB60C28D5EA3600602FA0 /* CheerupMessageRepository.swift */,
 			);
 			path = Realm;
 			sourceTree = "<group>";
@@ -376,7 +376,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				90DF632A28D981900046A3E7 /* AlarmTableViewCell.swift in Sources */,
-				90CCDB6928D056E300CDEE06 /* MonthDiaryModel.swift in Sources */,
+				90CCDB6928D056E300CDEE06 /* OneDayDiaryRepository.swift in Sources */,
 				900AEDFA28CC5A9100F18360 /* BaseViewController.swift in Sources */,
 				90B7211228CDACE300B243AE /* MonthDiaryViewController.swift in Sources */,
 				905E099428D1C3700084ADAE /* SearchView.swift in Sources */,
@@ -395,14 +395,14 @@
 				90DF62FF28D8924F0046A3E7 /* SwitchModel.swift in Sources */,
 				900AEE1E28CC9EA000F18360 /* UserDefaultHelper.swift in Sources */,
 				90B7211628CDAD0500B243AE /* SettiongViewController.swift in Sources */,
-				90BCB60D28D5EA3600602FA0 /* CheerupModel.swift in Sources */,
+				90BCB60D28D5EA3600602FA0 /* CheerupMessageRepository.swift in Sources */,
 				907FF54A28D78F5A0037BF28 /* FileManager+Extension.swift in Sources */,
 				90CB363C28D08BA6002FCB45 /* WriteView.swift in Sources */,
 				900AEE0528CC5DB500F18360 /* MainTableViewCell.swift in Sources */,
 				90B7211828CDB53D00B243AE /* TabBarImage.swift in Sources */,
 				90CB364028D0A530002FCB45 /* Transition.swift in Sources */,
 				900AEE1A28CC9A5300F18360 /* Observable.swift in Sources */,
-				90CCDB6728D056C800CDEE06 /* MainModel.swift in Sources */,
+				90CCDB6728D056C800CDEE06 /* Diary.swift in Sources */,
 				900AEE0728CC5DE600F18360 /* MainView.swift in Sources */,
 				90CB363E28D09562002FCB45 /* MorningAndNight.swift in Sources */,
 				90F8262D28CB9F24008E8E6B /* Color.swift in Sources */,
