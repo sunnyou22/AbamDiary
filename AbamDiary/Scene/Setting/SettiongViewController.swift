@@ -121,6 +121,8 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
         //메서드 따로 빼기
         if indexPath.section == 0 {
             if indexPath.row == 0 {
+                
+                
                 cell.contentView.addSubview(morningNotoTime)
                 morningNotoTime.snp.makeConstraints { make in
                     make.trailing.equalTo(cell.contentView.snp.trailing).offset(-20)
