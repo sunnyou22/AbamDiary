@@ -37,11 +37,7 @@ class SettingDefaultTableViewCell: BaseTableViewCell {
             make.centerY.equalTo(contentView.snp.centerY)
             make.leading.equalTo(contentView.snp.leading).offset(16)
         }
-        
-        
     }
-    
-  
 //    func setTest(tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 //        let cell.
 //    }

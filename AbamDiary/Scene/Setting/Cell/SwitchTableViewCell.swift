@@ -17,10 +17,10 @@ class SettingSwitchTableViewCell: BaseTableViewCell {
     }()
     
     //MARK: 스위치 넣어주기
-   static let notificationSwitch: UISwitch = {
+ static let notificationSwitch: UISwitch = {
         let view = UISwitch()
         view.setOn(UserDefaults.standard.bool(forKey: "switch"), animated: true)
-
+    
         return view
     }()
    
@@ -36,7 +36,7 @@ class SettingSwitchTableViewCell: BaseTableViewCell {
     
     override func configuration() {
         
-        [subTitle].forEach { contentView.addSubview($0) }
+        [subTitle, SettingSwitchTableViewCell.notificationSwitch].forEach { contentView.addSubview($0) }
     }
     
     override func setConstraints() {

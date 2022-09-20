@@ -35,7 +35,12 @@ class SettingView: BaseView {
     
     let tableView: UITableView = {
         let view = UITableView(frame: .zero, style: .insetGrouped)
-        view.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.reuseIdentifier)
+        view.register(SettingDefaultTableViewCell.self, forCellReuseIdentifier: SettingDefaultTableViewCell.reuseIdentifier)
+
+        view.register(SettingAlarmTableViewCell.self, forCellReuseIdentifier: SettingAlarmTableViewCell.reuseIdentifier)
+        
+        view.register(SettingSwitchTableViewCell.self, forCellReuseIdentifier: SettingSwitchTableViewCell.reuseIdentifier)
+
         view.isScrollEnabled = true
         view.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         view.separatorStyle = .singleLine

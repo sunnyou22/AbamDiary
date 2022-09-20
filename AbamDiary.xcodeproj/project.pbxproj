@@ -46,10 +46,10 @@
 		90CCDB7328D06F6B00CDEE06 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CCDB7228D06F6B00CDEE06 /* WriteViewController.swift */; };
 		90CCDB7528D0706100CDEE06 /* CustomFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CCDB7428D0706100CDEE06 /* CustomFormatter.swift */; };
 		90DF62FF28D8924F0046A3E7 /* SwitchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DF62FE28D8924F0046A3E7 /* SwitchModel.swift */; };
-		90DF632A28D981900046A3E7 /* SettingAlarmTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DF632928D981900046A3E7 /* SettingAlarmTableViewCell.swift */; };
-		90DF632C28D983D60046A3E7 /* SettingSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DF632B28D983D60046A3E7 /* SettingSwitchTableViewCell.swift */; };
+		90DF632A28D981900046A3E7 /* AlarmTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DF632928D981900046A3E7 /* AlarmTableViewCell.swift */; };
+		90DF632C28D983D60046A3E7 /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DF632B28D983D60046A3E7 /* SwitchTableViewCell.swift */; };
 		90F0592328D80E1D00F61899 /* SettiongConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F0592228D80E1D00F61899 /* SettiongConstants.swift */; };
-		90F0592528D8138F00F61899 /* SettingDefaultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F0592428D8138F00F61899 /* SettingDefaultTableViewCell.swift */; };
+		90F0592528D8138F00F61899 /* DefaultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F0592428D8138F00F61899 /* DefaultTableViewCell.swift */; };
 		90F0592728D84A4500F61899 /* NoficationPush + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F0592628D84A4500F61899 /* NoficationPush + Extension.swift */; };
 		90F8261428CB799A008E8E6B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F8261328CB799A008E8E6B /* AppDelegate.swift */; };
 		90F8261628CB799A008E8E6B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F8261528CB799A008E8E6B /* SceneDelegate.swift */; };
@@ -94,10 +94,10 @@
 		90CCDB7228D06F6B00CDEE06 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		90CCDB7428D0706100CDEE06 /* CustomFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFormatter.swift; sourceTree = "<group>"; };
 		90DF62FE28D8924F0046A3E7 /* SwitchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchModel.swift; sourceTree = "<group>"; };
-		90DF632928D981900046A3E7 /* SettingAlarmTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingAlarmTableViewCell.swift; sourceTree = "<group>"; };
-		90DF632B28D983D60046A3E7 /* SettingSwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSwitchTableViewCell.swift; sourceTree = "<group>"; };
+		90DF632928D981900046A3E7 /* AlarmTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmTableViewCell.swift; sourceTree = "<group>"; };
+		90DF632B28D983D60046A3E7 /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
 		90F0592228D80E1D00F61899 /* SettiongConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettiongConstants.swift; sourceTree = "<group>"; };
-		90F0592428D8138F00F61899 /* SettingDefaultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDefaultTableViewCell.swift; sourceTree = "<group>"; };
+		90F0592428D8138F00F61899 /* DefaultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTableViewCell.swift; sourceTree = "<group>"; };
 		90F0592628D84A4500F61899 /* NoficationPush + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NoficationPush + Extension.swift"; sourceTree = "<group>"; };
 		90F8261028CB799A008E8E6B /* AbamDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AbamDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90F8261328CB799A008E8E6B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -238,9 +238,9 @@
 		90DF632D28D984B00046A3E7 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				90DF632B28D983D60046A3E7 /* SettingSwitchTableViewCell.swift */,
-				90DF632928D981900046A3E7 /* SettingAlarmTableViewCell.swift */,
-				90F0592428D8138F00F61899 /* SettingDefaultTableViewCell.swift */,
+				90DF632B28D983D60046A3E7 /* SwitchTableViewCell.swift */,
+				90DF632928D981900046A3E7 /* AlarmTableViewCell.swift */,
+				90F0592428D8138F00F61899 /* DefaultTableViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -383,7 +383,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				90DF632A28D981900046A3E7 /* SettingAlarmTableViewCell.swift in Sources */,
+				90DF632A28D981900046A3E7 /* AlarmTableViewCell.swift in Sources */,
 				90CCDB6928D056E300CDEE06 /* MonthDiaryModel.swift in Sources */,
 				900AEDFA28CC5A9100F18360 /* BaseViewController.swift in Sources */,
 				90B7211228CDACE300B243AE /* MonthDiaryViewController.swift in Sources */,
@@ -395,7 +395,7 @@
 				900AEE0928CC642D00F18360 /* Font.swift in Sources */,
 				907FF54828D769930037BF28 /* Photos + Extension.swift in Sources */,
 				90B7211028CDACC900B243AE /* SearchViewController.swift in Sources */,
-				90F0592528D8138F00F61899 /* SettingDefaultTableViewCell.swift in Sources */,
+				90F0592528D8138F00F61899 /* DefaultTableViewCell.swift in Sources */,
 				90B8CB2428D7130F00A2C5E9 /* SettingView.swift in Sources */,
 				904492B328D5ACC90028F920 /* CheeupView.swift in Sources */,
 				90CCDB7328D06F6B00CDEE06 /* WriteViewController.swift in Sources */,
@@ -421,7 +421,7 @@
 				900AEE0028CC5BA700F18360 /* BaseTableViewCell.swift in Sources */,
 				90F0592728D84A4500F61899 /* NoficationPush + Extension.swift in Sources */,
 				90F8261428CB799A008E8E6B /* AppDelegate.swift in Sources */,
-				90DF632C28D983D60046A3E7 /* SettingSwitchTableViewCell.swift in Sources */,
+				90DF632C28D983D60046A3E7 /* SwitchTableViewCell.swift in Sources */,
 				90F8261628CB799A008E8E6B /* SceneDelegate.swift in Sources */,
 				900AEE0328CC5D6700F18360 /* MainViewController.swift in Sources */,
 			);

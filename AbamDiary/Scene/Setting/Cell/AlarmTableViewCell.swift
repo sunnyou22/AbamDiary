@@ -15,26 +15,8 @@ class SettingAlarmTableViewCell: BaseTableViewCell {
         return view
     }()
     
-    let morningNotoTime: UIButton = {
+    let timeButton: UIButton = {
         let view = UIButton()
-        view.tag = 0
-        let title = UserDefaults.standard.string(forKey: "\(view.tag)")
-        view.setTitle(title, for: .normal)
-        
-        view.backgroundColor = .systemGray4
-        DispatchQueue.main.async {
-            view.clipsToBounds = true
-            view.layer.cornerRadius = 16
-        }
-        return view
-    }()
-    
-    let nigntNotiTime: UIButton = {
-        let view = UIButton()
-        view.tag = 1
-        let title = UserDefaults.standard.string(forKey: "\(view.tag)")
-        view.setTitle(title, for: .normal)
-        
         view.backgroundColor = .systemGray4
         DispatchQueue.main.async {
             view.clipsToBounds = true
@@ -55,7 +37,7 @@ class SettingAlarmTableViewCell: BaseTableViewCell {
     
     override func configuration() {
         
-        [subTitle, morningNotoTime, nigntNotiTime].forEach { contentView.addSubview($0) }
+        [subTitle, timeButton].forEach { contentView.addSubview($0) }
     }
     
     override func setConstraints() {
@@ -65,17 +47,10 @@ class SettingAlarmTableViewCell: BaseTableViewCell {
             make.leading.equalTo(contentView.snp.leading).offset(16)
         }
         
-        morningNotoTime.snp.makeConstraints { make in
+        timeButton.snp.makeConstraints { make in
             make.trailing.equalTo(contentView.snp.trailing).offset(-20)
             make.centerY.equalTo(contentView.snp.centerY)
-            make.width.equalTo(morningNotoTime.snp.height).multipliedBy(2.4)
-            make.verticalEdges.equalTo(contentView.snp.verticalEdges).inset(16)
-        }
-        
-        nigntNotiTime.snp.makeConstraints { make in
-            make.trailing.equalTo(contentView.snp.trailing).offset(-20)
-            make.centerY.equalTo(contentView.snp.centerY)
-            make.width.equalTo(nigntNotiTime.snp.height).multipliedBy(2.4)
+            make.width.equalTo(timeButton.snp.height).multipliedBy(2.4)
             make.verticalEdges.equalTo(contentView.snp.verticalEdges).inset(16)
         }
     }

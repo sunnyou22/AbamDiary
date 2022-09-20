@@ -16,14 +16,6 @@ class SettiongViewController: BaseViewController {
     let profileImage = "profile.jpg"
   static let notificationCenter =  UNUserNotificationCenter.current()
     
-    let goBackUPVCImage: UIImageView = {
-        let view = UIImageView()
-        let config = UIImage.SymbolConfiguration(pointSize: 32, weight: .medium)
-        view.image = UIImage(systemName: "chevron.forward", withConfiguration: config)
-//        view.backgroundColor = .systemBlue
-        return view
-    }()
-    
     override func loadView() {
         self.view = settingView
     }
@@ -43,17 +35,9 @@ class SettiongViewController: BaseViewController {
         settingView.tableView.dataSource = self
         
         settingView.changeButton.addTarget(self, action: #selector(changeProfileButtonClicked), for: .touchUpInside)
-        
-        SettiongViewController.notificationSwitch.addTarget(self, action: #selector(changeSwitch), for: .valueChanged)
-        
+
         //MARK: 프로필 이미지
         settingView.profileimageView.image = loadImageFromDocument(fileName: profileImage)
-        
-        morningNotoTime.addTarget(self, action: #selector(popDatePicker), for: .touchUpInside)
-       
-        
-        nigntNotiTime.addTarget(self, action: #selector(popDatePicker), for: .touchUpInside)
-        
     }
 }
 
@@ -77,21 +61,58 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingDefaultTableViewCell.reuseIdentifier, for: indexPath) as? SettingDefaultTableViewCell else { return UITableViewCell() }
+       
+       
         
-        cell.subTitle.text = Setting.allCases[indexPath.section].subTitle[indexPath.row]
+//        defaultCell.subTitle.text = Setting.allCases[indexPath.section].subTitle[indexPath.row]
         
-     
-                if indexPath.row == 2 {
-                    cell.contentView.addSubview(SettiongViewController.notificationSwitch)
-                  
-                }
-            
-            } else if indexPath.section == 1 {
+        if indexPath.section == 0 {
+           if indexPath.row == 0 {
+              let buttonCell = SettingAlarmTableViewCell()
+    
+               buttonCell.tag = 0
+               let title = UserDefaults.standard.string(forKey: "\(buttonCell.tag)")
+                buttonCell.subTitle.text = "아침 알림 시간"
+                buttonCell.timeButton.setTitle(title, for: .normal)
+               buttonCell.timeButton.setTitle(title, for: .normal)
                
+               buttonCell.timeButton.addTarget(self, action: #selector(popDatePicker), for: .touchUpInside)
+               
+               setButtonConfig(buttonCell.timeButton, by: SettingSwitchTableViewCell.notificationSwitch)
+                return buttonCell
+            } else if indexPath.row == 1 {
+               let buttonCell = SettingAlarmTableViewCell()
+                buttonCell.tag = 1
+                let title = UserDefaults.standard.string(forKey: "1")
+                buttonCell.subTitle.text = "밤 알림 시간"
+                buttonCell.timeButton.setTitle(title, for: .normal)
+                setButtonConfig(buttonCell.timeButton, by: SettingSwitchTableViewCell.notificationSwitch)
+                buttonCell.timeButton.addTarget(self, action: #selector(popDatePicker), for: .touchUpInside)
+                return buttonCell
+            } else if indexPath.row == 2 {
+                let switchCell = SettingSwitchTableViewCell()
+                
+                switchCell.subTitle.text = "알림받기"
+                switchCell.notificationSwitch.addTarget(self, action: #selector(changeSwitch), for: .valueChanged)
+                return switchCell
             }
+        } else {
+            guard let defaultCell = tableView.dequeueReusableCell(withIdentifier: SettingDefaultTableViewCell.reuseIdentifier, for: indexPath) as? SettingDefaultTableViewCell else { return UITableViewCell() }
+            return defaultCell
         }
-        return cell
+        
+      return UITableViewCell()
+        }
+    
+    
+    
+    //cell 안에서 처리
+    @objc func changeSwitch(_ sender: UISwitch) {
+        if sender.isOn == true {
+            SettiongViewController.requestAutorization()
+        } else {
+            SettiongViewController.notificationCenter.removeAllPendingNotificationRequests()
+        }
     }
     
     @objc func changeProfileButtonClicked() {
@@ -191,39 +212,6 @@ extension SettiongViewController {
         let height : NSLayoutConstraint = NSLayoutConstraint(item: dateChooseAlert.view!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.1, constant: 300)
         dateChooseAlert.view.addConstraint(height)
         
-        //MARK: 노티데스트
-        
-        if morningNotoTime.tag == 0 {
-            print(datePicker.date, "==========")
-        } else if nigntNotiTime.tag == 1 {
-            print(datePicker.date)
-        }
-        
         present(dateChooseAlert, animated: true)
-    }
-    
-    
-    @objc func changeSwitch(_ sender: UISwitch) {
-       
-       if sender.isOn == true {
-            SettiongViewController.requestAutorization()
-           morningNotoTime.isUserInteractionEnabled = true
-           nigntNotiTime.isUserInteractionEnabled = true
-           [morningNotoTime, nigntNotiTime].forEach { btn in
-               btn.layer.borderColor = Color.BaseColorWtihDark.thineBar.cgColor
-               btn.layer.borderWidth = 1
-           }
-        } else {
-            SettiongViewController.notificationCenter.removeAllPendingNotificationRequests()
-            morningNotoTime.isUserInteractionEnabled = false
-            nigntNotiTime.isUserInteractionEnabled = false
-            UserDefaults.standard.set(false, forKey: "switch")
-            print("======> 🔴 스위치 오프 및 removeAllPendingNotificationRequests")
-            [morningNotoTime, nigntNotiTime].forEach { btn in
-                btn.backgroundColor = .gray
-                btn.setTitle("--:--", for: .normal)
-                
-            }
-        }
     }
 }
