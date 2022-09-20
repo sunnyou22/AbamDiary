@@ -74,7 +74,7 @@ class CustomFormatter {
     static func changeHourToInt(date: Date) -> Int {
         let formatter = DateFormatter()
         formatter.locale = NSLocale(localeIdentifier: "ko_KO") as Locale
-        formatter.dateFormat = "hh"
+        formatter.dateFormat = "H"
     
         return Int(formatter.string(from: date)) ?? 0
 

@@ -20,7 +20,6 @@ class SettingSwitchTableViewCell: BaseTableViewCell {
  static let notificationSwitch: UISwitch = {
         let view = UISwitch()
         view.setOn(UserDefaults.standard.bool(forKey: "switch"), animated: true)
-    
         return view
     }()
    

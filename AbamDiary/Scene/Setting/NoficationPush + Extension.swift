@@ -31,6 +31,7 @@ extension SettiongViewController {
     func sendNotification(subTitle: String, date: DateComponents) -> Void {
         //노티푸시 구성하기
         let notificationContent = UNMutableNotificationContent()
+        notificationContent.sound = .default
         notificationContent.title = "아밤일기"
         notificationContent.subtitle = subTitle
       
