@@ -28,7 +28,7 @@ enum Setting: Int, CaseIterable {
         case .notification:
             return ["아침시간설정", "저녁시간설정", "알림받기"]
         case .backup:
-            return ["백업", "복구", "복구 파일별로 보기"]
+            return ["백업", "복구", "복구 파일 보기"]
         case .reset:
             return ["모든일기 삭제하기"]
         case .other:

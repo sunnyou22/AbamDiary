@@ -16,7 +16,7 @@ class SettiongViewController: BaseViewController {
     var settingView = SettingView()
     let profileImage = "profile.jpg"
     static let notificationCenter =  UNUserNotificationCenter.current()
-    var testAutorizatio: Bool?
+    var autorizationStatus: Bool?
     static let autorizationSwitchModel = SwitchModel() // 권한에ㅔ 대한 관찰
     
     override func loadView() {
@@ -27,7 +27,7 @@ class SettiongViewController: BaseViewController {
         super.viewDidLoad()
         
         SettiongViewController.autorizationSwitchModel.isValid.bind { bool in
-            self.testAutorizatio = bool
+            self.autorizationStatus = bool
         }
         
     }
@@ -68,11 +68,7 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //            var testreload: ()?
-        //            var test2reload: ()?
-        //
-        //            defaultCell.subTitle.text = Setting.allCases[indexPath.section].subTitle[indexPath.row]
-        
+       
         if indexPath.section == 0 {
             if indexPath.row == 0 {
                 guard let buttonCell = tableView.dequeueReusableCell(withIdentifier: SettingAlarmTableViewCell.reuseIdentifier, for: indexPath) as? SettingAlarmTableViewCell else {
@@ -87,9 +83,6 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
                 
                 buttonCell.timeButton.addTarget(self, action: #selector(MpopDatePicker), for: .touchUpInside)
                 setButtonConfig(buttonCell.timeButton)
-                
-                
-                print(#function)
                 
                 return buttonCell
             } else if indexPath.row == 1 {
@@ -108,8 +101,8 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
                 
                 buttonCell.timeButton.addTarget(self, action: #selector(NpopDatePicker), for: .touchUpInside)
                 
-                print(#function)
                 return buttonCell
+                
             } else if indexPath.row == 2 {
                 guard let switchCell = tableView.dequeueReusableCell(withIdentifier: SettingSwitchTableViewCell.reuseIdentifier, for: indexPath) as? SettingSwitchTableViewCell else {
                     return UITableViewCell()
@@ -123,6 +116,8 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
             
         } else {
             guard let defaultCell = tableView.dequeueReusableCell(withIdentifier: SettingDefaultTableViewCell.reuseIdentifier, for: indexPath) as? SettingDefaultTableViewCell else { return UITableViewCell() }
+            
+            defaultCell.subTitle.text = Setting.allCases[indexPath.section].subTitle[indexPath.row]
             return defaultCell
         }
         
@@ -151,12 +146,16 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
             
             sender.setOn(false, animated: true)
             
-            let authorizationAlert = UIAlertController(title: "알림권한", message: "알림을 받기 위해서는 시스템 설정에서 권한을 허용해주세요.", preferredStyle: .alert)
+            let authorizationAlert = UIAlertController(title: "알림권한", message: """
+알림을 받기 위해서 시스템 설정에서 권한을 허용하고,
+앱을 재시작해주세요.
+""", preferredStyle: .alert)
             let authorizationOk = UIAlertAction(title: "확인", style: .default)
             
             authorizationAlert.addAction(authorizationOk)
             
-            guard testAutorizatio == false else {
+            //만약 사용자가 시스템권한을 해제했을 때 대응
+            guard autorizationStatus == false else {
                 SettiongViewController.requestAutorization()
                 UserDefaults.standard.set(true, forKey: "switch")
                 sender.setOn(true, animated: true)
@@ -182,11 +181,8 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
             let cancel = UIAlertAction(title: "아니오", style: .cancel)
             alert.addAction(ok)
             alert.addAction(cancel)
-            
-            //만약 사용자가 시스템권한을 해제했을 때 대응
-         
-           
-                present(alert, animated: true)
+          
+            present(alert, animated: true)
 
         }
     }

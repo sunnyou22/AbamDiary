@@ -22,7 +22,6 @@
 		900AEE1E28CC9EA000F18360 /* UserDefaultHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900AEE1D28CC9EA000F18360 /* UserDefaultHelper.swift */; };
 		900AEE2028CC9F5300F18360 /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900AEE1F28CC9F5300F18360 /* Reusable.swift */; };
 		900AEE2228CCC0C000F18360 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 900AEE2128CCC0C000F18360 /* Main.storyboard */; };
-		9034EFA728CF9F5A0027F8F7 /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9034EFA628CF9F5A0027F8F7 /* DeviceManager.swift */; };
 		904492B328D5ACC90028F920 /* CheeupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904492B228D5ACC90028F920 /* CheeupView.swift */; };
 		904492B528D5BD1D0028F920 /* CheerupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904492B428D5BD1D0028F920 /* CheerupTableViewCell.swift */; };
 		905E099428D1C3700084ADAE /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905E099328D1C3700084ADAE /* SearchView.swift */; };
@@ -73,7 +72,6 @@
 		900AEE1D28CC9EA000F18360 /* UserDefaultHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultHelper.swift; sourceTree = "<group>"; };
 		900AEE1F28CC9F5300F18360 /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
 		900AEE2128CCC0C000F18360 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		9034EFA628CF9F5A0027F8F7 /* DeviceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceManager.swift; sourceTree = "<group>"; };
 		904492B228D5ACC90028F920 /* CheeupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheeupView.swift; sourceTree = "<group>"; };
 		904492B428D5BD1D0028F920 /* CheerupTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheerupTableViewCell.swift; sourceTree = "<group>"; };
 		905E099328D1C3700084ADAE /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
@@ -156,14 +154,6 @@
 				90DF62FE28D8924F0046A3E7 /* SwitchModel.swift */,
 			);
 			path = Observable;
-			sourceTree = "<group>";
-		};
-		9034EFA528CF9F4B0027F8F7 /* DeviceManager */ = {
-			isa = PBXGroup;
-			children = (
-				9034EFA628CF9F5A0027F8F7 /* DeviceManager.swift */,
-			);
-			path = DeviceManager;
 			sourceTree = "<group>";
 		};
 		90B7210828CDAC5100B243AE /* Scene */ = {
@@ -285,7 +275,6 @@
 		90F8262B28CB9F0C008E8E6B /* Constant */ = {
 			isa = PBXGroup;
 			children = (
-				9034EFA528CF9F4B0027F8F7 /* DeviceManager */,
 				90F8262C28CB9F24008E8E6B /* Color.swift */,
 				900AEE0828CC642D00F18360 /* Font.swift */,
 				900AEE1D28CC9EA000F18360 /* UserDefaultHelper.swift */,
@@ -407,7 +396,6 @@
 				900AEE1E28CC9EA000F18360 /* UserDefaultHelper.swift in Sources */,
 				90B7211628CDAD0500B243AE /* SettiongViewController.swift in Sources */,
 				90BCB60D28D5EA3600602FA0 /* CheerupModel.swift in Sources */,
-				9034EFA728CF9F5A0027F8F7 /* DeviceManager.swift in Sources */,
 				907FF54A28D78F5A0037BF28 /* FileManager+Extension.swift in Sources */,
 				90CB363C28D08BA6002FCB45 /* WriteView.swift in Sources */,
 				900AEE0528CC5DB500F18360 /* MainTableViewCell.swift in Sources */,
