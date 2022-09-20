@@ -48,6 +48,7 @@
 		90DF62FF28D8924F0046A3E7 /* SwitchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DF62FE28D8924F0046A3E7 /* SwitchModel.swift */; };
 		90DF632A28D981900046A3E7 /* AlarmTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DF632928D981900046A3E7 /* AlarmTableViewCell.swift */; };
 		90DF632C28D983D60046A3E7 /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DF632B28D983D60046A3E7 /* SwitchTableViewCell.swift */; };
+		90DF633128D9DD300046A3E7 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DF633028D9DD300046A3E7 /* Alert.swift */; };
 		90F0592328D80E1D00F61899 /* SettiongConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F0592228D80E1D00F61899 /* SettiongConstants.swift */; };
 		90F0592528D8138F00F61899 /* DefaultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F0592428D8138F00F61899 /* DefaultTableViewCell.swift */; };
 		90F0592728D84A4500F61899 /* NoficationPush + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F0592628D84A4500F61899 /* NoficationPush + Extension.swift */; };
@@ -96,6 +97,7 @@
 		90DF62FE28D8924F0046A3E7 /* SwitchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchModel.swift; sourceTree = "<group>"; };
 		90DF632928D981900046A3E7 /* AlarmTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmTableViewCell.swift; sourceTree = "<group>"; };
 		90DF632B28D983D60046A3E7 /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
+		90DF633028D9DD300046A3E7 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		90F0592228D80E1D00F61899 /* SettiongConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettiongConstants.swift; sourceTree = "<group>"; };
 		90F0592428D8138F00F61899 /* DefaultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTableViewCell.swift; sourceTree = "<group>"; };
 		90F0592628D84A4500F61899 /* NoficationPush + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NoficationPush + Extension.swift"; sourceTree = "<group>"; };
@@ -294,6 +296,7 @@
 				90CB363F28D0A530002FCB45 /* Transition.swift */,
 				907FF54728D769930037BF28 /* Photos + Extension.swift */,
 				907FF54928D78F5A0037BF28 /* FileManager+Extension.swift */,
+				90DF633028D9DD300046A3E7 /* Alert.swift */,
 			);
 			path = Constant;
 			sourceTree = "<group>";
@@ -389,6 +392,7 @@
 				90B7211228CDACE300B243AE /* MonthDiaryViewController.swift in Sources */,
 				905E099428D1C3700084ADAE /* SearchView.swift in Sources */,
 				90F0592328D80E1D00F61899 /* SettiongConstants.swift in Sources */,
+				90DF633128D9DD300046A3E7 /* Alert.swift in Sources */,
 				904492B528D5BD1D0028F920 /* CheerupTableViewCell.swift in Sources */,
 				90B7210E28CDACBE00B243AE /* CheerupViewController.swift in Sources */,
 				90B3090D28D3FCD900A7BCC7 /* DateModel.swift in Sources */,
