@@ -20,8 +20,8 @@ class CalendarViewController: BaseViewController {
     var changeNightcount: Float = 0 // 테스트용
     var progress: Float = 0 // 변수로 빼줘야 동작
     let digit: Float = pow(10, 2) // 10의 2제곱
-    var cell: MainTableViewCell? // 셀 인스턴스 통일시켜줘야 플레이스홀더 오류 없어짐
-    var preparedCell: MainTableViewCell?
+    var cell: CalendarTableViewCell? // 셀 인스턴스 통일시켜줘야 플레이스홀더 오류 없어짐
+    var preparedCell: CalendarTableViewCell?
     
     var tasks: Results<Diary>! {
         didSet {
@@ -217,15 +217,15 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     //cell을 통일시켜주기
-    func fetchCell(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) -> MainTableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.reuseIdentifier, for: indexPath) as? MainTableViewCell else { return MainTableViewCell()}
+    func fetchCell(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) -> CalendarTableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CalendarTableViewCell.reuseIdentifier, for: indexPath) as? CalendarTableViewCell else { return CalendarTableViewCell()}
         self.cell = cell
         
         return cell
     }
     
-    func setPreparedCell(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) -> MainTableViewCell {
-        guard let cell2 = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.reuseIdentifier, for: indexPath) as? MainTableViewCell else { return MainTableViewCell()}
+    func setPreparedCell(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) -> CalendarTableViewCell {
+        guard let cell2 = tableView.dequeueReusableCell(withIdentifier: CalendarTableViewCell.reuseIdentifier, for: indexPath) as? CalendarTableViewCell else { return CalendarTableViewCell()}
         
         cell2.dateLabel.text = CustomFormatter.setTime(date: Date())
         self.preparedCell = cell

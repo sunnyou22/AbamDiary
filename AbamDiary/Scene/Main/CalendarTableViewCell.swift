@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class MainTableViewCell: BaseTableViewCell {
+class CalendarTableViewCell: BaseTableViewCell {
     
     //MARK: 셀 내부 뷰 설정
     

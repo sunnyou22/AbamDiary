@@ -82,7 +82,7 @@ class MainView: BaseView {
         let view = UITableView(frame: .zero, style: .plain)
         view.backgroundColor = Color.BaseColorWtihDark.backgorund
         view.separatorStyle = .none
-        view.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.reuseIdentifier)
+        view.register(CalendarTableViewCell.self, forCellReuseIdentifier: CalendarTableViewCell.reuseIdentifier)
         view.isScrollEnabled = false
         return view
     }()
