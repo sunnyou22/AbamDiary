@@ -54,7 +54,7 @@ class MainView: BaseView {
         calendar.clipsToBounds = true
         calendar.layer.cornerRadius = 20
         calendar.scrollDirection = .vertical
-        calendar.appearance.titleFont = UIFont.systemFont(ofSize: 12, weight: .regular)
+        calendar.appearance.titleFont = UIFont.systemFont(ofSize: 14, weight: .regular)
         calendar.appearance.weekdayFont = UIFont.systemFont(ofSize: 16, weight: .medium)
         calendar.appearance.headerTitleFont = UIFont.systemFont(ofSize: 17, weight: .bold)
         calendar.appearance.headerDateFormat = "yyyy년 MM월"
@@ -177,16 +177,12 @@ class MainView: BaseView {
             make.horizontalEdges.equalTo(cheerupUnderView.snp.horizontalEdges).inset(12)
         }
         
-        //MARK: 캘린더 디바이스 크기 대응 분기처리
         calendar.snp.makeConstraints { make in
-//            let widthRatio: Double = UIScreen.main.isWiderThan375pt ? 0.84 : 0.8
             
             make.top.equalTo(ABAMImage.snp.bottom).offset(16)
             make.bottom.equalTo(cellTitle.snp.top).offset(-12)
             make.centerX.equalTo(self.snp.centerX)
-//            make.width.greaterThanOrEqualTo(UIScreen.main.bounds.width * 0.8)
-//            make.height.equalTo(calendar.snp.width).multipliedBy(0.7)
-            make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(28)
+            make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(20)
         }
         
         cellTitle.snp.makeConstraints { make in
@@ -196,9 +192,9 @@ class MainView: BaseView {
         
         tableView.snp.makeConstraints { make in
             make.centerX.equalTo(self.snp.centerX)
-            make.bottom.greaterThanOrEqualTo(gageTitle.snp.top).offset(-12)
+            make.bottom.greaterThanOrEqualTo(gageTitle.snp.top).offset(-8)
             make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(24)
-            make.height.equalTo(self.snp.height).dividedBy(4.32)
+            make.height.equalTo(self.snp.height).dividedBy(4.6)
         }
         
         gageTitle.snp.makeConstraints { make in

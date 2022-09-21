@@ -7,6 +7,7 @@
 
 import UIKit
 import RealmSwift
+import IQKeyboardManagerSwift
 
 class CheerupViewController: BaseViewController {
     
@@ -36,7 +37,7 @@ class CheerupViewController: BaseViewController {
         cheerupView.tableView.delegate = self
         cheerupView.tableView.dataSource = self
         cheerupView.birdButton.addTarget(self, action: #selector(insertMessage), for: .touchUpInside)
-        
+        navigationItem.titleView?.accessibilityScroll(.up)
         
         //메세지 초기화
         let reset = UIBarButtonItem(title: "초기화", style: .plain, target: self, action: #selector(resetMessage))
@@ -68,9 +69,13 @@ class CheerupViewController: BaseViewController {
         }
         
         cheerupView.countLabel.text = "\(tasks.count)"
+        setKeyboardManagerEnable(true)
     }
     //MARK: 메서드
     
+    private func setKeyboardManagerEnable(_ isEnabled: Bool) {
+           IQKeyboardManager.shared.enable = isEnabled
+       }
     func fetchRealm() {
         tasks = CheerupMessageRepository.shared.fetchDate()
     }

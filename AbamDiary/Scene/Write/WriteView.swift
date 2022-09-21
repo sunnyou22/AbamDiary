@@ -28,6 +28,7 @@ class WriteView: BaseView {
         let view = UITextView()
         view.backgroundColor = .brown
         view.font = UIFont.systemFont(ofSize: FontSize.label_14, weight: .light)
+        view.isScrollEnabled = true
         view.textColor = UIColor(hex: "#4B4335")
         return view
     }()

@@ -55,7 +55,6 @@ class CalendarViewController: BaseViewController {
         
         mainview.calendar.dataSource = self
         mainview.calendar.delegate = self
-        
                 //MARK: 변하는 값에 대한 관찰시작
         CalendarViewController.gageCountModel.morningDiaryCount.bind { count in
                     self.changeMorningcount = count
@@ -64,6 +63,9 @@ class CalendarViewController: BaseViewController {
         CalendarViewController.gageCountModel.nightDiaryCount.bind { count in
                     self.changeNightcount = count
                 }
+        
+        mainview.tableView.clipsToBounds = true
+        mainview.tableView.layer.cornerRadius = 80 / 3
     }
     
     //MARK: - viewWillAppear
@@ -271,6 +273,7 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
     func calendar(_ calendar: FSCalendar, shouldDeselect date: Date, at monthPosition: FSCalendarMonthPosition) -> Bool {
         return date == Date() ? false : true
     }
+
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         testfilterDate()

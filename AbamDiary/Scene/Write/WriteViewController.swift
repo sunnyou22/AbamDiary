@@ -23,6 +23,7 @@ class WriteViewController: BaseViewController {
     var writeMode: WriteMode
     var fetch: (() -> Void)?
     var selectedDate: Date?
+    var keyHeight: CGFloat = 0
     
     init(diarytype: MorningAndNight, writeMode: WriteMode) {
         self.diarytype = diarytype
@@ -47,7 +48,7 @@ class WriteViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.writeView.textView.delegate = self
-        
+      
         //데이터 패치
         OneDayDiaryRepository.shared.fetchLatestOrder()
         
@@ -159,6 +160,7 @@ class WriteViewController: BaseViewController {
         //토스트 커스텀하기
         writeView.makeToast("저장완료!", duration: 2.0, position: .center, title: nil, image: UIImage(named: "ABAM")) { didTap in
             self.navigationController?.popViewController(animated: true)
+            self.writeView.textView.resignFirstResponder()
         }
     }
     
@@ -211,4 +213,3 @@ extension WriteViewController: UITextViewDelegate {
         }
     }
 }
-

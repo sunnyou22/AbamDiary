@@ -22,7 +22,7 @@ class CalendarTableViewCell: BaseTableViewCell {
         let view = UIView()
         view.clipsToBounds = true
         DispatchQueue.main.async {
-            view.layer.cornerRadius = view.frame.height / 3
+            view.layer.cornerRadius = view.frame.height / 2.8
         }
     
         return view

@@ -49,6 +49,7 @@
 		90DF632C28D983D60046A3E7 /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DF632B28D983D60046A3E7 /* SwitchTableViewCell.swift */; };
 		90DF633128D9DD300046A3E7 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DF633028D9DD300046A3E7 /* Alert.swift */; };
 		90DF633328DB18380046A3E7 /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DF633228DB18370046A3E7 /* PopUpViewController.swift */; };
+		90DF633828DB94FA0046A3E7 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 90DF633728DB94FA0046A3E7 /* IQKeyboardManagerSwift */; };
 		90F0592328D80E1D00F61899 /* SettiongConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F0592228D80E1D00F61899 /* SettiongConstants.swift */; };
 		90F0592528D8138F00F61899 /* DefaultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F0592428D8138F00F61899 /* DefaultTableViewCell.swift */; };
 		90F0592728D84A4500F61899 /* NoficationPush + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F0592628D84A4500F61899 /* NoficationPush + Extension.swift */; };
@@ -121,6 +122,7 @@
 				900AEE1228CC6E9900F18360 /* FSCalendar in Frameworks */,
 				900AEE0C28CC6E6F00F18360 /* SnapKit in Frameworks */,
 				90CCDB6C28D057FB00CDEE06 /* Realm in Frameworks */,
+				90DF633828DB94FA0046A3E7 /* IQKeyboardManagerSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -315,6 +317,7 @@
 				900AEE1128CC6E9900F18360 /* FSCalendar */,
 				90CCDB6B28D057FB00CDEE06 /* Realm */,
 				90CCDB6D28D057FB00CDEE06 /* RealmSwift */,
+				90DF633728DB94FA0046A3E7 /* IQKeyboardManagerSwift */,
 			);
 			productName = AbamDiary;
 			productReference = 90F8261028CB799A008E8E6B /* AbamDiary.app */;
@@ -349,6 +352,7 @@
 				900AEE0D28CC6E8400F18360 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				900AEE1028CC6E9900F18360 /* XCRemoteSwiftPackageReference "FSCalendar" */,
 				90CCDB6A28D057FB00CDEE06 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				90DF633628DB94F90046A3E7 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			productRefGroup = 90F8261128CB799A008E8E6B /* Products */;
 			projectDirPath = "";
@@ -671,6 +675,14 @@
 				minimumVersion = 10.0.0;
 			};
 		};
+		90DF633628DB94F90046A3E7 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -698,6 +710,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 90CCDB6A28D057FB00CDEE06 /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
+		};
+		90DF633728DB94FA0046A3E7 /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 90DF633628DB94F90046A3E7 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
