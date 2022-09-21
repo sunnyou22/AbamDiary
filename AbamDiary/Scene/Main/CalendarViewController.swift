@@ -47,9 +47,7 @@ class CalendarViewController: BaseViewController {
         // 네비게이션 나중에 함수로 빼기
         let navigationtitleView = navigationTitleVIew()
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navigationtitleView)
-//        let testplusM = UIBarButtonItem(title: "아침더하기", style: .plain, target: self, action: #selector(testPlusM))
-//        let testplusN = UIBarButtonItem(title: "밤더하기", style: .plain, target: self, action: #selector(testPlusN))
-//        navigationItem.rightBarButtonItems = [testplusM, testplusN]
+        
         mainview.tableView.delegate = self
         mainview.tableView.dataSource = self
         
@@ -64,12 +62,14 @@ class CalendarViewController: BaseViewController {
         CalendarViewController.gageCountModel.nightDiaryCount.bind { count in
                     self.changeNightcount = count
                 }
-        
     }
     
     //MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        mainview.profileImage.image = loadImageFromDocument(fileName: "profile.jpg")
+        print("Realm is located at:", OneDayDiaryRepository.shared.localRealm.configuration.fileURL!)
         
         fetchRealm() // 램 패치
         
@@ -77,10 +77,10 @@ class CalendarViewController: BaseViewController {
         testPlusM()
         testPlusN()
         
-        print(changeMorningcount, changeNightcount, "=======count check")
-        
-        mainview.profileImage.image = loadImageFromDocument(fileName: "profile.jpg")
-        print("Realm is located at:", OneDayDiaryRepository.shared.localRealm.configuration.fileURL!)
+        print(changeMorningcount, changeNightcount, "프로퍼티 카운트🔴")
+        guard changeMorningcount != 0.0 || changeNightcount != 0.0 else {  mainview.progressBar.progress = 0.5
+            return
+        }
     }
     
     func fetchRealm() {
@@ -161,8 +161,6 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         let calendarToday = CustomFormatter.setDateFormatter(date: mainview.calendar.today ?? Date())
         let creatDate = CustomFormatter.setDateFormatter(date: dateFilterTask?.selecteddate ?? Date())
         let selecedDate = CustomFormatter.setDateFormatter(date: mainview.calendar.selectedDate ?? Date())
-     
-        print(dateFilterTask?.morning != nil && (creatDate == selecedDate))
         
         if mainview.calendar.selectedDate != nil {
             if indexPath.row == 0 {
@@ -275,8 +273,6 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
         let calendarDay = CustomFormatter.setDateFormatter(date: date)
         let calendarToday = CustomFormatter.setDateFormatter(date: calendar.today!)
         
-        print(lastDate, calendarToday, "==========막날 오늘")
-        
         if lastDate == calendarToday {
             let vc = PopUpViewController()
             vc.modalPresentationStyle = .overCurrentContext
@@ -290,8 +286,6 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
         let testArr = tasks.filter { task in
             CustomFormatter.setCellTitleDateFormatter(date: task.selecteddate ?? Date()) == test
         } // 해당 날짜에 포함되는 데이터들을 뽑아옵
-        
-        print(testArr)
         
         for task in testArr {
             if task.morning != nil && task.night != nil {
@@ -312,7 +306,6 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
         let testArr = tasks.filter { task in
             CustomFormatter.setCellTitleDateFormatter(date: task.selecteddate ?? Date()) == test
         } // 해당 날짜에 포함되는 데이터들을 뽑아옵
-        print(testArr)
         
         for task in testArr {
             if task.morning != nil && task.night != nil {
@@ -334,8 +327,7 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
         let testArr = tasks.filter { task in
             CustomFormatter.setCellTitleDateFormatter(date: task.selecteddate ?? Date()) == test
         } // 해당 날짜에 포함되는 데이터들을 뽑아옵
-        print(testArr)
-        
+
         for task in testArr {
             if task.morning != nil && task.night != nil {
                 return [UIColor.systemRed, UIColor.systemBlue]
@@ -447,6 +439,9 @@ extension CalendarViewController {
             }
             return !morning.isEmpty
         }.count
+        
+        print(Float(filterMorningcount), "==========testPlusM()의 filterMorningcount")
+        
         CalendarViewController.gageCountModel.morningDiaryCount.value = Float(filterMorningcount)
         self.changeMorningcount = Float(filterMorningcount)
         let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeMorningcount + self.changeNightcount)) * digit) / digit)
@@ -455,7 +450,7 @@ extension CalendarViewController {
             progress = 0
         } else {
             progress = moringCountRatio
-            print(progress)
+            print(progress, "moringCountRatio 📊")
         }
         print("================", progress)
         //        dateModel.morningDiaryCount.value = changeMorningcount
@@ -472,6 +467,9 @@ extension CalendarViewController {
             }
             return !night.isEmpty
         }.count
+        
+        print(Float(filterNightcount), "==========testPlusM()의 filterMorningcount")
+        
         CalendarViewController.gageCountModel.nightDiaryCount.value = Float(filterNightcount)
         self.changeNightcount = Float(filterNightcount)
         let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeMorningcount + self.changeNightcount)) * digit) / digit)
@@ -480,7 +478,7 @@ extension CalendarViewController {
             progress = 0
         } else {
             progress = moringCountRatio
-            print(progress)
+            print(progress, ")
         }
         print("================", progress)
         //        dateModel.nightDiaryCount.value = changeNightcount
