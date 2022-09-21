@@ -61,6 +61,7 @@ class SearchViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         fetch()
+       
     }
     
     func fetch() {
@@ -74,7 +75,7 @@ class SearchViewController: BaseViewController {
         self.navigationItem.title = title
         self.navigationItem.hidesSearchBarWhenScrolling = false
         searchController.searchResultsUpdater = self
-        
+        self.navigationController?.navigationBar.prefersLargeTitles = true
         let navigationtitleView = navigationTitleVIew()
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navigationtitleView)
     }

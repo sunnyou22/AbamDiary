@@ -21,6 +21,7 @@ class SettingAlarmTableViewCell: BaseTableViewCell {
         view.backgroundColor = .systemGray4
         
         DispatchQueue.main.async {
+            view.contentMode = .scaleAspectFill
             view.clipsToBounds = true
             view.layer.cornerRadius = 16
         }

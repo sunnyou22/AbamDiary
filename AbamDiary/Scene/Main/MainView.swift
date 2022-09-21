@@ -54,11 +54,10 @@ class MainView: BaseView {
         calendar.clipsToBounds = true
         calendar.layer.cornerRadius = 20
         calendar.scrollDirection = .vertical
-        calendar.locale = Locale(identifier: "ko-KR")
-        calendar.appearance.titleFont = UIFont.systemFont(ofSize: 16, weight: .regular)
+        calendar.appearance.titleFont = UIFont.systemFont(ofSize: 12, weight: .regular)
         calendar.appearance.weekdayFont = UIFont.systemFont(ofSize: 16, weight: .medium)
         calendar.appearance.headerTitleFont = UIFont.systemFont(ofSize: 17, weight: .bold)
-        calendar.appearance.headerDateFormat = "YYYY년 MM월"
+        calendar.appearance.headerDateFormat = "yyyy년 MM월"
         calendar.appearance.headerTitleAlignment = .left
         calendar.appearance.headerTitleOffset = CGPoint(x: 12, y: -4)
         calendar.appearance.weekdayTextColor = Color.BaseColorWtihDark.calendarTitle
@@ -107,7 +106,6 @@ class MainView: BaseView {
         //        //        view.image = UIImage(named: "morningpop") // 프로필 사진으로 바꾸기
         //        view.backgroundColor = .green
         DispatchQueue.main.async {
-            
             
             view.contentMode = .scaleAspectFill
             view.clipsToBounds = true
@@ -240,7 +238,7 @@ extension UIImage {
     func resize(newWidthRato: CGFloat) -> UIImage {
         let newWidth = UIScreen.main.bounds.width * newWidthRato
         
-        let size = CGSize(width: newWidth, height: newWidth)
+        let size = CGSize(width: newWidth, height: newWidth * 0.88)
         let render = UIGraphicsImageRenderer(size: size)
         let renderImage = render.image { context in
             self.draw(in: CGRect(origin: .zero, size: size))

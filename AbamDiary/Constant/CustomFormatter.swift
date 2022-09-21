@@ -88,4 +88,47 @@ class CustomFormatter {
         return Int(formatter.string(from: date)) ?? 0
 
     }
+    
+    static func isDateEndOfMonth() -> Date {
+        
+        
+        let date = Date(timeIntervalSinceNow: 0)
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.locale = Locale(identifier: "ko")
+        
+        let components = calendar.dateComponents([.year, .month], from: date)
+        
+        guard let startOfMonth = calendar.date(from: components) else {
+            print("달의 시작날 구하기 에러======🗓")
+            return Date()
+        }
+       
+        guard let nextMonth = calendar.date(byAdding: .month, value: +1, to: startOfMonth) else {
+            print("달의 다음날 구하기 에러======🗓")
+            return  Date()
+        }
+        
+        guard let endOfMonth = calendar.date(byAdding: .day, value: -1, to: nextMonth) else {
+            print("달의 막날 구하기 에러======🗓")
+            return  Date() }
+        
+        
+        return endOfMonth
+        
+    }
+    
+    static func isStarDateOfMonth() -> Date {
+        let date = Date(timeIntervalSinceNow: 0)
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.locale = Locale(identifier: "ko")
+        
+        let components = calendar.dateComponents([.year, .month], from: date)
+        
+        guard let startOfMonth = calendar.date(from: components) else {
+            print("달의 시작날 구하기 에러======🗓")
+            return Date()
+        }
+        
+        return startOfMonth
+    }
 }

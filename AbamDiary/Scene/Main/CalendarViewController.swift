@@ -31,6 +31,8 @@ class CalendarViewController: BaseViewController {
         }
     }
     
+    var monthFilterTasks: Results<Diary>!
+    
     var dateFilterTask: Diary? // 캘린더에 해당하는 날짜를 받아오기 위함
     
     //MARK: - LoadView
@@ -50,6 +52,7 @@ class CalendarViewController: BaseViewController {
         navigationItem.rightBarButtonItems = [testplusM, testplusN]
         mainview.tableView.delegate = self
         mainview.tableView.dataSource = self
+        
         mainview.calendar.dataSource = self
         mainview.calendar.delegate = self
         
@@ -68,15 +71,21 @@ class CalendarViewController: BaseViewController {
     //MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         fetchRealm() // 램 패치
+        
         mainview.profileImage.image = loadImageFromDocument(fileName: "profile.jpg")
         print("Realm is located at:", OneDayDiaryRepository.shared.localRealm.configuration.fileURL!)
-        
     }
     
     func fetchRealm() {
         tasks = OneDayDiaryRepository.shared.fetchLatestOrder()
         testfilterDate()
+        
+        //시간잘 맞춰서 해당 달의 날짜가 들어옴
+        monthFilterTasks = OneDayDiaryRepository.shared.fetchFilterMonth(start: CustomFormatter.isStarDateOfMonth(), last: CustomFormatter.isDateEndOfMonth())
+        
+        print("====> 🟢먼쓰필터링 완룡 ", monthFilterTasks.count)
         
         print("====>🟢 패치완료")
     }
@@ -182,8 +191,6 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
         
-        
-        
         cell.setMornigAndNightConfig(index: indexPath.row)
         cell.backgroundColor = .clear
         cell.selectionStyle = .none
@@ -271,6 +278,18 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
         mainview.tableView.reloadData()
         mainview.cellTitle.text = CustomFormatter.setCellTitleDateFormatter(date: date)
         
+        let lastDate = CustomFormatter.setDateFormatter(date:  CustomFormatter.isDateEndOfMonth())
+        let calendarDay = CustomFormatter.setDateFormatter(date: date)
+        let calendarToday = CustomFormatter.setDateFormatter(date: calendar.today!)
+        
+        print(lastDate, calendarToday, "==========막날 오늘")
+        
+        if lastDate == calendarToday {
+            let vc = PopUpViewController()
+            vc.modalPresentationStyle = .overCurrentContext
+            present(vc, animated: true)
+        }
+
     }
     
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
@@ -316,8 +335,6 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
         return nil
     }
     
-    
-    
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventSelectionColorsFor date: Date) -> [UIColor]? {
         
         let test = CustomFormatter.setCellTitleDateFormatter(date: date)
@@ -340,6 +357,65 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
         return nil
     }
     
+    //이미지로 할까 색으로 할까
+//    func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
+//        let lastDate = CustomFormatter.setDateFormatter(date:  CustomFormatter.isDateEndOfMonth())
+//        let calendarDay = CustomFormatter.setDateFormatter(date: date)
+//        let calendarToday = CustomFormatter.setDateFormatter(date: calendar.today!)
+//
+//        print(lastDate, calendarToday, "==========막날 오늘")
+//
+//        if lastDate == calendarToday {
+//
+//            switch calendarDay {
+//            case lastDate:
+//                return UIImage(named: "ABAM")?.resize(newWidthRato: 0.08)
+//            default:
+//                return nil
+//            }
+//        }
+//        return nil
+//    }
+    
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillDefaultColorFor date: Date) -> UIColor? {
+        
+        let lastDate = CustomFormatter.setDateFormatter(date:  CustomFormatter.isDateEndOfMonth())
+        let calendarDay = CustomFormatter.setDateFormatter(date: date)
+        let calendarToday = CustomFormatter.setDateFormatter(date: calendar.today!)
+        
+        print(lastDate, calendarToday, "==========막날 오늘")
+        
+        if lastDate == calendarToday {
+            
+            switch calendarDay {
+            case lastDate:
+                return .green
+            default:
+                return nil
+            }
+        }
+        return nil
+    }
+    
+    
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillSelectionColorFor date: Date) -> UIColor? {
+        let lastDate = CustomFormatter.setDateFormatter(date:  CustomFormatter.isDateEndOfMonth())
+        let calendarDay = CustomFormatter.setDateFormatter(date: date)
+        let calendarToday = CustomFormatter.setDateFormatter(date: calendar.today!)
+        
+        print(lastDate, calendarToday, "==========막날 오늘")
+        
+        if lastDate == calendarToday {
+            
+            switch calendarDay {
+            case lastDate:
+                return .green
+            default:
+                return appearance.selectionColor
+            }
+        }
+        return appearance.selectionColor
+    }
 }
 
 //MARK: 네비게이션 타이틀 뷰 커스텀
@@ -370,7 +446,8 @@ class navigationTitleVIew: BaseView {
 extension CalendarViewController {
     
     @objc func testPlusM() {
-        self.changeMorningcount += 20.0
+        
+//        self.changeMorningcount += tasks.count
         let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeMorningcount + self.changeNightcount)) * digit) / digit)
         
         if moringCountRatio.isNaN {

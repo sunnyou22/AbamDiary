@@ -10,7 +10,7 @@ import Foundation
 enum TabBarImage: Int, CaseIterable {
     case houseFill
     case magnifyingglass
-    case magazineFill
+//    case magazineFill
     case heartTextSquareFill
     case gearshapeFill
     
@@ -20,8 +20,8 @@ enum TabBarImage: Int, CaseIterable {
           return "house.fill"
         case .magnifyingglass:
             return "magnifyingglass"
-        case .magazineFill:
-            return "magazine.fill"
+//        case .magazineFill:
+//            return "magazine.fill"
         case .heartTextSquareFill:
             return "heart.text.square.fill"
         case .gearshapeFill:
@@ -35,8 +35,8 @@ enum TabBarImage: Int, CaseIterable {
            return "홈"
         case .magnifyingglass:
             return "검색"
-        case .magazineFill:
-            return "한달일기"
+//        case .magazineFill:
+//            return "한달일기"
         case .heartTextSquareFill:
             return "응원"
         case .gearshapeFill:

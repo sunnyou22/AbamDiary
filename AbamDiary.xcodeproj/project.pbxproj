@@ -48,6 +48,7 @@
 		90DF632A28D981900046A3E7 /* AlarmTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DF632928D981900046A3E7 /* AlarmTableViewCell.swift */; };
 		90DF632C28D983D60046A3E7 /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DF632B28D983D60046A3E7 /* SwitchTableViewCell.swift */; };
 		90DF633128D9DD300046A3E7 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DF633028D9DD300046A3E7 /* Alert.swift */; };
+		90DF633328DB18380046A3E7 /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DF633228DB18370046A3E7 /* PopUpViewController.swift */; };
 		90F0592328D80E1D00F61899 /* SettiongConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F0592228D80E1D00F61899 /* SettiongConstants.swift */; };
 		90F0592528D8138F00F61899 /* DefaultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F0592428D8138F00F61899 /* DefaultTableViewCell.swift */; };
 		90F0592728D84A4500F61899 /* NoficationPush + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F0592628D84A4500F61899 /* NoficationPush + Extension.swift */; };
@@ -96,6 +97,7 @@
 		90DF632928D981900046A3E7 /* AlarmTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmTableViewCell.swift; sourceTree = "<group>"; };
 		90DF632B28D983D60046A3E7 /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
 		90DF633028D9DD300046A3E7 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		90DF633228DB18370046A3E7 /* PopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpViewController.swift; sourceTree = "<group>"; };
 		90F0592228D80E1D00F61899 /* SettiongConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettiongConstants.swift; sourceTree = "<group>"; };
 		90F0592428D8138F00F61899 /* DefaultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTableViewCell.swift; sourceTree = "<group>"; };
 		90F0592628D84A4500F61899 /* NoficationPush + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NoficationPush + Extension.swift"; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 				90B7210A28CDAC7D00B243AE /* Search */,
 				90B7210928CDAC6000B243AE /* Cheerup */,
 				900AEE0128CC5D0E00F18360 /* Main */,
+				90DF633228DB18370046A3E7 /* PopUpViewController.swift */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -412,6 +415,7 @@
 				900AEDFC28CC5AB100F18360 /* BaseView.swift in Sources */,
 				900AEE0028CC5BA700F18360 /* BaseTableViewCell.swift in Sources */,
 				90F0592728D84A4500F61899 /* NoficationPush + Extension.swift in Sources */,
+				90DF633328DB18380046A3E7 /* PopUpViewController.swift in Sources */,
 				90F8261428CB799A008E8E6B /* AppDelegate.swift in Sources */,
 				90DF632C28D983D60046A3E7 /* SwitchTableViewCell.swift in Sources */,
 				90F8261628CB799A008E8E6B /* SceneDelegate.swift in Sources */,

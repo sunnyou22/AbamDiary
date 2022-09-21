@@ -51,6 +51,11 @@ class OneDayDiaryRepository: OnedayDiaryRepositoryType {
         return localRealm.objects(Diary.self).filter("createdDate >= %@ AND createdDate < %@", date, Date(timeInterval: 86400, since: date)) //NSPredicate 애플이 만들어준 Filter
     }
     
+    func fetchFilterMonth(start: Date, last: Date) -> Results<Diary> {
+        
+        return localRealm.objects(Diary.self).filter("selecteddate >= %@ AND selecteddate <= %@", start, last)
+    }
+    
     func deleteRecord(item: Diary) {
         
         do {

@@ -21,12 +21,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let mainVC = UINavigationController(rootViewController: CalendarViewController())
         let searchVC = UINavigationController(rootViewController: SearchViewController())
-        let monthVC = UINavigationController(rootViewController: MonthDiaryViewController())
+//        let monthVC = UINavigationController(rootViewController: MonthDiaryViewController())
         let cheerupVC = UINavigationController(rootViewController: CheerupViewController())
         let settingVC = UINavigationController(rootViewController: SettiongViewController())
         
         let tabBarController = UITabBarController()
-        tabBarController.setViewControllers([mainVC, searchVC, monthVC, cheerupVC, settingVC], animated: true)
+        tabBarController.setViewControllers([mainVC, searchVC, cheerupVC, settingVC], animated: true)
         
         if let items = tabBarController.tabBar.items {
             for i in 0...(items.count - 1) {
