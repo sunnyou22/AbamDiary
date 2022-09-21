@@ -28,6 +28,8 @@ class CalendarViewController: BaseViewController {
             mainview.tableView.reloadData()
             mainview.calendar.reloadData()
             print("리로드♻️")
+            print("Realm is located at:", OneDayDiaryRepository.shared.localRealm.configuration.fileURL!)
+            
         }
     }
     
@@ -69,18 +71,19 @@ class CalendarViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         mainview.profileImage.image = loadImageFromDocument(fileName: "profile.jpg")
-        print("Realm is located at:", OneDayDiaryRepository.shared.localRealm.configuration.fileURL!)
-        
+       
         fetchRealm() // 램 패치
         
-        //화면이 로드될 때도 호출되야하기 때문에 여기서만 걸어주기
+        //카운트 세팅
         testPlusM()
         testPlusN()
-        
         print(changeMorningcount, changeNightcount, "프로퍼티 카운트🔴")
         guard changeMorningcount != 0.0 || changeNightcount != 0.0 else {  mainview.progressBar.progress = 0.5
             return
         }
+        
+        //화면이 로드될 때도 호출되야하기 때문에 여기서만 걸어주기
+        setProgressRetio()
     }
     
     func fetchRealm() {
@@ -90,7 +93,7 @@ class CalendarViewController: BaseViewController {
         //시간잘 맞춰서 해당 달의 날짜가 들어옴
         monthFilterTasks = OneDayDiaryRepository.shared.fetchFilterMonth(start: CustomFormatter.isStarDateOfMonth(), last: CustomFormatter.isDateEndOfMonth())
         
-        print("====> 🟢먼쓰필터링 완룡 ", monthFilterTasks.count)
+        print("====> 🟢먼쓰필터링 완룡 => 총 카운트", monthFilterTasks.count)
         
         print("====>🟢 패치완료")
     }
@@ -368,8 +371,6 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
         let calendarDay = CustomFormatter.setDateFormatter(date: date)
         let calendarToday = CustomFormatter.setDateFormatter(date: calendar.today!)
         
-        print(lastDate, calendarToday, "==========막날 오늘")
-        
         if lastDate == calendarToday {
             
             switch calendarDay {
@@ -387,9 +388,7 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
         let lastDate = CustomFormatter.setDateFormatter(date:  CustomFormatter.isDateEndOfMonth())
         let calendarDay = CustomFormatter.setDateFormatter(date: date)
         let calendarToday = CustomFormatter.setDateFormatter(date: calendar.today!)
-        
-        print(lastDate, calendarToday, "==========막날 오늘")
-        
+    
         if lastDate == calendarToday {
             
             switch calendarDay {
@@ -444,6 +443,26 @@ extension CalendarViewController {
         
         CalendarViewController.gageCountModel.morningDiaryCount.value = Float(filterMorningcount)
         self.changeMorningcount = Float(filterMorningcount)
+    }
+    
+    func testPlusN() {
+        
+        let filterNightcount = monthFilterTasks.filter { task in
+            guard let night = task.night else {
+                print("filterNightcount ==> monthFilterTasks에 값이 없습니다.")
+                return false
+            }
+            return !night.isEmpty
+        }.count
+        
+        print(Float(filterNightcount), "==========testPlusM()의 filterMorningcount")
+        
+        CalendarViewController.gageCountModel.nightDiaryCount.value = Float(filterNightcount)
+        self.changeNightcount = Float(filterNightcount)
+    }
+    
+    
+    func setProgressRetio() {
         let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeMorningcount + self.changeNightcount)) * digit) / digit)
         
         if moringCountRatio.isNaN {
@@ -458,36 +477,6 @@ extension CalendarViewController {
         animationUIImage()
     }
     
-    func testPlusN() {
-        
-        var filterNightcount = monthFilterTasks.filter { task in
-            guard let night = task.night else {
-                print("filterNightcount ==> monthFilterTasks에 값이 없습니다.")
-                return false
-            }
-            return !night.isEmpty
-        }.count
-        
-        print(Float(filterNightcount), "==========testPlusM()의 filterMorningcount")
-        
-        CalendarViewController.gageCountModel.nightDiaryCount.value = Float(filterNightcount)
-        self.changeNightcount = Float(filterNightcount)
-        let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeMorningcount + self.changeNightcount)) * digit) / digit)
-        
-        if moringCountRatio.isNaN {
-            progress = 0
-        } else {
-            progress = moringCountRatio
-            print(progress, ")
-        }
-        print("================", progress)
-        //        dateModel.nightDiaryCount.value = changeNightcount
-        
-        mainview.progressBar.setProgress(progress, animated: true)
-        animationUIImage()
-    }
-    
-    
     
     //MARK: 이미지 애니메이션
     func animationUIImage() {
@@ -495,9 +484,6 @@ extension CalendarViewController {
             let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeNightcount + self.changeMorningcount)) * self.digit) / self.digit)
             
             let width = Float(self.mainview.progressBar.frame.size.width) * moringCountRatio - (Float(self.mainview.progressBar.frame.size.width) / 2)
-            //
-            
-            print(self.mainview.progressBar.frame.size.width)
             
             self.mainview.progressBar.transform = .identity
             
