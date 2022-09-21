@@ -15,7 +15,7 @@ import RealmSwift
 class CalendarViewController: BaseViewController {
     
     let mainview = MainView()
-    
+   static var gageCountModel = GageModel()
     var changeMorningcount: Float = 0 // 테스트용
     var changeNightcount: Float = 0 // 테스트용
     var progress: Float = 0 // 변수로 빼줘야 동작
@@ -56,15 +56,15 @@ class CalendarViewController: BaseViewController {
         mainview.calendar.dataSource = self
         mainview.calendar.delegate = self
         
-        //        //MARK: 변하는 값에 대한 관찰시작
-        //        dateModel.morningDiaryCount.bind { count in
-        //            self.changeMorningcount = count
-        //        }
-        //
-        //        dateModel.nightDiaryCount.bind { count in
-        //            self.changeNightcount = count
-        //        }
-        //
+                //MARK: 변하는 값에 대한 관찰시작
+        CalendarViewController.gageCountModel.morningDiaryCount.bind { count in
+                    self.changeMorningcount = count
+                }
+        
+        CalendarViewController.gageCountModel.nightDiaryCount.bind { count in
+                    self.changeNightcount = count
+                }
+        
     }
     
     //MARK: - viewWillAppear
@@ -72,6 +72,8 @@ class CalendarViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         fetchRealm() // 램 패치
+        
+        //화면이 로드될 때도 호출되야하기 때문에 여기서만 걸어주기
         testPlusM()
         testPlusN()
         
@@ -113,9 +115,6 @@ class CalendarViewController: BaseViewController {
         let today =  CustomFormatter.setDateFormatter(date: Date())
         var filterdateArr: LazyFilterSequence<Results<Diary>>?
         
-        print("=======>날짜가선택됐습니까? ", mainview.calendar.selectedDate)
-        print("캘린더 오늘 날짜", calendarToday)
-        print("걍 오늘 날짜", today)
         //self.dateFilterTask = OneDayDiaryRepository.shared.fetchDate(date: Date())[0] -> 왜 이렇게 하면안됨? 오늘 작성한게 많을수도 있잖아
         
         if mainview.calendar.selectedDate == nil, calendarToday == today  {
@@ -141,9 +140,6 @@ class CalendarViewController: BaseViewController {
     }
 }
 
-
-
-
 //램 데이터 기반으로 바꾸기
 extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -160,18 +156,12 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         
         let cell = fetchCell(tableView, didSelectRowAt: indexPath)
         let placeholder = ["오늘 아침! 당신의 한줄은 무엇인가요?", "오늘 밤! 당신의 한줄은 무엇인가요?"]
-        //        let date =
-        let labelBool = dateFilterTask?.morning != nil && dateFilterTask?.createdDate == Date()
-      
+     
         let today = CustomFormatter.setDateFormatter(date: Date())
         let calendarToday = CustomFormatter.setDateFormatter(date: mainview.calendar.today ?? Date())
         let creatDate = CustomFormatter.setDateFormatter(date: dateFilterTask?.selecteddate ?? Date())
         let selecedDate = CustomFormatter.setDateFormatter(date: mainview.calendar.selectedDate ?? Date())
-        
-        print(dateFilterTask?.selecteddate)
-        print(mainview.calendar.selectedDate)
-        print(dateFilterTask?.morning)
-        //    print(CustomFormatter.setDateFormatter(date: dateFilterTask!.createdDate) == selecedDate)
+     
         print(dateFilterTask?.morning != nil && (creatDate == selecedDate))
         
         if mainview.calendar.selectedDate != nil {
@@ -251,11 +241,11 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
             case .morning:
                 vc.navigationItem.title = "아침일기"
                 vc.writeView.setWriteVCPlaceholder(type: .morning)
-                vc.moringCount = testPlusM
+               
             case .night:
                 vc.navigationItem.title = "저녁일기"
                 vc.writeView.setWriteVCPlaceholder(type: .night)
-                vc.nightCount = testPlusN
+               
             }
         case .modified:
             print("====>🚀 수정화면으로 가기")
@@ -457,7 +447,7 @@ extension CalendarViewController {
             }
             return !morning.isEmpty
         }.count
-        
+        CalendarViewController.gageCountModel.morningDiaryCount.value = Float(filterMorningcount)
         self.changeMorningcount = Float(filterMorningcount)
         let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeMorningcount + self.changeNightcount)) * digit) / digit)
         
@@ -482,7 +472,7 @@ extension CalendarViewController {
             }
             return !night.isEmpty
         }.count
-        
+        CalendarViewController.gageCountModel.nightDiaryCount.value = Float(filterNightcount)
         self.changeNightcount = Float(filterNightcount)
         let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeMorningcount + self.changeNightcount)) * digit) / digit)
         

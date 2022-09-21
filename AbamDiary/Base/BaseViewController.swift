@@ -21,11 +21,14 @@ class BaseViewController: UIViewController {
         super.viewDidLoad()
         configuration()
         setConstraints()
+        setValueOfView()
     }
     
     func configuration() { }
     
     func setConstraints() { }
+    
+    func setValueOfView() { }
  
     func showOkAlertMessage(title: String, button: String = "확인") {
          let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)

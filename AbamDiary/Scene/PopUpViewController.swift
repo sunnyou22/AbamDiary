@@ -20,14 +20,16 @@ class PopUpViewController: BaseViewController {
     
     let morningDiaryCount: UILabel = {
         let view = UILabel()
-        view.text = "아침일기: 88개"
+        let count = Int(CalendarViewController.gageCountModel.morningDiaryCount.value)
+        view.text = "아침일기: \(count)개"
         view.font = UIFont.systemFont(ofSize: FontSize.label_14, weight: .medium)
         return view
     }()
     
     let nightDiaryCount: UILabel = {
         let view = UILabel()
-        view.text = "저녁일기: 88개"
+        let count = Int(CalendarViewController.gageCountModel.nightDiaryCount.value)
+        view.text = "저녁일기: \(count)개"
         view.font = UIFont.systemFont(ofSize: FontSize.label_14, weight: .medium)
         return view
     }()
@@ -35,11 +37,6 @@ class PopUpViewController: BaseViewController {
     //특정범위의 문자만 속성적용
     let resultLabel: UILabel = {
         let view = UILabel()
-        let attributeString = NSMutableAttributedString(string: view.text ?? "당신은 ㅁㅁㅁ 아밤이궁요!")
-        view.font = UIFont.systemFont(ofSize: 18, weight: .heavy)
-        attributeString.addAttributes([.foregroundColor: UIColor.blue], range: NSRange(location: 4, length: 3))
-        view.attributedText = attributeString
-        
         return view
     }()
     
@@ -61,14 +58,18 @@ class PopUpViewController: BaseViewController {
         super.viewDidLoad()
         view.backgroundColor = .black.withAlphaComponent(0.4)
         view.isOpaque = false
-        swipeDown()
         
         profileimageView.image = loadImageFromDocument(fileName: "profile.jpg")
         print("이미지 받아오기")
+        swipeDown()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+    }
+    
+    override func setValueOfView() {
+        setResultLabel(resultLabel)
     }
     
     override func configuration() {
@@ -107,6 +108,23 @@ class PopUpViewController: BaseViewController {
         }
         print("제약조건", profileimageView.frame.size.width)
     }
+    
+    //MARK: - 메서드
+    func setResultLabelComponent(m: Float, n: Float) -> String {
+        return m > n ? "아침형" : "저녁형"
+    }
+    
+    func setResultLabel(_ view: UILabel) {
+        let m = CalendarViewController.gageCountModel.morningDiaryCount.value
+        let n = CalendarViewController.gageCountModel.nightDiaryCount.value
+        let result = setResultLabelComponent(m: m, n: n)
+        
+        let attributeString = NSMutableAttributedString(string: "당신은 \(result) 아밤이궁요!")
+        view.font = UIFont.systemFont(ofSize: 18, weight: .heavy)
+        attributeString.addAttributes([.foregroundColor: UIColor.blue], range: NSRange(location: 4, length: 3))
+        view.attributedText = attributeString
+    }
+    
 }
 
 extension PopUpViewController {

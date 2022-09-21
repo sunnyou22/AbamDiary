@@ -22,8 +22,6 @@ class WriteViewController: BaseViewController {
     var diarytype: MorningAndNight
     var writeMode: WriteMode
     var fetch: (() -> Void)?
-    var moringCount: (() -> Void)?
-    var nightCount: (() -> Void)?
     var selectedDate: Date?
     
     init(diarytype: MorningAndNight, writeMode: WriteMode) {
@@ -189,7 +187,7 @@ extension WriteViewController: UITextViewDelegate {
             switch mode {
             case .newDiary:
                 OneDayDiaryRepository.shared.addItem(item: task)
-                moringCount!()
+               
                 print("-====>🟢 아침일기 작성되는 순간")
             case .modified:
                 try! OneDayDiaryRepository.shared.localRealm.write {
@@ -203,7 +201,7 @@ extension WriteViewController: UITextViewDelegate {
             switch mode {
             case .newDiary:
                 OneDayDiaryRepository.shared.addItem(item: task)
-               nightCount!()
+               
             case .modified:
                 try! OneDayDiaryRepository.shared.localRealm.write {
                     task.night = writeView.textView.text
