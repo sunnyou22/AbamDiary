@@ -13,12 +13,12 @@ class SearchView: BaseView {
     let tableView: UITableView = {
         let view = UITableView(frame: .zero, style: .plain)
         view.register(CalendarTableViewCell.self, forCellReuseIdentifier: CalendarTableViewCell.reuseIdentifier)
+        view.separatorStyle = .none
         return view
     }()
     
     override func configuration() {
         self.addSubview(tableView)
-        self.backgroundColor = Color.BaseColorWtihDark.backgorund
     }
  
     override func setConstraints() {

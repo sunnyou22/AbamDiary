@@ -150,15 +150,7 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         let placeholder = ["오늘 아침! 당신의 한줄은 무엇인가요?", "오늘 밤! 당신의 한줄은 무엇인가요?"]
         //        let date =
         let labelBool = dateFilterTask?.morning != nil && dateFilterTask?.createdDate == Date()
-        //
-        //        if dateFilterTask?.createdDate == nil {
-        //
-        //        } else {
-        //
-        //        }
-        
-        // 이거 디버그 찍기
-        
+      
         let today = CustomFormatter.setDateFormatter(date: Date())
         let calendarToday = CustomFormatter.setDateFormatter(date: mainview.calendar.today ?? Date())
         let creatDate = CustomFormatter.setDateFormatter(date: dateFilterTask?.selecteddate ?? Date())

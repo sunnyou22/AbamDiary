@@ -47,6 +47,8 @@ class CheerupTableViewCell: BaseTableViewCell {
     override func configuration() {
         
         [labelContainView, title, sectionView, subTitle].forEach { contentView.addSubview($0) }
+        
+        
     }
     
     override func setConstraints() {
