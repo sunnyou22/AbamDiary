@@ -179,7 +179,7 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
             
             authorizationAlert.addAction(authorizationOk)
             
-            //만약 사용자가 시스템권한을 해제했을 때 대응
+            //MARK: 만약 사용자가 시스템권한을 해제했을 때 대응
             guard autorizationStatus == false else {
                 SettiongViewController.requestAutorization()
                 UserDefaults.standard.set(true, forKey: "switch")
@@ -259,11 +259,15 @@ extension SettiongViewController {
         dateStringFormatter.dateFormat = "hh:mm"
         dateStringFormatter.string(from: datePicker.date)
         
+        let dateChooseAlert = UIAlertController(title: nil, message: "\n\n\n\n\n\n\n\n\n", preferredStyle: .alert)
         
-        //            print("========> 유저디폴트 키값", "\(sender.tag)")
-        
-        let dateChooseAlert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
         dateChooseAlert.view.addSubview(datePicker)
+        datePicker.snp.makeConstraints { make in
+            make.centerX.equalTo(dateChooseAlert.view.snp.centerX)
+            make.width.equalTo(dateChooseAlert.view.snp.width).multipliedBy(0.6)
+            make.height.equalTo(datePicker.snp.width)
+            make.bottom.equalTo(dateChooseAlert.view.snp.bottom).offset(-60)
+        }
         
         //MARK: 선택완료버튼 클릭
         let selection = UIAlertAction(title: "선택완료", style: .default) { _ in
@@ -293,16 +297,16 @@ extension SettiongViewController {
         
         dateChooseAlert.addAction(selection)
         dateChooseAlert.addAction(cancel)
-        
-        let height : NSLayoutConstraint = NSLayoutConstraint(item: dateChooseAlert.view!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.1, constant: 300)
-        dateChooseAlert.view.addConstraint(height)
-        
+    
+//        let height = NSLayoutConstraint(item: dateChooseAlert.view!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 300)
+//        let width = NSLayoutConstraint(item: dateChooseAlert.view!, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.1, constant: 300)
+//        dateChooseAlert.view.addConstraint(height)
+//        dateChooseAlert.view.addConstraint(width)
+//        dateChooseAlert.view.add
         present(dateChooseAlert, animated: true)
     }
     
     @objc func NpopDatePicker(_ sender: UIButton) {
-        
-        
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .time
         datePicker.preferredDatePickerStyle = .wheels
@@ -313,11 +317,16 @@ extension SettiongViewController {
         dateStringFormatter.dateFormat = "hh:mm"
         dateStringFormatter.string(from: datePicker.date)
         
+        let dateChooseAlert = UIAlertController(title: nil, message: "\n\n\n\n\n\n\n\n\n", preferredStyle: .alert)
         
-        print("========> 유저디폴트 키값", "\(sender.tag)")
-        
-        let dateChooseAlert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
         dateChooseAlert.view.addSubview(datePicker)
+        datePicker.snp.makeConstraints { make in
+            make.centerX.equalTo(dateChooseAlert.view.snp.centerX)
+            make.width.equalTo(dateChooseAlert.view.snp.width).multipliedBy(0.6)
+            make.height.equalTo(datePicker.snp.width)
+            make.bottom.equalTo(dateChooseAlert.view.snp.bottom).offset(-60)
+        }
+        
         
         //MARK: 선택완료버튼 클릭
         let selection = UIAlertAction(title: "선택완료", style: .default) { _ in
@@ -331,7 +340,7 @@ extension SettiongViewController {
             
             UserDefaults.standard.set(Narray, forKey: "Ndate")
             Narray = UserDefaults.standard.array(forKey: "Ndate") as? [Int] ?? [Int]()
-            print("key: Ndate 유저디폴트: 버튼이 선택? 값이 받아왔나!!??", Narray)
+            print("key: Ndate 유저디폴트: 버튼이 선택? 값이 받아왔남📍", Narray)
             
             date.hour = Narray[0]
             date.minute = Narray[1]
@@ -344,9 +353,7 @@ extension SettiongViewController {
         
         dateChooseAlert.addAction(selection)
         dateChooseAlert.addAction(cancel)
-        
-        let height : NSLayoutConstraint = NSLayoutConstraint(item: dateChooseAlert.view!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.1, constant: 300)
-        dateChooseAlert.view.addConstraint(height)
+       
         
         present(dateChooseAlert, animated: true)
     }

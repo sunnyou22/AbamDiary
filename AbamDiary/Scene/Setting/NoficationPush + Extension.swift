@@ -18,7 +18,7 @@ extension SettiongViewController {
           
             if success {
                 UserDefaults.standard.set(true, forKey: "switch")
-                // bool을 전역변수로 만들고 toggle로 변경해줌 -> 이 변수를 위의 true자리에 넣는것...?
+            
                 SettiongViewController.autorizationSwitchModel.isValid.value = true
                 print("노티푸시혀용!!!뷰컨")
             } else {
