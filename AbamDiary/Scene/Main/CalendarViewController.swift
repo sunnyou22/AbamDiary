@@ -47,15 +47,14 @@ class CalendarViewController: BaseViewController {
         // 네비게이션 나중에 함수로 빼기
         let navigationtitleView = navigationTitleVIew()
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navigationtitleView)
-        let testplusM = UIBarButtonItem(title: "아침더하기", style: .plain, target: self, action: #selector(testPlusM))
-        let testplusN = UIBarButtonItem(title: "밤더하기", style: .plain, target: self, action: #selector(testPlusN))
-        navigationItem.rightBarButtonItems = [testplusM, testplusN]
+//        let testplusM = UIBarButtonItem(title: "아침더하기", style: .plain, target: self, action: #selector(testPlusM))
+//        let testplusN = UIBarButtonItem(title: "밤더하기", style: .plain, target: self, action: #selector(testPlusN))
+//        navigationItem.rightBarButtonItems = [testplusM, testplusN]
         mainview.tableView.delegate = self
         mainview.tableView.dataSource = self
         
         mainview.calendar.dataSource = self
         mainview.calendar.delegate = self
-        
         
         //        //MARK: 변하는 값에 대한 관찰시작
         //        dateModel.morningDiaryCount.bind { count in
@@ -73,6 +72,10 @@ class CalendarViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         fetchRealm() // 램 패치
+        testPlusM()
+        testPlusN()
+        
+        print(changeMorningcount, changeNightcount, "=======count check")
         
         mainview.profileImage.image = loadImageFromDocument(fileName: "profile.jpg")
         print("Realm is located at:", OneDayDiaryRepository.shared.localRealm.configuration.fileURL!)
@@ -248,11 +251,11 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
             case .morning:
                 vc.navigationItem.title = "아침일기"
                 vc.writeView.setWriteVCPlaceholder(type: .morning)
-                
+                vc.moringCount = testPlusM
             case .night:
                 vc.navigationItem.title = "저녁일기"
                 vc.writeView.setWriteVCPlaceholder(type: .night)
-                
+                vc.nightCount = testPlusN
             }
         case .modified:
             print("====>🚀 수정화면으로 가기")
@@ -445,9 +448,17 @@ class navigationTitleVIew: BaseView {
 //MARK: - 애니메이션 Extension => 모델로 빼주기
 extension CalendarViewController {
     
-    @objc func testPlusM() {
+    func testPlusM() {
         
-//        self.changeMorningcount += tasks.count
+        let filterMorningcount = monthFilterTasks.filter { task in
+            guard let morning = task.morning else {
+                print("filterMorningcount ===> monthFilterTasks에 값이 없습니다.")
+                return false
+            }
+            return !morning.isEmpty
+        }.count
+        
+        self.changeMorningcount = Float(filterMorningcount)
         let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeMorningcount + self.changeNightcount)) * digit) / digit)
         
         if moringCountRatio.isNaN {
@@ -462,9 +473,17 @@ extension CalendarViewController {
         animationUIImage()
     }
     
-    @objc func testPlusN() {
+    func testPlusN() {
         
-        self.changeNightcount += 20.0
+        var filterNightcount = monthFilterTasks.filter { task in
+            guard let night = task.night else {
+                print("filterNightcount ==> monthFilterTasks에 값이 없습니다.")
+                return false
+            }
+            return !night.isEmpty
+        }.count
+        
+        self.changeNightcount = Float(filterNightcount)
         let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeMorningcount + self.changeNightcount)) * digit) / digit)
         
         if moringCountRatio.isNaN {
