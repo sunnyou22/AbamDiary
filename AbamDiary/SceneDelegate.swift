@@ -26,6 +26,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let settingVC = UINavigationController(rootViewController: SettiongViewController())
         
         let tabBarController = UITabBarController()
+        
         tabBarController.setViewControllers([mainVC, searchVC, cheerupVC, settingVC], animated: true)
         
         if let items = tabBarController.tabBar.items {

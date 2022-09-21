@@ -77,13 +77,18 @@ class CalendarViewController: BaseViewController {
         //카운트 세팅
         testPlusM()
         testPlusN()
+        animationUIImage()
+        
         print(changeMorningcount, changeNightcount, "프로퍼티 카운트🔴")
-        guard changeMorningcount != 0.0 || changeNightcount != 0.0 else {  mainview.progressBar.progress = 0.5
+        guard changeMorningcount != 0.0 || changeNightcount != 0.0 else {
+            animationUIImage()
+            mainview.progressBar.progress = 0.5
             return
         }
         
         //화면이 로드될 때도 호출되야하기 때문에 여기서만 걸어주기
         setProgressRetio()
+        animationUIImage()
     }
     
     func fetchRealm() {
@@ -474,7 +479,6 @@ extension CalendarViewController {
         print("================", progress)
         //        dateModel.morningDiaryCount.value = changeMorningcount
         mainview.progressBar.setProgress(progress, animated: true)
-        animationUIImage()
     }
     
     

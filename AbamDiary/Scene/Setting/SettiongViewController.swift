@@ -137,13 +137,18 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
                 let alert = UIAlertController(title: "알림", message: "정말 모든 데이터를 삭제하시겠습니까?", preferredStyle: .alert)
                 let ok = UIAlertAction(title: "네", style: .destructive) {_ in
                     OneDayDiaryRepository.shared.deleteTasks(tasks: self.tasks)
+                    self.settingView.makeToast("삭제완료", duration: 0.7, position: .center) { didTap in
+                        
+                        self.tabBarController?.selectedIndex = 0
+                    }
                 }
+            
                 let cancel = UIAlertAction(title: "아니오", style: .cancel)
                 
                 alert.addAction(ok)
                 alert.addAction(cancel)
                 
-                present(alert, animated: true)
+                    self.present(alert, animated: true)
             }
         }
     }
