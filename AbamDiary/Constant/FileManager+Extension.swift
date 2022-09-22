@@ -149,6 +149,7 @@ extension UIViewController {
         }
     }
     
+    @discardableResult
     func decoedDiary(_ diaryData: Data) throws -> [Diary]? {
         
         do {

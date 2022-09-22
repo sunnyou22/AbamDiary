@@ -221,7 +221,7 @@ extension SettiongViewController {
         //dateformat으로 나중에 빼기
         let dateStringFormatter = DateFormatter()
         dateStringFormatter.locale = NSLocale(localeIdentifier: "ko_KO") as Locale
-        dateStringFormatter.dateFormat = "hh:mm"
+        dateStringFormatter.dateFormat = "H:mm"
         dateStringFormatter.string(from: datePicker.date)
         
         let dateChooseAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -275,7 +275,7 @@ extension SettiongViewController {
         //dateformat
         let dateStringFormatter = DateFormatter()
         dateStringFormatter.locale = NSLocale(localeIdentifier: "ko_KO") as Locale
-        dateStringFormatter.dateFormat = "hh:mm"
+        dateStringFormatter.dateFormat = "H:mm"
         dateStringFormatter.string(from: datePicker.date)
         
         let dateChooseAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)

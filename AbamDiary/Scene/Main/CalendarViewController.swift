@@ -224,15 +224,6 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    func setPreparedCell(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) -> CalendarTableViewCell {
-        guard let cell2 = tableView.dequeueReusableCell(withIdentifier: CalendarTableViewCell.reuseIdentifier, for: indexPath) as? CalendarTableViewCell else { return CalendarTableViewCell()}
-        
-        cell2.dateLabel.text = CustomFormatter.setTime(date: Date())
-        self.preparedCell = cell
-        
-        return cell2
-    }
-    
     func setWritModeAndTransition(_ mode: WriteMode, diaryType: MorningAndNight, task: Diary?) {
         let vc = WriteViewController(diarytype: diaryType, writeMode: mode)
         vc.data = task
@@ -276,7 +267,7 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
 
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        testfilterDate()
+        testfilterDate() 
         mainview.tableView.reloadData()
         mainview.cellTitle.text = CustomFormatter.setCellTitleDateFormatter(date: date)
         
@@ -284,7 +275,7 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
         let calendarDay = CustomFormatter.setDateFormatter(date: date)
         let calendarToday = CustomFormatter.setDateFormatter(date: calendar.today!)
         
-        if lastDate == calendarToday {
+        if lastDate == calendarDay && lastDate == calendarToday {
             let vc = PopUpViewController()
             vc.modalPresentationStyle = .overCurrentContext
             present(vc, animated: true)
@@ -487,7 +478,7 @@ extension CalendarViewController {
     
     //MARK: 이미지 애니메이션
     func animationUIImage() {
-        UIImageView.animate(withDuration: 1) {
+        UIImageView.animate(withDuration: 0.4) {
             let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeNightcount + self.changeMorningcount)) * self.digit) / self.digit)
             
             let width = Float(self.mainview.progressBar.frame.size.width) * moringCountRatio - (Float(self.mainview.progressBar.frame.size.width) / 2)
@@ -496,22 +487,15 @@ extension CalendarViewController {
             
             let newWidth = (round(width) * self.digit) / self.digit
             
-            if moringCountRatio < 0.5 {
+            if moringCountRatio < 0.5 || moringCountRatio > 0.5 {
                 self.mainview.profileImage.transform = .identity
                 self.mainview.profileImage.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
                 self.mainview.profilebackgroundView.transform = .identity
                 self.mainview.profilebackgroundView.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
-                print("🔥 0.5이하", moringCountRatio)
-                print("🟢 0.5이하", width)
-                print("👉 new 0.5이하", newWidth)
+                print("🔥 moringCountRatio", moringCountRatio)
+                print("🟢 width", width)
+                print("👉 newWidth", newWidth)
                 
-            } else if moringCountRatio > 0.5 {
-                print("🔥 0.5이상", moringCountRatio)
-                print("🟢 0.5이상", width)
-                self.mainview.profileImage.transform = .identity
-                self.mainview.profileImage.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
-                self.mainview.profilebackgroundView.transform = .identity
-                self.mainview.profilebackgroundView.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
             } else {
                 self.mainview.profilebackgroundView.transform = .identity
                 self.mainview.profileImage.transform = .identity

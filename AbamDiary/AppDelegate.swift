@@ -19,12 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //2. 노티제거
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         UNUserNotificationCenter.current().delegate = self
-        
-        IQKeyboardManager.shared.enable = true
-        IQKeyboardManager.shared.enableAutoToolbar = true
-        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
-        IQKeyboardManager.shared.keyboardDistanceFromTextField = 40
-        
+    
         return true
         
     }
