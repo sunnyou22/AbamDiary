@@ -19,7 +19,9 @@ enum DocumentPathError: Error {
     case directoryPathError
     case saveImageError
     case removeDirectoryError
-   case compressionFailedError
+    case compressionFailedError
+    case fetchBackupFileError
+    case restoreFailError
 }
 
 extension UIViewController {
@@ -35,7 +37,7 @@ extension UIViewController {
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return } // 내 앱에 해당되는 도큐먼트 폴더가 있늬?
         let fileURL = documentDirectory.appendingPathComponent(fileName) // 이걸로 도큐먼트에 저장해줌 세부파일 경로(이미지 저장위치)
         guard let data = image.jpegData(compressionQuality: 0.5) else { return } //용량을 줄이기 위함 용량을 키우는 건 못하고 작아질수밖에 없음
-
+        
         do {
             try data.write(to: fileURL)
         } catch let error {
@@ -45,24 +47,24 @@ extension UIViewController {
     
     func loadImageFromDocument(fileName: String) -> UIImage? {
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil } // 내 앱에 해당되는 도큐먼트 폴더가 있늬?
-       print(documentDirectory, "나는야 도큥")
+        print(documentDirectory, "나는야 도큥")
         let fileURL = documentDirectory.appendingPathComponent(fileName) // 이걸로 도큐먼트에 저장해줌 세부파일 경로(이미지 저장위치)
-
+        
         if FileManager.default.fileExists(atPath: fileURL.path) {
             return UIImage(contentsOfFile: fileURL.path)
         } else {
             return UIImage(systemName: "person")
         }
-
+        
         let image = UIImage(contentsOfFile: fileURL.path)
-
+        
         return image
     }
     
     func removeImageFromDocument(fileName: String) {
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return } // 내 앱에 해당되는 도큐먼트 폴더가 있늬?
         let fileURL = documentDirectory.appendingPathComponent(fileName)
-
+        
         do {
             try FileManager.default.removeItem(at: fileURL)
         } catch let error {
@@ -71,11 +73,25 @@ extension UIViewController {
         }
     }
     
+    func fetchJSONData() throws -> Data {
+        guard let path = documentDirectoryPath() else { throw DocumentPathError.fetchBackupFileError }
+        
+        let jsonDataPath = path.appendingPathComponent("encodedData.json")
+        
+        do {
+            return try Data(contentsOf: jsonDataPath)
+        }
+        catch {
+            throw DocumentPathError.fetchBackupFileError
+        }
+    }
+    
+    
     func fetchDocumentZipFile() {
         
         do {
             guard let path = documentDirectoryPath() else { return } //도큐먼트 경로 가져옴
-        
+            
             let docs =  try FileManager.default.contentsOfDirectory(at: path, includingPropertiesForKeys: nil)
             print("👉 docs: \(docs)")
             
@@ -133,25 +149,68 @@ extension UIViewController {
         }
     }
     
-   func saveDiaryDataToDocument(data: Data) throws {
-       guard let documentPath = documentDirectoryPath() else { throw DocumentPathError.directoryPathError
-       }
-       
-       let jsonDataPath = documentPath.appendingPathComponent("encodedData.json")
-       print(jsonDataPath)
-       try data.write(to: jsonDataPath)
+    func decoedDiary(_ diaryData: Data) throws -> [Diary]? {
+        
+        do {
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
+            
+            let decodedData: [Diary] = try decoder.decode([Diary].self, from: diaryData)
+            
+            return decodedData
+        } catch {
+            throw CodableError.jsonDecodeError
+        }
+    }
+    
+    func saveDiaryDataToDocument(data: Data) throws {
+        guard let documentPath = documentDirectoryPath() else { throw DocumentPathError.directoryPathError
+        }
+        
+        let jsonDataPath = documentPath.appendingPathComponent("encodedData.json")
+        print(jsonDataPath)
+        try data.write(to: jsonDataPath)
     }
     
     func saveEncodedDiaryToDocument(tasks: Results<Diary>) throws {
         let encodedData = try encodeDiary(tasks)
-     try saveDiaryDataToDocument(data: encodedData)
+        try saveDiaryDataToDocument(data: encodedData)
     }
     
     func showActivityViewController(backupFileURL: URL) throws {
-      
+        
         let vc = UIActivityViewController(activityItems: [backupFileURL], applicationActivities: [])
         
         self.present(vc, animated: true)
     }
     
+    func restoreRealmForBackupFile() throws {
+        let jsonData = try fetchJSONData()
+        guard let decodedData = try decoedDiary(jsonData) else { return }
+        try OneDayDiaryRepository.shared.localRealm.write {
+            OneDayDiaryRepository.shared.localRealm.add(decodedData)
+        }
+    }
+    
+    func restoreData(zipLastPath: String) throws {
+        guard let path = documentDirectoryPath() else {
+            throw DocumentPathError.fetchBackupFileError
+        }
+        
+        let fileURL = path.appendingPathComponent(zipLastPath)
+        try unzipFile(fileURL: fileURL, documentURL: path)
+    }
+    
+    func unzipFile(fileURL: URL, documentURL: URL) throws {
+        do {
+            try Zip.unzipFile(fileURL, destination: documentURL, overwrite: true, password: nil, progress: { progress in
+                print(progress)
+            }, fileOutputHandler: { unzippedFile in
+                print("복구 완료")
+            })
+        }
+        catch {
+            throw DocumentPathError.restoreFailError
+        }
+    }
 }

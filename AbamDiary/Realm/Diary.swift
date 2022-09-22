@@ -58,6 +58,27 @@ class Diary: Object, Codable {
         try container.encode(morningTime, forKey: .morningTime)
         try container.encode(nightTime, forKey: .nightTime)
     }
+    
+    enum CodingKeys: CodingKey {
+        case morning
+        case night
+        case selecteddate
+        case createdDate
+        case morningTime
+        case nightTime
+        case objectID
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self._morning = try container.decode(Persisted<String?>.self, forKey: .morning)
+        self._night = try container.decode(Persisted<String?>.self, forKey: .night)
+        self._selecteddate = try container.decode(Persisted<Date?>.self, forKey: .selecteddate)
+        self._createdDate = try container.decode(Persisted<Date>.self, forKey: .createdDate)
+        self._morningTime = try container.decode(Persisted<Date?>.self, forKey: .morningTime)
+        self._nightTime = try container.decode(Persisted<Date?>.self, forKey: .nightTime)
+        self._objectID = try container.decode(Persisted<ObjectId>.self, forKey: .objectID)
+    }
 }
 
 class CheerupMessage: Object {

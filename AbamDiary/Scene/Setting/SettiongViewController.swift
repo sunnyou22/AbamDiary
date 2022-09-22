@@ -136,6 +136,8 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == 1 {
             if indexPath.row == 0 {
                 clickBackupCell()
+            } else if indexPath.row == 1 {
+                
             }
         } else if indexPath.section == 2 {
             if indexPath.row == 0 {
@@ -376,6 +378,79 @@ extension SettiongViewController {
         }
         catch {
             print("압축에 실패하였습니다")
+        }
+    }
+    
+    func clickRestoreCell() {
+        do {
+            
+            let doucumentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.archive], asCopy: true)
+            doucumentPicker.delegate = self
+            doucumentPicker.allowsMultipleSelection = false
+            self.present(doucumentPicker, animated: true)
+         
+            try restoreRealmForBackupFile()
+            
+            let backupFilePth = try createBackupFile()
+            
+            try showActivityViewController(backupFileURL: backupFilePth)
+            
+            fetchJSONData()
+        }
+        catch {
+            print("압축에 실패하였습니다")
+        }
+    }
+}
+
+extension SettiongViewController: UIDocumentPickerDelegate {
+    
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        print("도큐머트픽커 닫음", #function)
+    }
+    
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) { // 어떤 압축파일을 선택했는지 명세
+        
+        guard let selectedFileURL = urls.first else {
+            print("선택하진 파일을 찾을 수 없습니다.")
+            return
+        }
+        
+        guard let path = documentDirectoryPath() else {
+            print("도큐먼트 위치에 오류가 있습니다.")
+            return
+        }
+        
+        //sandboxFileURL 단지 경로
+        let sandboxFileURL = path.appendingPathComponent(selectedFileURL.lastPathComponent) //lastPathComponent: 경로의 마지막 구성요소 SeSACDiary_1.zip, 그니까 마지막 path를 가져오는 것 이것과 도큐먼트의 url의 path와 합쳐주는 것
+        
+        // 여기서 sandboxFileURL경로있는지 확인
+        if FileManager.default.fileExists(atPath: sandboxFileURL.path) {
+            
+            let fileURL = path.appendingPathComponent("encodedData.json.zip")
+            
+            do {
+                try unzipFile(fileURL: fileURL, documentURL: path)
+            } catch {
+                print("압축풀기 실패 다 이놈아~~~")
+            }
+            
+            
+        } else {
+            
+            do {
+                //파일 앱의 zip -> 도큐먼트 폴더에 복사(at:원래경로, to: 복사하고자하는 경로) / sandboxFileURL -> 걍 경로
+                try FileManager.default.copyItem(at: selectedFileURL, to: sandboxFileURL)
+                
+                let fileURL = path.appendingPathComponent("SeSACDiary_1.zip")
+                do {
+                    try unzipFile(fileURL: fileURL, documentURL: path)
+                } catch {
+                    print("압축풀기 실패 다 이놈아~~~")
+                }
+            } catch {
+                print("🔴 압축 해제 실패")
+            }
         }
     }
 }
