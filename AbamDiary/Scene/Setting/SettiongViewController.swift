@@ -82,7 +82,7 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 
                 let btnTitle = UserDefaults.standard.string(forKey: "MbtnSelected")
-                let defaultTitle = "00:00"
+                let defaultTitle = "09:00"
                 buttonCell.timeButton.setTitle("\(btnTitle ?? defaultTitle)", for: .normal)
                 
                 buttonCell.subTitle.text = "아침 알림 시간"
@@ -97,10 +97,10 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 
                 let btnTitle = UserDefaults.standard.string(forKey: "NbtnSelected")
-                let defaultTitle = "00:00"
+                let defaultTitle = "22:00"
                 buttonCell.timeButton.setTitle("\(btnTitle ?? defaultTitle)", for: .normal)
                 
-              
+    
                 buttonCell.subTitle.text = "밤 알림 시간"
                
                 setButtonConfig(buttonCell.timeButton)
@@ -202,8 +202,8 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
               
                 SettiongViewController.notificationCenter.removeAllPendingNotificationRequests()
                 UserDefaults.standard.set(false, forKey: "switch")
-                UserDefaults.standard.removeObject(forKey: "MbtnSelected")
-                UserDefaults.standard.removeObject(forKey: "NbtnSelected")
+//                UserDefaults.standard.removeObject(forKey: "MbtnSelected")
+//                UserDefaults.standard.removeObject(forKey: "NbtnSelected")
                 sender.setOn(false, animated: true) // 4
                 self.settingView.tableView.reloadData()
             }
@@ -258,21 +258,17 @@ extension SettiongViewController {
         datePicker.datePickerMode = .time
         datePicker.preferredDatePickerStyle = .wheels
         
-        //dateformat
+        //dateformat으로 나중에 빼기
         let dateStringFormatter = DateFormatter()
         dateStringFormatter.locale = NSLocale(localeIdentifier: "ko_KO") as Locale
         dateStringFormatter.dateFormat = "hh:mm"
         dateStringFormatter.string(from: datePicker.date)
         
-        let dateChooseAlert = UIAlertController(title: nil, message: "\n\n\n\n\n\n\n\n\n", preferredStyle: .alert)
-        
-        dateChooseAlert.view.addSubview(datePicker)
-        datePicker.snp.makeConstraints { make in
-            make.centerX.equalTo(dateChooseAlert.view.snp.centerX)
-            make.width.equalTo(dateChooseAlert.view.snp.width).multipliedBy(0.6)
-            make.height.equalTo(datePicker.snp.width)
-            make.bottom.equalTo(dateChooseAlert.view.snp.bottom).offset(-60)
-        }
+        let dateChooseAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let contentVC = UIViewController()
+        contentVC.view = datePicker
+        contentVC.preferredContentSize.height = 200
+        dateChooseAlert.setValue(contentVC, forKey: "contentViewController")
         
         //MARK: 선택완료버튼 클릭
         let selection = UIAlertAction(title: "선택완료", style: .default) { _ in
@@ -286,14 +282,14 @@ extension SettiongViewController {
             var Marray = [CustomFormatter.changeHourToInt(date: datePicker.date), CustomFormatter.changeMinuteToInt(date: datePicker.date)]
             
             UserDefaults.standard.set(Marray, forKey: "Mdate")
-            
+            print(Marray)
             Marray = UserDefaults.standard.array(forKey: "Mdate") as? [Int] ?? [Int]()
             print("key: Mdate 유저디폴트: 버튼이 선택? 값이 받아왔나!!??", Marray)
             
             date.hour = Marray[0]
             date.minute = Marray[1]
             
-            self.sendNotification(subTitle: "아침일기를 쓰러가볼까요?", date: date)
+            SettiongViewController.sendNotification(subTitle: "아침일기를 쓰러가볼까요?", date: date)
             print("아침일기 알람 설정 📍")
             
         }
@@ -322,16 +318,11 @@ extension SettiongViewController {
         dateStringFormatter.dateFormat = "hh:mm"
         dateStringFormatter.string(from: datePicker.date)
         
-        let dateChooseAlert = UIAlertController(title: nil, message: "\n\n\n\n\n\n\n\n\n", preferredStyle: .alert)
-        
-        dateChooseAlert.view.addSubview(datePicker)
-        datePicker.snp.makeConstraints { make in
-            make.centerX.equalTo(dateChooseAlert.view.snp.centerX)
-            make.width.equalTo(dateChooseAlert.view.snp.width).multipliedBy(0.6)
-            make.height.equalTo(datePicker.snp.width)
-            make.bottom.equalTo(dateChooseAlert.view.snp.bottom).offset(-60)
-        }
-        
+        let dateChooseAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let contentVC = UIViewController()
+        contentVC.view = datePicker
+        contentVC.preferredContentSize.height = 200
+        dateChooseAlert.setValue(contentVC, forKey: "contentViewController")
         
         //MARK: 선택완료버튼 클릭
         let selection = UIAlertAction(title: "선택완료", style: .default) { _ in
@@ -350,7 +341,7 @@ extension SettiongViewController {
             date.hour = Narray[0]
             date.minute = Narray[1]
             
-            self.sendNotification(subTitle: "밤일기를 쓰러가볼까요?", date: date)
+            SettiongViewController.sendNotification(subTitle: "밤일기를 쓰러가볼까요?", date: date)
             print("밤일기 알람 설정 📍")
         }
         //MARK: cancel버튼
