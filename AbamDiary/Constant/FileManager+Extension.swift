@@ -6,6 +6,21 @@
 //
 
 import UIKit
+import RealmSwift
+import Zip
+
+enum CodableError: Error {
+    case jsonEncodeError
+    case jsonDecodeError
+}
+
+
+enum DocumentPathError: Error {
+    case directoryPathError
+    case saveImageError
+    case removeDirectoryError
+   case compressionFailedError
+}
 
 extension UIViewController {
     
@@ -20,7 +35,7 @@ extension UIViewController {
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return } // 내 앱에 해당되는 도큐먼트 폴더가 있늬?
         let fileURL = documentDirectory.appendingPathComponent(fileName) // 이걸로 도큐먼트에 저장해줌 세부파일 경로(이미지 저장위치)
         guard let data = image.jpegData(compressionQuality: 0.5) else { return } //용량을 줄이기 위함 용량을 키우는 건 못하고 작아질수밖에 없음
-        
+
         do {
             try data.write(to: fileURL)
         } catch let error {
@@ -38,9 +53,9 @@ extension UIViewController {
         } else {
             return UIImage(systemName: "person")
         }
-        
+
         let image = UIImage(contentsOfFile: fileURL.path)
-        
+
         return image
     }
     
@@ -60,8 +75,7 @@ extension UIViewController {
         
         do {
             guard let path = documentDirectoryPath() else { return } //도큐먼트 경로 가져옴
-            
-//            let docs = try FileManager.default.contentsOfDirectory(atPath: <#T##String#>) 내부에서 알 수 있는 경로의 제약이 좀더 있음, 그래서 Url로 받아오는 아래걸 많이 씀
+        
             let docs =  try FileManager.default.contentsOfDirectory(at: path, includingPropertiesForKeys: nil)
             print("👉 docs: \(docs)")
             
@@ -76,4 +90,68 @@ extension UIViewController {
             print("Error🔴")
         }
     }
+    
+    //파일생성
+    func createBackupFile() throws -> URL {
+        
+        var urlpath = [URL]()
+        let fileNameDate = CustomFormatter.setDateFormatter(date: Date())
+        //도큐먼트트 위치에 백업 파일 확인
+        guard let path = documentDirectoryPath() else {
+            throw DocumentPathError.directoryPathError
+        }
+        
+        let encodedFilePath = path.appendingPathComponent("encodedData.json")
+        
+        guard FileManager.default.fileExists(atPath: encodedFilePath.path) else {
+            throw DocumentPathError.compressionFailedError
+        }
+        
+        urlpath.append(contentsOf: [encodedFilePath])
+        
+        do {
+            let zipFilePath = try Zip.quickZipFiles(urlpath, fileName: "diary\(fileNameDate)") // 확장자 없으면 저장이 안됨
+            print("Archive Lcation: \(zipFilePath.lastPathComponent)")
+            return zipFilePath
+        } catch {
+            throw DocumentPathError.compressionFailedError
+        }
+    }
+    
+    //MARK: 다이어리 인코드
+    func encodeDiary(_ diaryData: Results<Diary>) throws -> Data {
+        
+        do {
+            let endoder = JSONEncoder()
+            endoder.dateEncodingStrategy = .iso8601
+            
+            let encodedDate: Data = try endoder.encode(diaryData)
+            
+            return encodedDate
+        } catch {
+            throw CodableError.jsonEncodeError
+        }
+    }
+    
+   func saveDiaryDataToDocument(data: Data) throws {
+       guard let documentPath = documentDirectoryPath() else { throw DocumentPathError.directoryPathError
+       }
+       
+       let jsonDataPath = documentPath.appendingPathComponent("encodedData.json")
+       print(jsonDataPath)
+       try data.write(to: jsonDataPath)
+    }
+    
+    func saveEncodedDiaryToDocument(tasks: Results<Diary>) throws {
+        let encodedData = try encodeDiary(tasks)
+     try saveDiaryDataToDocument(data: encodedData)
+    }
+    
+    func showActivityViewController(backupFileURL: URL) throws {
+      
+        let vc = UIActivityViewController(activityItems: [backupFileURL], applicationActivities: [])
+        
+        self.present(vc, animated: true)
+    }
+    
 }

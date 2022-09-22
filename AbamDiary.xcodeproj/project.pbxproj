@@ -50,6 +50,7 @@
 		90DF633128D9DD300046A3E7 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DF633028D9DD300046A3E7 /* Alert.swift */; };
 		90DF633328DB18380046A3E7 /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DF633228DB18370046A3E7 /* PopUpViewController.swift */; };
 		90DF633B28DC02070046A3E7 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 90DF633A28DC02070046A3E7 /* IQKeyboardManagerSwift */; };
+		90DF633E28DC5D4C0046A3E7 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 90DF633D28DC5D4C0046A3E7 /* Zip */; };
 		90F0592328D80E1D00F61899 /* SettiongConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F0592228D80E1D00F61899 /* SettiongConstants.swift */; };
 		90F0592528D8138F00F61899 /* DefaultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F0592428D8138F00F61899 /* DefaultTableViewCell.swift */; };
 		90F0592728D84A4500F61899 /* NoficationPush + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F0592628D84A4500F61899 /* NoficationPush + Extension.swift */; };
@@ -117,6 +118,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90DF633E28DC5D4C0046A3E7 /* Zip in Frameworks */,
 				90CCDB6E28D057FB00CDEE06 /* RealmSwift in Frameworks */,
 				900AEE0F28CC6E8400F18360 /* Toast in Frameworks */,
 				900AEE1228CC6E9900F18360 /* FSCalendar in Frameworks */,
@@ -318,6 +320,7 @@
 				90CCDB6B28D057FB00CDEE06 /* Realm */,
 				90CCDB6D28D057FB00CDEE06 /* RealmSwift */,
 				90DF633A28DC02070046A3E7 /* IQKeyboardManagerSwift */,
+				90DF633D28DC5D4C0046A3E7 /* Zip */,
 			);
 			productName = AbamDiary;
 			productReference = 90F8261028CB799A008E8E6B /* AbamDiary.app */;
@@ -353,6 +356,7 @@
 				900AEE1028CC6E9900F18360 /* XCRemoteSwiftPackageReference "FSCalendar" */,
 				90CCDB6A28D057FB00CDEE06 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				90DF633928DC02060046A3E7 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+				90DF633C28DC5D4C0046A3E7 /* XCRemoteSwiftPackageReference "Zip" */,
 			);
 			productRefGroup = 90F8261128CB799A008E8E6B /* Products */;
 			projectDirPath = "";
@@ -565,11 +569,14 @@
 				DEVELOPMENT_TEAM = V8L83798C5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AbamDiary/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 접근권한";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "마이크 접근 권한";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "앨범 접근 권한";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -597,11 +604,14 @@
 				DEVELOPMENT_TEAM = V8L83798C5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AbamDiary/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 접근권한";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "마이크 접근 권한";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "앨범 접근 권한";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -683,6 +693,14 @@
 				minimumVersion = 6.5.0;
 			};
 		};
+		90DF633C28DC5D4C0046A3E7 /* XCRemoteSwiftPackageReference "Zip" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/marmelroy/Zip.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -715,6 +733,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 90DF633928DC02060046A3E7 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
 			productName = IQKeyboardManagerSwift;
+		};
+		90DF633D28DC5D4C0046A3E7 /* Zip */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 90DF633C28DC5D4C0046A3E7 /* XCRemoteSwiftPackageReference "Zip" */;
+			productName = Zip;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -12,6 +12,7 @@ import Toast
 import SnapKit
 import UserNotifications
 import RealmSwift
+import Zip
 
 class SettiongViewController: BaseViewController {
     
@@ -132,7 +133,11 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if indexPath.section == 2 {
+        if indexPath.section == 1 {
+            if indexPath.row == 0 {
+                clickBackupCell()
+            }
+        } else if indexPath.section == 2 {
             if indexPath.row == 0 {
                 let alert = UIAlertController(title: "알림", message: "정말 모든 데이터를 삭제하시겠습니까?", preferredStyle: .alert)
                 let ok = UIAlertAction(title: "네", style: .destructive) {_ in
@@ -169,54 +174,6 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
         
     }
     
-    //MARK: switch버튼 cell 안에서 처리
-    @objc func changeSwitch(_ sender: UISwitch) {
-        
-        if sender.isOn == true {
-            
-            sender.setOn(false, animated: true)
-            
-            let authorizationAlert = UIAlertController(title: "알림권한", message: """
-알림을 받기 위해서 시스템 설정에서 권한을 허용하고,
-앱을 재시작해주세요.
-""", preferredStyle: .alert)
-            let authorizationOk = UIAlertAction(title: "확인", style: .default)
-            
-            authorizationAlert.addAction(authorizationOk)
-            
-            //MARK: 만약 사용자가 시스템권한을 해제했을 때 대응
-            guard autorizationStatus == false else {
-                SettiongViewController.requestAutorization()
-                UserDefaults.standard.set(true, forKey: "switch")
-                sender.setOn(true, animated: true)
-                self.settingView.tableView.reloadData()
-                return
-            }
-            present(authorizationAlert, animated: true)
-            
-        } else if sender.isOn == false {
-            
-            sender.setOn(true, animated: true) // 2
-            let alert = UIAlertController(title: "알림해제", message: "알림을 받지 않으시겠습니까?", preferredStyle: .alert)
-            let ok = UIAlertAction(title: "네", style: .default) { _ in
-              
-                SettiongViewController.notificationCenter.removeAllPendingNotificationRequests()
-                UserDefaults.standard.set(false, forKey: "switch")
-//                UserDefaults.standard.removeObject(forKey: "MbtnSelected")
-//                UserDefaults.standard.removeObject(forKey: "NbtnSelected")
-                sender.setOn(false, animated: true) // 4
-                self.settingView.tableView.reloadData()
-            }
-            
-            let cancel = UIAlertAction(title: "아니오", style: .cancel)
-            alert.addAction(ok)
-            alert.addAction(cancel)
-          
-            present(alert, animated: true)
-
-        }
-    }
-    
     //MARK: 프로필 사진 바꾸기
     @objc func changeProfileButtonClicked() {
         let alert = UIAlertController(title: nil, message: "프로필 사진 변경하기", preferredStyle: .alert)
@@ -249,9 +206,10 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-//MARK: 데이트 피커
+//MARK: - 데이트 피커
 extension SettiongViewController {
     
+    //MARK: 아침 데이트피커 버튼 누름
     @objc func MpopDatePicker(_ sender: UIButton) {
         
         let datePicker = UIDatePicker()
@@ -274,13 +232,17 @@ extension SettiongViewController {
         let selection = UIAlertAction(title: "선택완료", style: .default) { _ in
             UserDefaults.standard.set(dateStringFormatter.string(from: datePicker.date), forKey: "MbtnSelected") //데이트피커가 선택한 날짜
             let dateString = UserDefaults.standard.string(forKey: "MbtnSelected")
+            
+            // 버튼 타이틀에 데이터피커의 값을 넣어주기 포맷터
             sender.setTitle(dateString, for: .normal)
             print("========>", "\(datePicker.date)")
             
             var date = DateComponents(timeZone: .current)
             
+            //h m가 int로 변환되서 배열로 넣어줌 -> 데이트 컴포넌트를 위해서
             var Marray = [CustomFormatter.changeHourToInt(date: datePicker.date), CustomFormatter.changeMinuteToInt(date: datePicker.date)]
             
+            // 유저가 설정한 시간에 대한 데이트컴포넌트 배열을 유저디폴트에 저장해줌
             UserDefaults.standard.set(Marray, forKey: "Mdate")
             print(Marray)
             Marray = UserDefaults.standard.array(forKey: "Mdate") as? [Int] ?? [Int]()
@@ -298,15 +260,11 @@ extension SettiongViewController {
         
         dateChooseAlert.addAction(selection)
         dateChooseAlert.addAction(cancel)
-    
-//        let height = NSLayoutConstraint(item: dateChooseAlert.view!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 300)
-//        let width = NSLayoutConstraint(item: dateChooseAlert.view!, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.1, constant: 300)
-//        dateChooseAlert.view.addConstraint(height)
-//        dateChooseAlert.view.addConstraint(width)
-//        dateChooseAlert.view.add
+        
         present(dateChooseAlert, animated: true)
     }
     
+    //MARK: 저녁 데이트피커 버튼 누름
     @objc func NpopDatePicker(_ sender: UIButton) {
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .time
@@ -326,8 +284,10 @@ extension SettiongViewController {
         
         //MARK: 선택완료버튼 클릭
         let selection = UIAlertAction(title: "선택완료", style: .default) { _ in
+            
             UserDefaults.standard.set(dateStringFormatter.string(from: datePicker.date), forKey: "NbtnSelected")
             let dateString = UserDefaults.standard.string(forKey: "NbtnSelected")
+            
             sender.setTitle(dateString, for: .normal)
             print("========>", "\(datePicker.date)")
             
@@ -349,9 +309,73 @@ extension SettiongViewController {
         
         dateChooseAlert.addAction(selection)
         dateChooseAlert.addAction(cancel)
-       
+        
         
         present(dateChooseAlert, animated: true)
     }
+    
+    //MARK: switch버튼 cell 안에서 처리
+    @objc func changeSwitch(_ sender: UISwitch) {
+        
+        if sender.isOn == true {
+            
+            sender.setOn(false, animated: true)
+            
+            let authorizationAlert = UIAlertController(title: "알림권한", message: """
+알림을 받기 위해서 시스템 설정에서 권한을 허용하고,
+앱을 재시작해주세요.
+""", preferredStyle: .alert)
+            let authorizationOk = UIAlertAction(title: "확인", style: .default)
+            
+            authorizationAlert.addAction(authorizationOk)
+            
+            //MARK: 만약 사용자가 시스템권한을 해제했을 때 대응
+            guard autorizationStatus == false else {
+                //                SettiongViewController.requestAutorization()
+                UserDefaults.standard.set(true, forKey: "switch")
+                sender.setOn(true, animated: true)
+                self.settingView.tableView.reloadData()
+                return
+            }
+            present(authorizationAlert, animated: true)
+            
+        } else if sender.isOn == false {
+            
+            sender.setOn(true, animated: true) // 2
+            let alert = UIAlertController(title: "알림해제", message: "알림을 받지 않으시겠습니까?", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "네", style: .default) { _ in
+                
+                SettiongViewController.notificationCenter.removeAllPendingNotificationRequests()
+                UserDefaults.standard.set(false, forKey: "switch")
+                //                UserDefaults.standard.removeObject(forKey: "MbtnSelected")
+                //                UserDefaults.standard.removeObject(forKey: "NbtnSelected")
+                sender.setOn(false, animated: true) // 4
+                self.settingView.tableView.reloadData()
+            }
+            
+            let cancel = UIAlertAction(title: "아니오", style: .cancel)
+            alert.addAction(ok)
+            alert.addAction(cancel)
+            
+            present(alert, animated: true)
+            
+        }
+    }
+    
+    //MARK: 백업복구
+    
+    func clickBackupCell() {
+        do {
+            try saveEncodedDiaryToDocument(tasks: tasks)
+            
+            let backupFilePth = try createBackupFile()
+            
+            try showActivityViewController(backupFileURL: backupFilePth)
+            
+            fetchDocumentZipFile()
+        }
+        catch {
+            print("압축에 실패하였습니다")
+        }
+    }
 }
-
