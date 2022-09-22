@@ -137,7 +137,7 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
             if indexPath.row == 0 {
                 clickBackupCell()
             } else if indexPath.row == 1 {
-                
+                clickRestoreCell()
             }
         } else if indexPath.section == 2 {
             if indexPath.row == 0 {
@@ -382,24 +382,38 @@ extension SettiongViewController {
     }
     
     func clickRestoreCell() {
-        do {
+        let alert = UIAlertController(title: "알림", message: "현재 일기에 덮어씌워집니다. 진행하시겠습니까?", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "ok", style: .default) {_ in
             
-            let doucumentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.archive], asCopy: true)
-            doucumentPicker.delegate = self
-            doucumentPicker.allowsMultipleSelection = false
-            self.present(doucumentPicker, animated: true)
-         
-            try restoreRealmForBackupFile()
+            OneDayDiaryRepository.shared.deleteTasks(tasks: self.tasks)
             
-            let backupFilePth = try createBackupFile()
-            
-            try showActivityViewController(backupFileURL: backupFilePth)
-            
-            fetchJSONData()
+            do {
+                
+                let doucumentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.archive], asCopy: true)
+                doucumentPicker.delegate = self
+                doucumentPicker.allowsMultipleSelection = false
+                self.present(doucumentPicker, animated: true)
+                
+                try self.restoreRealmForBackupFile()
+                
+                let backupFilePth = try self.createBackupFile()
+                
+                try self.showActivityViewController(backupFileURL: backupFilePth)
+            }
+            catch {
+                print("압축에 실패하였습니다")
+            }
+            self.settingView.makeToast("삭제완료", duration: 0.7, position: .center) { didTap in
+                
+                self.tabBarController?.selectedIndex = 0
+            }
         }
-        catch {
-            print("압축에 실패하였습니다")
-        }
+            let cancel = UIAlertAction(title: "cancel", style: .cancel)
+        
+        alert.addAction(ok)
+        alert.addAction(cancel)
+        
+        present(alert, animated: true)
     }
 }
 
@@ -431,6 +445,12 @@ extension SettiongViewController: UIDocumentPickerDelegate {
             
             do {
                 try unzipFile(fileURL: fileURL, documentURL: path)
+                do {
+                    let fetch = try fetchJSONData()
+                    try decoedDiary(fetch)
+                } catch {
+                    print("복구실패~~~")
+                }
             } catch {
                 print("압축풀기 실패 다 이놈아~~~")
             }
@@ -442,9 +462,15 @@ extension SettiongViewController: UIDocumentPickerDelegate {
                 //파일 앱의 zip -> 도큐먼트 폴더에 복사(at:원래경로, to: 복사하고자하는 경로) / sandboxFileURL -> 걍 경로
                 try FileManager.default.copyItem(at: selectedFileURL, to: sandboxFileURL)
                 
-                let fileURL = path.appendingPathComponent("SeSACDiary_1.zip")
+                let fileURL = path.appendingPathComponent("encodedData.json.zip")
                 do {
                     try unzipFile(fileURL: fileURL, documentURL: path)
+                    do {
+                        let fetch = try fetchJSONData()
+                        try decoedDiary(fetch)
+                    } catch {
+                        print("복구실패~~~")
+                    }
                 } catch {
                     print("압축풀기 실패 다 이놈아~~~")
                 }

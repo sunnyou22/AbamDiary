@@ -15,6 +15,10 @@ import Foundation
     // 일기종류별 개수가 많아지면 비효율적일수도
 
 class Diary: Object, Codable {
+    
+    private override init() {
+    }
+    
     @Persisted var morning: String?
     @Persisted var night: String?
     @Persisted var selecteddate: Date?
