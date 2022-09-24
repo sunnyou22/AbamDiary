@@ -13,6 +13,7 @@ import SnapKit
 import UserNotifications
 import RealmSwift
 import Zip
+import PhotosUI
 
 class SettiongViewController: BaseViewController {
     
@@ -21,11 +22,16 @@ class SettiongViewController: BaseViewController {
     static let notificationCenter =  UNUserNotificationCenter.current()
     var autorizationStatus: Bool?
     static let autorizationSwitchModel = SwitchModel() // 권한에ㅔ 대한 관찰
-    
+    var configuration = PHPickerConfiguration()
     var tasks: Results<Diary>!
     
     override func loadView() {
         self.view = settingView
+        DispatchQueue.main.async {
+            self.settingView.profileimageView.clipsToBounds = true
+            self.settingView.profileimageView.contentMode = .scaleAspectFill
+            self.settingView.profileimageView.layer.cornerRadius = self.settingView.profileimageView.frame.height / 2
+        }
     }
     
     override func viewDidLoad() {
@@ -34,7 +40,6 @@ class SettiongViewController: BaseViewController {
         SettiongViewController.autorizationSwitchModel.isValid.bind { bool in
             self.autorizationStatus = bool
         }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -8,8 +8,9 @@
 import UIKit
 import Photos
 import PhotosUI
+import CropViewController
 
-extension SettiongViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension SettiongViewController: UIImagePickerControllerDelegate, PHPickerViewControllerDelegate, UINavigationControllerDelegate {
     
     func setAuthorizationStatus() {
         
@@ -52,15 +53,7 @@ extension SettiongViewController: UIImagePickerControllerDelegate, UINavigationC
         
         present(vc, animated: true, completion: nil)
     }
-    
-    func presentAlbum() {
-        let vc = UIImagePickerController()
-        vc.sourceType = .photoLibrary // 사라질 예정 그럼 크롭은...?
-        vc.delegate = self
-        vc.allowsEditing = true
-        
-        present(vc, animated: true, completion: nil)
-    }
+
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true)
@@ -73,15 +66,55 @@ extension SettiongViewController: UIImagePickerControllerDelegate, UINavigationC
         }
         
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
-
-            saveImageToDocument(fileName: "profile.jpg", image: (self.settingView.profileimageView.image ?? UIImage(systemName: "person"))!)
-           
-        } else if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             saveImageToDocument(fileName: "profile.jpg", image: (self.settingView.profileimageView.image ?? UIImage(systemName: "person"))!)
         }
         
         dismiss(animated: true)
         settingView.profileimageView.image = loadImageFromDocument(fileName: "profile.jpg")
     }
+    
+    func presentAlbum() {
+      
+        configuration.selectionLimit = 1
+        configuration.filter = .any(of: [.images])
+        
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        present(picker, animated: true, completion: nil)
+    }
+        
+        func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+            picker.dismiss(animated: true)
 
+            let itemProvider = results.first?.itemProvider
+            if let itemProvider = itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) {
+                itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
+                    DispatchQueue.main.async { [weak self] in
+                        guard let selectedImage = image as? UIImage else { return }// NSItemProviderReading?를 다운캐스팅 시켜줌
+                        let cropViewController = CropViewController(croppingStyle: .circular, image: selectedImage)
+                        cropViewController.delegate = self
+                        cropViewController.doneButtonColor = .systemBlue
+                        cropViewController.cancelButtonColor = .systemRed
+                        cropViewController.doneButtonTitle = "완료"
+                        cropViewController.cancelButtonTitle = "취소"
+                        self?.present(cropViewController, animated: true)
+                    }
+                }
+            }
+        }
+    }
+
+extension SettiongViewController: CropViewControllerDelegate {
+    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+        
+        self.settingView.profileimageView.image = image
+        saveImageToDocument(fileName: "profile.jpg", image: (self.settingView.profileimageView.image ?? UIImage(systemName: "person"))!)
+        settingView.profileimageView.image = loadImageFromDocument(fileName: "profile.jpg")
+        self.dismiss(animated: true)
+       
+    }
 }
+
+    
+    
+    

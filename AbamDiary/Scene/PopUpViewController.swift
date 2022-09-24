@@ -110,15 +110,28 @@ class PopUpViewController: BaseViewController {
     }
     
     //MARK: - 메서드
-    func setResultLabelComponent(m: Float, n: Float) -> String {
-        return m > n ? "아침형" : "저녁형"
+    func setResultLabelComponent(m: Float, n: Float) -> String? {
+        
+        if m > n {
+            return "아침형"
+        } else if m < n {
+            return "저녁형"
+        } else if  m == n, m != 0, n != 0 {
+            return "균형왕"
+        } else {
+            return nil
+        }
     }
     
     func setResultLabel(_ view: UILabel) {
         let m = CalendarViewController.gageCountModel.morningDiaryCount.value
         let n = CalendarViewController.gageCountModel.nightDiaryCount.value
-        let result = setResultLabelComponent(m: m, n: n)
         
+        guard let result = setResultLabelComponent(m: m, n: n) else {
+            view.text = "어떤 아밤인지 모르겠어요 🤔"
+            return
+        }
+       
         let attributeString = NSMutableAttributedString(string: "당신은 \(result) 아밤이궁요!")
         view.font = UIFont.systemFont(ofSize: 18, weight: .heavy)
         attributeString.addAttributes([.foregroundColor: UIColor.blue], range: NSRange(location: 4, length: 3))

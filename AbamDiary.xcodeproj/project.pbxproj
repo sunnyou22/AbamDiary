@@ -50,6 +50,8 @@
 		90DF633128D9DD300046A3E7 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DF633028D9DD300046A3E7 /* Alert.swift */; };
 		90DF633328DB18380046A3E7 /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DF633228DB18370046A3E7 /* PopUpViewController.swift */; };
 		90DF633E28DC5D4C0046A3E7 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 90DF633D28DC5D4C0046A3E7 /* Zip */; };
+		90DF634128DF88AF0046A3E7 /* CropViewController in Frameworks */ = {isa = PBXBuildFile; productRef = 90DF634028DF88AF0046A3E7 /* CropViewController */; };
+		90DF634328DF88AF0046A3E7 /* TOCropViewController in Frameworks */ = {isa = PBXBuildFile; productRef = 90DF634228DF88AF0046A3E7 /* TOCropViewController */; };
 		90F0592328D80E1D00F61899 /* SettiongConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F0592228D80E1D00F61899 /* SettiongConstants.swift */; };
 		90F0592528D8138F00F61899 /* DefaultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F0592428D8138F00F61899 /* DefaultTableViewCell.swift */; };
 		90F0592728D84A4500F61899 /* NoficationPush + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F0592628D84A4500F61899 /* NoficationPush + Extension.swift */; };
@@ -119,10 +121,12 @@
 			files = (
 				90DF633E28DC5D4C0046A3E7 /* Zip in Frameworks */,
 				90CCDB6E28D057FB00CDEE06 /* RealmSwift in Frameworks */,
+				90DF634328DF88AF0046A3E7 /* TOCropViewController in Frameworks */,
 				900AEE0F28CC6E8400F18360 /* Toast in Frameworks */,
 				900AEE1228CC6E9900F18360 /* FSCalendar in Frameworks */,
 				900AEE0C28CC6E6F00F18360 /* SnapKit in Frameworks */,
 				90CCDB6C28D057FB00CDEE06 /* Realm in Frameworks */,
+				90DF634128DF88AF0046A3E7 /* CropViewController in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,6 +322,8 @@
 				90CCDB6B28D057FB00CDEE06 /* Realm */,
 				90CCDB6D28D057FB00CDEE06 /* RealmSwift */,
 				90DF633D28DC5D4C0046A3E7 /* Zip */,
+				90DF634028DF88AF0046A3E7 /* CropViewController */,
+				90DF634228DF88AF0046A3E7 /* TOCropViewController */,
 			);
 			productName = AbamDiary;
 			productReference = 90F8261028CB799A008E8E6B /* AbamDiary.app */;
@@ -353,6 +359,7 @@
 				900AEE1028CC6E9900F18360 /* XCRemoteSwiftPackageReference "FSCalendar" */,
 				90CCDB6A28D057FB00CDEE06 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				90DF633C28DC5D4C0046A3E7 /* XCRemoteSwiftPackageReference "Zip" */,
+				90DF633F28DF88AF0046A3E7 /* XCRemoteSwiftPackageReference "TOCropViewController" */,
 			);
 			productRefGroup = 90F8261128CB799A008E8E6B /* Products */;
 			projectDirPath = "";
@@ -689,6 +696,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		90DF633F28DF88AF0046A3E7 /* XCRemoteSwiftPackageReference "TOCropViewController" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/TimOliver/TOCropViewController.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -721,6 +736,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 90DF633C28DC5D4C0046A3E7 /* XCRemoteSwiftPackageReference "Zip" */;
 			productName = Zip;
+		};
+		90DF634028DF88AF0046A3E7 /* CropViewController */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 90DF633F28DF88AF0046A3E7 /* XCRemoteSwiftPackageReference "TOCropViewController" */;
+			productName = CropViewController;
+		};
+		90DF634228DF88AF0046A3E7 /* TOCropViewController */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 90DF633F28DF88AF0046A3E7 /* XCRemoteSwiftPackageReference "TOCropViewController" */;
+			productName = TOCropViewController;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

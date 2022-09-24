@@ -35,7 +35,7 @@ extension SettiongViewController {
     
     
     static func MDefaultNoti() {
-        print(UserDefaults.standard.string(forKey: "MbtnSelected"),"timeNoti-아침 노티 기본시간=========") // nil로 들어옴
+        print(UserDefaults.standard.string(forKey: "NbtnSelected"),"timeNoti-밤 노티 기본시간=========") // nil로 들어옴
         
         guard (UserDefaults.standard.string(forKey: "MbtnSelected") != nil) else {
             var date = DateComponents(timeZone: .current)
@@ -51,13 +51,14 @@ extension SettiongViewController {
     
     static func NDefaultNoti() {
         print(UserDefaults.standard.string(forKey: "NbtnSelected"),"timeNoti-아침 노티 기본시간=========") // nil로 들어옴
-        if UserDefaults.standard.string(forKey: "NbtnSelected") == nil {
+        guard (UserDefaults.standard.string(forKey: "NbtnSelected") != nil) else {
             var date = DateComponents(timeZone: .current)
             date.hour = 22
             date.minute = 0
             print("밤 데이트 컴포넌트 timeNoti", date)
             SettiongViewController.sendNotification(subTitle: "밤 일기를 쓰러가볼까요?", date: date)
             print("밤일기 알람 설정 📍")
+            return
         }
     }
     

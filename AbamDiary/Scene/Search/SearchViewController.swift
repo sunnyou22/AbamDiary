@@ -182,9 +182,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         
         let currentDiaryDelete = UIAction(title: "해당 일기 삭제") { [weak self] _ in
-            let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
-            let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
-            
+           
             guard let self = self else { return }
             
             if indexPath.section == 0 {

@@ -13,12 +13,13 @@ class SettingView: BaseView {
     let profileimageView: UIImageView = {
        let view = UIImageView()
         view.backgroundColor = .systemGray5
-        view.contentMode = .scaleAspectFill
-        DispatchQueue.main.async {
-            view.clipsToBounds = true
-            view.layer.cornerRadius = 16
-        }
        
+//        DispatchQueue.main.async {
+//            view.clipsToBounds = true
+//            view.contentMode = .scaleAspectFill
+//            view.layer.cornerRadius = view.frame.size.height / 2
+//        }
+//       
         return view
     }()
     
