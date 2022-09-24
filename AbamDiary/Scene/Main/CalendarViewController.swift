@@ -14,16 +14,6 @@ import RealmSwift
 
 class CalendarViewController: BaseViewController {
     
-    private init() {
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-   static let shared = CalendarViewController()
-    
     let mainview = MainView()
    static var gageCountModel = GageModel()
     var changeMorningcount: Float = 0 // 테스트용

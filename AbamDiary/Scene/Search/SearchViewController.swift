@@ -12,6 +12,7 @@ import RealmSwift
 class SearchViewController: BaseViewController {
     
     var searchView = SearchView()
+    var diarytype: MorningAndNight?
     
     override func loadView() {
         view = searchView
@@ -55,13 +56,14 @@ class SearchViewController: BaseViewController {
         searchView.tableView.delegate = self
         searchView.tableView.dataSource = self
         setupSearchController()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         fetch()
-       
+        
     }
     
     func fetch() {
@@ -94,9 +96,9 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 88
     }
-        
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-      
+        
         if section == 0 {
             guard let morningFilteredArr = morningFilteredArr else {
                 print("====> 아침검색어를 찾을 수 없습니다", #function)
@@ -104,7 +106,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             }
             print(morningFilteredArr.count, "==========morningFilteredArr.count")
             return morningFilteredArr.count
-          
+            
         } else if section == 1 {
             guard let nightFilteredArr = nightFilteredArr else {
                 print("====> 밤검색어를 찾을 수 없습니다", #function)
@@ -112,14 +114,14 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             }
             print(nightFilteredArr.count, "===========nightFilteredArr.count")
             return nightFilteredArr.count
-           
+            
         }
         return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CalendarTableViewCell.reuseIdentifier, for: indexPath) as? CalendarTableViewCell else { return UITableViewCell() }
-     
+        
         guard let morningFilteredArr = morningFilteredArr else {
             print("====> 아침filteredArr이 nil 입니다", #function)
             return UITableViewCell()
@@ -129,42 +131,42 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             print("====> 밤 filteredArr이 nil 입니다", #function)
             return UITableViewCell()
         }
-      
+        
         print(morningFilteredArr, nightFilteredArr)
         
         guard let text = searchController.searchBar.text else { return UITableViewCell() }
         
         if self.isFiltering {
             
-        if indexPath.section == 0 {
-            
-            let Mitem = morningFilteredArr[indexPath.row]
-            
+            if indexPath.section == 0 {
+                
+                let Mitem = morningFilteredArr[indexPath.row]
+                
                 guard let Mtime = Mitem.morningTime else {
                     cell.dateLabel.text = "--:--"
                     return UITableViewCell()
                 }
-            
-            cell.diaryLabel.text = Mitem.morning
+                
+                cell.diaryLabel.text = Mitem.morning
                 cell.dateLabel.text = CustomFormatter.setTime(date: Mtime)
-            
-            cell.setMornigAndNightConfig(index: 0)
-            
-              let attributedString = NSMutableAttributedString(string: cell.diaryLabel.text ?? "test")
+                
+                cell.setMornigAndNightConfig(index: 0)
+                
+                let attributedString = NSMutableAttributedString(string: cell.diaryLabel.text ?? "test")
                 attributedString.addAttribute(.foregroundColor, value: UIColor.orange, range: (cell.diaryLabel.text! as NSString).range(of: "\(text)"))
                 cell.diaryLabel.attributedText = attributedString
-            
-            
-        } else if indexPath.section == 1 {
-            let Nitem = nightFilteredArr[indexPath.row]
+                
+                
+            } else if indexPath.section == 1 {
+                let Nitem = nightFilteredArr[indexPath.row]
                 cell.diaryLabel.text = Nitem.night
                 guard let Ntime = Nitem.nightTime else {
                     cell.dateLabel.text = "--:--"
                     return UITableViewCell()
                 }
                 cell.dateLabel.text = CustomFormatter.setTime(date: Ntime)
-            cell.setMornigAndNightConfig(index: 1)
-              let attributedString = NSMutableAttributedString(string: cell.diaryLabel.text ?? "test")
+                cell.setMornigAndNightConfig(index: 1)
+                let attributedString = NSMutableAttributedString(string: cell.diaryLabel.text ?? "test")
                 attributedString.addAttribute(.foregroundColor, value: UIColor.orange, range: (cell.diaryLabel.text! as NSString).range(of: "\(text)"))
                 cell.diaryLabel.attributedText = attributedString
             }
@@ -174,20 +176,62 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if indexPath.section == 0 {
-            let Mitem = morningFilteredArr[indexPath.row]
-            Mitem.morning != nil ? setWritModeAndTransition(.modified, diaryType: .morning, task: Mitem) : setWritModeAndTransition(.newDiary, diaryType: .morning, task: Mitem)
-        } else {
-            let Nitem = nightFilteredArr[indexPath.row]
-            Nitem.night != nil ? setWritModeAndTransition(.modified, diaryType: .night, task: Nitem) : setWritModeAndTransition(.newDiary, diaryType: .night, task: Nitem)
+        
+    }
+    
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        
+        let currentDiaryDelete = UIAction(title: "해당 일기 삭제") { [weak self] _ in
+            let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
+            let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
+            
+            guard let self = self else { return }
+            
+            if indexPath.section == 0 {
+                let Mitem = self.morningFilteredArr[indexPath.row]
+                do {
+                    try OneDayDiaryRepository.shared.localRealm.write {
+                        Mitem.morning = nil
+                    }
+                } catch {
+                    print("search뷰컨 삭제 실패")
+                }
+            } else {
+                let Nitem = self.nightFilteredArr[indexPath.row]
+                do {
+                    try OneDayDiaryRepository.shared.localRealm.write {
+                        Nitem.night = nil
+                    }
+                } catch {
+                    print("search뷰컨 삭제 실패")
+                }
+            }
+            self.searchView.tableView.reloadData()
+        }
+        
+        let currdntDiaryModifing = UIAction(title: "수정") { [weak self] _ in
+            
+            guard let self = self else { return }
+            if indexPath.section == 0 {
+                let Mitem = self.morningFilteredArr[indexPath.row]
+                Mitem.morning != nil ? self.setWritModeAndTransition(.modified, diaryType: .morning, task: Mitem) : self.setWritModeAndTransition(.newDiary, diaryType: .morning, task: Mitem)
+            } else {
+                let Nitem = self.nightFilteredArr[indexPath.row]
+                Nitem.night != nil ? self.setWritModeAndTransition(.modified, diaryType: .night, task: Nitem) : self.setWritModeAndTransition(.newDiary, diaryType: .night, task: Nitem)
+            }
+            self.searchView.tableView.reloadData()
+        }
+        
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+            UIMenu(title: "", children: [currdntDiaryModifing, currentDiaryDelete])
         }
     }
     
     func setWritModeAndTransition(_ mode: WriteMode, diaryType: MorningAndNight, task: Diary?) {
         let vc = WriteViewController(diarytype: diaryType, writeMode: mode)
         vc.data = task
-//        vc.fetch = fetchRealm
-//        vc.selectedDate = mainview.calendar.selectedDate ?? Date()
+        //        vc.fetch = fetchRealm
+        //        vc.selectedDate = mainview.calendar.selectedDate ?? Date()
         //task nil 로 분기해보기
         
         switch mode {
@@ -200,12 +244,12 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                 vc.writeView.setWriteVCPlaceholder(type: .morning)
             case .night:
                 vc.writeView.setWriteVCPlaceholder(type: .night)
-               
+                
             }
         case .modified:
             print("====>🚀 수정화면으로 가기")
             transition(vc, transitionStyle: .push)
-          
+            
         }
     }
 }

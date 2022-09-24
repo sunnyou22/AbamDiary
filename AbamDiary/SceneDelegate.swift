@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         //MARK: 탭바
         
-        let mainVC = UINavigationController(rootViewController: CalendarViewController.shared)
+        let mainVC = UINavigationController(rootViewController: CalendarViewController())
         let searchVC = UINavigationController(rootViewController: SearchViewController())
 //        let monthVC = UINavigationController(rootViewController: MonthDiaryViewController())
         let cheerupVC = UINavigationController(rootViewController: CheerupViewController())
