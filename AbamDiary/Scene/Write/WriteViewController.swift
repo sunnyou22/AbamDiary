@@ -48,7 +48,8 @@ class WriteViewController: BaseViewController {
         addKeyboardNotifications()
         let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
         let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
-//        if data?.morning != nil || data?.night != nil {
+
+        navigationItem.largeTitleDisplayMode = .never
         
         switch diarytype {
         case .morning:
@@ -173,7 +174,7 @@ class WriteViewController: BaseViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        fetch!()
+//        fetch!()
         removeKeyboardNotifications()
     }
     

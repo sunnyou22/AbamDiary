@@ -14,6 +14,16 @@ import RealmSwift
 
 class CalendarViewController: BaseViewController {
     
+    private init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+   static let shared = CalendarViewController()
+    
     let mainview = MainView()
    static var gageCountModel = GageModel()
     var changeMorningcount: Float = 0 // 테스트용
@@ -286,16 +296,9 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
         let test = CustomFormatter.setCellTitleDateFormatter(date: date)
         let testArr = tasks.filter { task in
             CustomFormatter.setCellTitleDateFormatter(date: task.selecteddate ?? Date()) == test
-        } // 해당 날짜에 포함되는 데이터들을 뽑아옵
-//        fetchRealm()
-        print(testArr.count, "===========")
-        
-//        print("task.morning == nil", task.morning == nil)
-//        print("dateFilterTask?.morning == morningPlaceholer)", dateFilterTask?.morning == morningPlaceholer)
-//        print("(task.morning == nil) || (dateFilterTask?.morning == morningPlaceholer))", (task.morning == nil) || (dateFilterTask?.morning == morningPlaceholer))
-//        print("total", (task.night != nil && task.night != nightPlaceholder) && ((task.morning == nil) || (dateFilterTask?.morning == morningPlaceholer)) )
-//
-        for task in testArr {
+        }
+            
+            for task in testArr {
             if (task.morning != nil && task.night != nil) && (task.morning != morningPlaceholer && task.night != nightPlaceholder) {
                 return 2
             } else if task.morning == nil && task.night == nil {
@@ -466,6 +469,7 @@ extension CalendarViewController {
                 print("filterNightcount ==> monthFilterTasks에 값이 없습니다.")
                 return false
             }
+            return !night.isEmpty && night != nightPlaceholder
             return !night.isEmpty && night != nightPlaceholder
         }.count
         

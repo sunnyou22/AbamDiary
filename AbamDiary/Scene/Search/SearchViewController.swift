@@ -119,7 +119,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CalendarTableViewCell.reuseIdentifier, for: indexPath) as? CalendarTableViewCell else { return UITableViewCell() }
-        
+     
         guard let morningFilteredArr = morningFilteredArr else {
             print("====> 아침filteredArr이 nil 입니다", #function)
             return UITableViewCell()
@@ -129,7 +129,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             print("====> 밤 filteredArr이 nil 입니다", #function)
             return UITableViewCell()
         }
-        
+      
         print(morningFilteredArr, nightFilteredArr)
         
         guard let text = searchController.searchBar.text else { return UITableViewCell() }
@@ -171,10 +171,49 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         }
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if indexPath.section == 0 {
+            let Mitem = morningFilteredArr[indexPath.row]
+            Mitem.morning != nil ? setWritModeAndTransition(.modified, diaryType: .morning, task: Mitem) : setWritModeAndTransition(.newDiary, diaryType: .morning, task: Mitem)
+        } else {
+            let Nitem = nightFilteredArr[indexPath.row]
+            Nitem.night != nil ? setWritModeAndTransition(.modified, diaryType: .night, task: Nitem) : setWritModeAndTransition(.newDiary, diaryType: .night, task: Nitem)
+        }
+    }
+    
+    func setWritModeAndTransition(_ mode: WriteMode, diaryType: MorningAndNight, task: Diary?) {
+        let vc = WriteViewController(diarytype: diaryType, writeMode: mode)
+        vc.data = task
+//        vc.fetch = fetchRealm
+//        vc.selectedDate = mainview.calendar.selectedDate ?? Date()
+        //task nil 로 분기해보기
+        
+        switch mode {
+            
+        case .newDiary:
+            print("====>🚀 작성화면으로 가기")
+            transition(vc, transitionStyle: .push)
+            switch diaryType {
+            case .morning:
+                vc.writeView.setWriteVCPlaceholder(type: .morning)
+            case .night:
+                vc.writeView.setWriteVCPlaceholder(type: .night)
+               
+            }
+        case .modified:
+            print("====>🚀 수정화면으로 가기")
+            transition(vc, transitionStyle: .push)
+          
+        }
+    }
 }
 
 extension SearchViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
+        let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
+        let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
         
         guard let text = searchController.searchBar.text else { return }
         fetch()
@@ -184,11 +223,13 @@ extension SearchViewController: UISearchResultsUpdating {
             return
         }
         
-        self.morningFilteredArr = items.where { $0.morning.contains("\(text)") }
+        self.morningFilteredArr = items.where { $0.morning.contains("\(text)") && $0.morning != morningPlaceholer}
         print(morningFilteredArr, "morningFilteredArr")
-        self.nightFilteredArr = items.where { $0.night.contains("\(text)") }
+        self.nightFilteredArr = items.where { $0.night.contains("\(text)") && $0.night != nightPlaceholder}
         print(nightFilteredArr, "nightFilteredArr")
-//        searchView.tableView.reloadData()
+        //        searchView.tableView.reloadData()
+        
+        print(morningFilteredArr, nightFilteredArr, "========업데이트")
     }
 }
 
