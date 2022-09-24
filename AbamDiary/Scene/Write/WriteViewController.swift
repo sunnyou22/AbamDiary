@@ -42,8 +42,8 @@ class WriteViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let saveButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(save))
-        let cancel = UIBarButtonItem(title: "삭제", style: .plain, target: self, action: #selector(deleteDiary))
-        
+//        let cancel = UIBarButtonItem(title: "삭제", style: .plain, target: self, action: #selector(deleteDiary))
+//        
         navigationItem.rightBarButtonItems = [saveButton, cancel]
         addKeyboardNotifications()
         let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
