@@ -42,8 +42,29 @@ class WriteViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let saveButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(save))
-        navigationItem.rightBarButtonItem = saveButton
+        let cancel = UIBarButtonItem(title: "삭제", style: .plain, target: self, action: #selector(deleteDiary))
+        
+        navigationItem.rightBarButtonItems = [saveButton, cancel]
         addKeyboardNotifications()
+        let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
+        let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
+//        if data?.morning != nil || data?.night != nil {
+        
+        switch diarytype {
+        case .morning:
+            if (data?.morning == nil) || (data?.morning == morningPlaceholer) {
+                navigationItem.title = "아침일기"
+            } else {
+                navigationItem.title = "수정"
+            }
+        case .night:
+            if (data?.night == nil) || (data?.night ==  nightPlaceholder) {
+                navigationItem.title = "저녁일기"
+            } else {
+                navigationItem.title = "수정"
+            }
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -91,7 +112,7 @@ class WriteViewController: BaseViewController {
         
         //초기화면
         if writeView.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || writeView.textView.text == morningPlaceholer || writeView.textView.text == nightPlaceholder {
-            print("=====> 🟠 입력된 문자가 없는데 뒤고가기를 누를 때")
+            print("=====> 🟠 입력된 문자가 없거나 플레이스홀더랑 같을 때 뒤고가기를 누를 때")
             
             switch diarytype {
             case .morning:
@@ -121,8 +142,7 @@ class WriteViewController: BaseViewController {
             case .morning:
                 switch writeMode {
                 case .newDiary:
-                    if data?.createdDate == nil {
-                        
+                    if data?.selecteddate == nil {
                         writeDiary(type: diarytype, mode: .newDiary, task: task)
                     } else {
                         print(data?.createdDate)
@@ -137,7 +157,7 @@ class WriteViewController: BaseViewController {
                 task = Diary(morning: nil, night: writeView.textView.text, createdDate: Date(), selecteddate: selectedDate ?? Date(), morningTime: nil, nightTime: selectedDate ?? Date())
                 switch writeMode {
                 case .newDiary:
-                    if data?.createdDate == nil {
+                    if data?.selecteddate == nil {
                         writeDiary(type: diarytype, mode: .newDiary, task: task)
                         
                     } else {
@@ -171,7 +191,34 @@ class WriteViewController: BaseViewController {
         }
         //        UIApplication.shared.endIgnoringInteractionEvents()
     }
-
+    
+    @objc func deleteDiary() {
+        let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
+        let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
+        let alert = UIAlertController(title: "일기 삭제", message: "정말 현재 일기를 삭제하시겠습니까?", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "네", style: .default) { [weak self] _ in
+            guard let self = self else { return }
+            
+            switch self.diarytype {
+            case .morning:
+                self.writeView.textView.text = morningPlaceholer
+                self.writeDiary(type: .morning, mode: .modified, task: self.data!)
+                
+               
+            case .night:
+                self.writeView.textView.text = nightPlaceholder
+                self.writeDiary(type: .night, mode: .modified, task: self.data!)
+                
+                
+            }
+        }
+        let cancel = UIAlertAction(title: "아니오", style: .cancel)
+        
+        alert.addAction(ok)
+        alert.addAction(cancel)
+        
+present(alert, animated: true)
+    }
 }
 
 //데이터 넣고 화면반영하기

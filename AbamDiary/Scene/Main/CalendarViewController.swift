@@ -75,6 +75,7 @@ class CalendarViewController: BaseViewController {
         mainview.profileImage.image = loadImageFromDocument(fileName: "profile.jpg")
        
         fetchRealm() // 램 패치
+//        mainview.calendar.reloadData()
         
         //카운트 세팅
         testPlusM()
@@ -173,13 +174,14 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         let selecedDate = CustomFormatter.setDateFormatter(date: mainview.calendar.selectedDate ?? Date())
         
         if mainview.calendar.selectedDate != nil {
+           
             if indexPath.row == 0 {
                 
                 cell.diaryLabel.text = dateFilterTask?.morning != nil && (creatDate == selecedDate) ? dateFilterTask?.morning : placeholder[0]
-                cell.dateLabel.text = dateFilterTask?.morningTime != nil && (creatDate == selecedDate) ? CustomFormatter.setTime(date: (dateFilterTask?.morningTime)!) : "--:--"
+                cell.dateLabel.text = dateFilterTask?.morningTime != nil && (creatDate == selecedDate) && dateFilterTask?.morning != placeholder[0] ? CustomFormatter.setTime(date: (dateFilterTask?.morningTime)!) : "--:--"
             } else if indexPath.row == 1 {
                 cell.diaryLabel.text = self.dateFilterTask?.night != nil && (creatDate == selecedDate) ? dateFilterTask?.night : placeholder[1]
-                cell.dateLabel.text = dateFilterTask?.nightTime != nil && (creatDate == selecedDate) ? CustomFormatter.setTime(date: (dateFilterTask?.nightTime)!) : "--:--"
+                cell.dateLabel.text = dateFilterTask?.nightTime != nil && (creatDate == selecedDate) && dateFilterTask?.night != placeholder[1] ? CustomFormatter.setTime(date: (dateFilterTask?.nightTime)!) : "--:--"
             }
         } else {
             
@@ -238,21 +240,16 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
             transition(vc, transitionStyle: .push)
             switch diaryType {
             case .morning:
-                vc.navigationItem.title = "아침일기"
                 vc.writeView.setWriteVCPlaceholder(type: .morning)
-               
             case .night:
-                vc.navigationItem.title = "저녁일기"
                 vc.writeView.setWriteVCPlaceholder(type: .night)
                
             }
         case .modified:
             print("====>🚀 수정화면으로 가기")
             transition(vc, transitionStyle: .push)
-            vc.navigationItem.title = "수정"
-            
+          
         }
-        
     }
 }
 //MARK: - 캘린더
@@ -284,39 +281,54 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
     }
     
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+        let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
+        let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
         let test = CustomFormatter.setCellTitleDateFormatter(date: date)
         let testArr = tasks.filter { task in
             CustomFormatter.setCellTitleDateFormatter(date: task.selecteddate ?? Date()) == test
         } // 해당 날짜에 포함되는 데이터들을 뽑아옵
+//        fetchRealm()
+        print(testArr.count, "===========")
         
+//        print("task.morning == nil", task.morning == nil)
+//        print("dateFilterTask?.morning == morningPlaceholer)", dateFilterTask?.morning == morningPlaceholer)
+//        print("(task.morning == nil) || (dateFilterTask?.morning == morningPlaceholer))", (task.morning == nil) || (dateFilterTask?.morning == morningPlaceholer))
+//        print("total", (task.night != nil && task.night != nightPlaceholder) && ((task.morning == nil) || (dateFilterTask?.morning == morningPlaceholer)) )
+//
         for task in testArr {
-            if task.morning != nil && task.night != nil {
+            if (task.morning != nil && task.night != nil) && (task.morning != morningPlaceholer && task.night != nightPlaceholder) {
                 return 2
             } else if task.morning == nil && task.night == nil {
                 return 0
-            } else {
+            } else if (task.morning != nil && task.morning != morningPlaceholer) && (task.night == nil || task.night == nightPlaceholder) {
+                return 1
+            } else if (task.night != nil && task.night != nightPlaceholder) && ((task.morning == nil) || (task.morning == morningPlaceholer)) {
+              
                 return 1
             }
-            
         }
         return 0
+      
     }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventDefaultColorsFor date: Date) -> [UIColor]? {
         
+        let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
+        let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
+        
         let test = CustomFormatter.setCellTitleDateFormatter(date: date)
         let testArr = tasks.filter { task in
-            CustomFormatter.setCellTitleDateFormatter(date: task.selecteddate ?? Date()) == test
+            CustomFormatter.setCellTitleDateFormatter(date: task.selecteddate ?? Date())  == test
         } // 해당 날짜에 포함되는 데이터들을 뽑아옵
-        
+
         for task in testArr {
-            if task.morning != nil && task.night != nil {
+            if (task.morning != nil && task.night != nil) && (task.morning != morningPlaceholer && task.night != nightPlaceholder) {
                 return [UIColor.systemRed, UIColor.systemBlue]
             } else if task.morning == nil && task.night == nil {
                 return nil
-            } else if task.morning != nil && task.night == nil {
+            } else if (task.morning != nil && task.morning != morningPlaceholer) && task.night == nil {
                 return [UIColor.systemRed]
-            } else if task.morning == nil && task.night != nil {
+            } else if task.morning == nil && (task.night != nil && task.night != nightPlaceholder) {
                 return [UIColor.systemBlue]
             }
         }
@@ -324,20 +336,22 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
     }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventSelectionColorsFor date: Date) -> [UIColor]? {
+        let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
+        let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
         
         let test = CustomFormatter.setCellTitleDateFormatter(date: date)
         let testArr = tasks.filter { task in
-            CustomFormatter.setCellTitleDateFormatter(date: task.selecteddate ?? Date()) == test
+            CustomFormatter.setCellTitleDateFormatter(date: task.selecteddate ?? Date())  == test
         } // 해당 날짜에 포함되는 데이터들을 뽑아옵
 
         for task in testArr {
-            if task.morning != nil && task.night != nil {
+            if (task.morning != nil && task.night != nil) && (task.morning != morningPlaceholer && task.night != nightPlaceholder) {
                 return [UIColor.systemRed, UIColor.systemBlue]
             } else if task.morning == nil && task.night == nil {
                 return nil
-            } else if task.morning != nil && task.night == nil {
+            } else if (task.morning != nil && task.morning != morningPlaceholer) && task.night == nil {
                 return [UIColor.systemRed]
-            } else if task.morning == nil && task.night != nil {
+            } else if task.morning == nil && (task.night != nil && task.night != nightPlaceholder) {
                 return [UIColor.systemBlue]
             }
         }
@@ -429,13 +443,14 @@ class navigationTitleVIew: BaseView {
 extension CalendarViewController {
     
     func testPlusM() {
-        
+        let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
+ 
         let filterMorningcount = monthFilterTasks.filter { task in
             guard let morning = task.morning else {
                 print("filterMorningcount ===> monthFilterTasks에 값이 없습니다.")
                 return false
             }
-            return !morning.isEmpty
+            return !morning.isEmpty && morning != morningPlaceholer
         }.count
         
         print(Float(filterMorningcount), "==========testPlusM()의 filterMorningcount")
@@ -445,13 +460,13 @@ extension CalendarViewController {
     }
     
     func testPlusN() {
-        
+        let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
         let filterNightcount = monthFilterTasks.filter { task in
             guard let night = task.night else {
                 print("filterNightcount ==> monthFilterTasks에 값이 없습니다.")
                 return false
             }
-            return !night.isEmpty
+            return !night.isEmpty && night != nightPlaceholder
         }.count
         
         print(Float(filterNightcount), "==========testPlusM()의 filterMorningcount")

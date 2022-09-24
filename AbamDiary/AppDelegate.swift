@@ -7,7 +7,6 @@
 
 import UIKit
 import UserNotifications
-import IQKeyboardManagerSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {

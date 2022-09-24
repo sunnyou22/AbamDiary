@@ -7,7 +7,6 @@
 
 import UIKit
 import RealmSwift
-import IQKeyboardManagerSwift
 
 class CheerupViewController: BaseViewController {
     
@@ -69,13 +68,10 @@ class CheerupViewController: BaseViewController {
         }
         
         cheerupView.countLabel.text = "\(tasks.count)"
-        setKeyboardManagerEnable(true)
+        
     }
     //MARK: 메서드
-    
-    private func setKeyboardManagerEnable(_ isEnabled: Bool) {
-           IQKeyboardManager.shared.enable = isEnabled
-       }
+
     func fetchRealm() {
         tasks = CheerupMessageRepository.shared.fetchDate()
     }
