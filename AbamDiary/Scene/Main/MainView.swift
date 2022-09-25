@@ -175,7 +175,7 @@ class MainView: BaseView {
             make.top.equalTo(ABAMImage.snp.bottom).offset(16)
             make.bottom.equalTo(cellTitle.snp.top).offset(-12)
             make.centerX.equalTo(self.snp.centerX)
-            make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(20)
+            make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(28)
         }
         
         cellTitle.snp.makeConstraints { make in

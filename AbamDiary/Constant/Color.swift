@@ -26,10 +26,16 @@ struct Color {
         }
         static func setGage(type: MorningAndNight) -> UIColor {
             UIColor { systemcolorChange(traitCollection: $0).setGage(type: type) }}
+       
         static let thineBar = UIColor { systemcolorChange(traitCollection: $0).thineBar }
+        
+        static let tapBarTint = UIColor { systemcolorChange(traitCollection: $0).tapBarTint }
+        
         static func setCalendarPoint(type: MorningAndNight) -> UIColor {
             UIColor { systemcolorChange(traitCollection: $0).setCalendarPoint(type: type) }}
+        
         static let date = UIColor { systemcolorChange(traitCollection: $0).date }
+        
         static let cheerupMessege = UIColor {
             systemcolorChange(traitCollection: $0).cheerupMessege
         }
@@ -262,7 +268,18 @@ enum Theme: Int {
         case .lignt:
             return UIColor(hex: "#9A8787")
         case .dark:
-            return UIColor(hex: "#FFE5E5")
+            return UIColor(hex: "#E1C4C4")
+        }
+    }
+   
+    var tapBarTint: UIColor {
+        switch self {
+        case .anycase:
+            return UIColor(hex: "#3E6435")
+        case .lignt:
+            return UIColor(hex: "#3E6435")
+        case .dark:
+            return UIColor(hex: "#67D8B6")
         }
     }
     

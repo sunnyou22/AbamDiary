@@ -38,6 +38,7 @@ final class TapBarController: UITabBarController {
             for i in 0...(items.count - 1) {
                 
                 items[i].selectedImage = UIImage(systemName: "lock.open.fill")
+                
                 items[i].image = UIImage(systemName: TabBarImage.allCases[i].systemImage)
                 items[i].title = TabBarImage.allCases[i].tapBarSubTitle
                 
@@ -53,11 +54,13 @@ final class TapBarController: UITabBarController {
     
     private func setAppearance() {
         
-//        let appearance = UITabBarAppearance()
-//        appearance.backgroundColor = .white
-//        tabBar.scrollEdgeAppearance = appearance // 이게 가만히
-//        tabBar.sta  standardappearance //이게 움직
-        tabBar.tintColor = .purple
+        let appearance = UITabBarAppearance()
+        appearance.backgroundColor = Color.BaseColorWtihDark.backgorund
+        tabBar.scrollEdgeAppearance = appearance // 이게 가만히
+//        tabBar.standardAppearance = appearance //이게 움직
+        tabBar.unselectedItemTintColor = .black
+        tabBar.tintColor = Color.BaseColorWtihDark.tapBarTint
+        tabBar.
         
     }
 }
