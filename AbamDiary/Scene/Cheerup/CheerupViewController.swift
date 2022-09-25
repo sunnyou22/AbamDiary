@@ -68,7 +68,11 @@ class CheerupViewController: BaseViewController {
         }
         
         cheerupView.countLabel.text = "\(tasks.count)"
-        
+       
+        // tap 제스처 알아보기
+//        cheerupView.addGestureRecognizer(.init(target: self, action: #selector(downKeyboard())))
+        cheerupView.textField.addTarget(self, action: #selector(downKeyboard), for: .editingDidEndOnExit)
+                                               
     }
     //MARK: 메서드
 
@@ -104,6 +108,10 @@ class CheerupViewController: BaseViewController {
             alert.addAction(cancel)
             present(alert, animated: true)
         }
+    }
+    
+    @objc func downKeyboard() {
+        cheerupView.textField.resignFirstResponder()
     }
 }
 
