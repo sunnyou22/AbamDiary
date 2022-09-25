@@ -63,9 +63,7 @@ class CalendarViewController: BaseViewController {
         CalendarViewController.gageCountModel.nightDiaryCount.bind { count in
                     self.changeNightcount = count
                 }
-        
-        mainview.tableView.clipsToBounds = true
-        mainview.tableView.layer.cornerRadius = 80 / 3
+
     }
     
     //MARK: - viewWillAppear
@@ -390,7 +388,6 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
         return nil
     }
     
-    
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillSelectionColorFor date: Date) -> UIColor? {
         let lastDate = CustomFormatter.setDateFormatter(date:  CustomFormatter.isDateEndOfMonth())
         let calendarDay = CustomFormatter.setDateFormatter(date: date)
@@ -406,6 +403,15 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
             }
         }
         return appearance.selectionColor
+    }
+    
+    func calendar(_ calendar: FSCalendar, willDisplay cell: FSCalendarCell, for date: Date, at monthPosition: FSCalendarMonthPosition) {
+        let eventScaleFactor: CGFloat = 1.5
+        cell.eventIndicator.transform = CGAffineTransform(scaleX: eventScaleFactor, y: eventScaleFactor)
+    }
+    
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventOffsetFor date: Date) -> CGPoint {
+        return CGPoint(x: 0, y: 2)
     }
 }
 
@@ -500,14 +506,11 @@ extension CalendarViewController {
             if moringCountRatio < 0.5 || moringCountRatio > 0.5 {
                 self.mainview.profileImage.transform = .identity
                 self.mainview.profileImage.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
-                self.mainview.profilebackgroundView.transform = .identity
-                self.mainview.profilebackgroundView.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
                 print("🔥 moringCountRatio", moringCountRatio)
                 print("🟢 width", width)
                 print("👉 newWidth", newWidth)
                 
             } else {
-                self.mainview.profilebackgroundView.transform = .identity
                 self.mainview.profileImage.transform = .identity
             }
             
@@ -521,16 +524,11 @@ extension CalendarViewController {
             if moringCountRatio < 0.5 {
                 self.mainview.profileImage.transform = .identity
                 self.mainview.profileImage.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
-                self.mainview.profilebackgroundView.transform = .identity
-                self.mainview.profilebackgroundView.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
             } else if moringCountRatio > 0.5 {
                 
                 self.mainview.profileImage.transform = .identity
                 self.mainview.profileImage.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
-                self.mainview.profilebackgroundView.transform = .identity
-                self.mainview.profilebackgroundView.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
             } else {
-                self.mainview.profilebackgroundView.transform = .identity
                 self.mainview.profileImage.transform = .identity
             }
         }

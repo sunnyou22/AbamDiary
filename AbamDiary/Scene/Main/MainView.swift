@@ -19,7 +19,7 @@ class MainView: BaseView {
     
     let cheerupUnderView: UIView = {
         let view = UILabel()
-        view.backgroundColor = UIColor(hex: "#DDE4D3")
+        view.backgroundColor = Color.BaseColorWtihDark.cheerupUnderView
         view.clipsToBounds = true
         view.layer.cornerRadius = 16
         return view
@@ -98,15 +98,8 @@ class MainView: BaseView {
     let profileImage: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(systemName: "person")
-        //        let newWidth = UIScreen.main.bounds.width * 0.05
-        //        let newimageRect = CGRect(x: 0, y: 0, width: newWidth, height: newWidth)
-        //        UIGraphicsBeginImageContext(CGSize(width: <#T##Int#>, height: <#T##Int#>))
-        //
-        //
-        //        //        view.image = UIImage(named: "morningpop") // 프로필 사진으로 바꾸기
-        //        view.backgroundColor = .green
+        view.backgroundColor = .systemGray
         DispatchQueue.main.async {
-            
             view.contentMode = .scaleAspectFill
             view.clipsToBounds = true
             view.layer.cornerRadius = view.frame.size.height / 2
@@ -114,19 +107,19 @@ class MainView: BaseView {
         return view
     }()
     
-    let profilebackgroundView: UIImageView = {
-        let view = UIImageView()
-        view.image = UIImage(named: "profileBackImage")
-        
-        return view
-    }()
+//    let profilebackgroundView: UIImageView = {
+//        let view = UIImageView()
+//        view.image = UIImage(named: "profileBackImage")
+//
+//        return view
+//    }()
     
     let progressBar: UIProgressView = {
         let view = UIProgressView()
         view.trackTintColor = UIColor(hex: "#424CAA")
-        view.progressTintColor = UIColor(hex: "#FF6969")
+        view.progressTintColor = Color.BaseColorWtihDark.progressBarPoint
         view.clipsToBounds = true
-        view.layer.borderWidth = 2
+        view.layer.borderWidth = 1.5
         view.layer.borderColor = UIColor.black.cgColor
         
         DispatchQueue.main.async {
@@ -151,7 +144,7 @@ class MainView: BaseView {
     }
     
     override func configuration() {
-        [ABAMImage, cheerupUnderView, cheerupMessage, calendar, cellTitle, tableView, gageTitle, progressBar, profilebackgroundView, profileImage].forEach { self.addSubview($0) }
+        [ABAMImage, cheerupUnderView, cheerupMessage, calendar, cellTitle, tableView, gageTitle, progressBar, profileImage].forEach { self.addSubview($0) }
         self.backgroundColor = Color.BaseColorWtihDark.backgorund
         
     }
@@ -168,7 +161,7 @@ class MainView: BaseView {
         cheerupUnderView.snp.makeConstraints { make in
             make.centerY.equalTo(ABAMImage.snp.centerY)
             make.leading.equalTo(ABAMImage.snp.trailing).offset(14)
-            make.verticalEdges.equalTo(cheerupMessage.snp.verticalEdges).inset(-12)
+            make.verticalEdges.equalTo(cheerupMessage.snp.verticalEdges).inset(-10)
             make.trailing.equalTo(calendar.snp.trailing).inset(8)
         }
         
@@ -206,9 +199,9 @@ class MainView: BaseView {
         
         progressBar.snp.makeConstraints { make in
 
-            make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(32)
-            make.height.equalTo(self.snp.height).multipliedBy(0.028)
-            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-40)
+            make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(36)
+            make.height.equalTo(self.snp.height).multipliedBy(0.025)
+            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-28)
         }
         
         profileImage.snp.makeConstraints { make in
@@ -219,13 +212,11 @@ class MainView: BaseView {
             make.centerX.equalTo(self.snp.centerX)
         }
         
-        profilebackgroundView.snp.makeConstraints { make in
-            make.size.equalTo(profileImage.snp.size).multipliedBy(1.14)
-            make.top.equalTo(profileImage.snp.top).offset(-6)
-            make.trailing.equalTo(profileImage.snp.trailing).offset(6)
-            
-            
-        }
+//        profilebackgroundView.snp.makeConstraints { make in
+//            make.size.equalTo(profileImage.snp.size).multipliedBy(1.14)
+//            make.top.equalTo(profileImage.snp.top).offset(-6)
+//            make.trailing.equalTo(profileImage.snp.trailing).offset(6)
+//        }
     }
 }
 

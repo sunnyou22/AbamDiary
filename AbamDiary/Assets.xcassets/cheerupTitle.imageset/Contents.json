@@ -2,17 +2,83 @@
   "images" : [
     {
       "filename" : "당신을 응원해요.png",
-      "idiom" : "universal",
+      "idiom" : "iphone",
+      "scale" : "1x"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "light"
+        }
+      ],
+      "filename" : "당신을 응원해요 2.png",
+      "idiom" : "iphone",
+      "scale" : "1x"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "당신을 응원해요 1.png",
+      "idiom" : "iphone",
       "scale" : "1x"
     },
     {
       "filename" : "당신을 응원해요@2x.png",
-      "idiom" : "universal",
+      "idiom" : "iphone",
+      "scale" : "2x"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "light"
+        }
+      ],
+      "filename" : "당신을 응원해요@2x 2.png",
+      "idiom" : "iphone",
+      "scale" : "2x"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "당신을 응원해요@2x 1.png",
+      "idiom" : "iphone",
       "scale" : "2x"
     },
     {
       "filename" : "당신을 응원해요@3x.png",
-      "idiom" : "universal",
+      "idiom" : "iphone",
+      "scale" : "3x"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "light"
+        }
+      ],
+      "filename" : "당신을 응원해요@3x 2.png",
+      "idiom" : "iphone",
+      "scale" : "3x"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "당신을 응원해요@3x 1.png",
+      "idiom" : "iphone",
       "scale" : "3x"
     }
   ],

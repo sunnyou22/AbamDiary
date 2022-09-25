@@ -26,30 +26,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let settingVC = UINavigationController(rootViewController: SettiongViewController())
         
         let tabBarController = UITabBarController()
-        
         tabBarController.setViewControllers([mainVC, searchVC, cheerupVC, settingVC], animated: true)
+        
+        tabBarController.tabBar.backgroundColor = UIColor(hex: "#9BA50E")
+        mainVC.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
         
         if let items = tabBarController.tabBar.items {
             for i in 0...(items.count - 1) {
                 items[i].selectedImage = UIImage(systemName: "lock.open.fill")
                 items[i].image = UIImage(systemName: TabBarImage.allCases[i].systemImage)
                 items[i].title = TabBarImage.allCases[i].tapBarSubTitle
-                
             }
         }
-        
-        
-        //            if UserDefaultHelper.shared.First {
-        //               let vc = CalendarViewController()
-        //                guard let vc = sb.instantiateViewController(withIdentifier: IntroViewController.reuseIdentifier) as? IntroViewController else { return }
-        //
-        //                window?.rootViewController = UINavigationController(rootViewController: vc)
-        //            } else {
-        //
-        //                guard let vc = sb.instantiateViewController(withIdentifier: SearchViewController.reuseIdentifier) as? SearchViewController else { return }
-        //
-        //                window?.rootViewController = UINavigationController(rootViewController: vc)
-        //            }
         
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
@@ -83,7 +71,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-    
-    
 }
-

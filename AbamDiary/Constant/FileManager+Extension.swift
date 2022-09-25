@@ -124,7 +124,7 @@ extension UIViewController {
     func createBackupFile() throws -> URL {
         
         var urlpath = [URL]()
-        let fileNameDate = CustomFormatter.setDateFormatter(date: Date())
+        let fileNameDate = CustomFormatter.setWritedate(date: Date())
         //도큐먼트트 위치에 백업 파일 확인
         guard let path = documentDirectoryPath() else {
             throw DocumentPathError.directoryPathError
@@ -142,7 +142,7 @@ extension UIViewController {
         urlpath.append(contentsOf: [DencodedFilePath, CencodedFilePath])
         
         do {
-            let zipFilePath = try Zip.quickZipFiles(urlpath, fileName: "diary") // 확장자 없으면 저장이 안됨
+            let zipFilePath = try Zip.quickZipFiles(urlpath, fileName: "diary \(fileNameDate)") // 확장자 없으면 저장이 안됨
             print("Archive Lcation: \(zipFilePath.lastPathComponent)")
             return zipFilePath
         } catch {

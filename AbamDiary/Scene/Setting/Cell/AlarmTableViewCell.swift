@@ -23,7 +23,7 @@ class SettingAlarmTableViewCell: BaseTableViewCell {
         DispatchQueue.main.async {
             view.contentMode = .scaleAspectFill
             view.clipsToBounds = true
-            view.layer.cornerRadius = 16
+            view.layer.cornerRadius = view.frame.height / 2
         }
         return view
     }()

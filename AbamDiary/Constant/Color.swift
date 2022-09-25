@@ -38,6 +38,14 @@ struct Color {
             systemcolorChange(traitCollection: $0).cheerupMsgPlaceholder
         }
         
+        static let cheerupUnderView = UIColor {
+            systemcolorChange(traitCollection: $0).cheerupUnderView
+        }
+        
+        static let progressBarPoint = UIColor {
+            systemcolorChange(traitCollection: $0).progressBarPoint
+        }
+        
         static let messageCount = UIColor {
             systemcolorChange(traitCollection: $0).messageCount
         }
@@ -107,11 +115,11 @@ enum Theme: Int {
     var cellTitle: UIColor {
         switch self {
         case .anycase:
-            return UIColor(hex: "#2B2A25")
+            return UIColor(hex: "#494238")
         case .lignt:
-            return UIColor(hex: "#2B2A25")
+            return UIColor(hex: "#494238")
         case .dark:
-            return UIColor(hex: "#FDFDF9")
+            return UIColor(hex: "#E9E1E1")
         }
     }
 
@@ -284,6 +292,17 @@ enum Theme: Int {
         }
     }
     
+    var progressBarPoint: UIColor {
+        switch self {
+        case .anycase:
+            return UIColor(hex: "#FCDB85")
+        case .lignt:
+            return UIColor(hex: "#FCDB85")
+        case .dark:
+            return UIColor(hex: "#FF6969")
+        }
+    }
+    
     var date: UIColor {
         switch self {
         case .anycase:
@@ -313,7 +332,7 @@ enum Theme: Int {
         case .lignt:
             return UIColor(hex: "#1E4D1D")
         case .dark:
-            return UIColor(hex: "#BAC8C3")
+            return UIColor(hex: "#FFDADA")
         }
     }
     
@@ -324,7 +343,7 @@ enum Theme: Int {
         case .lignt:
             return UIColor(hex: "#DDE4D3")
         case .dark:
-            return .clear
+            return UIColor(hex: "#363636")
         }
     }
     

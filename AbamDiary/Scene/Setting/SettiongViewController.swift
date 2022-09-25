@@ -151,6 +151,7 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
                 let alert = UIAlertController(title: "알림", message: "정말 모든 데이터를 삭제하시겠습니까?", preferredStyle: .alert)
                 let ok = UIAlertAction(title: "네", style: .destructive) {_ in
                     OneDayDiaryRepository.shared.deleteTasks(tasks: self.tasks)
+                   
                     self.settingView.makeToast("삭제완료", duration: 0.7, position: .center) { didTap in
                         
                         self.tabBarController?.selectedIndex = 0
@@ -393,7 +394,7 @@ extension SettiongViewController {
         let ok = UIAlertAction(title: "ok", style: .default) {_ in
             
             OneDayDiaryRepository.shared.deleteTasks(tasks: self.tasks)
-            
+            CheerupMessageRepository.shared.deleteTasks(tasks: self.cheerupTasks)
             do {
                 
                 let doucumentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.archive], asCopy: true)
@@ -443,12 +444,17 @@ extension SettiongViewController: UIDocumentPickerDelegate {
         }
         
         //sandboxFileURL 단지 경로
-        let sandboxFileURL = path.appendingPathComponent(selectedFileURL.lastPathComponent) //lastPathComponent: 경로의 마지막 구성요소 SeSACDiary_1.zip, 그니까 마지막 path를 가져오는 것 이것과 도큐먼트의 url의 path와 합쳐주는 것
+        let sandboxFileURL = path.appendingPathComponent(selectedFileURL.lastPathComponent) //lastPathComponent: 경로의  마지막 구성요소 SeSACDiary_1.zip, 그니까 마지막 path를 가져오는 것 이것과 도큐먼트의 url의 path와 합쳐주는 것
+       
         
         // 여기서 sandboxFileURL경로있는지 확인
         if FileManager.default.fileExists(atPath: sandboxFileURL.path) {
-            let zipfileURL = path.appendingPathComponent("diary.zip")
+            let filename_zip = selectedFileURL.lastPathComponent
+            print(filename_zip, "========🚀🚀🚀🚀🚀")
+//                .replacingOccurrences(of: ".zip", with: "").trimmingCharacters(in: .whitespaces)
+            let zipfileURL = path.appendingPathComponent(filename_zip)
   print(zipfileURL)
+           
             do {
                 try unzipFile(fileURL: zipfileURL, documentURL: path)
                 do {
@@ -456,6 +462,7 @@ extension SettiongViewController: UIDocumentPickerDelegate {
                     let Cfetch = try CfetchJSONData()
                     try decoedDiary(Dfetch)
                     try decoedCheerup(Cfetch)
+                    fetchDocumentZipFile()
                 } catch {
                     print("복구실패~~~")
                 }
@@ -467,8 +474,8 @@ extension SettiongViewController: UIDocumentPickerDelegate {
             do {
                 //파일 앱의 zip -> 도큐먼트 폴더에 복사(at:원래경로, to: 복사하고자하는 경로) / sandboxFileURL -> 걍 경로
                 try FileManager.default.copyItem(at: selectedFileURL, to: sandboxFileURL)
-                
-                let zipfileURL = path.appendingPathExtension("diary\(CustomFormatter.setDateFormatter(date: Date())).zip")
+                let filename_zip = selectedFileURL.lastPathComponent
+                let zipfileURL = path.appendingPathExtension(filename_zip)
 
                 do {
                     try unzipFile(fileURL: zipfileURL, documentURL: path)

@@ -1,18 +1,84 @@
 {
   "images" : [
     {
-      "filename" : "오늘 하루 당신의 파랑새는 어떤 메세지를 전해줄까요_.png",
-      "idiom" : "universal",
+      "filename" : "오늘 하루 당신의 파랑새는 어떤 메세지를 전해줄까요_ 2.png",
+      "idiom" : "iphone",
       "scale" : "1x"
     },
     {
-      "filename" : "오늘 하루 당신의 파랑새는 어떤 메세지를 전해줄까요_@2x.png",
-      "idiom" : "universal",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "light"
+        }
+      ],
+      "filename" : "오늘 하루 당신의 파랑새는 어떤 메세지를 전해줄까요_.png",
+      "idiom" : "iphone",
+      "scale" : "1x"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "오늘 하루 당신의 파랑새는 어떤 메세지를 전해줄까요_ 1.png",
+      "idiom" : "iphone",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "오늘 하루 당신의 파랑새는 어떤 메세지를 전해줄까요_@2x 2.png",
+      "idiom" : "iphone",
       "scale" : "2x"
     },
     {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "light"
+        }
+      ],
+      "filename" : "오늘 하루 당신의 파랑새는 어떤 메세지를 전해줄까요_@2x.png",
+      "idiom" : "iphone",
+      "scale" : "2x"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "오늘 하루 당신의 파랑새는 어떤 메세지를 전해줄까요_@2x 1.png",
+      "idiom" : "iphone",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "오늘 하루 당신의 파랑새는 어떤 메세지를 전해줄까요_@3x 2.png",
+      "idiom" : "iphone",
+      "scale" : "3x"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "light"
+        }
+      ],
       "filename" : "오늘 하루 당신의 파랑새는 어떤 메세지를 전해줄까요_@3x.png",
-      "idiom" : "universal",
+      "idiom" : "iphone",
+      "scale" : "3x"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "오늘 하루 당신의 파랑새는 어떤 메세지를 전해줄까요_@3x 1.png",
+      "idiom" : "iphone",
       "scale" : "3x"
     }
   ],
