@@ -13,35 +13,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        
-        guard let scene = (scene as? UIWindowScene) else { return }
-        window = UIWindow(windowScene: scene)
-        
+//
+//        guard let scene = (scene as? UIWindowScene) else { return }
+//        window = UIWindow(windowScene: scene)
+//
         //MARK: 탭바
-        
-        let mainVC = UINavigationController(rootViewController: CalendarViewController())
-        let searchVC = UINavigationController(rootViewController: SearchViewController())
-//        let monthVC = UINavigationController(rootViewController: MonthDiaryViewController())
-        let cheerupVC = UINavigationController(rootViewController: CheerupViewController())
-        let settingVC = UINavigationController(rootViewController: SettiongViewController())
-        
-        let tabBarController = UITabBarController()
-        tabBarController.setViewControllers([mainVC, searchVC, cheerupVC, settingVC], animated: true)
-        
-        tabBarController.tabBar.backgroundColor = UIColor(hex: "#9BA50E")
-        mainVC.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
-        
-        if let items = tabBarController.tabBar.items {
-            for i in 0...(items.count - 1) {
-                items[i].selectedImage = UIImage(systemName: "lock.open.fill")
-                items[i].image = UIImage(systemName: TabBarImage.allCases[i].systemImage)
-                items[i].title = TabBarImage.allCases[i].tapBarSubTitle
-            }
+        if let windowScene = scene as? UIWindowScene {
+            let window = UIWindow(windowScene: windowScene)
+            window.rootViewController = TapBarController()
+            self.window = window
+            window.makeKeyAndVisible()
         }
-        
-        window?.rootViewController = tabBarController
-        window?.makeKeyAndVisible()
-        
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {

@@ -44,6 +44,7 @@
 		90CCDB6E28D057FB00CDEE06 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 90CCDB6D28D057FB00CDEE06 /* RealmSwift */; };
 		90CCDB7328D06F6B00CDEE06 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CCDB7228D06F6B00CDEE06 /* WriteViewController.swift */; };
 		90CCDB7528D0706100CDEE06 /* CustomFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CCDB7428D0706100CDEE06 /* CustomFormatter.swift */; };
+		90D919E328E0DA8000CB3307 /* TapBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D919E228E0DA8000CB3307 /* TapBarController.swift */; };
 		90DF62FF28D8924F0046A3E7 /* SwitchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DF62FE28D8924F0046A3E7 /* SwitchModel.swift */; };
 		90DF632A28D981900046A3E7 /* AlarmTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DF632928D981900046A3E7 /* AlarmTableViewCell.swift */; };
 		90DF632C28D983D60046A3E7 /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DF632B28D983D60046A3E7 /* SwitchTableViewCell.swift */; };
@@ -96,6 +97,7 @@
 		90CCDB6828D056E300CDEE06 /* OneDayDiaryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneDayDiaryRepository.swift; sourceTree = "<group>"; };
 		90CCDB7228D06F6B00CDEE06 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		90CCDB7428D0706100CDEE06 /* CustomFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFormatter.swift; sourceTree = "<group>"; };
+		90D919E228E0DA8000CB3307 /* TapBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapBarController.swift; sourceTree = "<group>"; };
 		90DF62FE28D8924F0046A3E7 /* SwitchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchModel.swift; sourceTree = "<group>"; };
 		90DF632928D981900046A3E7 /* AlarmTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmTableViewCell.swift; sourceTree = "<group>"; };
 		90DF632B28D983D60046A3E7 /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
@@ -295,6 +297,7 @@
 				907FF54728D769930037BF28 /* Photos + Extension.swift */,
 				907FF54928D78F5A0037BF28 /* FileManager+Extension.swift */,
 				90DF633028D9DD300046A3E7 /* Alert.swift */,
+				90D919E228E0DA8000CB3307 /* TapBarController.swift */,
 			);
 			path = Constant;
 			sourceTree = "<group>";
@@ -415,6 +418,7 @@
 				900AEE0528CC5DB500F18360 /* CalendarTableViewCell.swift in Sources */,
 				90B7211828CDB53D00B243AE /* TabBarImage.swift in Sources */,
 				90CB364028D0A530002FCB45 /* Transition.swift in Sources */,
+				90D919E328E0DA8000CB3307 /* TapBarController.swift in Sources */,
 				900AEE1A28CC9A5300F18360 /* Observable.swift in Sources */,
 				90CCDB6728D056C800CDEE06 /* Diary.swift in Sources */,
 				900AEE0728CC5DE600F18360 /* MainView.swift in Sources */,
