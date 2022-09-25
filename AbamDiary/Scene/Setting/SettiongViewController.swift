@@ -24,6 +24,7 @@ class SettiongViewController: BaseViewController {
     static let autorizationSwitchModel = SwitchModel() // 권한에ㅔ 대한 관찰
     var configuration = PHPickerConfiguration()
     var tasks: Results<Diary>!
+    var cheerupTasks: Results<CheerupMessage>!
     
     override func loadView() {
         self.view = settingView
@@ -57,6 +58,7 @@ class SettiongViewController: BaseViewController {
         settingView.profileimageView.image = loadImageFromDocument(fileName: profileImage)
         
         tasks = OneDayDiaryRepository.shared.fetchLatestOrder()
+        cheerupTasks = CheerupMessageRepository.shared.fetchDate()
     }
 }
 
@@ -374,7 +376,7 @@ extension SettiongViewController {
     func clickBackupCell() {
         do {
             try saveEncodedDiaryToDocument(tasks: tasks)
-            
+            try saveEncodeCheerupToDocument(tasks: cheerupTasks)
             let backupFilePth = try createBackupFile()
             
             try showActivityViewController(backupFileURL: backupFilePth)
@@ -445,34 +447,36 @@ extension SettiongViewController: UIDocumentPickerDelegate {
         
         // 여기서 sandboxFileURL경로있는지 확인
         if FileManager.default.fileExists(atPath: sandboxFileURL.path) {
-            
-            let fileURL = path.appendingPathComponent("encodedData.json.zip")
-            
+            let zipfileURL = path.appendingPathComponent("diary.zip")
+  print(zipfileURL)
             do {
-                try unzipFile(fileURL: fileURL, documentURL: path)
+                try unzipFile(fileURL: zipfileURL, documentURL: path)
                 do {
-                    let fetch = try fetchJSONData()
-                    try decoedDiary(fetch)
+                    let Dfetch = try DfetchJSONData()
+                    let Cfetch = try CfetchJSONData()
+                    try decoedDiary(Dfetch)
+                    try decoedCheerup(Cfetch)
                 } catch {
                     print("복구실패~~~")
                 }
             } catch {
-                print("압축풀기 실패 다 이놈아~~~")
+                print("압축풀기 실패 다 이놈아~~~===============")
             }
-            
-            
         } else {
             
             do {
                 //파일 앱의 zip -> 도큐먼트 폴더에 복사(at:원래경로, to: 복사하고자하는 경로) / sandboxFileURL -> 걍 경로
                 try FileManager.default.copyItem(at: selectedFileURL, to: sandboxFileURL)
                 
-                let fileURL = path.appendingPathComponent("encodedData.json.zip")
+                let zipfileURL = path.appendingPathExtension("diary\(CustomFormatter.setDateFormatter(date: Date())).zip")
+
                 do {
-                    try unzipFile(fileURL: fileURL, documentURL: path)
+                    try unzipFile(fileURL: zipfileURL, documentURL: path)
                     do {
-                        let fetch = try fetchJSONData()
-                        try decoedDiary(fetch)
+                        let Dfetch = try DfetchJSONData()
+                        let Cfetch = try CfetchJSONData()
+                        try decoedDiary(Dfetch)
+                        try decoedCheerup(Cfetch)
                     } catch {
                         print("복구실패~~~")
                     }

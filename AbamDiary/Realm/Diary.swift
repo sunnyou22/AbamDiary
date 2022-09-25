@@ -85,7 +85,11 @@ class Diary: Object, Codable {
     }
 }
 
-class CheerupMessage: Object {
+class CheerupMessage: Object, Codable {
+    
+    private override init() {
+    }
+    
     @Persisted var cheerup: String?
     @Persisted var date = Date()
     
@@ -96,5 +100,31 @@ class CheerupMessage: Object {
         self.cheerup = cheerup
         self.date = Date()
     }
+    
+    enum CondingKeys: String, CodingKey {
+        case objectID
+        case cheerup
+        case date
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CondingKeys.self)
+        try container.encode(objectID, forKey: .objectID)
+        try container.encode(cheerup, forKey: .cheerup)
+        try container.encode(date, forKey: .date)
+    }
+    
+    enum CodingKeys: CodingKey {
+        case cheerup
+        case date
+        case objectID
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self._cheerup = try container.decode(Persisted<String?>.self, forKey: .cheerup)
+        self._date = try container.decode(Persisted<Date>.self, forKey: .date)
+        self._objectID = try container.decode(Persisted<ObjectId>.self, forKey: .objectID)
+    }
 }
-//self.date = CustomFormatter.setDateFormatter(date: date)
+

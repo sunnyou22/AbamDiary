@@ -73,19 +73,32 @@ extension UIViewController {
         }
     }
     
-    func fetchJSONData() throws -> Data {
+    
+    func DfetchJSONData() throws -> Data {
         guard let path = documentDirectoryPath() else { throw DocumentPathError.fetchBackupFileError }
-        
-        let jsonDataPath = path.appendingPathComponent("encodedData.json")
+       
+        let DjsonDataPath = path.appendingPathComponent("diary.json")
         
         do {
-            return try Data(contentsOf: jsonDataPath)
+            return try Data(contentsOf: DjsonDataPath)
         }
         catch {
             throw DocumentPathError.fetchBackupFileError
         }
     }
     
+    func CfetchJSONData() throws -> Data {
+        guard let path = documentDirectoryPath() else { throw DocumentPathError.fetchBackupFileError }
+       
+        let CjsonDataPath = path.appendingPathComponent("cheerup.json")
+        
+        do {
+            return try Data(contentsOf: CjsonDataPath)
+        }
+        catch {
+            throw DocumentPathError.fetchBackupFileError
+        }
+    }
     
     func fetchDocumentZipFile() {
         
@@ -117,16 +130,19 @@ extension UIViewController {
             throw DocumentPathError.directoryPathError
         }
         
-        let encodedFilePath = path.appendingPathComponent("encodedData.json")
+        let DencodedFilePath = path.appendingPathComponent("diary.json")
+        let CencodedFilePath = path.appendingPathComponent("cheerup.json")
         
-        guard FileManager.default.fileExists(atPath: encodedFilePath.path) else {
+        
+        guard FileManager.default.fileExists(atPath: DencodedFilePath.path) && FileManager.default.fileExists(atPath: CencodedFilePath.path) else {
             throw DocumentPathError.compressionFailedError
         }
         
-        urlpath.append(contentsOf: [encodedFilePath])
+        
+        urlpath.append(contentsOf: [DencodedFilePath, CencodedFilePath])
         
         do {
-            let zipFilePath = try Zip.quickZipFiles(urlpath, fileName: "diary\(fileNameDate)") // 확장자 없으면 저장이 안됨
+            let zipFilePath = try Zip.quickZipFiles(urlpath, fileName: "diary") // 확장자 없으면 저장이 안됨
             print("Archive Lcation: \(zipFilePath.lastPathComponent)")
             return zipFilePath
         } catch {
@@ -138,12 +154,24 @@ extension UIViewController {
     func encodeDiary(_ diaryData: Results<Diary>) throws -> Data {
         
         do {
-            let endoder = JSONEncoder()
-            endoder.dateEncodingStrategy = .iso8601
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .iso8601
+            let encodedData: Data = try encoder.encode(diaryData)
+
+            return encodedData
+        } catch {
+            throw CodableError.jsonEncodeError
+        }
+    }
+    
+    //MARK: 응원메세지 인코드
+    func encodeCheerup(_ data: Results<CheerupMessage>) throws -> Data {
+        do {
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .iso8601
+            let encodedData: Data = try encoder.encode(data)
             
-            let encodedDate: Data = try endoder.encode(diaryData)
-            
-            return encodedDate
+            return encodedData
         } catch {
             throw CodableError.jsonEncodeError
         }
@@ -163,19 +191,39 @@ extension UIViewController {
             throw CodableError.jsonDecodeError
         }
     }
+  
+    @discardableResult
+    func decoedCheerup(_ data: Data) throws -> [CheerupMessage]? {
+        
+        do {
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
+            
+            let decodedData: [CheerupMessage] = try decoder.decode([CheerupMessage].self, from: data)
+            
+            return decodedData
+        } catch {
+            throw CodableError.jsonDecodeError
+        }
+    }
     
-    func saveDiaryDataToDocument(data: Data) throws {
+    func saveDataToDocument(data: Data, fileName: String) throws {
         guard let documentPath = documentDirectoryPath() else { throw DocumentPathError.directoryPathError
         }
         
-        let jsonDataPath = documentPath.appendingPathComponent("encodedData.json")
+        let jsonDataPath = documentPath.appendingPathComponent("\(fileName).json")
         print(jsonDataPath)
         try data.write(to: jsonDataPath)
     }
     
     func saveEncodedDiaryToDocument(tasks: Results<Diary>) throws {
         let encodedData = try encodeDiary(tasks)
-        try saveDiaryDataToDocument(data: encodedData)
+        try saveDataToDocument(data: encodedData, fileName: "diary")
+    }
+    
+    func saveEncodeCheerupToDocument(tasks: Results<CheerupMessage>) throws {
+        let encodedData = try encodeCheerup(tasks)
+        try saveDataToDocument(data: encodedData, fileName: "cheerup")
     }
     
     func showActivityViewController(backupFileURL: URL) throws {
@@ -186,21 +234,19 @@ extension UIViewController {
     }
     
     func restoreRealmForBackupFile() throws {
-        let jsonData = try fetchJSONData()
-        guard let decodedData = try decoedDiary(jsonData) else { return }
-        try OneDayDiaryRepository.shared.localRealm.write {
-            OneDayDiaryRepository.shared.localRealm.add(decodedData)
-        }
-    }
-    
-    func restoreData(zipLastPath: String) throws {
-        guard let path = documentDirectoryPath() else {
-            throw DocumentPathError.fetchBackupFileError
-        }
+        let DjsonData = try DfetchJSONData()
+        let CjsonData = try CfetchJSONData()
+        guard let DdecodedData = try decoedDiary(DjsonData) else { return }
+        guard let CdecodedData = try decoedCheerup(CjsonData) else { return }
         
-        let fileURL = path.appendingPathComponent(zipLastPath)
-        try unzipFile(fileURL: fileURL, documentURL: path)
+        try OneDayDiaryRepository.shared.localRealm.write {
+            OneDayDiaryRepository.shared.localRealm.add(DdecodedData)
+        }
+        try CheerupMessageRepository.shared.localRealm.write({
+            CheerupMessageRepository.shared.localRealm.add(CdecodedData)
+        })
     }
+   
     
     func unzipFile(fileURL: URL, documentURL: URL) throws {
         do {

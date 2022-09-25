@@ -190,6 +190,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                 do {
                     try OneDayDiaryRepository.shared.localRealm.write {
                         Mitem.morning = nil
+                        Mitem.morningTime = nil
                     }
                 } catch {
                     print("search뷰컨 삭제 실패")
@@ -199,6 +200,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                 do {
                     try OneDayDiaryRepository.shared.localRealm.write {
                         Nitem.night = nil
+                        Nitem.nightTime = nil
                     }
                 } catch {
                     print("search뷰컨 삭제 실패")
