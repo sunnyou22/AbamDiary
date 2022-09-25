@@ -171,6 +171,7 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         let today = CustomFormatter.setDateFormatter(date: Date())
         let calendarToday = CustomFormatter.setDateFormatter(date: mainview.calendar.today ?? Date())
         let creatDate = CustomFormatter.setDateFormatter(date: dateFilterTask?.selecteddate ?? Date())
+        
         let selecedDate = CustomFormatter.setDateFormatter(date: mainview.calendar.selectedDate ?? Date())
         
         if mainview.calendar.selectedDate != nil {
@@ -319,9 +320,9 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
                 return [UIColor.systemRed, UIColor.systemBlue]
             } else if task.morning == nil && task.night == nil {
                 return nil
-            } else if (task.morning != nil && task.morning != morningPlaceholer) && task.night == nil {
+            } else if (task.morning != nil && task.morning != morningPlaceholer) && (task.night == nil || task.night == nightPlaceholder) {
                 return [UIColor.systemRed]
-            } else if task.morning == nil && (task.night != nil && task.night != nightPlaceholder) {
+            } else if (task.night != nil && task.night != nightPlaceholder) && ((task.morning == nil) || (task.morning == morningPlaceholer)) {
                 return [UIColor.systemBlue]
             }
         }
@@ -342,9 +343,9 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
                 return [UIColor.systemRed, UIColor.systemBlue]
             } else if task.morning == nil && task.night == nil {
                 return nil
-            } else if (task.morning != nil && task.morning != morningPlaceholer) && task.night == nil {
+            } else if (task.morning != nil && task.morning != morningPlaceholer) && (task.night == nil || task.night == nightPlaceholder) {
                 return [UIColor.systemRed]
-            } else if task.morning == nil && (task.night != nil && task.night != nightPlaceholder) {
+            } else if (task.night != nil && task.night != nightPlaceholder) && ((task.morning == nil) || (task.morning == morningPlaceholer)) {
                 return [UIColor.systemBlue]
             }
         }

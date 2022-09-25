@@ -74,6 +74,11 @@ class CheerupViewController: BaseViewController {
         cheerupView.textField.addTarget(self, action: #selector(downKeyboard), for: .editingDidEndOnExit)
                                                
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        cheerupView.endEditing(true)
+    }
+    
     //MARK: 메서드
 
     func fetchRealm() {

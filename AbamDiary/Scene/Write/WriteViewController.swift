@@ -43,12 +43,12 @@ class WriteViewController: BaseViewController {
         super.viewDidLoad()
         let saveButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(save))
         let cancel = UIBarButtonItem(title: "삭제", style: .plain, target: self, action: #selector(deleteDiary))
-
+        
         navigationItem.rightBarButtonItems = [saveButton , cancel]
         addKeyboardNotifications()
         let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
         let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
-
+        
         navigationItem.largeTitleDisplayMode = .never
         
         switch diarytype {
@@ -78,9 +78,9 @@ class WriteViewController: BaseViewController {
         //뷰에 데이터 반영
         switch diarytype {
         case .morning:
-            writeView.dateLabel.text = CustomFormatter.setWritedate(date: (data?.morningTime ?? selectedDate) ?? Date())
+            writeView.dateLabel.text = CustomFormatter.setWritedate(date: data?.createdDate ?? Date())
         case .night:
-            writeView.dateLabel.text = CustomFormatter.setWritedate(date: (data?.morningTime ?? selectedDate) ?? Date())
+            writeView.dateLabel.text = CustomFormatter.setWritedate(date: data?.createdDate ?? Date())
         }
         
         // 플레이스 홀더
@@ -134,7 +134,7 @@ class WriteViewController: BaseViewController {
                     print("🟠 새로운 작성화면 저녁일기")
                 case .modified:
                     writeView.textView.text = nightPlaceholder
-                    writeDiary(type: .morning, mode: .modified, task: data!)
+                    writeDiary(type: .night, mode: .modified, task: data!)
                     print("🟠 수정 작성화면 저녁일기")
                 }
             }
@@ -174,7 +174,7 @@ class WriteViewController: BaseViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-//        fetch!()
+        //        fetch!()
         removeKeyboardNotifications()
     }
     
@@ -194,22 +194,17 @@ class WriteViewController: BaseViewController {
     }
     
     @objc func deleteDiary() {
-        let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
-        let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
+      
         let alert = UIAlertController(title: "일기 삭제", message: "정말 현재 일기를 삭제하시겠습니까?", preferredStyle: .alert)
         let ok = UIAlertAction(title: "네", style: .default) { [weak self] _ in
             guard let self = self else { return }
             
             switch self.diarytype {
             case .morning:
-                self.writeView.textView.text = morningPlaceholer
-                self.writeDiary(type: .morning, mode: .modified, task: self.data!)
+                self.testdeleteDiary(type: .morning, task: self.data!)
                 
-               
             case .night:
-                self.writeView.textView.text = nightPlaceholder
-                self.writeDiary(type: .night, mode: .modified, task: self.data!)
-                
+                self.testdeleteDiary(type: .night, task: self.data!)
                 
             }
         }
@@ -218,7 +213,7 @@ class WriteViewController: BaseViewController {
         alert.addAction(ok)
         alert.addAction(cancel)
         
-present(alert, animated: true)
+        present(alert, animated: true)
     }
 }
 
@@ -233,9 +228,41 @@ extension WriteViewController: UITextViewDelegate {
         }
     }
     
+    func testdeleteDiary(type: MorningAndNight, task: Diary) {
+        let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
+        let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
+        switch type {
+        case .morning:
+            do {
+                try OneDayDiaryRepository.shared.localRealm.write {
+                    print("-====>🟢 아침일기 삭제되는 순간")
+                    task.morning = nil
+                    task.morningTime = nil
+                    writeView.textView.text = morningPlaceholer
+                }
+            } catch {
+                print("아침일기 삭제 이상함")
+            }
+        case .night:
+            do {
+                try OneDayDiaryRepository.shared.localRealm.write {
+                    print("-====>🟢 밤일기 삭제되는 순간")
+                    task.night = nil
+                    task.nightTime = nil
+                    writeView.textView.text = nightPlaceholder
+                }
+            } catch {
+                print("밤일기 삭제 이상함")
+            }
+        }
+    }
+    
     //MARK: 🔴 작성화면 시간 반영이상함 버그
     //데이터 추가 및 수정
     func writeDiary(type: MorningAndNight, mode: WriteMode, task: Diary) {
+        let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
+        let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
+        
         switch type {
         case .morning:
             switch mode {
@@ -246,10 +273,15 @@ extension WriteViewController: UITextViewDelegate {
             case .modified:
                 try! OneDayDiaryRepository.shared.localRealm.write {
                     print("-====>🟢 아침일기 수정되는 순간")
-                    task.morning = writeView.textView.text
-                    task.morningTime = Date()
-                    //                    fetch!()
+                    if writeView.textView.text == morningPlaceholer {
+                        task.morning = nil
+                        task.morningTime = nil
+                    } else {
+                        task.morning = writeView.textView.text
+                        task.morningTime = Date()
+                    }
                 }
+                //                        fetch!()
             }
         case .night:
             switch mode {
@@ -258,41 +290,46 @@ extension WriteViewController: UITextViewDelegate {
                 
             case .modified:
                 try! OneDayDiaryRepository.shared.localRealm.write {
-                    task.night = writeView.textView.text
-                    task.nightTime = Date()
+                    print("-====>🟢 밤일기 수정되는 순간")
+                if writeView.textView.text == nightPlaceholder {
+                    task.night = nil
+                    task.nightTime = nil
+                } else {
+                        task.night = writeView.textView.text
+                        task.nightTime = Date()
+                    }
                 }
             }
         }
     }
 }
-
-extension WriteViewController {
-    //MARK: - 키보드 메서드
-    
-    func addKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(adjustKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(adjustKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    func removeKeyboardNotifications() {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc private func adjustKeyboard(noti: Notification) {
-        guard let userInfo = noti.userInfo else { return }
-        guard let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
-        let adjustmentHeight = keyboardFrame.height
-        if noti.name == UIResponder.keyboardWillChangeFrameNotification {
-            writeView.textView.contentInset.bottom = adjustmentHeight - 80
-        } else {
-            writeView.textView.contentInset.bottom = 0
+    extension WriteViewController {
+        //MARK: - 키보드 메서드
+        
+        func addKeyboardNotifications() {
+            NotificationCenter.default.addObserver(self, selector: #selector(adjustKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(adjustKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
+        }
+        
+        func removeKeyboardNotifications() {
+            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        }
+        
+        @objc private func adjustKeyboard(noti: Notification) {
+            guard let userInfo = noti.userInfo else { return }
+            guard let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
+            let adjustmentHeight = keyboardFrame.height
+            if noti.name == UIResponder.keyboardWillChangeFrameNotification {
+                writeView.textView.contentInset.bottom = adjustmentHeight - 80
+            } else {
+                writeView.textView.contentInset.bottom = 0
+            }
+        }
+        
+        override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+            self.view.endEditing(true)
+            //        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         }
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-        //        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-}
-
