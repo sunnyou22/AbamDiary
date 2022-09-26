@@ -113,7 +113,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         }
         print(filteredArr)
         if self.isFiltering {
-            
+
            if indexPath.section == 0 {
                let item = filteredArr.filter { return $0.type == 0 }
                print(item, "=====================indexPath.section == 0")
