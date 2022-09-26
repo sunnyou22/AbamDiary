@@ -60,6 +60,3 @@ class CheerupMessageRepository: CheerupMessageRepositoryType {
         }
     }
 }
-
-
-
