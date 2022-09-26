@@ -16,8 +16,7 @@ import Foundation
 
 class Diary: Object, Codable {
     
-    private override init() {
-    }
+    private override init() { }
     
     @Persisted var morning: String?
     @Persisted var night: String?
