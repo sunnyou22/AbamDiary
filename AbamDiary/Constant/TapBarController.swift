@@ -55,11 +55,14 @@ final class TapBarController: UITabBarController {
     private func setAppearance() {
         
         let appearance = UITabBarAppearance()
-        appearance.backgroundColor = Color.BaseColorWtihDark.backgorund
-        tabBar.scrollEdgeAppearance = appearance // 이게 가만히
+//        appearance.backgroundColor = Color.BaseColorWtihDark.backgorund
+        appearance.stackedLayoutAppearance.normal.iconColor = UIColor(hex: "#704F3E", alpha: 0.4)
+        appearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor : UIColor(hex: "#704F3E", alpha: 0.4)]
+//        tabBar.scrollEdgeAppearance = appearance // 이게 가만히
+        
 //        tabBar.standardAppearance = appearance //이게 움직
-        tabBar.unselectedItemTintColor = .black
-        tabBar.tintColor = Color.BaseColorWtihDark.tapBarTint
+//        tabBar.standardAppearance.stackedLayoutAppearance.normal.iconColor = .black
+        tabBar.tintColor = UIColor(hex: "#885A43")
 //        tabBar.
         
     }

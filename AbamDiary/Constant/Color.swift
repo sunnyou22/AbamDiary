@@ -288,14 +288,14 @@ enum Theme: Int {
         case .anycase:
             switch type {
             case .morning:
-                return UIColor(hex: "#FF4E6E")
+                return .systemRed
             case .night:
                 return UIColor(hex: "#505E6A")
             }
         case .lignt:
             switch type {
             case .morning:
-                return UIColor(hex: "#FF4E6E")
+                return .systemRed
             case .night:
                 return UIColor(hex: "#505E6A")
             }
@@ -316,7 +316,7 @@ enum Theme: Int {
         case .lignt:
             return UIColor(hex: "#FCDB85")
         case .dark:
-            return UIColor(hex: "#FF6969")
+            return UIColor(hex: "#FACB51")
         }
     }
     

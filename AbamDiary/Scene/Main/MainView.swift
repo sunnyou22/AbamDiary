@@ -54,7 +54,7 @@ class MainView: BaseView {
         calendar.clipsToBounds = true
         calendar.layer.cornerRadius = 20
         calendar.scrollDirection = .vertical
-        calendar.appearance.titleFont = UIFont.systemFont(ofSize: 14, weight: .regular)
+        calendar.appearance.titleFont = UIFont.systemFont(ofSize: 15, weight: .regular)
         calendar.appearance.weekdayFont = UIFont.systemFont(ofSize: 16, weight: .medium)
         calendar.appearance.headerTitleFont = UIFont.systemFont(ofSize: 17, weight: .bold)
         calendar.appearance.headerDateFormat = "yyyy년 MM월"

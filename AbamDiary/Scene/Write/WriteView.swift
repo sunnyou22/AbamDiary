@@ -11,8 +11,11 @@ class WriteView: BaseView {
     
     let dateLabel: UILabel = {
         let view = UILabel()
-        view.textColor = Color.BaseColorWtihDark.date
-        view.font = UIFont.systemFont(ofSize: FontSize.subTitle_16, weight: .light) // 이탈릭체 적용
+        let matrix = CGAffineTransform(a: 1, b: 0, c: CGFloat(tanf(12 * 3.141592653589793 / 180 )), d: 1, tx: 0, ty: 0)
+        let desc = UIFontDescriptor.init(name: "Helvetica Neue Light", matrix: matrix)
+        view.font = UIFont(descriptor: desc, size: 18)
+        view.textColor =  Color.BaseColorWtihDark.thineBar
+//        view.font = UIFont.italicSystemFont(ofSize: FontSize.subTitle_16)
         view.text = "888888888888"
         return view
     }()
@@ -22,12 +25,18 @@ class WriteView: BaseView {
         view.backgroundColor = Color.BaseColorWtihDark.thineBar
         return view
     }()
+   
+    let bottomSectionBar: UIView = {
+        let view = UIView()
+        view.backgroundColor = Color.BaseColorWtihDark.thineBar
+        return view
+    }()
     
     //플레이스 홀더
     let textView: UITextView = {
         let view = UITextView()
-        view.backgroundColor = .brown
-        view.font = UIFont.systemFont(ofSize: FontSize.label_14, weight: .light)
+//        view.backgroundColor = .brown
+        view.font = UIFont.systemFont(ofSize: FontSize.subTitle_16, weight: .light)
         view.isScrollEnabled = true
         view.textColor = UIColor(hex: "#4B4335")
         return view
@@ -35,7 +44,7 @@ class WriteView: BaseView {
     
     override func configuration() {
         self.backgroundColor = Color.BaseColorWtihDark.backgorund
-        [dateLabel, sectionBar, textView].forEach { self.addSubview($0) }
+        [dateLabel, sectionBar, textView, bottomSectionBar].forEach { self.addSubview($0) }
     }
     
     override func setConstraints() {
@@ -56,6 +65,13 @@ class WriteView: BaseView {
             make.leading.equalTo(self.snp.leading).offset(24)
             make.trailing.equalTo(self.snp.trailing).offset(-24)
             make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-24)
+        }
+        
+        bottomSectionBar.snp.makeConstraints { make in
+            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-24)
+            make.height.equalTo(1)
+            make.centerX.equalTo(self.snp.centerX)
+            make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(20)
         }
     }
    

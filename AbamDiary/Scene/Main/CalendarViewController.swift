@@ -315,13 +315,13 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
 
         for task in testArr {
             if (task.morning != nil && task.night != nil) && (task.morning != morningPlaceholer && task.night != nightPlaceholder) {
-                return [UIColor.systemRed, UIColor.systemBlue]
+                return [Color.BaseColorWtihDark.setCalendarPoint(type: .morning), Color.BaseColorWtihDark.setCalendarPoint(type: .night)]
             } else if task.morning == nil && task.night == nil {
                 return nil
             } else if (task.morning != nil && task.morning != morningPlaceholer) && (task.night == nil || task.night == nightPlaceholder) {
-                return [UIColor.systemRed]
+                return [Color.BaseColorWtihDark.setCalendarPoint(type: .morning)]
             } else if (task.night != nil && task.night != nightPlaceholder) && ((task.morning == nil) || (task.morning == morningPlaceholer)) {
-                return [UIColor.systemBlue]
+                return [Color.BaseColorWtihDark.setCalendarPoint(type: .night)]
             }
         }
         return nil
@@ -338,13 +338,13 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
 
         for task in testArr {
             if (task.morning != nil && task.night != nil) && (task.morning != morningPlaceholer && task.night != nightPlaceholder) {
-                return [UIColor.systemRed, UIColor.systemBlue]
+                return [Color.BaseColorWtihDark.setCalendarPoint(type: .morning), Color.BaseColorWtihDark.setCalendarPoint(type: .night)]
             } else if task.morning == nil && task.night == nil {
                 return nil
             } else if (task.morning != nil && task.morning != morningPlaceholer) && (task.night == nil || task.night == nightPlaceholder) {
-                return [UIColor.systemRed]
+                return [Color.BaseColorWtihDark.setCalendarPoint(type: .morning)]
             } else if (task.night != nil && task.night != nightPlaceholder) && ((task.morning == nil) || (task.morning == morningPlaceholer)) {
-                return [UIColor.systemBlue]
+                return [Color.BaseColorWtihDark.setCalendarPoint(type: .night)]
             }
         }
         return nil
