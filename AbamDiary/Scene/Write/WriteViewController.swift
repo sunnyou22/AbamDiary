@@ -74,43 +74,30 @@ class WriteViewController: BaseViewController {
             writeView.dateLabel.text = CustomFormatter.setWritedate(date: data?.createdDate ?? Date())
         
         // 플레이스 홀더
-        switch diarytype {
-        case .morning:
             switch writeMode {
             case .newDiary:
-                writeView.setWriteVCPlaceholder(type: .morning)
-            case .modified:
-                writeView.textView.text = data?.contents
-            }
-            
-        case .night:
-            switch writeMode {
-            case .newDiary:
-                writeView.setWriteVCPlaceholder(type: .night)
+                writeView.textView.text =  writeView.setWriteVCPlaceholder(type: diarytype)
             case .modified:
                 writeView.textView.text = data?.contents
             }
         }
-    }
     
     
     //MARK: - viewWillDisappear
     override func viewWillDisappear(_ animated: Bool) {
        
         // 아침 저녁 상관 없음
-        let task = Diary(type: diarytype.rawValue, contents: writeView.textView.text, selecteddate: selectedDate ?? Date(), createdDate: Date(), time: selectedDate ?? Date())
-        print("diarytype.rawValue==========일기타입", diarytype.rawValue)
+        let task = Diary(type: diarytype.rawValue, contents: writeView.textView.text, selecteddate: selectedDate ?? Date(), createdDate: Date())
+        print("diarytype.rawValue==========일기타입")
         //초기화면
+        print(writeView.setWriteVCPlaceholder(type: diarytype), "===================")
+        
         if writeView.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || writeView.textView.text == writeView.setWriteVCPlaceholder(type: diarytype) {
             print("=====> 🟠 입력된 문자가 없거나 플레이스홀더랑 같을 때 뒤고가기를 누를 때")
-                switch writeMode {
-                case .newDiary:
-                    writeView.textView.text = writeView.setWriteVCPlaceholder(type: diarytype)
-                    print("🟠 새로운 작성화면 아침일기")
-                case .modified:
-                    writeDiary(mode: .modified, task: data!)
-                    print("🟠 수정 작성화면 아침일기")
-                }
+            if data?.isInvalidated == true {
+                return
+            }
+            
             //MARK: 텍스트뷰가 공백이 아니거나 플레이스 홀러와 같지 않을 때
         } else {
                 switch writeMode {
@@ -118,8 +105,11 @@ class WriteViewController: BaseViewController {
                     writeDiary(mode: .newDiary, task: task)
                 case .modified:
                     print("Realm is located at:", OneDayDiaryRepository.shared.localRealm.configuration.fileURL!)
+                    if data?.isInvalidated == true {
+                        writeDiary(mode: .newDiary, task: task)
+                        return
+                    }
                     writeDiary(mode: .modified, task: data!)
-                    
                 }
         }
     }
@@ -158,7 +148,11 @@ class WriteViewController: BaseViewController {
                 return
             }
             OneDayDiaryRepository.shared.deleteRecord(item: data)
+            self.writeView.textView.text = nil
+            self.writeView.textView.text = self.writeView.setWriteVCPlaceholder(type: self.diarytype)
+            self.fetch!()
         }
+        
         let cancel = UIAlertAction(title: "아니오", style: .cancel)
         
         alert.addAction(ok)
@@ -190,10 +184,10 @@ extension WriteViewController: UITextViewDelegate {
             try! OneDayDiaryRepository.shared.localRealm.write {
                 print("-====>🟢 일기 수정되는 순간")
                 task.contents = writeView.textView.text
-                task.time = Date()
+                task.createdDate = Date()
             }
         }
-        //                        fetch!()
+//                                fetch!()
     }
 }
     extension WriteViewController {

@@ -48,7 +48,7 @@ class OneDayDiaryRepository: OnedayDiaryRepositoryType {
     }
     
     func fetchDate(date: Date, type: Int) -> Results<Diary> {
-        let item = localRealm.objects(Diary.self).filter("createdDate >= %@ AND createdDate < %@", date, Date(timeInterval: 86400, since: date)) //NSPredicate 애플이 만들어준 Filter
+        let item = localRealm.objects(Diary.self).filter("selecteddate >= %@ AND selecteddate < %@", date, Date(timeInterval: 86400, since: date)) //NSPredicate 애플이 만들어준 Filter
         if item.isEmpty {
             print(item, "=================item, empty🔴🔴🔴🔴")
             return item

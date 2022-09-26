@@ -21,21 +21,18 @@ class Diary: Object, Codable {
     @Persisted var contents: String?
     @Persisted var selecteddate: Date?
     @Persisted var createdDate = Date()
-    @Persisted var time: Date?
     
     // string 추가햅ㄱ
     
     @Persisted(primaryKey: true) var objectID: ObjectId
     
-    convenience init(type: Int, contents: String?, selecteddate: Date, createdDate: Date, time: Date?) {
+    convenience init(type: Int, contents: String?, selecteddate: Date, createdDate: Date) {
         self.init()
         self.objectID = objectID
         self.type = type
         self.contents = contents
         self.selecteddate = selecteddate
         self.createdDate = Date()
-        self.time = time
-       
     }
 
     func encode(to encoder: Encoder) throws {
@@ -45,7 +42,6 @@ class Diary: Object, Codable {
         try container.encode(contents, forKey: .contents)
         try container.encode(selecteddate, forKey: .selecteddate)
         try container.encode(createdDate, forKey: .createdDate)
-        try container.encode(time, forKey: .time)
     }
 //
     enum CodingKeys: CodingKey {
@@ -53,7 +49,6 @@ class Diary: Object, Codable {
         case contents
         case selecteddate
         case createdDate
-        case time
         case objectID
     }
 //
@@ -63,7 +58,6 @@ class Diary: Object, Codable {
         self._contents = try container.decode(Persisted<String?>.self, forKey: .contents)
         self._selecteddate = try container.decode(Persisted<Date?>.self, forKey: .selecteddate)
         self._createdDate = try container.decode(Persisted<Date>.self, forKey: .createdDate)
-        self._time = try container.decode(Persisted<Date?>.self, forKey: .time)
         self._objectID = try container.decode(Persisted<ObjectId>.self, forKey: .objectID)
     }
 }

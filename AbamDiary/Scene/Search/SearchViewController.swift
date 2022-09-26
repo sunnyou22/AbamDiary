@@ -111,27 +111,29 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             print("====> filteredArr이 nil 입니다", #function)
             return UITableViewCell()
         }
-        
-        guard let text = searchController.searchBar.text else { return UITableViewCell() }
-        
+        print(filteredArr)
         if self.isFiltering {
             
-                let item = filteredArr.filter { $0.type == indexPath.section }
-                
-                guard let time = item[indexPath.row].time else {
-                    cell.dateLabel.text = "--:--"
-                    return UITableViewCell()
-                }
-                
+           if indexPath.section == 0 {
+               let item = filteredArr.filter { return $0.type == 0 }
+               print(item, "=====================indexPath.section == 0")
                 cell.diaryLabel.text = item[indexPath.row].contents
-                cell.dateLabel.text = CustomFormatter.setTime(date: time)
-                
+                cell.dateLabel.text = CustomFormatter.setTime(date: item[indexPath.row].createdDate)
+           } else if indexPath.section == 1 {
+              
+               let item = filteredArr.filter { return $0.type == indexPath.section }
+               print(item, "=====================indexPath.section == 1")
+               cell.diaryLabel.text = item[indexPath.row].contents
+               cell.dateLabel.text = CustomFormatter.setTime(date: item[indexPath.row].createdDate)
+           }
+            
+            guard let text = searchController.searchBar.text else { return UITableViewCell() }
             cell.setMornigAndNightConfig(index: indexPath.section)
-                
                 let attributedString = NSMutableAttributedString(string: cell.diaryLabel.text ?? "test")
                 attributedString.addAttribute(.foregroundColor, value: UIColor.orange, range: (cell.diaryLabel.text! as NSString).range(of: "\(text)"))
                 cell.diaryLabel.attributedText = attributedString
             }
+        
         cell.backgroundColor = .clear
         cell.selectionStyle = .none
         return cell
@@ -195,7 +197,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension SearchViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        let placeholer = ["오늘 아침! 당신의 한줄은 무엇인가요?", "오늘 밤! 당신의 한줄은 무엇인가요?"]
    
         guard let text = searchController.searchBar.text else { return }
         fetch()
@@ -204,9 +205,9 @@ extension SearchViewController: UISearchResultsUpdating {
             print(text)
             return
         }
-   
+   // 이제 타입별로 나눠서 뿌려줘야함
         self.filteredArr = items.where { $0.contents.contains("\(text)") }
-        print(filteredArr, "morningFilteredArr")
+        print(filteredArr, "filteredArr")
     
     }
 }

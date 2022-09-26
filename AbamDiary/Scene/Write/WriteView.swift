@@ -78,21 +78,17 @@ class WriteView: BaseView {
     //placeholder메서드
     @discardableResult
     func setWriteVCPlaceholder(type: MorningAndNight) -> String {
-        var text: String = "일기를 작성해보세요!"
+        var text: String?
         
-        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            switch type {
-            case .morning:
-                text = "오늘 \(type.title)! 당신의 한줄은 무엇인가요?"
-                textView.text = text
-                
-            case .night:
-                text = "오늘 \(type.title)! 당신의 한줄은 무엇인가요?"
-                textView.text = text
-                
-            }
+        switch type {
+        case .morning:
+            text = "오늘 \(type.title)! 당신의 한줄은 무엇인가요?"
+            
+        case .night:
+            text = "오늘 \(type.title)! 당신의 한줄은 무엇인가요?"
         }
-        return text
+        
+        return text!
     }
 }
 

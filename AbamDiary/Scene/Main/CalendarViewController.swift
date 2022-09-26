@@ -15,7 +15,7 @@ import RealmSwift
 class CalendarViewController: BaseViewController {
     
     let mainview = MainView()
-   static var gageCountModel = GageModel()
+    static var gageCountModel = GageModel()
     var changeMorningcount: Float = 0 // 테스트용
     var changeNightcount: Float = 0 // 테스트용
     var progress: Float = 0 // 변수로 빼줘야 동작
@@ -47,8 +47,6 @@ class CalendarViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        mainview.calendar.selectedDate == Date()
-        
         // 네비게이션 나중에 함수로 빼기
         let navigationtitleView = navigationTitleVIew()
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navigationtitleView)
@@ -58,15 +56,15 @@ class CalendarViewController: BaseViewController {
         
         mainview.calendar.dataSource = self
         mainview.calendar.delegate = self
-                //MARK: 변하는 값에 대한 관찰시작
+        //MARK: 변하는 값에 대한 관찰시작
         CalendarViewController.gageCountModel.morningDiaryCount.bind { count in
-                    self.changeMorningcount = count
-                }
+            self.changeMorningcount = count
+        }
         
         CalendarViewController.gageCountModel.nightDiaryCount.bind { count in
-                    self.changeNightcount = count
-                }
-
+            self.changeNightcount = count
+        }
+        
     }
     
     //MARK: - viewWillAppear
@@ -74,9 +72,9 @@ class CalendarViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         mainview.profileImage.image = loadImageFromDocument(fileName: "profile.jpg")
-       
+        
         fetchRealm() // 램 패치
-//        mainview.calendar.reloadData()
+        //        mainview.calendar.reloadData()
         
         //카운트 세팅
         calculateMoringDiary()
@@ -97,7 +95,7 @@ class CalendarViewController: BaseViewController {
     
     func fetchRealm() {
         tasks = OneDayDiaryRepository.shared.fetchLatestOrder()
-       diaryTypefilterDate()
+        diaryTypefilterDate()
         
         //시간잘 맞춰서 해당 달의 날짜가 들어옴
         monthFilterTasks = OneDayDiaryRepository.shared.fetchFilterMonth(start: CustomFormatter.isStarDateOfMonth(), last: CustomFormatter.isDateEndOfMonth())
@@ -175,29 +173,22 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
             cell.backgroundColor = .clear
             cell.selectionStyle = .none
             print("diaryList = diaryList 이게 오류다~🔴", diaryList, #function)
-           return UITableViewCell()
+            return UITableViewCell()
         }
         
         print(diaryList, "==========diaryList")
         
-        // 배열 안의 요소 옵셔널 풀어주기
-        guard let nonoptionalCell = diaryList[indexPath.row] else {
-            print("nonoptionalCell = diaryList[indexPath.row]오류 🪐🔴", #function)
-            cell.diaryLabel.text = placeholder[indexPath.row]
+        // 내용 셀에 적용
+        cell.diaryLabel.text = diaryList[indexPath.row]?.contents ?? placeholder[indexPath.row]
+        guard let time = diaryList[indexPath.row]?.createdDate else {
             cell.dateLabel.text = "--:--"
             cell.setMornigAndNightConfig(index: indexPath.row)
             cell.backgroundColor = .clear
             cell.selectionStyle = .none
-            
-            return UITableViewCell()
+            return cell
         }
         
-        print(nonoptionalCell, "==========nonoptionalCell")
-        
-        // 내용 셀에 적용
-        cell.diaryLabel.text = nonoptionalCell.contents
-        cell.dateLabel.text = CustomFormatter.setTime(date: nonoptionalCell.time!)
-        
+        cell.dateLabel.text = CustomFormatter.setTime(date: time)
         cell.setMornigAndNightConfig(index: indexPath.row)
         cell.backgroundColor = .clear
         cell.selectionStyle = .none
@@ -212,7 +203,7 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         //self를 쓰는것만으로도 캡쳐됨
         //클로저에서는 그냥 [weak self]
         //deinit() 뷰디드디스어피에서 이후에 호출되는지 확인
-    
+        
         if indexPath.row == 0 {
             guard let moningTask = moningTask else  {
                 setWritModeAndTransition(.newDiary, diaryType: .morning, task: moningTask)
@@ -222,10 +213,10 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
             
         } else {
             guard let nightTask = nightTask else  {
-                setWritModeAndTransition(.newDiary, diaryType: .morning, task: nightTask)
+                setWritModeAndTransition(.newDiary, diaryType: .night, task: nightTask)
                 return
             }
-            setWritModeAndTransition(.modified, diaryType: .morning, task: nightTask)
+            setWritModeAndTransition(.modified, diaryType: .night, task: nightTask)
         }
         
     }
@@ -249,23 +240,22 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         case .newDiary:
             print("====>🚀 작성화면으로 가기")
             transition(vc, transitionStyle: .push)
-            switch diaryType {
-            case .morning:
-                vc.writeView.setWriteVCPlaceholder(type: .morning)
-            case .night:
-                vc.writeView.setWriteVCPlaceholder(type: .night)
-               
-            }
+            //            switch diaryType {
+            //            case .morning:
+            //                vc.writeView.setWriteVCPlaceholder(type: .morning)
+            //            case .night:
+            //                vc.writeView.setWriteVCPlaceholder(type: .night)
+            //
+            //            }
         case .modified:
             print("====>🚀 수정화면으로 가기")
             transition(vc, transitionStyle: .push)
-          
+            
         }
         
     }
 }
 //MARK: - 캘린더
-
 
 //MARK: 캘린더 디자인하기
 extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance {
@@ -273,10 +263,10 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
     func calendar(_ calendar: FSCalendar, shouldDeselect date: Date, at monthPosition: FSCalendarMonthPosition) -> Bool {
         return date == Date() ? false : true
     }
-
+    
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        diaryTypefilterDate() 
+        diaryTypefilterDate()
         mainview.tableView.reloadData()
         mainview.cellTitle.text = CustomFormatter.setCellTitleDateFormatter(date: date)
         
@@ -289,35 +279,35 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
             vc.modalPresentationStyle = .overCurrentContext
             present(vc, animated: true)
         }
-
+        
     }
     
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-//        let test = CustomFormatter.setCellTitleDateFormatter(date: date)
-//        let testArr = tasks.filter { task in
-//            CustomFormatter.setCellTitleDateFormatter(date: task.selecteddate ?? Date()) == test
-//        }
-            
-//            for task in testArr {
-            if (moningTask != nil && nightTask != nil) {
-                return 2
-            } else if moningTask == nil && nightTask == nil {
-                return 0
-            } else {
-                return 1
-            }
-//        }
-        return 0
-      
+        let test = CustomFormatter.setDateFormatter(date: date)
+        let testArr = tasks.filter { task in
+            CustomFormatter.setDateFormatter(date: task.selecteddate ?? Date()) == test
+        }
+        
+        if testArr.count == 2 {
+            return 2
+        } else if testArr.count == 1 {
+            return 1
+        } else {
+            return 0
+        }
     }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventDefaultColorsFor date: Date) -> [UIColor]? {
-//        let test = CustomFormatter.setCellTitleDateFormatter(date: date)
-//        let testArr = tasks.filter { task in
-//            CustomFormatter.setCellTitleDateFormatter(date: task.selecteddate ?? Date())  == test }
-        // 해당 날짜에 포함되는 데이터들을 뽑아옵
-
-//        for task in testArr {
+        
+        let test = CustomFormatter.setCellTitleDateFormatter(date: date)
+        //해당날짜에 맞는 걸로 필터
+        let moningTask = tasks.filter { task in
+            CustomFormatter.setCellTitleDateFormatter(date: task.selecteddate ?? Date()) == test
+        }.first { $0.type == 0 }
+        let nightTask = tasks.filter { task in
+            CustomFormatter.setCellTitleDateFormatter(date: task.selecteddate ?? Date()) == test
+        }.first { $0.type == 1 }
+      
             if moningTask != nil && nightTask != nil {
                 return [Color.BaseColorWtihDark.setCalendarPoint(type: .morning), Color.BaseColorWtihDark.setCalendarPoint(type: .night)]
             } else if moningTask == nil && nightTask == nil {
@@ -327,45 +317,52 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
             } else if moningTask == nil && nightTask != nil {
                 return [Color.BaseColorWtihDark.setCalendarPoint(type: .night)]
             }
-//        }
+        
         return nil
     }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventSelectionColorsFor date: Date) -> [UIColor]? {
         let test = CustomFormatter.setCellTitleDateFormatter(date: date)
-   
-                 if moningTask != nil && nightTask != nil {
-                     return [Color.BaseColorWtihDark.setCalendarPoint(type: .morning), Color.BaseColorWtihDark.setCalendarPoint(type: .night)]
-                 } else if moningTask == nil && nightTask == nil {
-                     return nil
-                 } else if moningTask != nil && nightTask == nil {
-                     return [Color.BaseColorWtihDark.setCalendarPoint(type: .morning)]
-                 } else if moningTask == nil && nightTask != nil {
-                     return [Color.BaseColorWtihDark.setCalendarPoint(type: .night)]
-                 }
-    
-             return nil
+        //해당날짜에 맞는 걸로 필터
+        let moningTask = tasks.filter { task in
+            CustomFormatter.setCellTitleDateFormatter(date: task.selecteddate ?? Date()) == test
+        }.first { $0.type == 0 }
+        let nightTask = tasks.filter { task in
+            CustomFormatter.setCellTitleDateFormatter(date: task.selecteddate ?? Date()) == test
+        }.first { $0.type == 1 }
+      
+            if moningTask != nil && nightTask != nil {
+                return [Color.BaseColorWtihDark.setCalendarPoint(type: .morning), Color.BaseColorWtihDark.setCalendarPoint(type: .night)]
+            } else if moningTask == nil && nightTask == nil {
+                return nil
+            } else if moningTask != nil && nightTask == nil {
+                return [Color.BaseColorWtihDark.setCalendarPoint(type: .morning)]
+            } else if moningTask == nil && nightTask != nil {
+                return [Color.BaseColorWtihDark.setCalendarPoint(type: .night)]
+            }
+        
+        return nil
     }
     
     //이미지로 할까 색으로 할까
-//    func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
-//        let lastDate = CustomFormatter.setDateFormatter(date:  CustomFormatter.isDateEndOfMonth())
-//        let calendarDay = CustomFormatter.setDateFormatter(date: date)
-//        let calendarToday = CustomFormatter.setDateFormatter(date: calendar.today!)
-//
-//        print(lastDate, calendarToday, "==========막날 오늘")
-//
-//        if lastDate == calendarToday {
-//
-//            switch calendarDay {
-//            case lastDate:
-//                return UIImage(named: "ABAM")?.resize(newWidthRato: 0.08)
-//            default:
-//                return nil
-//            }
-//        }
-//        return nil
-//    }
+    //    func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
+    //        let lastDate = CustomFormatter.setDateFormatter(date:  CustomFormatter.isDateEndOfMonth())
+    //        let calendarDay = CustomFormatter.setDateFormatter(date: date)
+    //        let calendarToday = CustomFormatter.setDateFormatter(date: calendar.today!)
+    //
+    //        print(lastDate, calendarToday, "==========막날 오늘")
+    //
+    //        if lastDate == calendarToday {
+    //
+    //            switch calendarDay {
+    //            case lastDate:
+    //                return UIImage(named: "ABAM")?.resize(newWidthRato: 0.08)
+    //            default:
+    //                return nil
+    //            }
+    //        }
+    //        return nil
+    //    }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillDefaultColorFor date: Date) -> UIColor? {
         
@@ -389,7 +386,7 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
         let lastDate = CustomFormatter.setDateFormatter(date:  CustomFormatter.isDateEndOfMonth())
         let calendarDay = CustomFormatter.setDateFormatter(date: date)
         let calendarToday = CustomFormatter.setDateFormatter(date: calendar.today!)
-    
+        
         if lastDate == calendarToday {
             
             switch calendarDay {
@@ -453,7 +450,7 @@ extension CalendarViewController {
     
     //저녁일기 개수 계산
     func calculateNightDiary() {
-       
+        
         let filterNightcount = monthFilterTasks.filter { task in
             return task.type == 1
         }.count
