@@ -34,8 +34,9 @@ class CalendarViewController: BaseViewController {
     }
     
     var monthFilterTasks: Results<Diary>!
-    
-    var dateFilterTask: Diary? // 캘린더에 해당하는 날짜를 받아오기 위함
+    var moningTask: Diary?
+    var nightTask: Diary? // 캘린더에 해당하는 날짜를 받아오기 위함
+    var diaryList: [Diary?]?
     
     //MARK: - LoadView
     override func loadView() {
@@ -45,6 +46,8 @@ class CalendarViewController: BaseViewController {
     //MARK: - viewDidload
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        mainview.calendar.selectedDate == Date()
         
         // 네비게이션 나중에 함수로 빼기
         let navigationtitleView = navigationTitleVIew()
@@ -76,8 +79,8 @@ class CalendarViewController: BaseViewController {
 //        mainview.calendar.reloadData()
         
         //카운트 세팅
-        testPlusM()
-        testPlusN()
+        calculateMoringDiary()
+        calculateNightDiary()
         animationUIImage()
         
         print(changeMorningcount, changeNightcount, "프로퍼티 카운트🔴")
@@ -94,7 +97,7 @@ class CalendarViewController: BaseViewController {
     
     func fetchRealm() {
         tasks = OneDayDiaryRepository.shared.fetchLatestOrder()
-        testfilterDate()
+       diaryTypefilterDate()
         
         //시간잘 맞춰서 해당 달의 날짜가 들어옴
         monthFilterTasks = OneDayDiaryRepository.shared.fetchFilterMonth(start: CustomFormatter.isStarDateOfMonth(), last: CustomFormatter.isDateEndOfMonth())
@@ -117,34 +120,30 @@ class CalendarViewController: BaseViewController {
      - 선택된날짜와 생성된 날짜가 같은경 뱉여주기
      */
     
-    func testfilterDate() {
+    //MARK: 여기서 아침일기 저녁일기 task 생성
+    func diaryTypefilterDate() {
         
         let selectedDate = CustomFormatter.setDateFormatter(date: mainview.calendar.selectedDate ?? Date())
         let calendarToday = CustomFormatter.setDateFormatter(date: mainview.calendar.today!)
         let today =  CustomFormatter.setDateFormatter(date: Date())
-        var filterdateArr: LazyFilterSequence<Results<Diary>>?
         
         //self.dateFilterTask = OneDayDiaryRepository.shared.fetchDate(date: Date())[0] -> 왜 이렇게 하면안됨? 오늘 작성한게 많을수도 있잖아
         
+        // 오늘인 캘린더를 띄워서 경우
         if mainview.calendar.selectedDate == nil, calendarToday == today  {
-            filterdateArr = tasks.filter({ task in
-                CustomFormatter.setDateFormatter(date: task.selecteddate!) == calendarToday
-            })
-            self.dateFilterTask = filterdateArr?.first
+            moningTask = OneDayDiaryRepository.shared.fetchDate(date: mainview.calendar.today!, type: 0).first
+            nightTask = OneDayDiaryRepository.shared.fetchDate(date: mainview.calendar.today!, type: 1).first
+            // 오늘을 선택한 경우
         } else if mainview.calendar.selectedDate != nil, selectedDate == today {
-            filterdateArr = tasks.filter({ task in
-                CustomFormatter.setDateFormatter(date: task.selecteddate!) == calendarToday
-            })
-            self.dateFilterTask = filterdateArr?.first
-            //  mainview.calendar.selectedDate != nil, calendarToday != today 와 둘다 nil일 때의 처리를 담고 있음
-            // 둘다 nil면 아래에서 플레이스 홀더가 나오도록 분기처리해줌
+            moningTask = OneDayDiaryRepository.shared.fetchDate(date: mainview.calendar.today!, type: 0).first // nil이 들어올 수 있음
+            nightTask = OneDayDiaryRepository.shared.fetchDate(date: mainview.calendar.today!, type: 1).first
+            // 오늘이 아닌 다른 날을 선택한 경우
         } else if mainview.calendar.selectedDate != nil, selectedDate != today {
-            filterdateArr = tasks.filter({ task in
-                CustomFormatter.setDateFormatter(date: task.selecteddate!) == selectedDate
-            })
-            self.dateFilterTask = filterdateArr?.first
+            moningTask = OneDayDiaryRepository.shared.fetchDate(date: mainview.calendar.selectedDate!, type: 0).first
+            nightTask = OneDayDiaryRepository.shared.fetchDate(date: mainview.calendar.selectedDate!, type: 1).first
         } else {
-            self.dateFilterTask = nil
+            moningTask = nil
+            nightTask = nil
         }
     }
 }
@@ -165,33 +164,39 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         
         let cell = fetchCell(tableView, didSelectRowAt: indexPath)
         let placeholder = ["오늘 아침! 당신의 한줄은 무엇인가요?", "오늘 밤! 당신의 한줄은 무엇인가요?"]
-     
-        let today = CustomFormatter.setDateFormatter(date: Date())
-        let calendarToday = CustomFormatter.setDateFormatter(date: mainview.calendar.today ?? Date())
-        let creatDate = CustomFormatter.setDateFormatter(date: dateFilterTask?.selecteddate ?? Date())
         
-        let selecedDate = CustomFormatter.setDateFormatter(date: mainview.calendar.selectedDate ?? Date())
+        diaryList = [moningTask, nightTask]
         
-        if mainview.calendar.selectedDate != nil {
-           
-            if indexPath.row == 0 {
-                
-                cell.diaryLabel.text = dateFilterTask?.morning != nil && (creatDate == selecedDate) ? dateFilterTask?.morning : placeholder[0]
-                cell.dateLabel.text = dateFilterTask?.morningTime != nil && (creatDate == selecedDate) && dateFilterTask?.morning != placeholder[0] ? CustomFormatter.setTime(date: (dateFilterTask?.morningTime)!) : "--:--"
-            } else if indexPath.row == 1 {
-                cell.diaryLabel.text = self.dateFilterTask?.night != nil && (creatDate == selecedDate) ? dateFilterTask?.night : placeholder[1]
-                cell.dateLabel.text = dateFilterTask?.nightTime != nil && (creatDate == selecedDate) && dateFilterTask?.night != placeholder[1] ? CustomFormatter.setTime(date: (dateFilterTask?.nightTime)!) : "--:--"
-            }
-        } else {
-            
-            if indexPath.row == 0 {
-                cell.diaryLabel.text = dateFilterTask?.morning != nil && (calendarToday == today) ? dateFilterTask?.morning : placeholder[0]
-                cell.dateLabel.text = dateFilterTask?.morningTime != nil && (calendarToday == today) ? CustomFormatter.setTime(date: (dateFilterTask?.morningTime)!) : "--:--"
-            } else if indexPath.row == 1 {
-                cell.diaryLabel.text = self.dateFilterTask?.night != nil && (calendarToday == today) ? dateFilterTask?.night : placeholder[1]
-                cell.dateLabel.text = dateFilterTask?.nightTime != nil && (calendarToday == today) ? CustomFormatter.setTime(date: (dateFilterTask?.nightTime)!) : "--:--"
-            }
+        //배열의 옵셔널 풀어주기
+        guard var diaryList = diaryList else {
+            cell.diaryLabel.text = placeholder[indexPath.row]
+            cell.dateLabel.text = "--:--"
+            cell.setMornigAndNightConfig(index: indexPath.row)
+            cell.backgroundColor = .clear
+            cell.selectionStyle = .none
+            print("diaryList = diaryList 이게 오류다~🔴", diaryList, #function)
+           return UITableViewCell()
         }
+        
+        print(diaryList, "==========diaryList")
+        
+        // 배열 안의 요소 옵셔널 풀어주기
+        guard let nonoptionalCell = diaryList[indexPath.row] else {
+            print("nonoptionalCell = diaryList[indexPath.row]오류 🪐🔴", #function)
+            cell.diaryLabel.text = placeholder[indexPath.row]
+            cell.dateLabel.text = "--:--"
+            cell.setMornigAndNightConfig(index: indexPath.row)
+            cell.backgroundColor = .clear
+            cell.selectionStyle = .none
+            
+            return UITableViewCell()
+        }
+        
+        print(nonoptionalCell, "==========nonoptionalCell")
+        
+        // 내용 셀에 적용
+        cell.diaryLabel.text = nonoptionalCell.contents
+        cell.dateLabel.text = CustomFormatter.setTime(date: nonoptionalCell.time!)
         
         cell.setMornigAndNightConfig(index: indexPath.row)
         cell.backgroundColor = .clear
@@ -207,12 +212,20 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         //self를 쓰는것만으로도 캡쳐됨
         //클로저에서는 그냥 [weak self]
         //deinit() 뷰디드디스어피에서 이후에 호출되는지 확인
-        
-        
+    
         if indexPath.row == 0 {
-            dateFilterTask?.morning != nil ? setWritModeAndTransition(.modified, diaryType: .morning, task: dateFilterTask) : setWritModeAndTransition(.newDiary, diaryType: .morning, task: dateFilterTask)
+            guard let moningTask = moningTask else  {
+                setWritModeAndTransition(.newDiary, diaryType: .morning, task: moningTask)
+                return
+            }
+            setWritModeAndTransition(.modified, diaryType: .morning, task: moningTask)
+            
         } else {
-            dateFilterTask?.night != nil ? setWritModeAndTransition(.modified, diaryType: .night, task: dateFilterTask) : setWritModeAndTransition(.newDiary, diaryType: .night, task: dateFilterTask)
+            guard let nightTask = nightTask else  {
+                setWritModeAndTransition(.newDiary, diaryType: .morning, task: nightTask)
+                return
+            }
+            setWritModeAndTransition(.modified, diaryType: .morning, task: nightTask)
         }
         
     }
@@ -233,7 +246,6 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         //task nil 로 분기해보기
         
         switch mode {
-            
         case .newDiary:
             print("====>🚀 작성화면으로 가기")
             transition(vc, transitionStyle: .push)
@@ -249,6 +261,7 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
             transition(vc, transitionStyle: .push)
           
         }
+        
     }
 }
 //MARK: - 캘린더
@@ -263,7 +276,7 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
 
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        testfilterDate() 
+        diaryTypefilterDate() 
         mainview.tableView.reloadData()
         mainview.cellTitle.text = CustomFormatter.setCellTitleDateFormatter(date: date)
         
@@ -280,74 +293,58 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
     }
     
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-        let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
-        let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
-        let test = CustomFormatter.setCellTitleDateFormatter(date: date)
-        let testArr = tasks.filter { task in
-            CustomFormatter.setCellTitleDateFormatter(date: task.selecteddate ?? Date()) == test
-        }
+//        let test = CustomFormatter.setCellTitleDateFormatter(date: date)
+//        let testArr = tasks.filter { task in
+//            CustomFormatter.setCellTitleDateFormatter(date: task.selecteddate ?? Date()) == test
+//        }
             
-            for task in testArr {
-            if (task.morning != nil && task.night != nil) && (task.morning != morningPlaceholer && task.night != nightPlaceholder) {
+//            for task in testArr {
+            if (moningTask != nil && nightTask != nil) {
                 return 2
-            } else if task.morning == nil && task.night == nil {
+            } else if moningTask == nil && nightTask == nil {
                 return 0
-            } else if (task.morning != nil && task.morning != morningPlaceholer) && (task.night == nil || task.night == nightPlaceholder) {
-                return 1
-            } else if (task.night != nil && task.night != nightPlaceholder) && ((task.morning == nil) || (task.morning == morningPlaceholer)) {
-              
+            } else {
                 return 1
             }
-        }
+//        }
         return 0
       
     }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventDefaultColorsFor date: Date) -> [UIColor]? {
-        
-        let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
-        let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
-        
-        let test = CustomFormatter.setCellTitleDateFormatter(date: date)
-        let testArr = tasks.filter { task in
-            CustomFormatter.setCellTitleDateFormatter(date: task.selecteddate ?? Date())  == test
-        } // 해당 날짜에 포함되는 데이터들을 뽑아옵
+//        let test = CustomFormatter.setCellTitleDateFormatter(date: date)
+//        let testArr = tasks.filter { task in
+//            CustomFormatter.setCellTitleDateFormatter(date: task.selecteddate ?? Date())  == test }
+        // 해당 날짜에 포함되는 데이터들을 뽑아옵
 
-        for task in testArr {
-            if (task.morning != nil && task.night != nil) && (task.morning != morningPlaceholer && task.night != nightPlaceholder) {
+//        for task in testArr {
+            if moningTask != nil && nightTask != nil {
                 return [Color.BaseColorWtihDark.setCalendarPoint(type: .morning), Color.BaseColorWtihDark.setCalendarPoint(type: .night)]
-            } else if task.morning == nil && task.night == nil {
+            } else if moningTask == nil && nightTask == nil {
                 return nil
-            } else if (task.morning != nil && task.morning != morningPlaceholer) && (task.night == nil || task.night == nightPlaceholder) {
+            } else if moningTask != nil && nightTask == nil {
                 return [Color.BaseColorWtihDark.setCalendarPoint(type: .morning)]
-            } else if (task.night != nil && task.night != nightPlaceholder) && ((task.morning == nil) || (task.morning == morningPlaceholer)) {
+            } else if moningTask == nil && nightTask != nil {
                 return [Color.BaseColorWtihDark.setCalendarPoint(type: .night)]
             }
-        }
+//        }
         return nil
     }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventSelectionColorsFor date: Date) -> [UIColor]? {
-        let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
-        let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
-        
         let test = CustomFormatter.setCellTitleDateFormatter(date: date)
-        let testArr = tasks.filter { task in
-            CustomFormatter.setCellTitleDateFormatter(date: task.selecteddate ?? Date())  == test
-        } // 해당 날짜에 포함되는 데이터들을 뽑아옵
-
-        for task in testArr {
-            if (task.morning != nil && task.night != nil) && (task.morning != morningPlaceholer && task.night != nightPlaceholder) {
-                return [Color.BaseColorWtihDark.setCalendarPoint(type: .morning), Color.BaseColorWtihDark.setCalendarPoint(type: .night)]
-            } else if task.morning == nil && task.night == nil {
-                return nil
-            } else if (task.morning != nil && task.morning != morningPlaceholer) && (task.night == nil || task.night == nightPlaceholder) {
-                return [Color.BaseColorWtihDark.setCalendarPoint(type: .morning)]
-            } else if (task.night != nil && task.night != nightPlaceholder) && ((task.morning == nil) || (task.morning == morningPlaceholer)) {
-                return [Color.BaseColorWtihDark.setCalendarPoint(type: .night)]
-            }
-        }
-        return nil
+   
+                 if moningTask != nil && nightTask != nil {
+                     return [Color.BaseColorWtihDark.setCalendarPoint(type: .morning), Color.BaseColorWtihDark.setCalendarPoint(type: .night)]
+                 } else if moningTask == nil && nightTask == nil {
+                     return nil
+                 } else if moningTask != nil && nightTask == nil {
+                     return [Color.BaseColorWtihDark.setCalendarPoint(type: .morning)]
+                 } else if moningTask == nil && nightTask != nil {
+                     return [Color.BaseColorWtihDark.setCalendarPoint(type: .night)]
+                 }
+    
+             return nil
     }
     
     //이미지로 할까 색으로 할까
@@ -442,15 +439,10 @@ class navigationTitleVIew: BaseView {
 //MARK: - 애니메이션 Extension => 모델로 빼주기
 extension CalendarViewController {
     
-    func testPlusM() {
-        let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
- 
+    //아침일기 개수 계산
+    func calculateMoringDiary() {
         let filterMorningcount = monthFilterTasks.filter { task in
-            guard let morning = task.morning else {
-                print("filterMorningcount ===> monthFilterTasks에 값이 없습니다.")
-                return false
-            }
-            return !morning.isEmpty && morning != morningPlaceholer
+            return task.type == 0
         }.count
         
         print(Float(filterMorningcount), "==========testPlusM()의 filterMorningcount")
@@ -459,15 +451,11 @@ extension CalendarViewController {
         self.changeMorningcount = Float(filterMorningcount)
     }
     
-    func testPlusN() {
-        let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
+    //저녁일기 개수 계산
+    func calculateNightDiary() {
+       
         let filterNightcount = monthFilterTasks.filter { task in
-            guard let night = task.night else {
-                print("filterNightcount ==> monthFilterTasks에 값이 없습니다.")
-                return false
-            }
-            return !night.isEmpty && night != nightPlaceholder
-            return !night.isEmpty && night != nightPlaceholder
+            return task.type == 1
         }.count
         
         print(Float(filterNightcount), "==========testPlusM()의 filterMorningcount")
@@ -475,7 +463,6 @@ extension CalendarViewController {
         CalendarViewController.gageCountModel.nightDiaryCount.value = Float(filterNightcount)
         self.changeNightcount = Float(filterNightcount)
     }
-    
     
     func setProgressRetio() {
         let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeMorningcount + self.changeNightcount)) * digit) / digit)

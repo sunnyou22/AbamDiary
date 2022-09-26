@@ -403,8 +403,8 @@ extension SettiongViewController {
                 try self.restoreRealmForBackupFile()
                 
                 let backupFilePth = try self.createBackupFile()
-                
                 try self.showActivityViewController(backupFileURL: backupFilePth)
+              
             }
             catch {
                 print("압축에 실패하였습니다")

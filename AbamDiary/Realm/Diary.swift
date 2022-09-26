@@ -17,68 +17,53 @@ class Diary: Object, Codable {
     
     private override init() { }
     
-    @Persisted var morning: String?
-    @Persisted var night: String?
+    @Persisted var type: Int
+    @Persisted var contents: String?
     @Persisted var selecteddate: Date?
     @Persisted var createdDate = Date()
-    @Persisted var morningTime: Date?
-    @Persisted var nightTime: Date?
+    @Persisted var time: Date?
     
     // string 추가햅ㄱ
     
     @Persisted(primaryKey: true) var objectID: ObjectId
     
-    convenience init(morning: String?, night: String?, createdDate: Date, selecteddate: Date, morningTime: Date?, nightTime: Date?) {
+    convenience init(type: Int, contents: String?, selecteddate: Date, createdDate: Date, time: Date?) {
         self.init()
         self.objectID = objectID
-        self.morning = morning
-        self.night = night
-        self.createdDate = Date()
+        self.type = type
+        self.contents = contents
         self.selecteddate = selecteddate
-        self.morningTime = morningTime
-        self.nightTime = nightTime
+        self.createdDate = Date()
+        self.time = time
        
     }
-    
-    enum CondingKeys: String, CodingKey {
-        case objectID
-        case morning
-        case night
-        case createdDate
-        case selecteddate
-        case morningTime
-        case nightTime
-    }
-    
+
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(objectID, forKey: .objectID)
-        try container.encode(morning, forKey: .morning)
-        try container.encode(night, forKey: .night)
-        try container.encode(createdDate, forKey: .createdDate)
+        try container.encode(type, forKey: .type)
+        try container.encode(contents, forKey: .contents)
         try container.encode(selecteddate, forKey: .selecteddate)
-        try container.encode(morningTime, forKey: .morningTime)
-        try container.encode(nightTime, forKey: .nightTime)
+        try container.encode(createdDate, forKey: .createdDate)
+        try container.encode(time, forKey: .time)
     }
-    
+//
     enum CodingKeys: CodingKey {
-        case morning
-        case night
+        case type
+        case contents
         case selecteddate
         case createdDate
-        case morningTime
-        case nightTime
+        case time
         case objectID
     }
-    
+//
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self._morning = try container.decode(Persisted<String?>.self, forKey: .morning)
-        self._night = try container.decode(Persisted<String?>.self, forKey: .night)
+        self._type = try container.decode(Persisted<Int>.self, forKey: .type)
+        self._contents = try container.decode(Persisted<String?>.self, forKey: .contents)
         self._selecteddate = try container.decode(Persisted<Date?>.self, forKey: .selecteddate)
         self._createdDate = try container.decode(Persisted<Date>.self, forKey: .createdDate)
-        self._morningTime = try container.decode(Persisted<Date?>.self, forKey: .morningTime)
-        self._nightTime = try container.decode(Persisted<Date?>.self, forKey: .nightTime)
+        self._time = try container.decode(Persisted<Date?>.self, forKey: .time)
         self._objectID = try container.decode(Persisted<ObjectId>.self, forKey: .objectID)
     }
 }

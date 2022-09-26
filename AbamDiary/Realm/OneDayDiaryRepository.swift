@@ -13,7 +13,7 @@ fileprivate protocol OnedayDiaryRepositoryType {
     func fetchSearchMoriningFilter(text: String) -> Results<Diary>
     func fetchSearchNightFilter(text: String) -> Results<Diary>
     func fetchSearchDateFilter(text: String) -> Results<Diary>
-    func fetchDate(date: Date) -> Results<Diary>
+    func fetchDate(date: Date, type: Int) -> Results<Diary>
     func deleteRecord(item: Diary)
     func deleteTasks(tasks: Results<Diary>)
     func addItem(item: Diary)
@@ -47,8 +47,17 @@ class OneDayDiaryRepository: OnedayDiaryRepositoryType {
         return localRealm.objects(Diary.self).filter("createdDate CONTAINS[c] '\(text)")
     }
     
-    func fetchDate(date: Date) -> Results<Diary> {
-        return localRealm.objects(Diary.self).filter("createdDate >= %@ AND createdDate < %@", date, Date(timeInterval: 86400, since: date)) //NSPredicate 애플이 만들어준 Filter
+    func fetchDate(date: Date, type: Int) -> Results<Diary> {
+        let item = localRealm.objects(Diary.self).filter("createdDate >= %@ AND createdDate < %@", date, Date(timeInterval: 86400, since: date)) //NSPredicate 애플이 만들어준 Filter
+        if item.isEmpty {
+            print(item, "=================item, empty🔴🔴🔴🔴")
+            return item
+        } else {
+            print(item, "=================item, fetchDate🔴🔴🔴🔴")
+            let result = item.filter("type == %@", type)
+            return result
+        }
+//        return
     }
     
     

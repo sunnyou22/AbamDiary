@@ -183,7 +183,6 @@ extension UIViewController {
         do {
             let decoder = JSONDecoder()
             decoder.dateDecodingStrategy = .iso8601
-            
             let decodedData: [Diary] = try decoder.decode([Diary].self, from: diaryData)
             
             return decodedData
@@ -199,7 +198,8 @@ extension UIViewController {
             let decoder = JSONDecoder()
             decoder.dateDecodingStrategy = .iso8601
             
-            let decodedData: [CheerupMessage] = try decoder.decode([CheerupMessage].self, from: data)
+            let decodedData: [CheerupMessage] =
+            try decoder.decode([CheerupMessage].self, from: data)
             
             return decodedData
         } catch {

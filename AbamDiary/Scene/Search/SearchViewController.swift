@@ -27,17 +27,10 @@ class SearchViewController: BaseViewController {
         }
     }
     
-    var morningFilteredArr: Results<Diary>! {
+    var filteredArr: Results<Diary>! {
         didSet {
             searchView.tableView.reloadData()
             print("서치테이블뷰 아침필터 tasks ~♻️ 리로등")
-        }
-    }
-    
-    var nightFilteredArr: Results<Diary>! {
-        didSet {
-            searchView.tableView.reloadData()
-            print("서치테이블뷰 밤필터 tasks ~♻️ 리로등")
         }
     }
     
@@ -97,78 +90,48 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
+        guard let filteredArr = filteredArr else {
+            print("====> 검색어를 찾을 수 없습니다", #function)
+            return 0
+        }
+        
         if section == 0 {
-            guard let morningFilteredArr = morningFilteredArr else {
-                print("====> 아침검색어를 찾을 수 없습니다", #function)
-                return 0
-            }
-            print(morningFilteredArr.count, "==========morningFilteredArr.count")
-            return morningFilteredArr.count
+            return filteredArr.filter { $0.type == section }.count
             
         } else if section == 1 {
-            guard let nightFilteredArr = nightFilteredArr else {
-                print("====> 밤검색어를 찾을 수 없습니다", #function)
-                return 0
+            return filteredArr.filter { $0.type == section }.count
             }
-            print(nightFilteredArr.count, "===========nightFilteredArr.count")
-            return nightFilteredArr.count
-            
-        }
         return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.reuseIdentifier, for: indexPath) as? SearchTableViewCell else { return UITableViewCell() }
         
-        guard let morningFilteredArr = morningFilteredArr else {
-            print("====> 아침filteredArr이 nil 입니다", #function)
+        guard let filteredArr = filteredArr else {
+            print("====> filteredArr이 nil 입니다", #function)
             return UITableViewCell()
         }
-        
-        guard let nightFilteredArr = nightFilteredArr else {
-            print("====> 밤 filteredArr이 nil 입니다", #function)
-            return UITableViewCell()
-        }
-        
-        print(morningFilteredArr, nightFilteredArr)
         
         guard let text = searchController.searchBar.text else { return UITableViewCell() }
         
         if self.isFiltering {
             
-            if indexPath.section == 0 {
+                let item = filteredArr.filter { $0.type == indexPath.section }
                 
-                let Mitem = morningFilteredArr[indexPath.row]
-                
-                guard let Mtime = Mitem.morningTime else {
+                guard let time = item[indexPath.row].time else {
                     cell.dateLabel.text = "--:--"
                     return UITableViewCell()
                 }
                 
-                cell.diaryLabel.text = Mitem.morning
-                cell.dateLabel.text = CustomFormatter.setTime(date: Mtime)
+                cell.diaryLabel.text = item[indexPath.row].contents
+                cell.dateLabel.text = CustomFormatter.setTime(date: time)
                 
-                cell.setMornigAndNightConfig(index: 0)
+            cell.setMornigAndNightConfig(index: indexPath.section)
                 
-                let attributedString = NSMutableAttributedString(string: cell.diaryLabel.text ?? "test")
-                attributedString.addAttribute(.foregroundColor, value: UIColor.orange, range: (cell.diaryLabel.text! as NSString).range(of: "\(text)"))
-                cell.diaryLabel.attributedText = attributedString
-                
-                
-            } else if indexPath.section == 1 {
-                let Nitem = nightFilteredArr[indexPath.row]
-                cell.diaryLabel.text = Nitem.night
-                guard let Ntime = Nitem.nightTime else {
-                    cell.dateLabel.text = "--:--"
-                    return UITableViewCell()
-                }
-                cell.dateLabel.text = CustomFormatter.setTime(date: Ntime)
-                cell.setMornigAndNightConfig(index: 1)
                 let attributedString = NSMutableAttributedString(string: cell.diaryLabel.text ?? "test")
                 attributedString.addAttribute(.foregroundColor, value: UIColor.orange, range: (cell.diaryLabel.text! as NSString).range(of: "\(text)"))
                 cell.diaryLabel.attributedText = attributedString
             }
-        }
         cell.backgroundColor = .clear
         cell.selectionStyle = .none
         return cell
@@ -181,43 +144,20 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         
         let currentDiaryDelete = UIAction(title: "해당 일기 삭제") { [weak self] _ in
-           
+            
             guard let self = self else { return }
             
-            if indexPath.section == 0 {
-                let Mitem = self.morningFilteredArr[indexPath.row]
-                do {
-                    try OneDayDiaryRepository.shared.localRealm.write {
-                        Mitem.morning = nil
-                        Mitem.morningTime = nil
-                    }
-                } catch {
-                    print("search뷰컨 삭제 실패")
-                }
-            } else {
-                let Nitem = self.nightFilteredArr[indexPath.row]
-                do {
-                    try OneDayDiaryRepository.shared.localRealm.write {
-                        Nitem.night = nil
-                        Nitem.nightTime = nil
-                    }
-                } catch {
-                    print("search뷰컨 삭제 실패")
-                }
-            }
+            let item = self.filteredArr.filter { $0.type == indexPath.section }
+            OneDayDiaryRepository.shared.deleteRecord(item: item[indexPath.row])
             self.searchView.tableView.reloadData()
         }
         
         let currdntDiaryModifing = UIAction(title: "수정") { [weak self] _ in
             
             guard let self = self else { return }
-            if indexPath.section == 0 {
-                let Mitem = self.morningFilteredArr[indexPath.row]
-                Mitem.morning != nil ? self.setWritModeAndTransition(.modified, diaryType: .morning, task: Mitem) : self.setWritModeAndTransition(.newDiary, diaryType: .morning, task: Mitem)
-            } else {
-                let Nitem = self.nightFilteredArr[indexPath.row]
-                Nitem.night != nil ? self.setWritModeAndTransition(.modified, diaryType: .night, task: Nitem) : self.setWritModeAndTransition(.newDiary, diaryType: .night, task: Nitem)
-            }
+            
+            let item = self.filteredArr.filter { $0.type == indexPath.section }
+            self.setWritModeAndTransition(.modified, diaryType: .morning, task: item[indexPath.row])
             self.searchView.tableView.reloadData()
         }
         
@@ -255,9 +195,8 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension SearchViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        let morningPlaceholer = "오늘 아침! 당신의 한줄은 무엇인가요?"
-        let nightPlaceholder = "오늘 밤! 당신의 한줄은 무엇인가요?"
-        
+        let placeholer = ["오늘 아침! 당신의 한줄은 무엇인가요?", "오늘 밤! 당신의 한줄은 무엇인가요?"]
+   
         guard let text = searchController.searchBar.text else { return }
         fetch()
         guard let items = tasks else {
@@ -265,14 +204,10 @@ extension SearchViewController: UISearchResultsUpdating {
             print(text)
             return
         }
-        
-        self.morningFilteredArr = items.where { $0.morning.contains("\(text)") && $0.morning != morningPlaceholer}
-        print(morningFilteredArr, "morningFilteredArr")
-        self.nightFilteredArr = items.where { $0.night.contains("\(text)") && $0.night != nightPlaceholder}
-        print(nightFilteredArr, "nightFilteredArr")
-        //        searchView.tableView.reloadData()
-        
-        print(morningFilteredArr, nightFilteredArr, "========업데이트")
+   
+        self.filteredArr = items.where { $0.contents.contains("\(text)") }
+        print(filteredArr, "morningFilteredArr")
+    
     }
 }
 
