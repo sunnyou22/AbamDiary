@@ -125,4 +125,3 @@ class CheerupMessage: Object, Codable {
         self._objectID = try container.decode(Persisted<ObjectId>.self, forKey: .objectID)
     }
 }
-
