@@ -107,8 +107,6 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
                 let btnTitle = UserDefaults.standard.string(forKey: "NbtnSelected")
                 let defaultTitle = "22:00"
                 buttonCell.timeButton.setTitle("\(btnTitle ?? defaultTitle)", for: .normal)
-                
-    
                 buttonCell.subTitle.text = "밤 알림 시간"
                
                 setButtonConfig(buttonCell.timeButton)

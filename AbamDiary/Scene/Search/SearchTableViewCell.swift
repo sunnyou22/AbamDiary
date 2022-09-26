@@ -1,14 +1,15 @@
 //
-//  MainTableViewCell.swift
+//  SearchTableViewCell.swift
 //  AbamDiary
 //
-//  Created by 방선우 on 2022/09/10.
+//  Created by 방선우 on 2022/09/26.
 //
+
 
 import UIKit
 import SnapKit
 
-class CalendarTableViewCell: BaseTableViewCell {
+class SearchTableViewCell: BaseTableViewCell {
     
     //MARK: 셀 내부 뷰 설정
     
@@ -22,7 +23,7 @@ class CalendarTableViewCell: BaseTableViewCell {
         let view = UIView()
         view.clipsToBounds = true
         DispatchQueue.main.async {
-            view.layer.cornerRadius = view.frame.height / 3.6
+            view.layer.cornerRadius = view.frame.height / 6
         }
     
         return view
@@ -68,7 +69,7 @@ class CalendarTableViewCell: BaseTableViewCell {
 
         baseView.snp.makeConstraints { make in
             make.top.equalTo(contentView.snp.top).offset(0)
-            make.bottom.equalTo(contentView.snp.bottom).offset(-12)
+            make.bottom.equalTo(contentView.snp.bottom)
             make.horizontalEdges.equalTo(contentView.snp.horizontalEdges)
         }
         

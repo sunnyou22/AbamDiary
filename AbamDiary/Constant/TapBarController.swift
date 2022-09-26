@@ -60,7 +60,7 @@ final class TapBarController: UITabBarController {
 //        tabBar.standardAppearance = appearance //이게 움직
         tabBar.unselectedItemTintColor = .black
         tabBar.tintColor = Color.BaseColorWtihDark.tapBarTint
-        tabBar.
+//        tabBar.
         
     }
 }

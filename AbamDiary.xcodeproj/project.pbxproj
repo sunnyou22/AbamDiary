@@ -22,6 +22,7 @@
 		900AEE1E28CC9EA000F18360 /* UserDefaultHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900AEE1D28CC9EA000F18360 /* UserDefaultHelper.swift */; };
 		900AEE2028CC9F5300F18360 /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900AEE1F28CC9F5300F18360 /* Reusable.swift */; };
 		900AEE2228CCC0C000F18360 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 900AEE2128CCC0C000F18360 /* Main.storyboard */; };
+		903B429528E15C7B00012204 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903B429428E15C7B00012204 /* SearchTableViewCell.swift */; };
 		904492B328D5ACC90028F920 /* CheeupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904492B228D5ACC90028F920 /* CheeupView.swift */; };
 		904492B528D5BD1D0028F920 /* CheerupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904492B428D5BD1D0028F920 /* CheerupTableViewCell.swift */; };
 		905E099428D1C3700084ADAE /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905E099328D1C3700084ADAE /* SearchView.swift */; };
@@ -77,6 +78,7 @@
 		900AEE1D28CC9EA000F18360 /* UserDefaultHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultHelper.swift; sourceTree = "<group>"; };
 		900AEE1F28CC9F5300F18360 /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
 		900AEE2128CCC0C000F18360 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		903B429428E15C7B00012204 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		904492B228D5ACC90028F920 /* CheeupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheeupView.swift; sourceTree = "<group>"; };
 		904492B428D5BD1D0028F920 /* CheerupTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheerupTableViewCell.swift; sourceTree = "<group>"; };
 		905E099328D1C3700084ADAE /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 			children = (
 				90B7210F28CDACC900B243AE /* SearchViewController.swift */,
 				905E099328D1C3700084ADAE /* SearchView.swift */,
+				903B429428E15C7B00012204 /* SearchTableViewCell.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -429,6 +432,7 @@
 				900AEE2028CC9F5300F18360 /* Reusable.swift in Sources */,
 				900AEDFC28CC5AB100F18360 /* BaseView.swift in Sources */,
 				900AEE0028CC5BA700F18360 /* BaseTableViewCell.swift in Sources */,
+				903B429528E15C7B00012204 /* SearchTableViewCell.swift in Sources */,
 				90F0592728D84A4500F61899 /* NoficationPush + Extension.swift in Sources */,
 				90DF633328DB18380046A3E7 /* PopUpViewController.swift in Sources */,
 				90F8261428CB799A008E8E6B /* AppDelegate.swift in Sources */,
@@ -576,6 +580,7 @@
 				DEVELOPMENT_TEAM = V8L83798C5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AbamDiary/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "아밤일기(ABAM Diary)";
 				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 접근권한";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "마이크 접근 권한";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "앨범 접근 권한";
@@ -583,7 +588,8 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -611,6 +617,7 @@
 				DEVELOPMENT_TEAM = V8L83798C5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AbamDiary/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "아밤일기(ABAM Diary)";
 				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 접근권한";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "마이크 접근 권한";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "앨범 접근 권한";
@@ -618,7 +625,8 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

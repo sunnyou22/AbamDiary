@@ -7,12 +7,13 @@
 
 import Foundation
 import UIKit
+import SnapKit
 
 class SearchView: BaseView {
     
     let tableView: UITableView = {
         let view = UITableView(frame: .zero, style: .plain)
-        view.register(CalendarTableViewCell.self, forCellReuseIdentifier: CalendarTableViewCell.reuseIdentifier)
+        view.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.reuseIdentifier)
         view.separatorStyle = .none
         return view
     }()
@@ -23,7 +24,9 @@ class SearchView: BaseView {
  
     override func setConstraints() {
         tableView.snp.makeConstraints { make in
-            make.edges.equalTo(self.safeAreaLayoutGuide)
+            make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
+            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom)
+            make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(20)
         }
     }
 }

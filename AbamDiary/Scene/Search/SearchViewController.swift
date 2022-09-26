@@ -61,9 +61,7 @@ class SearchViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         fetch()
-        
     }
     
     func fetch() {
@@ -94,7 +92,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 88
+        return 72
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -120,7 +118,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CalendarTableViewCell.reuseIdentifier, for: indexPath) as? CalendarTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.reuseIdentifier, for: indexPath) as? SearchTableViewCell else { return UITableViewCell() }
         
         guard let morningFilteredArr = morningFilteredArr else {
             print("====> 아침filteredArr이 nil 입니다", #function)
@@ -171,6 +169,8 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.diaryLabel.attributedText = attributedString
             }
         }
+        cell.backgroundColor = .clear
+        cell.selectionStyle = .none
         return cell
     }
     
