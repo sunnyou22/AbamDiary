@@ -202,14 +202,13 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
                 return
             }
             self?.removeImageFromDocument(fileName: image)
-            self?.settingView.profileimageView.image = UIImage(systemName: "person")
+            self?.settingView.profileimageView.image = UIImage(named: "ABAM")
         }
         
         alert.addAction(delete)
         alert.addAction(cameraButton)
         alert.addAction(photoLibrary)
         alert.addAction(cancel)
-        
         present(alert, animated: true, completion: nil)
     }
 }

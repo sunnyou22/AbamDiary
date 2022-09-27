@@ -65,6 +65,11 @@ struct Color {
             systemcolorChange(traitCollection: $0).labelColor
         }
         
+        
+        static let setABAMBackground = UIColor {
+            systemcolorChange(traitCollection: $0).ABAM
+        }
+        
         static private func systemcolorChange(traitCollection: UITraitCollection) -> Theme {
             guard let theme = Theme(rawValue: traitCollection.userInterfaceStyle.rawValue) else { return .anycase}
             
@@ -399,6 +404,17 @@ enum Theme: Int {
             return UIColor(hex: "#52402B")
         case .dark:
             return UIColor(hex: "#D3D3D3")
+        }
+    }
+    
+    var ABAM: UIColor {
+        switch self {
+        case .anycase:
+            return UIColor(hex: "#9BA50E")
+        case .lignt:
+            return UIColor(hex: "#9BA50E")
+        case .dark:
+            return UIColor(hex: "#00FFB2")
         }
     }
 }

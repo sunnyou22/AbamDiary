@@ -12,17 +12,13 @@ class SettingView: BaseView {
     
     let profileimageView: UIImageView = {
        let view = UIImageView()
-        view.backgroundColor = .systemGray5
-       
-//        DispatchQueue.main.async {
-//            view.clipsToBounds = true
-//            view.contentMode = .scaleAspectFill
-//            view.layer.cornerRadius = view.frame.size.height / 2
-//        }
-//       
+        view.backgroundColor = Color.BaseColorWtihDark.setABAMBackground
+        view.layer.borderColor = UIColor.systemGray5.cgColor
+        view.layer.borderWidth = 3
+        
         return view
     }()
-    
+ 
     let changeButton: UIButton = {
        let view = UIButton()
         view.tintColor = .black

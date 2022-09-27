@@ -125,7 +125,7 @@ class WriteViewController: BaseViewController {
     @objc func save() {
         
         //토스트 커스텀하기
-        writeView.makeToast("저장완료!", duration: 1.0, position: .center, title: nil, image: UIImage(named: "ABAM")) { [weak self] didTap in
+        writeView.makeToast("저장완료!", duration: 0.6, position: .center, title: nil, image: UIImage(named: "ABAM")) { [weak self] didTap in
             self?.navigationController?.popViewController(animated: true)
             //            UIApplication.shared.beginIgnoringInteractionEvents() deprecated됨
             //            self?.navigationItem.leftBarButtonItem?.isEnabled = false

@@ -98,7 +98,7 @@ class MainView: BaseView {
     let profileImage: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(systemName: "person")
-        view.backgroundColor = .systemGray
+        view.backgroundColor = Color.BaseColorWtihDark.setABAMBackground
         DispatchQueue.main.async {
             view.contentMode = .scaleAspectFill
             view.clipsToBounds = true
