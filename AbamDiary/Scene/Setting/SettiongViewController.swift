@@ -94,7 +94,7 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
                 buttonCell.timeButton.setTitle("\(btnTitle ?? defaultTitle)", for: .normal)
                 
                 buttonCell.subTitle.text = "아침 알림 시간"
-                
+                buttonCell.selectionStyle = .none
                 buttonCell.timeButton.addTarget(self, action: #selector(MpopDatePicker), for: .touchUpInside)
                 setButtonConfig(buttonCell.timeButton)
                 
@@ -112,7 +112,7 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
                 setButtonConfig(buttonCell.timeButton)
                 
                 buttonCell.timeButton.addTarget(self, action: #selector(NpopDatePicker), for: .touchUpInside)
-                
+                buttonCell.selectionStyle = .none
                 return buttonCell
                 
             } else if indexPath.row == 2 {
@@ -123,12 +123,13 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
                 switchCell.subTitle.text = "알림받기"
                 
                 SettingSwitchTableViewCell.notificationSwitch.addTarget(self, action: #selector(changeSwitch), for: .valueChanged)
+                switchCell.selectionStyle = .none
                 return switchCell
             }
             
         } else {
             guard let defaultCell = tableView.dequeueReusableCell(withIdentifier: SettingDefaultTableViewCell.reuseIdentifier, for: indexPath) as? SettingDefaultTableViewCell else { return UITableViewCell() }
-            
+            defaultCell.selectionStyle = .none
             defaultCell.subTitle.text = Setting.allCases[indexPath.section].subTitle[indexPath.row]
             return defaultCell
         }
@@ -143,6 +144,8 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
                 clickBackupCell()
             } else if indexPath.row == 1 {
                 clickRestoreCell()
+            } else {
+                clickBackupList()
             }
         } else if indexPath.section == 2 {
             if indexPath.row == 0 {
@@ -171,7 +174,9 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
         //            "MbtnSelected"
         if UserDefaults.standard.bool(forKey: "switch") == true {
             sender.isUserInteractionEnabled = true
-            sender.backgroundColor = Color.BaseColorWtihDark.thineBar
+            sender.backgroundColor = Color.BaseColorWtihDark.alarmBackgroundBorder
+            sender.layer.borderColor = Color.BaseColorWtihDark.alarmButtonBorder.cgColor
+            sender.layer.borderWidth = 2
         } else {
             sender.isUserInteractionEnabled = false
             UserDefaults.standard.set(false, forKey: "switch")
@@ -317,7 +322,6 @@ extension SettiongViewController {
         dateChooseAlert.addAction(selection)
         dateChooseAlert.addAction(cancel)
         
-        
         present(dateChooseAlert, animated: true)
     }
     
@@ -418,6 +422,13 @@ extension SettiongViewController {
         alert.addAction(ok)
         alert.addAction(cancel)
         
+        present(alert, animated: true)
+    }
+    
+    func clickBackupList() {
+        let alert = UIAlertController(title: "알림", message: "업데이트 예정입니다!\n조금만 기다려주세요!", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "네", style: .default)
+        alert.addAction(ok)
         present(alert, animated: true)
     }
 }

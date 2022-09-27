@@ -41,12 +41,14 @@ class WriteViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let saveButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(save))
+        let saveButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(save))
         let cancel = UIBarButtonItem(title: "삭제", style: .plain, target: self, action: #selector(deleteDiary))
-        
-        navigationItem.rightBarButtonItems = [saveButton , cancel]
+        let fixspacing = UIBarButtonItem.fixedSpace(20)
+        navigationItem.rightBarButtonItems = [saveButton, fixspacing, cancel]
         addKeyboardNotifications()
-        
+        self.navigationController?.navigationBar.tintColor = Color.BaseColorWtihDark.navigationBarItem
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: Color.BaseColorWtihDark.navigationBarItem]
+      
         navigationItem.largeTitleDisplayMode = .never
         
 //네비게이션 타이틀
@@ -54,13 +56,17 @@ class WriteViewController: BaseViewController {
             switch diarytype {
             case .morning:
                 navigationItem.title = "아침일기"
+                writeView.textView.text =  writeView.setWriteVCPlaceholder(type: diarytype)
             case .night:
                 navigationItem.title = "저녁일기"
+                writeView.textView.text =  writeView.setWriteVCPlaceholder(type: diarytype)
                 return
             }
             return
         }
         navigationItem.title = "수정"
+        writeView.textView.text = data?.contents
+
     }
     
     //MARK: - viewWillAppear
@@ -70,16 +76,8 @@ class WriteViewController: BaseViewController {
         
         //데이터 패치
         OneDayDiaryRepository.shared.fetchLatestOrder()
-
             writeView.dateLabel.text = CustomFormatter.setWritedate(date: data?.createdDate ?? Date())
-        
-        // 플레이스 홀더
-            switch writeMode {
-            case .newDiary:
-                writeView.textView.text =  writeView.setWriteVCPlaceholder(type: diarytype)
-            case .modified:
-                writeView.textView.text = data?.contents
-            }
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "아", style: .plain, target: self, action: nil)
         }
     
     
@@ -123,18 +121,7 @@ class WriteViewController: BaseViewController {
     
     //MARK: 저장 메서드 - 키보드 내려줌
     @objc func save() {
-        
-        //토스트 커스텀하기
-        writeView.makeToast("저장완료!", duration: 0.6, position: .center, title: nil, image: UIImage(named: "ABAM")) { [weak self] didTap in
-            self?.navigationController?.popViewController(animated: true)
-            //            UIApplication.shared.beginIgnoringInteractionEvents() deprecated됨
-            //            self?.navigationItem.leftBarButtonItem?.isEnabled = false
-            //            self?.navigationItem.backBarButtonItem?.isEnabled = false
-            //하지 않아도 램에 값이 중복저장 안됨 -> 근데 어색함 비동기로 해결해보그...ㅣ
-            
-            self?.writeView.textView.resignFirstResponder()
-        }
-        //        UIApplication.shared.endIgnoringInteractionEvents()
+      writeView.textView.resignFirstResponder()
     }
     
     @objc func deleteDiary() {
@@ -187,7 +174,6 @@ extension WriteViewController: UITextViewDelegate {
                 task.createdDate = Date()
             }
         }
-//                                fetch!()
     }
 }
     extension WriteViewController {

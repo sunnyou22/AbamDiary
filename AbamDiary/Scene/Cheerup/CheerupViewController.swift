@@ -32,6 +32,10 @@ class CheerupViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let navigationtitleView = navigationTitleVIew()
+        
+        self.navigationController?.navigationBar.tintColor = Color.BaseColorWtihDark.navigationBarItem
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: Color.BaseColorWtihDark.navigationBarItem]
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navigationtitleView)
         cheerupView.tableView.delegate = self
         cheerupView.tableView.dataSource = self
@@ -45,8 +49,9 @@ class CheerupViewController: BaseViewController {
     
     @objc func resetMessage() {
         let alert = UIAlertController(title: "알림", message: "정말 모든 데이터를 삭제하시겠습니까?", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "네", style: .destructive) {_ in
+        let ok = UIAlertAction(title: "네", style: .default) {_ in
             CheerupMessageRepository.shared.deleteTasks(tasks: self.tasks)
+            self.cheerupView.countLabel.text = "0"
             self.cheerupView.tableView.reloadData()
         }
         let cancel = UIAlertAction(title: "아니오", style: .cancel)
@@ -107,7 +112,7 @@ class CheerupViewController: BaseViewController {
                 
                 self.cheerupView.textField.text = nil
             }
-            let cancel = UIAlertAction(title: "취소", style: .default)
+            let cancel = UIAlertAction(title: "취소", style: .cancel)
             
             alert.addAction(ok)
             alert.addAction(cancel)

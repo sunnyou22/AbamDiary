@@ -104,7 +104,7 @@ class CheerupView: BaseView {
         textField.snp.makeConstraints { make in
             make.bottom.equalTo(textFieldView.snp.top).offset(-4)
             make.leading.equalTo(textFieldView.snp.leading).offset(2)
-            make.trailing.equalTo(textFieldView.snp.trailing)
+            make.trailing.equalTo(birdButton.snp.leading).offset(-4)
         }
         
         textFieldView.snp.makeConstraints { make in

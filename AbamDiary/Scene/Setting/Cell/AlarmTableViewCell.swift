@@ -54,7 +54,7 @@ class SettingAlarmTableViewCell: BaseTableViewCell {
             make.trailing.equalTo(contentView.snp.trailing).offset(-20)
             make.centerY.equalTo(contentView.snp.centerY)
             make.width.equalTo(timeButton.snp.height).multipliedBy(2.4)
-            make.verticalEdges.equalTo(contentView.snp.verticalEdges).inset(16)
+            make.height.equalTo(40)
         }
     }
     

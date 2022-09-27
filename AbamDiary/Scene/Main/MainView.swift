@@ -63,8 +63,8 @@ class MainView: BaseView {
         calendar.appearance.weekdayTextColor = Color.BaseColorWtihDark.calendarTitle
         calendar.appearance.titleWeekendColor = .systemRed
         calendar.appearance.titleDefaultColor = Color.BaseColorWtihDark.calendarTitle
-        calendar.appearance.todayColor = UIColor(hex: "#9D6735")
-        calendar.appearance.selectionColor = UIColor(hex: "#CAB39E")
+        calendar.appearance.todayColor = Color.BaseColorWtihDark.calendarToday
+        calendar.appearance.selectionColor = Color.BaseColorWtihDark.calendarSelectedDay
         calendar.appearance.headerTitleColor = Color.BaseColorWtihDark.calendarTitle
         
     }

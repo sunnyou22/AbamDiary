@@ -9,6 +9,8 @@ import UIKit
         
 struct Color {
     
+    private init() { }
+    
     struct BaseColorWtihDark {
         static let backgorund = UIColor { systemcolorChange(traitCollection: $0).backgroundColor }
         
@@ -68,6 +70,22 @@ struct Color {
         
         static let setABAMBackground = UIColor {
             systemcolorChange(traitCollection: $0).ABAM
+        }
+        
+        static let alarmButtonBorder = UIColor {
+            systemcolorChange(traitCollection: $0).alarmButtonBorder
+        }
+        
+        static let alarmBackgroundBorder = UIColor {
+            systemcolorChange(traitCollection: $0).alarmBackgroundBorder
+        }
+        
+        static let calendarToday = UIColor {
+            systemcolorChange(traitCollection: $0).calendarToday
+        }
+        
+        static let calendarSelectedDay = UIColor {
+            systemcolorChange(traitCollection: $0).calendarSelectedDay
         }
         
         static private func systemcolorChange(traitCollection: UITraitCollection) -> Theme {
@@ -396,6 +414,28 @@ enum Theme: Int {
         }
     }
     
+    var calendarToday: UIColor {
+        switch self {
+        case .anycase:
+            return UIColor(hex: "#9D6735")
+        case .lignt:
+            return UIColor(hex: "#9D6735")
+        case .dark:
+            return UIColor(hex: "#A0632B", alpha: 0.6)
+        }
+    }
+    
+    var calendarSelectedDay: UIColor {
+        switch self {
+        case .anycase:
+            return UIColor(hex: "#9D6735", alpha: 0.6)
+        case .lignt:
+            return UIColor(hex: "#9D6735", alpha: 0.6)
+        case .dark:
+            return UIColor(hex: "#A0632B")
+        }
+    }
+    
     var labelColor: UIColor {
         switch self {
         case .anycase:
@@ -415,6 +455,28 @@ enum Theme: Int {
             return UIColor(hex: "#9BA50E")
         case .dark:
             return UIColor(hex: "#00FFB2")
+        }
+    }
+    
+    var alarmButtonBorder: UIColor {
+        switch self {
+        case .anycase:
+            return .clear
+        case .lignt:
+            return .clear
+        case .dark:
+            return UIColor(hex: "#47675E")
+        }
+    }
+    
+    var alarmBackgroundBorder: UIColor {
+        switch self {
+        case .anycase:
+            return UIColor(hex: "#9A8787")
+        case .lignt:
+            return UIColor(hex: "#9A8787")
+        case .dark:
+            return Color.BaseColorWtihDark.backgorund
         }
     }
 }

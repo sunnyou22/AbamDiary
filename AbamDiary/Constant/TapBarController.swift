@@ -53,7 +53,6 @@ final class TapBarController: UITabBarController {
     }
     
     private func setAppearance() {
-        
         let appearance = UITabBarAppearance()
 //        appearance.backgroundColor = Color.BaseColorWtihDark.backgorund
         appearance.stackedLayoutAppearance.normal.iconColor = UIColor(hex: "#704F3E", alpha: 0.4)
