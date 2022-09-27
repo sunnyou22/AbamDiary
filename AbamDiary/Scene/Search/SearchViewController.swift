@@ -86,6 +86,10 @@ class SearchViewController: BaseViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         let navigationtitleView = navigationTitleVIew()
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navigationtitleView)
+        
+        let barAppearance = UINavigationBarAppearance()
+        barAppearance.backgroundColor = Color.BaseColorWtihDark.backgorund
+        navigationItem.scrollEdgeAppearance = barAppearance
     }
 }
 
@@ -120,7 +124,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             
         } else if section == 1 {
             return nightFilteredArr.count
-            }
+        }
         return 0
     }
     
@@ -143,177 +147,123 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         
         if self.isFiltering {
             
-        if indexPath.section == 0 {
+            let item = indexPath.section == 0 ? morningFilteredArr[indexPath.row] : nightFilteredArr[indexPath.row]
             
-            let Mitem = morningFilteredArr[indexPath.row]
+            cell.diaryLabel.text = item.contents
+            cell.dateLabel.text = CustomFormatter.setTime(date: item.createdDate)
             
-            cell.diaryLabel.text = Mitem.contents
-            cell.dateLabel.text = CustomFormatter.setTime(date: Mitem.createdDate)
+            cell.setMornigAndNightConfig(index: indexPath.section)
             
-            cell.setMornigAndNightConfig(index: 0)
-            
-              let attributedString = NSMutableAttributedString(string: cell.diaryLabel.text ?? "test")
-                attributedString.addAttribute(.foregroundColor, value: UIColor.orange, range: (cell.diaryLabel.text! as NSString).range(of: "\(text)"))
-                cell.diaryLabel.attributedText = attributedString
-            
-            
-        } else if indexPath.section == 1 {
-            let Nitem = nightFilteredArr[indexPath.row]
-           
-            cell.diaryLabel.text = Nitem.contents
-            cell.dateLabel.text = CustomFormatter.setTime(date: Nitem.createdDate)
-            
-            cell.setMornigAndNightConfig(index: 1)
-              let attributedString = NSMutableAttributedString(string: cell.diaryLabel.text ?? "test")
-                attributedString.addAttribute(.foregroundColor, value: UIColor.orange, range: (cell.diaryLabel.text! as NSString).range(of: "\(text)"))
-                cell.diaryLabel.attributedText = attributedString
-            }
+            let attributedString = NSMutableAttributedString(string: cell.diaryLabel.text ?? "test")
+            attributedString.addAttribute(.foregroundColor, value: UIColor.orange, range: (cell.diaryLabel.text! as NSString).range(of: "\(text)"))
+            cell.diaryLabel.attributedText = attributedString
+            cell.heightAnchor.constraint(equalToConstant: 20)
+            cell.backgroundColor = .clear
+            cell.selectionStyle = .none
         }
-        cell.backgroundColor = .clear
-               cell.selectionStyle = .none
         return cell
-//
-//
-//        guard let filteredArr = filteredArr else {
-//            print("====> filteredArr이 nil 입니다", #function)
-//            return UITableViewCell()
-//        }
-//        print(filteredArr)
-//        if self.isFiltering {
-//
-//           if indexPath.section == 0 {
-//               let item = filteredArr.filter { return $0.type == 0 }
-//               print(item, "=====================indexPath.section == 0")
-//                cell.diaryLabel.text = item[indexPath.row].contents
-//                cell.dateLabel.text = CustomFormatter.setTime(date: item[indexPath.row].createdDate)
-//
-//           }
-//
-//            if indexPath.section == 1 {
-//
-//               let item = filteredArr.filter { return $0.type == 1 }
-//               print(item, "=====================indexPath.section == 1")
-//               cell.diaryLabel.text = item[indexPath.row].contents
-//               cell.dateLabel.text = CustomFormatter.setTime(date: item[indexPath.row].createdDate)
-//
-//           }
-//
-//            guard let text = searchController.searchBar.text else { return UITableViewCell() }
-//            cell.setMornigAndNightConfig(index: indexPath.section)
-//                let attributedString = NSMutableAttributedString(string: cell.diaryLabel.text ?? "test")
-//                attributedString.addAttribute(.foregroundColor, value: UIColor.orange, range: (cell.diaryLabel.text! as NSString).range(of: "\(text)"))
-//                cell.diaryLabel.attributedText = attributedString
-//            }
-//
-//        cell.backgroundColor = .clear
-//        cell.selectionStyle = .none
-//        return cell
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-    }
-    
-    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
-        
-        guard let morningFilteredArr = self.morningFilteredArr else {
-            print("====> 아침filteredArr이 nil 입니다", #function)
-            return nil
-        }
-        
-        guard let nightFilteredArr = self.nightFilteredArr else {
-            print("====> 밤 filteredArr이 nil 입니다", #function)
-            return nil
-        }
-        
-        let currentDiaryDelete = UIAction(title: "해당 일기 삭제") { [weak self] _ in
+        func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
             
-            guard let self = self else { return }
-           
-            if indexPath.section == 0 {
-                let Mitem = morningFilteredArr[indexPath.row]
-                OneDayDiaryRepository.shared.deleteRecord(item: Mitem)
-            } else if indexPath.section == 1 {
-                let Nitem = nightFilteredArr[indexPath.row]
-                OneDayDiaryRepository.shared.deleteRecord(item: Nitem)
+            guard let morningFilteredArr = self.morningFilteredArr else {
+                print("====> 아침filteredArr이 nil 입니다", #function)
+                return nil
             }
-           
-            self.searchView.tableView.reloadData()
-        }
-        
-        let currdntDiaryModifing = UIAction(title: "수정") { [weak self] _ in
-           
-            guard let self = self else { return }
-           
-            if indexPath.section == 0 {
-                let Mitem = morningFilteredArr[indexPath.row]
-                self.setWritModeAndTransition(.modified, diaryType: .morning, task: Mitem)
-            } else if indexPath.section == 1 {
-                let Nitem = nightFilteredArr[indexPath.row]
-                self.setWritModeAndTransition(.modified, diaryType: .morning, task: Nitem)
-            }
-           
-            self.searchView.tableView.reloadData()
-        }
-        
-        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
-            UIMenu(title: "", children: [currdntDiaryModifing, currentDiaryDelete])
-        }
-    }
-    
-    func setWritModeAndTransition(_ mode: WriteMode, diaryType: MorningAndNight, task: Diary?) {
-        let vc = WriteViewController(diarytype: diaryType, writeMode: mode)
-        vc.data = task
-        //        vc.fetch = fetchRealm
-        //        vc.selectedDate = mainview.calendar.selectedDate ?? Date()
-        //task nil 로 분기해보기
-        
-        switch mode {
             
-        case .newDiary:
-            print("====>🚀 작성화면으로 가기")
-            transition(vc, transitionStyle: .push)
-            switch diaryType {
-            case .morning:
-                vc.writeView.setWriteVCPlaceholder(type: .morning)
-            case .night:
-                vc.writeView.setWriteVCPlaceholder(type: .night)
+            guard let nightFilteredArr = self.nightFilteredArr else {
+                print("====> 밤 filteredArr이 nil 입니다", #function)
+                return nil
+            }
+            
+            let currentDiaryDelete = UIAction(title: "해당 일기 삭제") { [weak self] _ in
+                
+                guard let self = self else { return }
+                
+                if indexPath.section == 0 {
+                    let Mitem = morningFilteredArr[indexPath.row]
+                    OneDayDiaryRepository.shared.deleteRecord(item: Mitem)
+                } else if indexPath.section == 1 {
+                    let Nitem = nightFilteredArr[indexPath.row]
+                    OneDayDiaryRepository.shared.deleteRecord(item: Nitem)
+                }
+                
+                self.searchView.tableView.reloadData()
+            }
+            
+            let currdntDiaryModifing = UIAction(title: "수정") { [weak self] _ in
+                
+                guard let self = self else { return }
+                
+                if indexPath.section == 0 {
+                    let Mitem = morningFilteredArr[indexPath.row]
+                    self.setWritModeAndTransition(.modified, diaryType: .morning, task: Mitem)
+                } else if indexPath.section == 1 {
+                    let Nitem = nightFilteredArr[indexPath.row]
+                    self.setWritModeAndTransition(.modified, diaryType: .morning, task: Nitem)
+                }
+                
+                self.searchView.tableView.reloadData()
+            }
+            
+            return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+                UIMenu(title: "", children: [currdntDiaryModifing, currentDiaryDelete])
+            }
+        }
+    
+        func setWritModeAndTransition(_ mode: WriteMode, diaryType: MorningAndNight, task: Diary?) {
+            let vc = WriteViewController(diarytype: diaryType, writeMode: mode)
+            vc.data = task
+            //        vc.fetch = fetchRealm
+            //        vc.selectedDate = mainview.calendar.selectedDate ?? Date()
+            //task nil 로 분기해보기
+            
+            switch mode {
+                
+            case .newDiary:
+                print("====>🚀 작성화면으로 가기")
+                transition(vc, transitionStyle: .push)
+                switch diaryType {
+                case .morning:
+                    vc.writeView.setWriteVCPlaceholder(type: .morning)
+                case .night:
+                    vc.writeView.setWriteVCPlaceholder(type: .night)
+                    
+                }
+            case .modified:
+                print("====>🚀 수정화면으로 가기")
+                transition(vc, transitionStyle: .push)
                 
             }
-        case .modified:
-            print("====>🚀 수정화면으로 가기")
-            transition(vc, transitionStyle: .push)
-            
         }
-    }
-}
-
-extension SearchViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        
-        guard let text = searchController.searchBar.text else { return }
-        fetch()
-        guard let items = tasks else {
-            print("===========>task를 받아올 수 없습니다")
-            print(text)
-            return
-        }
-        
-        self.morningFilteredArr = items.where { $0.contents.contains("\(text)") && ($0.type == 0) }
-        print(morningFilteredArr, "morningFilteredArr")
-        self.nightFilteredArr = items.where { $0.contents.contains("\(text)") && ($0.type == 1) }
-        print(nightFilteredArr, "nightFilteredArr")
-        searchView.tableView.reloadData()
-    }
-}
-
-extension SearchViewController: UISearchBarDelegate {
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchView.tableView.reloadData()
-        dismiss(animated: true)
     }
     
-    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        true
+    extension SearchViewController: UISearchResultsUpdating {
+        func updateSearchResults(for searchController: UISearchController) {
+            
+            guard let text = searchController.searchBar.text else { return }
+            fetch()
+            guard let items = tasks else {
+                print("===========>task를 받아올 수 없습니다")
+                print(text)
+                return
+            }
+            
+            self.morningFilteredArr = items.where { $0.contents.contains(text) && ($0.type == 0) }
+            print(morningFilteredArr, "morningFilteredArr")
+            self.nightFilteredArr = items.where { $0.contents.contains(text) && ($0.type == 1) }
+            print(nightFilteredArr, "nightFilteredArr")
+            searchView.tableView.reloadData()
+        }
     }
-}
+    
+    extension SearchViewController: UISearchBarDelegate {
+        func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+            searchView.tableView.reloadData()
+            dismiss(animated: true)
+        }
+        
+        func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+            true
+        }
+    }

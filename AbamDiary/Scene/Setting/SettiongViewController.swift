@@ -259,7 +259,7 @@ extension SettiongViewController {
             date.hour = Marray[0]
             date.minute = Marray[1]
             
-            SettiongViewController.sendNotification(subTitle: "아침일기를 쓰러가볼까요?", date: date)
+            SettiongViewController.sendNotification(subTitle: "아침일기를 쓰러가볼까요?", date: date, type: MorningAndNight.morning.rawValue)
             print("아침일기 알람 설정 📍")
             
         }
@@ -309,7 +309,7 @@ extension SettiongViewController {
             date.hour = Narray[0]
             date.minute = Narray[1]
             
-            SettiongViewController.sendNotification(subTitle: "밤일기를 쓰러가볼까요?", date: date)
+            SettiongViewController.sendNotification(subTitle: "밤일기를 쓰러가볼까요?", date: date, type: MorningAndNight.night.rawValue)
             print("밤일기 알람 설정 📍")
         }
         //MARK: cancel버튼

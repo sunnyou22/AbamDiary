@@ -62,7 +62,7 @@ final class TapBarController: UITabBarController {
         
 //        tabBar.standardAppearance = appearance //이게 움직
 //        tabBar.standardAppearance.stackedLayoutAppearance.normal.iconColor = .black
-        tabBar.tintColor = UIColor(hex: "#885A43")
+        tabBar.tintColor = Color.BaseColorWtihDark.tapBarTint
 //        tabBar.
         
     }

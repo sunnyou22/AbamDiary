@@ -48,6 +48,7 @@ class SearchTableViewCell: BaseTableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.backgroundColor = .clear
     }
     
     required init?(coder: NSCoder) {
@@ -68,8 +69,7 @@ class SearchTableViewCell: BaseTableViewCell {
     override func setConstraints() {
 
         baseView.snp.makeConstraints { make in
-            make.top.equalTo(contentView.snp.top).offset(0)
-            make.bottom.equalTo(contentView.snp.bottom)
+            make.verticalEdges.equalTo(contentView.snp.verticalEdges)
             make.horizontalEdges.equalTo(contentView.snp.horizontalEdges)
         }
         

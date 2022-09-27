@@ -61,6 +61,10 @@ struct Color {
             systemcolorChange(traitCollection: $0).calendarTitle
         }
         
+        static let labelColor = UIColor {
+            systemcolorChange(traitCollection: $0).labelColor
+        }
+        
         static private func systemcolorChange(traitCollection: UITraitCollection) -> Theme {
             guard let theme = Theme(rawValue: traitCollection.userInterfaceStyle.rawValue) else { return .anycase}
             
@@ -136,21 +140,21 @@ enum Theme: Int {
             case .morning:
                 return UIColor(hex: "#2B2A25")
             case .night:
-                return UIColor(hex: "#B3B3BC")
+                return UIColor(hex: "#D6D6FD")
             }
         case .lignt:
             switch type {
             case .morning:
                 return UIColor(hex: "#2B2A25")
             case .night:
-                return UIColor(hex: "#B3B3BC")
+                return UIColor(hex: "#D6D6FD")
             }
         case .dark:
             switch type {
             case .morning:
                 return UIColor(hex: "#E9E9E5")
             case .night:
-                return UIColor(hex: "#CFCFE4")
+                return UIColor(hex: "#FFFFFF")
             }
         }
     }
@@ -161,14 +165,14 @@ enum Theme: Int {
         case .anycase:
             switch type {
             case .morning:
-                return UIColor(hex: "#D4D0C5")
+                return UIColor(hex: "#B5AD97")
             case .night:
                 return UIColor(hex: "#B3B3BC")
             }
         case .lignt:
             switch type {
             case .morning:
-                return UIColor(hex: "#D4D0C5")
+                return UIColor(hex: "#B5AD97")
             case .night:
                 return UIColor(hex: "#B3B3BC")
             }
@@ -275,9 +279,9 @@ enum Theme: Int {
     var tapBarTint: UIColor {
         switch self {
         case .anycase:
-            return UIColor(hex: "#3E6435")
+            return UIColor(hex: "#885A43")
         case .lignt:
-            return UIColor(hex: "#3E6435")
+            return UIColor(hex: "#885A43")
         case .dark:
             return UIColor(hex: "#67D8B6")
         }
@@ -312,11 +316,11 @@ enum Theme: Int {
     var progressBarPoint: UIColor {
         switch self {
         case .anycase:
-            return UIColor(hex: "#FCDB85")
-        case .lignt:
-            return UIColor(hex: "#FCDB85")
-        case .dark:
             return UIColor(hex: "#FACB51")
+        case .lignt:
+            return UIColor(hex: "#FACB51")
+        case .dark:
+            return UIColor(hex: "#FF6767")
         }
     }
     
@@ -384,6 +388,17 @@ enum Theme: Int {
             return UIColor(hex: "#5F4A37")
         case .dark:
             return UIColor(hex: "#FFFFFF")
+        }
+    }
+    
+    var labelColor: UIColor {
+        switch self {
+        case .anycase:
+            return UIColor(hex: "#52402B")
+        case .lignt:
+            return UIColor(hex: "#52402B")
+        case .dark:
+            return UIColor(hex: "#D3D3D3")
         }
     }
 }

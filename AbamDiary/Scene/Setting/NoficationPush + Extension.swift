@@ -43,7 +43,7 @@ extension SettiongViewController {
             date.minute = 0
             print("아침 데이트 컴포넌트 timeNoti", date)
             //            UserDefaults.standard.set([9, 0], forKey: "Mdate")
-            SettiongViewController.sendNotification(subTitle: "아침일기를 쓰러가볼까요?", date: date)
+            SettiongViewController.sendNotification(subTitle: "아침일기를 쓰러가볼까요?", date: date, type: MorningAndNight.morning.rawValue)
             print("아침일기 알람 설정 📍")
             return
         }
@@ -56,13 +56,13 @@ extension SettiongViewController {
             date.hour = 22
             date.minute = 0
             print("밤 데이트 컴포넌트 timeNoti", date)
-            SettiongViewController.sendNotification(subTitle: "밤 일기를 쓰러가볼까요?", date: date)
+            SettiongViewController.sendNotification(subTitle: "밤 일기를 쓰러가볼까요?", date: date, type: MorningAndNight.night.rawValue)
             print("밤일기 알람 설정 📍")
             return
         }
     }
     
-    static func sendNotification(subTitle: String, date: DateComponents) -> Void {
+    static func sendNotification(subTitle: String, date: DateComponents, type: Int) -> Void {
         //노티푸시 구성하기
         let notificationContent = UNMutableNotificationContent()
         notificationContent.sound = .default
@@ -71,7 +71,7 @@ extension SettiongViewController {
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
         
-        let request = UNNotificationRequest(identifier: "\(Date())", content: notificationContent, trigger: trigger)
+        let request = UNNotificationRequest(identifier: "\(type)", content: notificationContent, trigger: trigger)
         
         SettiongViewController.notificationCenter.add(request)
     }

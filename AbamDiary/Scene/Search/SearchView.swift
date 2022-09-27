@@ -15,11 +15,13 @@ class SearchView: BaseView {
         let view = UITableView(frame: .zero, style: .plain)
         view.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.reuseIdentifier)
         view.separatorStyle = .none
+        view.backgroundColor = Color.BaseColorWtihDark.backgorund
         return view
     }()
     
     override func configuration() {
         self.addSubview(tableView)
+        self.backgroundColor = Color.BaseColorWtihDark.backgorund
     }
  
     override func setConstraints() {

@@ -167,9 +167,10 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         diaryList = [moningTask, nightTask]
         
         //배열의 옵셔널 풀어주기
-        guard var diaryList = diaryList else {
+        guard let diaryList = diaryList else {
             cell.diaryLabel.text = placeholder[indexPath.row]
             cell.dateLabel.text = "--:--"
+            
             cell.setMornigAndNightConfig(index: indexPath.row)
             cell.backgroundColor = .clear
             cell.selectionStyle = .none
@@ -183,6 +184,7 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         cell.diaryLabel.text = diaryList[indexPath.row]?.contents ?? placeholder[indexPath.row]
         guard let time = diaryList[indexPath.row]?.createdDate else {
             cell.dateLabel.text = "--:--"
+            cell.dateLabel.textColor = Color.BaseColorWtihDark.setDiaryInCellPlacholder(type: .allCases[indexPath.row])
             cell.setMornigAndNightConfig(index: indexPath.row)
             cell.backgroundColor = .clear
             cell.selectionStyle = .none

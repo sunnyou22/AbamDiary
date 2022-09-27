@@ -38,13 +38,14 @@ class WriteView: BaseView {
 //        view.backgroundColor = .brown
         view.font = UIFont.systemFont(ofSize: FontSize.subTitle_16, weight: .light)
         view.isScrollEnabled = true
-        view.textColor = UIColor(hex: "#4B4335")
+        view.textColor = Color.BaseColorWtihDark.labelColor
         return view
     }()
     
     override func configuration() {
         self.backgroundColor = Color.BaseColorWtihDark.backgorund
         [dateLabel, sectionBar, textView, bottomSectionBar].forEach { self.addSubview($0) }
+        textView.backgroundColor = .clear
     }
     
     override func setConstraints() {

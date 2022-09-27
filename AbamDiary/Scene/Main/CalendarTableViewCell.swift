@@ -94,10 +94,17 @@ class CalendarTableViewCell: BaseTableViewCell {
     
 //    MARK: cellForRowAt에 적용시키기
     func setMornigAndNightConfig(index: Int) {
+        let placeholder = ["오늘 아침! 당신의 한줄은 무엇인가요?", "오늘 밤! 당신의 한줄은 무엇인가요?"]
+        
+        if diaryLabel.text == placeholder[index] {
+            diaryLabel.textColor = Color.BaseColorWtihDark.setDiaryInCellPlacholder(type: .allCases[index])
+            dateLabel.textColor = Color.BaseColorWtihDark.setDiaryInCellPlacholder(type: .allCases[index])
+        } else {
+            diaryLabel.textColor = Color.BaseColorWtihDark.setDiaryInCell(type: .allCases[index])
+            dateLabel.textColor = Color.BaseColorWtihDark.setDiaryInCell(type: .allCases[index])
+        }
         
         baseView.backgroundColor = Color.BaseColorWtihDark.setCellBackgroundColor(type: .allCases[index])
-        diaryLabel.textColor = Color.BaseColorWtihDark.setDiaryInCell(type: .allCases[index])
-        dateLabel.textColor = Color.BaseColorWtihDark.setDiaryInCell(type: .allCases[index])
         MorningAndNight.allCases[index].setsymbolImage(systemImageView)
         systemImageView.tintColor = Color.BaseColorWtihDark.setSymbolInCell(type: .allCases[index])
     }
