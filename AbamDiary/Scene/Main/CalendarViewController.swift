@@ -89,6 +89,7 @@ class CalendarViewController: BaseViewController {
         }
         
         //화면이 로드될 때도 호출되야하기 때문에 여기서만 걸어주기
+
         setProgressRetio()
         animationUIImage()
     }

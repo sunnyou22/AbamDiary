@@ -10,8 +10,7 @@ import RealmSwift
 fileprivate protocol OnedayDiaryRepositoryType {
     func fetchLatestOrder() -> Results<Diary> // 기본정렬값
     func fetchOlderOrder() -> Results<Diary>
-    func fetchSearchMoriningFilter(text: String) -> Results<Diary>
-    func fetchSearchNightFilter(text: String) -> Results<Diary>
+    func fetchSearchFilter(text: String?, type: Int) -> Results<Diary>?
     func fetchSearchDateFilter(text: String) -> Results<Diary>
     func fetchDate(date: Date, type: Int) -> Results<Diary>
     func deleteRecord(item: Diary)
@@ -35,12 +34,15 @@ class OneDayDiaryRepository: OnedayDiaryRepositoryType {
         return localRealm.objects(Diary.self).sorted(byKeyPath: "createdDate", ascending: true)
     }
     
-    func fetchSearchMoriningFilter(text: String) -> Results<Diary> {
-        return localRealm.objects(Diary.self).filter("mornimgDiary CONTAINS[c] '\(text)")
-    }
-    
-    func fetchSearchNightFilter(text: String) -> Results<Diary> {
-        return localRealm.objects(Diary.self).filter("nightDiary CONTAINS[c] '\(text)")
+    func fetchSearchFilter(text: String?, type: Int) -> Results<Diary>? {
+        guard let text = text else {
+            return nil
+        }
+        let items = localRealm.objects(Diary.self)
+           let item2 = items.filter("contents CONTAINS[c] '\(text)")
+        let result = items.filter("type == %@", type)
+        
+        return result
     }
     
     func fetchSearchDateFilter(text: String) -> Results<Diary> {
