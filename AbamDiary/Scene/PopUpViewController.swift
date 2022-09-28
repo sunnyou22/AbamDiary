@@ -115,10 +115,10 @@ class PopUpViewController: BaseViewController {
         }
       
         profileBackView.snp.makeConstraints { make in
-            make.bottom.equalTo(profileimageView.snp.bottom).offset(-4)
+            make.bottom.equalTo(profileimageView.snp.bottom)
             make.trailing.equalTo(profileimageView.snp.trailing).offset(8)
-            make.width.equalTo(profileimageView.snp.width)
-            make.height.equalTo(profileimageView.snp.height)
+            make.width.equalTo(profileimageView.snp.width).multipliedBy(1.1)
+            make.height.equalTo(profileimageView.snp.height).multipliedBy(1.1)
         }
     }
     

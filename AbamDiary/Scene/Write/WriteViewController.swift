@@ -82,10 +82,18 @@ class WriteViewController: BaseViewController {
         writeView.dateLabel.text = CustomFormatter.setWritedate(date: data?.createdDate ?? Date())
     }
     
+    
+    
     //MARK: - viewWillDisappear
     override func viewWillDisappear(_ animated: Bool) {
-       
-        // 아침 저녁 상관 없음
+        print(#function, "=================================================")
+    }
+    
+    //MARK: - viewDidDisappear
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        print(#function, "=================================================")
+
         let task = Diary(type: diarytype.rawValue, contents: writeView.textView.text, selecteddate: selectedDate ?? Date(), createdDate: Date())
         print("diarytype.rawValue==========일기타입")
         //초기화면
@@ -111,12 +119,7 @@ class WriteViewController: BaseViewController {
                     writeDiary(mode: .modified, task: data!)
                 }
         }
-    }
-    
-    //MARK: - viewDidDisappear
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-//                fetch!()
+        fetch!()
         removeKeyboardNotifications()
     }
     
