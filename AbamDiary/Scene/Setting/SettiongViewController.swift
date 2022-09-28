@@ -6,14 +6,15 @@
 //  Created by 방선우 on 2022/09/11.
 //
 
+import MessageUI
 import UIKit
+import PhotosUI
 
 import Toast
 import SnapKit
 import UserNotifications
 import RealmSwift
 import Zip
-import PhotosUI
 import AcknowList
 
 class SettiongViewController: BaseViewController {
@@ -153,19 +154,19 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
                 let alert = UIAlertController(title: "알림", message: "정말 모든 데이터를 삭제하시겠습니까?", preferredStyle: .alert)
                 let ok = UIAlertAction(title: "네", style: .destructive) {_ in
                     OneDayDiaryRepository.shared.deleteTasks(tasks: self.tasks)
-                   
+                    
                     self.settingView.makeToast("삭제완료", duration: 0.7, position: .center) { didTap in
                         
                         self.tabBarController?.selectedIndex = 0
                     }
                 }
-            
+                
                 let cancel = UIAlertAction(title: "아니오", style: .cancel)
                 
                 alert.addAction(ok)
                 alert.addAction(cancel)
                 
-                    self.present(alert, animated: true)
+                self.present(alert, animated: true)
             }
         } else if indexPath.section == 3 {
             if indexPath.row == 0 {
@@ -174,24 +175,22 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
                 let vc = AcknowListViewController()
                 vc.acknowledgements = acknowList.acknowledgements
                 transition(vc, transitionStyle: .push)
-            } indexPath.row == 0 {
-                
+            } else if indexPath.row == 1 {
+                     sendMail()
+            } else if indexPath.row == 2 {
+                moveToWriteReview()
+                    }
+            }
         }
-    }
+  
+    func moveToWriteReview() {
+        
+        if let reviewURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\(1645004739)?ls=1&mt=8&action=write-review"), UIApplication.shared.canOpenURL(reviewURL) {
+            UIApplication.shared.open(reviewURL, options: [:], completionHandler: nil)
+        }
     
-  func moveToWriteReview() {
-          if let appstoreUrl = URL(string: "https://apps.apple.com/app/id{1645004739}") {
-              var urlComp = URLComponents(url: appstoreUrl, resolvingAgainstBaseURL: false)
-              urlComp?.queryItems = [
-                  URLQueryItem(name: "action", value: "write-review")
-              ]
-              guard let reviewUrl = urlComp?.url else {
-                  return
-              }
-              UIApplication.shared.open(reviewUrl, options: [:], completionHandler: nil)
-          }
-      }
-        }
+    }
+        
     
     //MARK: - 메서드
     func setButtonConfig(_ sender: UIButton) {
@@ -526,5 +525,37 @@ extension SettiongViewController: UIDocumentPickerDelegate {
                 print("🔴 압축 해제 실패")
             }
         }
+    }
+}
+
+
+extension SettiongViewController: MFMailComposeViewControllerDelegate {
+    func sendMail() {
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.setToRecipients(["sunnyouyaya22@gmail.com"])
+            mail.setSubject("아밤일기 문의 -")
+            mail.mailComposeDelegate = self
+            self.present(mail, animated: true)
+        } else {
+            let alert = UIAlertController(title: "문의", message: "메일 등록 혹은\nsunnyouyaya22@gmail.com로\n문의해주세요!", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "네", style: .default)
+            alert.addAction(ok)
+            present(alert, animated: true)
+        }
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        switch result {
+        case .cancelled:
+            settingView.makeToast("메일 전송을 취소했습니다!", position: .center)
+        case .saved:
+            settingView.makeToast("메일 전송을 임시 저장했습니다!", position: .center)
+        case .sent:
+            settingView.makeToast("메일을 전송했습니다!", position: .center)
+        case .failed:
+            settingView.makeToast("메일 전송을 실패했습니다!", position: .center)
+        }
+        controller.dismiss(animated: true)
     }
 }

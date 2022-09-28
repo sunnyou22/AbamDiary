@@ -43,10 +43,7 @@ final class TapBarController: UITabBarController {
                 items[i].title = TabBarImage.allCases[i].tapBarSubTitle
                 
             }
-            navMainVC.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
-            navSearchVC.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
-            navCheerupVC.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
-            navSettingVC.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
+         
         }
     }
     

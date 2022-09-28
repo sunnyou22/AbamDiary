@@ -46,8 +46,9 @@ class CalendarViewController: BaseViewController {
     //MARK: - viewDidload
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navigationItem.leftBarButtonItems = nil
+//        self.view.window?.rootViewController = TapBarController()
+//        self.navigationController?
+//        navigationItem.leftBarButtonItems = nil
         // 네비게이션 나중에 함수로 빼기
         let navigationtitleView = navigationTitleVIew()
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navigationtitleView)
@@ -245,13 +246,7 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         case .newDiary:
             print("====>🚀 작성화면으로 가기")
             transition(vc, transitionStyle: .push)
-            //            switch diaryType {
-            //            case .morning:
-            //                vc.writeView.setWriteVCPlaceholder(type: .morning)
-            //            case .night:
-            //                vc.writeView.setWriteVCPlaceholder(type: .night)
-            //
-            //            }
+          
         case .modified:
             print("====>🚀 수정화면으로 가기")
             transition(vc, transitionStyle: .push)

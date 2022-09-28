@@ -10,20 +10,22 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
-    
+  let tapbarController = TapBarController()
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-//
+       
 //        guard let scene = (scene as? UIWindowScene) else { return }
 //        window = UIWindow(windowScene: scene)
 //
         //MARK: 탭바
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            window.rootViewController = TapBarController()
+            window.rootViewController = tapbarController
             self.window = window
             window.makeKeyAndVisible()
         }
+        
+     
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {

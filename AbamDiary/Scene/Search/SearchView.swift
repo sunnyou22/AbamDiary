@@ -14,7 +14,8 @@ class SearchView: BaseView {
     let tableView: UITableView = {
         let view = UITableView(frame: .zero, style: .plain)
         view.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.reuseIdentifier)
-        view.separatorStyle = .none
+        view.separatorStyle = .singleLine
+        view.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         view.backgroundColor = Color.BaseColorWtihDark.backgorund
         return view
     }()

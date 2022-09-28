@@ -22,10 +22,10 @@ class SearchTableViewCell: BaseTableViewCell {
     let baseView: UIView = {
         let view = UIView()
         view.clipsToBounds = true
-        DispatchQueue.main.async {
-            view.layer.cornerRadius = view.frame.height / 6
-        }
-    
+//        DispatchQueue.main.async {
+//            view.layer.cornerRadius = view.frame.height / 6
+//        }
+//
         return view
     }()
     
