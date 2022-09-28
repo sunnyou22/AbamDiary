@@ -54,6 +54,13 @@ class PopUpViewController: BaseViewController {
         return view
     }()
     
+    let profileBackView: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: "popImage")
+       
+         return view
+     }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black.withAlphaComponent(0.4)
@@ -73,7 +80,7 @@ class PopUpViewController: BaseViewController {
     }
     
     override func configuration() {
-        [morningDiaryCount, nightDiaryCount, resultLabel, profileimageView].forEach { popView.addSubview($0) }
+        [morningDiaryCount, nightDiaryCount, resultLabel, profileBackView, profileimageView].forEach { popView.addSubview($0) }
         view.addSubview(popView)
     }
     
@@ -106,7 +113,13 @@ class PopUpViewController: BaseViewController {
             make.width.equalTo(60)
             make.height.equalTo(60)
         }
-        print("제약조건", profileimageView.frame.size.width)
+      
+        profileBackView.snp.makeConstraints { make in
+            make.bottom.equalTo(profileimageView.snp.bottom).offset(-4)
+            make.trailing.equalTo(profileimageView.snp.trailing).offset(8)
+            make.width.equalTo(profileimageView.snp.width)
+            make.height.equalTo(profileimageView.snp.height)
+        }
     }
     
     //MARK: - 메서드
@@ -134,7 +147,7 @@ class PopUpViewController: BaseViewController {
        
         let attributeString = NSMutableAttributedString(string: "당신은 \(result) 아밤이궁요!")
         view.font = UIFont.systemFont(ofSize: 18, weight: .heavy)
-        attributeString.addAttributes([.foregroundColor: UIColor.blue], range: NSRange(location: 4, length: 3))
+        attributeString.addAttributes([.foregroundColor: Color.BaseColorWtihDark.popupViewLabel], range: NSRange(location: 4, length: 3))
         view.attributedText = attributeString
     }
     

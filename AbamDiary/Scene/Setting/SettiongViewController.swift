@@ -555,6 +555,8 @@ extension SettiongViewController: MFMailComposeViewControllerDelegate {
             settingView.makeToast("메일을 전송했습니다!", position: .center)
         case .failed:
             settingView.makeToast("메일 전송을 실패했습니다!", position: .center)
+        @unknown default:
+            return
         }
         controller.dismiss(animated: true)
     }

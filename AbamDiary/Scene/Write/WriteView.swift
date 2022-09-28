@@ -35,7 +35,6 @@ class WriteView: BaseView {
     //플레이스 홀더
     let textView: UITextView = {
         let view = UITextView()
-//        view.backgroundColor = .brown
         view.font = UIFont.systemFont(ofSize: FontSize.subTitle_16, weight: .light)
         view.isScrollEnabled = true
         view.textColor = Color.BaseColorWtihDark.labelColor
@@ -55,7 +54,7 @@ class WriteView: BaseView {
         }
         
         sectionBar.snp.makeConstraints { make in
-            make.leading.equalTo(dateLabel.snp.trailing).offset(20)
+            make.leading.equalTo(dateLabel.snp.trailing).offset(24)
             make.trailing.equalTo(self.snp.trailing).offset(0)
             make.centerY.equalTo(dateLabel.snp.centerY)
             make.height.equalTo(1)

@@ -57,10 +57,8 @@ class WriteViewController: BaseViewController {
         
         self.navigationController?.navigationBar.tintColor = Color.BaseColorWtihDark.navigationBarItem
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: Color.BaseColorWtihDark.navigationBarItem]
-      
-        navigationItem.largeTitleDisplayMode = .never
         
-//네비게이션 타이틀
+
         guard data?.contents != nil else {
             switch diarytype {
             case .morning:
@@ -79,16 +77,9 @@ class WriteViewController: BaseViewController {
     //MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-     
-        setnavigation()
         //데이터 패치
         OneDayDiaryRepository.shared.fetchLatestOrder()
         writeView.dateLabel.text = CustomFormatter.setWritedate(date: data?.createdDate ?? Date())
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        setnavigation()
     }
     
     //MARK: - viewWillDisappear

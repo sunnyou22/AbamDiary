@@ -26,10 +26,12 @@ class CalendarViewController: BaseViewController {
     var tasks: Results<Diary>! {
         didSet {
             mainview.tableView.reloadData()
-            mainview.calendar.reloadData()
-            print("리로드♻️")
+            DispatchQueue.main.async {
+                self.mainview.calendar.reloadData()
+                print("리로드캘린더♻️")
+            }
             print("Realm is located at:", OneDayDiaryRepository.shared.localRealm.configuration.fileURL!)
-            
+            print("리로드캘린더♻️")
         }
     }
     
@@ -46,12 +48,6 @@ class CalendarViewController: BaseViewController {
     //MARK: - viewDidload
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.view.window?.rootViewController = TapBarController()
-//        self.navigationController?
-//        navigationItem.leftBarButtonItems = nil
-        // 네비게이션 나중에 함수로 빼기
-        let navigationtitleView = navigationTitleVIew()
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navigationtitleView)
         
         mainview.tableView.delegate = self
         mainview.tableView.dataSource = self
@@ -67,6 +63,15 @@ class CalendarViewController: BaseViewController {
             self.changeNightcount = count
         }
         
+        setNavigation()
+    }
+    
+    func setNavigation() {
+        self.navigationController?.navigationBar.prefersLargeTitles = false
+        let navigationtitleView = navigationTitleVIew()
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navigationtitleView)
+      
+    navigationItem.largeTitleDisplayMode = .never
     }
     
     //MARK: - viewWillAppear
@@ -243,10 +248,17 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         //task nil 로 분기해보기
         
         switch mode {
+            
         case .newDiary:
             print("====>🚀 작성화면으로 가기")
             transition(vc, transitionStyle: .push)
-          
+            switch diaryType {
+            case .morning:
+                vc.writeView.setWriteVCPlaceholder(type: .morning)
+            case .night:
+                vc.writeView.setWriteVCPlaceholder(type: .night)
+                
+            }
         case .modified:
             print("====>🚀 수정화면으로 가기")
             transition(vc, transitionStyle: .push)
@@ -373,7 +385,7 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
             
             switch calendarDay {
             case lastDate:
-                return .green
+                return Color.BaseColorWtihDark.popupViewLabel
             default:
                 return nil
             }
@@ -390,7 +402,7 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
             
             switch calendarDay {
             case lastDate:
-                return .green
+                return Color.BaseColorWtihDark.popupViewLabel
             default:
                 return appearance.selectionColor
             }
