@@ -10,17 +10,25 @@ import SnapKit
 
 class SettingView: BaseView {
     
+    let header: UIView = {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 180))
+        
+        view.backgroundColor = Color.BaseColorWtihDark.backgorund
+        
+        return view
+    }()
+    
     let profileimageView: UIImageView = {
-       let view = UIImageView()
+        let view = UIImageView()
         view.backgroundColor = Color.BaseColorWtihDark.setABAMBackground
         view.layer.borderColor = UIColor.systemGray5.cgColor
         view.layer.borderWidth = 3
         
         return view
     }()
- 
+    
     let changeButton: UIButton = {
-       let view = UIButton()
+        let view = UIButton()
         view.tintColor = .black
         view.setTitle("프로필 사진 바꾸기", for: .normal)
         view.titleLabel?.font = UIFont.systemFont(ofSize: FontSize.subTitle_16, weight: .regular)
@@ -33,15 +41,16 @@ class SettingView: BaseView {
     let tableView: UITableView = {
         let view = UITableView(frame: .zero, style: .insetGrouped)
         view.register(SettingDefaultTableViewCell.self, forCellReuseIdentifier: SettingDefaultTableViewCell.reuseIdentifier)
-
+        
         view.register(SettingAlarmTableViewCell.self, forCellReuseIdentifier: SettingAlarmTableViewCell.reuseIdentifier)
         
         view.register(SettingSwitchTableViewCell.self, forCellReuseIdentifier: SettingSwitchTableViewCell.reuseIdentifier)
-
+        
         view.isScrollEnabled = true
         view.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         view.separatorStyle = .singleLine
-//        view.backgroundColor = Color.BaseColorWtihDark.backgorund
+        //        view.backgroundColor = Color.BaseColorWtihDark.backgorund
+        
         return view
     }()
     
@@ -56,26 +65,35 @@ class SettingView: BaseView {
     }
     
     override func configuration() {
-        [profileimageView, changeButton, tableView].forEach { self.addSubview($0) }
+        
+        [profileimageView, changeButton].forEach { header.addSubview($0) }
+        
+        self.addSubview(tableView)
     }
     
     override func setConstraints() {
+
+//        header.snp.makeConstraints { make in
+//            make.height.equalTo(self.snp.width).multipliedBy(0.5)
+//            make.width.equalTo(self.snp.width)
+//        }
+//
         profileimageView.snp.makeConstraints { make in
-            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(40)
-            make.leading.equalTo(self.snp.leading).offset(20)
-            make.width.equalTo(self.snp.width).dividedBy(3)
+            make.centerY.equalTo(header.snp.centerY)
+            make.leading.equalTo(header.snp.leading).offset(20)
+            make.width.equalTo(header.snp.width).dividedBy(3.6)
             make.height.equalTo(profileimageView.snp.width)
         }
         
         changeButton.snp.makeConstraints { make in
-            make.top.equalTo(profileimageView.snp.bottom).offset(8)
+            make.top.equalTo(profileimageView.snp.bottom).offset(4)
             make.centerX.equalTo(profileimageView.snp.centerX)
         }
-//
+        //
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(changeButton.snp.bottom).offset(20)
+//            make.top.equalTo(changeButton.snp.bottom).offset(20)
             make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(0)
-            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom)
+            make.verticalEdges.equalTo(self.safeAreaLayoutGuide.snp.verticalEdges)
         }
     }
 }

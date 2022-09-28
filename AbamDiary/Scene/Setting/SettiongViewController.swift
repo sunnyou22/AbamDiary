@@ -39,7 +39,7 @@ class SettiongViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        settingView.tableView.tableHeaderView = settingView.header
         SettiongViewController.autorizationSwitchModel.isValid.bind { bool in
             self.autorizationStatus = bool
         }
@@ -50,7 +50,6 @@ class SettiongViewController: BaseViewController {
         
         let navigationtitleView = navigationTitleVIew()
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navigationtitleView)
-        
         settingView.tableView.delegate = self
         settingView.tableView.dataSource = self
         
@@ -74,6 +73,7 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return Setting.allCases[section].sectionTitle
     }
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return Setting.allCases[section].subTitle.count
