@@ -14,6 +14,7 @@ import UserNotifications
 import RealmSwift
 import Zip
 import PhotosUI
+import AcknowList
 
 class SettiongViewController: BaseViewController {
     
@@ -166,8 +167,31 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
                 
                     self.present(alert, animated: true)
             }
+        } else if indexPath.section == 3 {
+            if indexPath.row == 0 {
+                guard let url = Bundle.main.url(forResource: "Package", withExtension: "resolved"), let data = try? Data(contentsOf: url), let acknowList = try? AcknowPackageDecoder().decode(from: data) else { return }
+                
+                let vc = AcknowListViewController()
+                vc.acknowledgements = acknowList.acknowledgements
+                transition(vc, transitionStyle: .push)
+            } indexPath.row == 0 {
+                
         }
     }
+    
+  func moveToWriteReview() {
+          if let appstoreUrl = URL(string: "https://apps.apple.com/app/id{1645004739}") {
+              var urlComp = URLComponents(url: appstoreUrl, resolvingAgainstBaseURL: false)
+              urlComp?.queryItems = [
+                  URLQueryItem(name: "action", value: "write-review")
+              ]
+              guard let reviewUrl = urlComp?.url else {
+                  return
+              }
+              UIApplication.shared.open(reviewUrl, options: [:], completionHandler: nil)
+          }
+      }
+        }
     
     //MARK: - 메서드
     func setButtonConfig(_ sender: UIButton) {

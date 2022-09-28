@@ -16,7 +16,7 @@ final class TapBarController: UITabBarController {
  //        let monthVC = UINavigationController(rootViewController: MonthDiaryViewController())
     private let cheerupVC = CheerupViewController()
     private let settingVC = SettiongViewController()
-   
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,8 +48,6 @@ final class TapBarController: UITabBarController {
             navCheerupVC.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
             navSettingVC.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
         }
-        
-      
     }
     
     private func setAppearance() {

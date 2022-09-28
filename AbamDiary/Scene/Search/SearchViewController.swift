@@ -214,9 +214,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         func setWritModeAndTransition(_ mode: WriteMode, diaryType: MorningAndNight, task: Diary?) {
             let vc = WriteViewController(diarytype: diaryType, writeMode: mode)
             vc.data = task
-            //        vc.fetch = fetchRealm
-            //        vc.selectedDate = mainview.calendar.selectedDate ?? Date()
-            //task nil 로 분기해보기
             
             switch mode {
                 

@@ -47,6 +47,7 @@ class CalendarViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.leftBarButtonItems = nil
         // 네비게이션 나중에 함수로 빼기
         let navigationtitleView = navigationTitleVIew()
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navigationtitleView)
@@ -70,7 +71,7 @@ class CalendarViewController: BaseViewController {
     //MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+      
         mainview.profileImage.image = loadImageFromDocument(fileName: "profile.jpg")
         
         fetchRealm() // 램 패치
@@ -234,6 +235,7 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
     
     func setWritModeAndTransition(_ mode: WriteMode, diaryType: MorningAndNight, task: Diary?) {
         let vc = WriteViewController(diarytype: diaryType, writeMode: mode)
+       
         vc.data = task
         vc.fetch = fetchRealm
         vc.selectedDate = mainview.calendar.selectedDate ?? Date()
@@ -282,7 +284,6 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
             vc.modalPresentationStyle = .overCurrentContext
             present(vc, animated: true)
         }
-        
     }
     
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {

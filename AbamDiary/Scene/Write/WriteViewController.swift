@@ -40,12 +40,21 @@ class WriteViewController: BaseViewController {
     }
     
     override func viewDidLoad() {
+   
         super.viewDidLoad()
+        self.writeView.textView.delegate = self
+        setnavigation()
+    }
+    
+    
+    func setnavigation() {
+    
         let saveButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(save))
         let cancel = UIBarButtonItem(title: "삭제", style: .plain, target: self, action: #selector(deleteDiary))
         let fixspacing = UIBarButtonItem.fixedSpace(20)
         navigationItem.rightBarButtonItems = [saveButton, fixspacing, cancel]
         addKeyboardNotifications()
+        
         self.navigationController?.navigationBar.tintColor = Color.BaseColorWtihDark.navigationBarItem
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: Color.BaseColorWtihDark.navigationBarItem]
       
@@ -66,20 +75,21 @@ class WriteViewController: BaseViewController {
         }
         navigationItem.title = "수정"
         writeView.textView.text = data?.contents
-
     }
-    
     //MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.writeView.textView.delegate = self
-        
+     
+        setnavigation()
         //데이터 패치
         OneDayDiaryRepository.shared.fetchLatestOrder()
-            writeView.dateLabel.text = CustomFormatter.setWritedate(date: data?.createdDate ?? Date())
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "아", style: .plain, target: self, action: nil)
-        }
+        writeView.dateLabel.text = CustomFormatter.setWritedate(date: data?.createdDate ?? Date())
+    }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setnavigation()
+    }
     
     //MARK: - viewWillDisappear
     override func viewWillDisappear(_ animated: Bool) {
