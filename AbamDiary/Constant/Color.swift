@@ -167,14 +167,14 @@ enum Theme: Int {
             case .morning:
                 return UIColor(hex: "#2B2A25")
             case .night:
-                return UIColor(hex: "#D6D6FD")
+                return UIColor(hex: "#D0D5E0")
             }
         case .lignt:
             switch type {
             case .morning:
                 return UIColor(hex: "#2B2A25")
             case .night:
-                return UIColor(hex: "#D6D6FD")
+                return UIColor(hex: "#D0D5E0")
             }
         case .dark:
             switch type {
