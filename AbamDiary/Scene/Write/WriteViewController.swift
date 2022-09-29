@@ -151,7 +151,7 @@ class WriteViewController: BaseViewController {
                 writeDiary(mode: .modified, task: data!)
             }
         }
-        fetch!()
+//        fetch!()
         writeView.makeToast("\n저장완료!", duration: 0.6, position: .center, title: nil, image: UIImage(named: "ABAM"))
         writeView.textView.resignFirstResponder()
     }
@@ -160,7 +160,7 @@ class WriteViewController: BaseViewController {
         fetch!()
         
         guard writeView.textView.text != writeView.setWriteVCPlaceholder(type: diarytype), !writeView.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            writeView.makeToast("삭제할 데이터가 없습니다!", position: .center)
+            writeView.makeToast("삭제할 데이터가 없습니다!", duration: 0.6, position: .center)
             writeView.textView.text = writeView.setWriteVCPlaceholder(type: diarytype)
             writeView.textView.resignFirstResponder()
             return
@@ -218,6 +218,7 @@ extension WriteViewController: UITextViewDelegate {
         }
     }
 }
+
 extension WriteViewController {
     //MARK: - 키보드 메서드
     

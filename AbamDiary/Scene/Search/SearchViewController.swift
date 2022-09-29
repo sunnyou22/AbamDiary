@@ -255,13 +255,14 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    extension SearchViewController: UISearchBarDelegate {
-        func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-            searchView.tableView.reloadData()
-            dismiss(animated: true)
-        }
+extension SearchViewController: UISearchBarDelegate {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         
-        func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-            true
-        }
+        searchView.tableView.reloadData()
+        dismiss(animated: true)
     }
+    
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        true
+    }
+}

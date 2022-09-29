@@ -32,7 +32,7 @@ enum Setting: Int, CaseIterable {
         case .reset:
             return ["모든일기 삭제하기"]
         case .other:
-            return ["오픈라이선스", "문의하기", "리뷰남기기"]
+            return ["오픈라이선스", "문의하기", "리뷰남기기", "버전정보 - 1.0.0"]
         }
     }
 }
