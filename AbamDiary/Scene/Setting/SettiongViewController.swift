@@ -411,7 +411,9 @@ extension SettiongViewController {
     
     func clickRestoreCell() {
         let alert = UIAlertController(title: "알림", message: "현재 일기에 덮어씌워집니다. 진행하시겠습니까?", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "ok", style: .default) {_ in
+        let ok = UIAlertAction(title: "네", style: .default) { [weak self]_ in
+            
+            guard let self = self else { return }
             
             OneDayDiaryRepository.shared.deleteTasks(tasks: self.tasks)
             CheerupMessageRepository.shared.deleteTasks(tasks: self.cheerupTasks)
@@ -431,12 +433,10 @@ extension SettiongViewController {
             catch {
                 print("압축에 실패하였습니다")
             }
-            self.settingView.makeToast("삭제완료", duration: 0.7, position: .center) { didTap in
-                
+//복구완료 얼럿넣기
                 self.tabBarController?.selectedIndex = 0
-            }
         }
-            let cancel = UIAlertAction(title: "cancel", style: .cancel)
+            let cancel = UIAlertAction(title: "취소", style: .cancel)
         
         alert.addAction(ok)
         alert.addAction(cancel)
@@ -485,7 +485,6 @@ extension SettiongViewController: UIDocumentPickerDelegate {
                     try decoedDiary(Dfetch)
                     try decoedCheerup(Cfetch)
                     fetchDocumentZipFile()
-                    settingView.makeToast("복구완료!", duration: 0.7, position: .center)
                 } catch {
                 }
             } catch {
@@ -505,7 +504,6 @@ extension SettiongViewController: UIDocumentPickerDelegate {
                         let Cfetch = try CfetchJSONData()
                         try decoedDiary(Dfetch)
                         try decoedCheerup(Cfetch)
-                        settingView.makeToast("복구완료!", duration: 0.7, position: .center)
                     } catch {
                         print("복구실패~~~")
                     }
