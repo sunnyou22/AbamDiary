@@ -15,7 +15,6 @@ class CheerupViewController: BaseViewController {
     var tasks: Results<CheerupMessage>! {
         didSet {
             cheerupView.tableView.reloadData()
-            print("♻️ 응원메세지뷰컨 리로등~")
         }
     }
     
@@ -66,7 +65,6 @@ class CheerupViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         fetchRealm()
-        print("Realm is located at:", CheerupMessageRepository.shared.localRealm.configuration.fileURL!)
         
         countMessageModel.count.bind { value in
             self.cheerupView.countLabel.text = "\(value)"

@@ -21,7 +21,6 @@
 		900AEE1C28CC9A5B00F18360 /* GageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900AEE1B28CC9A5B00F18360 /* GageModel.swift */; };
 		900AEE1E28CC9EA000F18360 /* UserDefaultHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900AEE1D28CC9EA000F18360 /* UserDefaultHelper.swift */; };
 		900AEE2028CC9F5300F18360 /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900AEE1F28CC9F5300F18360 /* Reusable.swift */; };
-		900AEE2228CCC0C000F18360 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 900AEE2128CCC0C000F18360 /* Main.storyboard */; };
 		903B429528E15C7B00012204 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903B429428E15C7B00012204 /* SearchTableViewCell.swift */; };
 		903B429B28E464B900012204 /* AcknowList in Frameworks */ = {isa = PBXBuildFile; productRef = 903B429A28E464B900012204 /* AcknowList */; };
 		903B429D28E4690700012204 /* Package.resolved in Resources */ = {isa = PBXBuildFile; fileRef = 903B429C28E4690700012204 /* Package.resolved */; };
@@ -79,7 +78,6 @@
 		900AEE1B28CC9A5B00F18360 /* GageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GageModel.swift; sourceTree = "<group>"; };
 		900AEE1D28CC9EA000F18360 /* UserDefaultHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultHelper.swift; sourceTree = "<group>"; };
 		900AEE1F28CC9F5300F18360 /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
-		900AEE2128CCC0C000F18360 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		903B429428E15C7B00012204 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		903B429C28E4690700012204 /* Package.resolved */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Package.resolved; path = AbamDiary.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved; sourceTree = "<group>"; };
 		904492B228D5ACC90028F920 /* CheeupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheeupView.swift; sourceTree = "<group>"; };
@@ -283,7 +281,6 @@
 				90F8262B28CB9F0C008E8E6B /* Constant */,
 				90F8261328CB799A008E8E6B /* AppDelegate.swift */,
 				90F8261528CB799A008E8E6B /* SceneDelegate.swift */,
-				900AEE2128CCC0C000F18360 /* Main.storyboard */,
 				90F8261C28CB799F008E8E6B /* Assets.xcassets */,
 				90F8261E28CB799F008E8E6B /* LaunchScreen.storyboard */,
 				90F8262128CB799F008E8E6B /* Info.plist */,
@@ -392,7 +389,6 @@
 				903B429D28E4690700012204 /* Package.resolved in Resources */,
 				90F8262028CB799F008E8E6B /* LaunchScreen.storyboard in Resources */,
 				90F8261D28CB799F008E8E6B /* Assets.xcassets in Resources */,
-				900AEE2228CCC0C000F18360 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -584,7 +580,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = V8L83798C5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AbamDiary/Info.plist;
@@ -621,7 +617,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = V8L83798C5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AbamDiary/Info.plist;

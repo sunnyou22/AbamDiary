@@ -23,28 +23,24 @@ class SearchViewController: BaseViewController {
     var tasks: Results<Diary>! {
         didSet {
             searchView.tableView.reloadData()
-            print("서치테이블뷰 리로리로등~♻️")
         }
     }
     
     var filteredArr: Results<Diary>! {
         didSet {
             searchView.tableView.reloadData()
-            print("서치테이블뷰 아침필터 tasks ~♻️ 리로등")
         }
     }
     
     var morningFilteredArr: Results<Diary>! {
         didSet {
             searchView.tableView.reloadData()
-            print("서치테이블뷰 아침필터 tasks ~♻️ 리로등")
         }
     }
     
     var nightFilteredArr: Results<Diary>! {
         didSet {
             searchView.tableView.reloadData()
-            print("서치테이블뷰 밤필터 tasks ~♻️ 리로등")
         }
     }
     
@@ -110,12 +106,10 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         guard let morningFilteredArr = morningFilteredArr else {
-            print("====> 아침검색어를 찾을 수 없습니다", #function)
             return 0
         }
         
         guard let nightFilteredArr = nightFilteredArr else {
-            print("====> 밤검색어를 찾을 수 없습니다", #function)
             return 0
         }
         
@@ -132,12 +126,10 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.reuseIdentifier, for: indexPath) as? SearchTableViewCell else { return UITableViewCell() }
         
         guard let morningFilteredArr = morningFilteredArr else {
-            print("====> 아침filteredArr이 nil 입니다", #function)
             return UITableViewCell()
         }
         
         guard let nightFilteredArr = nightFilteredArr else {
-            print("====> 밤 filteredArr이 nil 입니다", #function)
             return UITableViewCell()
         }
         
@@ -168,12 +160,10 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
             
             guard let morningFilteredArr = self.morningFilteredArr else {
-                print("====> 아침filteredArr이 nil 입니다", #function)
                 return nil
             }
             
             guard let nightFilteredArr = self.nightFilteredArr else {
-                print("====> 밤 filteredArr이 nil 입니다", #function)
                 return nil
             }
             
@@ -219,7 +209,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             switch mode {
                 
             case .newDiary:
-                print("====>🚀 작성화면으로 가기")
                 transition(vc, transitionStyle: .push)
                 switch diaryType {
                 case .morning:
@@ -229,7 +218,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                     
                 }
             case .modified:
-                print("====>🚀 수정화면으로 가기")
                 transition(vc, transitionStyle: .push)
                 
             }
@@ -242,15 +230,11 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             guard let text = searchController.searchBar.text else { return }
             fetch()
             guard let items = tasks else {
-                print("===========>task를 받아올 수 없습니다")
-                print(text)
                 return
             }
             
             self.morningFilteredArr = items.where { $0.contents.contains(text) && ($0.type == 0) }
-            print(morningFilteredArr, "morningFilteredArr")
             self.nightFilteredArr = items.where { $0.contents.contains(text) && ($0.type == 1) }
-            print(nightFilteredArr, "nightFilteredArr")
             searchView.tableView.reloadData()
         }
     }

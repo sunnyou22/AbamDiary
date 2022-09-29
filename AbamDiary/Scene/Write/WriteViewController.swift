@@ -95,7 +95,6 @@ class WriteViewController: BaseViewController {
     
     //MARK: - viewWillDisappear
     override func viewWillDisappear(_ animated: Bool) {
-        print(#function, "=================================================")
     }
     
     //MARK: - viewDidDisappear
@@ -124,15 +123,11 @@ class WriteViewController: BaseViewController {
     
     //MARK: 저장 메서드 - 키보드 내려줌
     @objc func save() {
-        print(#function, "=================================================")
         
         let task = Diary(type: diarytype.rawValue, contents: writeView.textView.text, selecteddate: selectedDate ?? Date(), createdDate: Date())
-        print("diarytype.rawValue==========일기타입")
-        //초기화면
-        print(writeView.setWriteVCPlaceholder(type: diarytype), "===================")
-        
-        if writeView.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || writeView.textView.text == writeView.setWriteVCPlaceholder(type: diarytype) {
-            print("=====> 🟠 입력된 문자가 없거나 플레이스홀더랑 같을 때 뒤고가기를 누를 때")
+
+      if writeView.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || writeView.textView.text == writeView.setWriteVCPlaceholder(type: diarytype) {
+         
             if data?.isInvalidated == true {
                 return
             }
@@ -143,7 +138,6 @@ class WriteViewController: BaseViewController {
             case .newDiary:
                 writeDiary(mode: .newDiary, task: task)
             case .modified:
-                print("Realm is located at:", OneDayDiaryRepository.shared.localRealm.configuration.fileURL!)
                 if data?.isInvalidated == true {
                     writeDiary(mode: .newDiary, task: task)
                     return
@@ -208,10 +202,10 @@ extension WriteViewController: UITextViewDelegate {
         switch mode {
         case .newDiary:
             OneDayDiaryRepository.shared.addItem(item: task)
-            print("-====>🟢 일기 작성되는 순간")
+     
         case .modified:
             try! OneDayDiaryRepository.shared.localRealm.write {
-                print("-====>🟢 일기 수정되는 순간")
+           
                 task.contents = writeView.textView.text
                 task.createdDate = Date()
             }
@@ -245,7 +239,7 @@ extension WriteViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
-        //        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+       
     }
 }
 

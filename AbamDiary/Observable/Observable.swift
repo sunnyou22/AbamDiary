@@ -17,7 +17,6 @@ class Observable<T> {
     
     var value: T {
         didSet {
-            print("🗓 didSet", value)
             listener?(value)
             
         }
@@ -28,7 +27,6 @@ class Observable<T> {
     }
     
     func bind(_ closusre: @escaping (T) -> Void) {
-        print("🔗\(#function)")
         closusre(value)
         listener = closusre
     }

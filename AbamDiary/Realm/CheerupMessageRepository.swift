@@ -29,11 +29,9 @@ class CheerupMessageRepository: CheerupMessageRepositoryType {
         do {
             try localRealm.write({
                 localRealm.delete(item)
-                print("===> 삭제된 응원메세지", item)
             })
             
         } catch let error {
-            print("응원메세지 삭제 오류", error)
         }
     }
     
@@ -41,10 +39,8 @@ class CheerupMessageRepository: CheerupMessageRepositoryType {
         do {
             try localRealm.write {
                 localRealm.delete(tasks)
-                print("일기 초기화 완료👌")
             }
         } catch {
-            print("====> Realm deleteTasks Fail")
         }
     }
     
@@ -52,11 +48,9 @@ class CheerupMessageRepository: CheerupMessageRepositoryType {
         do {
             try localRealm.write({
                 localRealm.add(item)
-                print("===> 추가된 응원메세지", item)
             })
             
         } catch let error {
-            print("응원메세지 추가 오류", error)
         }
     }
 }

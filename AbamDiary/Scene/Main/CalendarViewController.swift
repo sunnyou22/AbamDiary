@@ -28,10 +28,7 @@ class CalendarViewController: BaseViewController {
             mainview.tableView.reloadData()
             DispatchQueue.main.async {
                 self.mainview.calendar.reloadData()
-                print("리로드캘린더♻️")
             }
-            print("Realm is located at:", OneDayDiaryRepository.shared.localRealm.configuration.fileURL!)
-            print("리로드캘린더♻️")
         }
     }
     
@@ -86,7 +83,6 @@ class CalendarViewController: BaseViewController {
         calculateNightDiary()
         animationUIImage()
         
-        print(changeMorningcount, changeNightcount, "프로퍼티 카운트🔴")
         guard changeMorningcount != 0.0 || changeNightcount != 0.0 else {
             animationUIImage()
             mainview.progressBar.progress = 0.5
@@ -112,24 +108,7 @@ class CalendarViewController: BaseViewController {
         
         //시간잘 맞춰서 해당 달의 날짜가 들어옴
         monthFilterTasks = OneDayDiaryRepository.shared.fetchFilterMonth(start: CustomFormatter.isStarDateOfMonth(), last: CustomFormatter.isDateEndOfMonth())
-        
-        print("====> 🟢먼쓰필터링 완룡 => 총 카운트", monthFilterTasks.count)
-        
-        print("====>🟢 패치완료")
     }
-    
-    /*
-     선택된 날짜가 없음 -> 캘린더가 오늘 날짜를 기본을 선택상태로 두지 않음
-     
-     1. 선택된 날짜가 없음 -> 오늘꺼 보여주기
-     - 선택상태가 nil이고 캘린더 상의 오늘날짜와 생성날짜가 같은걸 뱉어주기
-     2. 선택된 날짜가 있는데 오늘인 경우
-     - 오늘 작성한 일기가 여러개인경우
-     - 오늘 작성한 일기와 선택된 날짜가 같은 경우로 뱉어주기
-     3. 선택된 날짜가 있는데 오늘이 아닌경우
-     - 선택된 날짜에 작성된 일기가 여러개인경우
-     - 선택된날짜와 생성된 날짜가 같은경 뱉여주기
-     */
     
     //MARK: 여기서 아침일기 저녁일기 task 생성
     func diaryTypefilterDate() {
@@ -186,13 +165,9 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
             cell.setMornigAndNightConfig(index: indexPath.row)
             cell.backgroundColor = .clear
             cell.selectionStyle = .none
-            print("diaryList = diaryList 이게 오류다~🔴", diaryList, #function)
             return UITableViewCell()
         }
-        
-        print(diaryList, "==========diaryList")
-        
-        // 내용 셀에 적용
+      // 내용 셀에 적용
         cell.diaryLabel.text = diaryList[indexPath.row]?.contents ?? placeholder[indexPath.row]
         guard let time = diaryList[indexPath.row]?.createdDate else {
             cell.dateLabel.text = "--:--"
@@ -212,12 +187,6 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        //데이터의 일기종류가 nil 인지에 따라 화면나누기
-        
-        //self를 쓰는것만으로도 캡쳐됨
-        //클로저에서는 그냥 [weak self]
-        //deinit() 뷰디드디스어피에서 이후에 호출되는지 확인
         
         if indexPath.row == 0 {
             guard let moningTask = moningTask else  {
@@ -255,7 +224,6 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         switch mode {
             
         case .newDiary:
-            print("====>🚀 작성화면으로 가기")
             transition(vc, transitionStyle: .push)
             switch diaryType {
             case .morning:
@@ -265,7 +233,6 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
                 
             }
         case .modified:
-            print("====>🚀 수정화면으로 가기")
             transition(vc, transitionStyle: .push)
             
         }
@@ -359,27 +326,7 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
         
         return nil
     }
-    
-    //이미지로 할까 색으로 할까
-    //    func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
-    //        let lastDate = CustomFormatter.setDateFormatter(date:  CustomFormatter.isDateEndOfMonth())
-    //        let calendarDay = CustomFormatter.setDateFormatter(date: date)
-    //        let calendarToday = CustomFormatter.setDateFormatter(date: calendar.today!)
-    //
-    //        print(lastDate, calendarToday, "==========막날 오늘")
-    //
-    //        if lastDate == calendarToday {
-    //
-    //            switch calendarDay {
-    //            case lastDate:
-    //                return UIImage(named: "ABAM")?.resize(newWidthRato: 0.08)
-    //            default:
-    //                return nil
-    //            }
-    //        }
-    //        return nil
-    //    }
-    
+ 
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillDefaultColorFor date: Date) -> UIColor? {
         
         let lastDate = CustomFormatter.setDateFormatter(date:  CustomFormatter.isDateEndOfMonth())
@@ -458,8 +405,6 @@ extension CalendarViewController {
             return task.type == 0
         }.count
         
-        print(Float(filterMorningcount), "==========testPlusM()의 filterMorningcount")
-        
         CalendarViewController.gageCountModel.morningDiaryCount.value = Float(filterMorningcount)
         self.changeMorningcount = Float(filterMorningcount)
     }
@@ -470,9 +415,7 @@ extension CalendarViewController {
         let filterNightcount = monthFilterTasks.filter { task in
             return task.type == 1
         }.count
-        
-        print(Float(filterNightcount), "==========testPlusM()의 filterMorningcount")
-        
+                
         CalendarViewController.gageCountModel.nightDiaryCount.value = Float(filterNightcount)
         self.changeNightcount = Float(filterNightcount)
     }
@@ -484,10 +427,7 @@ extension CalendarViewController {
             progress = 0
         } else {
             progress = moringCountRatio
-            print(progress, "moringCountRatio 📊")
         }
-        print("================", progress)
-        //        dateModel.morningDiaryCount.value = changeMorningcount
         mainview.progressBar.setProgress(progress, animated: true)
     }
     
@@ -506,10 +446,7 @@ extension CalendarViewController {
             if moringCountRatio < 0.5 || moringCountRatio > 0.5 {
                 self.mainview.profileImage.transform = .identity
                 self.mainview.profileImage.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
-                print("🔥 moringCountRatio", moringCountRatio)
-                print("🟢 width", width)
-                print("👉 newWidth", newWidth)
-                
+                 
             } else {
                 self.mainview.profileImage.transform = .identity
             }

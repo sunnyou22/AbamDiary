@@ -52,10 +52,8 @@ class OneDayDiaryRepository: OnedayDiaryRepositoryType {
     func fetchDate(date: Date, type: Int) -> Results<Diary> {
         let item = localRealm.objects(Diary.self).filter("selecteddate >= %@ AND selecteddate < %@", date, Date(timeInterval: 86400, since: date)) //NSPredicate 애플이 만들어준 Filter
         if item.isEmpty {
-            print(item, "=================item, empty🔴🔴🔴🔴")
             return item
         } else {
-            print(item, "=================item, fetchDate🔴🔴🔴🔴")
             let result = item.filter("type == %@", type)
             return result
         }
@@ -74,10 +72,8 @@ class OneDayDiaryRepository: OnedayDiaryRepositoryType {
         do {
             try localRealm.write {
                 localRealm.delete(item)
-                print(item)
             }
         } catch {
-            print("====> Realm deleteRecord Fail")
         }
     }
     
@@ -85,10 +81,8 @@ class OneDayDiaryRepository: OnedayDiaryRepositoryType {
         do {
             try localRealm.write {
                 localRealm.delete(tasks)
-                print("일기 초기화 완료👌")
             }
         } catch {
-            print("====> Realm deleteTasks Fail")
         }
     }
     
@@ -96,10 +90,8 @@ class OneDayDiaryRepository: OnedayDiaryRepositoryType {
         do {
             try localRealm.write{
                 localRealm.add(item)
-                print("====> Realm add Succeed")
             }
         } catch {
-            print("====> Realm add Fail")
             // 사용자가에게 얼럿띄워주기
         }
     }

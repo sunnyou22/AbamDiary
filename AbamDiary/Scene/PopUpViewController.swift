@@ -48,7 +48,6 @@ class PopUpViewController: BaseViewController {
             view.contentMode = .scaleAspectFill
             view.clipsToBounds = true
             view.layer.cornerRadius = 30
-            print("-----이미지 깎기", view.frame.size.height)
         }
        
         return view
@@ -67,7 +66,6 @@ class PopUpViewController: BaseViewController {
         view.isOpaque = false
         
         profileimageView.image = loadImageFromDocument(fileName: "profile.jpg")
-        print("이미지 받아오기")
         swipeDown()
     }
     

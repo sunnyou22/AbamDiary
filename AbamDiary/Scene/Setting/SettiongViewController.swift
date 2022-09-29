@@ -205,7 +205,6 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             sender.isUserInteractionEnabled = false
             UserDefaults.standard.set(false, forKey: "switch")
-            print("======> 🔴 스위치 오프 및 removeAllPendingNotificationRequests")
             sender.backgroundColor = .systemGray4
             sender.setTitle("--:--", for: .normal)
         }
@@ -272,8 +271,7 @@ extension SettiongViewController {
             
             // 버튼 타이틀에 데이터피커의 값을 넣어주기 포맷터
             sender.setTitle(dateString, for: .normal)
-            print("========>", "\(datePicker.date)")
-            
+   
             var date = DateComponents(timeZone: .current)
             
             //h m가 int로 변환되서 배열로 넣어줌 -> 데이트 컴포넌트를 위해서
@@ -281,9 +279,8 @@ extension SettiongViewController {
             
             // 유저가 설정한 시간에 대한 데이트컴포넌트 배열을 유저디폴트에 저장해줌
             UserDefaults.standard.set(Marray, forKey: "Mdate")
-            print(Marray)
             Marray = UserDefaults.standard.array(forKey: "Mdate") as? [Int] ?? [Int]()
-            print("key: Mdate 유저디폴트: 버튼이 선택? 값이 받아왔나!!??", Marray)
+ 
             
             date.hour = Marray[0]
             date.minute = Marray[1]
@@ -326,20 +323,17 @@ extension SettiongViewController {
             let dateString = UserDefaults.standard.string(forKey: "NbtnSelected")
             
             sender.setTitle(dateString, for: .normal)
-            print("========>", "\(datePicker.date)")
             
             var date = DateComponents(timeZone: .current)
             var Narray = [CustomFormatter.changeHourToInt(date: datePicker.date), CustomFormatter.changeMinuteToInt(date: datePicker.date)]
             
             UserDefaults.standard.set(Narray, forKey: "Ndate")
             Narray = UserDefaults.standard.array(forKey: "Ndate") as? [Int] ?? [Int]()
-            print("key: Ndate 유저디폴트: 버튼이 선택? 값이 받아왔남📍", Narray)
             
             date.hour = Narray[0]
             date.minute = Narray[1]
             
             SettiongViewController.sendNotification(subTitle: "밤일기를 쓰러가볼까요?", date: date, type: MorningAndNight.night.rawValue)
-            print("밤일기 알람 설정 📍")
         }
         //MARK: cancel버튼
         let cancel = UIAlertAction(title: "취소", style: .cancel)
@@ -461,18 +455,15 @@ extension SettiongViewController {
 extension SettiongViewController: UIDocumentPickerDelegate {
     
     func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
-        print("도큐머트픽커 닫음", #function)
     }
     
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) { // 어떤 압축파일을 선택했는지 명세
         
         guard let selectedFileURL = urls.first else {
-            print("선택하진 파일을 찾을 수 없습니다.")
             return
         }
         
         guard let path = documentDirectoryPath() else {
-            print("도큐먼트 위치에 오류가 있습니다.")
             return
         }
         
@@ -483,8 +474,6 @@ extension SettiongViewController: UIDocumentPickerDelegate {
         // 여기서 sandboxFileURL경로있는지 확인
         if FileManager.default.fileExists(atPath: sandboxFileURL.path) {
             let filename_zip = selectedFileURL.lastPathComponent
-            print(filename_zip, "========🚀🚀🚀🚀🚀")
-//                .replacingOccurrences(of: ".zip", with: "").trimmingCharacters(in: .whitespaces)
             let zipfileURL = path.appendingPathComponent(filename_zip)
   print(zipfileURL)
            
@@ -496,8 +485,8 @@ extension SettiongViewController: UIDocumentPickerDelegate {
                     try decoedDiary(Dfetch)
                     try decoedCheerup(Cfetch)
                     fetchDocumentZipFile()
+                    settingView.makeToast("복구완료!", duration: 0.7, position: .center)
                 } catch {
-                    print("복구실패~~~")
                 }
             } catch {
                 print("압축풀기 실패 다 이놈아~~~===============")
@@ -505,7 +494,6 @@ extension SettiongViewController: UIDocumentPickerDelegate {
         } else {
             
             do {
-                //파일 앱의 zip -> 도큐먼트 폴더에 복사(at:원래경로, to: 복사하고자하는 경로) / sandboxFileURL -> 걍 경로
                 try FileManager.default.copyItem(at: selectedFileURL, to: sandboxFileURL)
                 let filename_zip = selectedFileURL.lastPathComponent
                 let zipfileURL = path.appendingPathExtension(filename_zip)
@@ -517,6 +505,7 @@ extension SettiongViewController: UIDocumentPickerDelegate {
                         let Cfetch = try CfetchJSONData()
                         try decoedDiary(Dfetch)
                         try decoedCheerup(Cfetch)
+                        settingView.makeToast("복구완료!", duration: 0.7, position: .center)
                     } catch {
                         print("복구실패~~~")
                     }
