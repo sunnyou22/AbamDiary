@@ -71,7 +71,7 @@ class WriteView: BaseView {
             make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-24)
             make.height.equalTo(1)
             make.centerX.equalTo(self.snp.centerX)
-            make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(20)
+            make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(40)
         }
     }
    

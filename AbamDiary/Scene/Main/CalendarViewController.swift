@@ -77,9 +77,7 @@ class CalendarViewController: BaseViewController {
     //MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-      
         mainview.profileImage.image = loadImageFromDocument(fileName: "profile.jpg")
-        
         fetchRealm() // 램 패치
         //        mainview.calendar.reloadData()
         
@@ -99,6 +97,13 @@ class CalendarViewController: BaseViewController {
 
         setProgressRetio()
         animationUIImage()
+       
+           
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
     
     func fetchRealm() {

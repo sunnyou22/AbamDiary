@@ -40,16 +40,18 @@ class WriteViewController: BaseViewController {
     }
     
     override func viewDidLoad() {
-   
+        
         super.viewDidLoad()
         self.writeView.textView.delegate = self
         setnavigation()
+        //        self.tabBarController?.tabBar.isHidden = true
+        textViewDoneBtnMake(text_field: writeView.textView)
     }
     
     
     func setnavigation() {
-    
-        let saveButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(save))
+        
+        let saveButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(save))
         let cancel = UIBarButtonItem(title: "삭제", style: .plain, target: self, action: #selector(deleteDiary))
         let fixspacing = UIBarButtonItem.fixedSpace(20)
         navigationItem.rightBarButtonItems = [saveButton, fixspacing, cancel]
@@ -58,7 +60,7 @@ class WriteViewController: BaseViewController {
         self.navigationController?.navigationBar.tintColor = Color.BaseColorWtihDark.navigationBarItem
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: Color.BaseColorWtihDark.navigationBarItem]
         
-
+        
         guard data?.contents != nil else {
             switch diarytype {
             case .morning:
@@ -77,6 +79,7 @@ class WriteViewController: BaseViewController {
     //MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         //데이터 패치
         OneDayDiaryRepository.shared.fetchLatestOrder()
         writeView.dateLabel.text = CustomFormatter.setWritedate(date: data?.createdDate ?? Date())
@@ -92,8 +95,31 @@ class WriteViewController: BaseViewController {
     //MARK: - viewDidDisappear
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        removeKeyboardNotifications()
+    }
+    
+    func textViewDoneBtnMake(text_field : UITextView) {
+        let ViewForDoneButtonOnKeyboard = UIToolbar()
+        ViewForDoneButtonOnKeyboard.sizeToFit()
+        let btnDoneOnKeyboard = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.doneBtnFromKeyboardClicked))
+        ViewForDoneButtonOnKeyboard.items = [btnDoneOnKeyboard]
+        text_field.inputAccessoryView = ViewForDoneButtonOnKeyboard
+    }
+    
+    @objc func doneBtnFromKeyboardClicked (sender: Any) {
+        
+        print("Done Button Clicked.")
+        
+        //Hide Keyboard by endEditing or Anything you want.
+        
+        writeView.textView.resignFirstResponder()
+    }
+    
+    
+    //MARK: 저장 메서드 - 키보드 내려줌
+    @objc func save() {
         print(#function, "=================================================")
-
+        
         let task = Diary(type: diarytype.rawValue, contents: writeView.textView.text, selecteddate: selectedDate ?? Date(), createdDate: Date())
         print("diarytype.rawValue==========일기타입")
         //초기화면
@@ -107,29 +133,25 @@ class WriteViewController: BaseViewController {
             
             //MARK: 텍스트뷰가 공백이 아니거나 플레이스 홀러와 같지 않을 때
         } else {
-                switch writeMode {
-                case .newDiary:
+            switch writeMode {
+            case .newDiary:
+                writeDiary(mode: .newDiary, task: task)
+            case .modified:
+                print("Realm is located at:", OneDayDiaryRepository.shared.localRealm.configuration.fileURL!)
+                if data?.isInvalidated == true {
                     writeDiary(mode: .newDiary, task: task)
-                case .modified:
-                    print("Realm is located at:", OneDayDiaryRepository.shared.localRealm.configuration.fileURL!)
-                    if data?.isInvalidated == true {
-                        writeDiary(mode: .newDiary, task: task)
-                        return
-                    }
-                    writeDiary(mode: .modified, task: data!)
+                    return
                 }
+                writeDiary(mode: .modified, task: data!)
+            }
         }
         fetch!()
-        removeKeyboardNotifications()
-    }
-    
-    //MARK: 저장 메서드 - 키보드 내려줌
-    @objc func save() {
-      writeView.textView.resignFirstResponder()
+        writeView.makeToast("\n저장완료!", duration: 0.6, position: .center, title: nil, image: UIImage(named: "ABAM"))
+        writeView.textView.resignFirstResponder()
     }
     
     @objc func deleteDiary() {
-      
+        
         let alert = UIAlertController(title: "일기 삭제", message: "정말 현재 일기를 삭제하시겠습니까?", preferredStyle: .alert)
         let ok = UIAlertAction(title: "네", style: .default) { [weak self] _ in
             guard let self = self else { return }
@@ -141,6 +163,7 @@ class WriteViewController: BaseViewController {
             OneDayDiaryRepository.shared.deleteRecord(item: data)
             self.writeView.textView.text = nil
             self.writeView.textView.text = self.writeView.setWriteVCPlaceholder(type: self.diarytype)
+            self.writeView.textView.resignFirstResponder()
             self.fetch!()
         }
         
@@ -163,7 +186,7 @@ extension WriteViewController: UITextViewDelegate {
             textView.text = nil
         }
     }
-
+    
     //MARK: 🔴 작성화면 시간 반영이상함 버그
     //데이터 추가 및 수정
     func writeDiary(mode: WriteMode, task: Diary) {
@@ -180,33 +203,33 @@ extension WriteViewController: UITextViewDelegate {
         }
     }
 }
-    extension WriteViewController {
-        //MARK: - 키보드 메서드
-        
-        func addKeyboardNotifications() {
-            NotificationCenter.default.addObserver(self, selector: #selector(adjustKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
-            NotificationCenter.default.addObserver(self, selector: #selector(adjustKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
-        }
-        
-        func removeKeyboardNotifications() {
-            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
-            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-        }
-        
-        @objc private func adjustKeyboard(noti: Notification) {
-            guard let userInfo = noti.userInfo else { return }
-            guard let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
-            let adjustmentHeight = keyboardFrame.height
-            if noti.name == UIResponder.keyboardWillChangeFrameNotification {
-                writeView.textView.contentInset.bottom = adjustmentHeight - 80
-            } else {
-                writeView.textView.contentInset.bottom = 0
-            }
-        }
-        
-        override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-            self.view.endEditing(true)
-            //        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+extension WriteViewController {
+    //MARK: - 키보드 메서드
+    
+    func addKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(adjustKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(adjustKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    func removeKeyboardNotifications() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func adjustKeyboard(noti: Notification) {
+        guard let userInfo = noti.userInfo else { return }
+        guard let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
+        let adjustmentHeight = keyboardFrame.height
+        if noti.name == UIResponder.keyboardWillChangeFrameNotification {
+            writeView.textView.contentInset.bottom = adjustmentHeight - 80
+        } else {
+            writeView.textView.contentInset.bottom = 0
         }
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+        //        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+}
+
