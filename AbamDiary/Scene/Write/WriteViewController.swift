@@ -60,6 +60,12 @@ class WriteViewController: BaseViewController {
         self.navigationController?.navigationBar.tintColor = Color.BaseColorWtihDark.navigationBarItem
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: Color.BaseColorWtihDark.navigationBarItem]
         
+        switch writeMode {
+        case .newDiary:
+            cancel.isEnabled = false
+        case .modified:
+            cancel.isEnabled = true
+        }
         
         guard data?.contents != nil else {
             switch diarytype {
@@ -152,27 +158,29 @@ class WriteViewController: BaseViewController {
     
     @objc func deleteDiary() {
         
-        let alert = UIAlertController(title: "일기 삭제", message: "정말 현재 일기를 삭제하시겠습니까?", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "네", style: .default) { [weak self] _ in
-            guard let self = self else { return }
-            
-            guard let data = self.data else {
+            let alert = UIAlertController(title: "일기 삭제", message: "정말 현재 일기를 삭제하시겠습니까?", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "네", style: .default) { [weak self] _ in
+                guard let self = self else { return }
+                
+                guard let data = self.data else {
+                    self.writeView.textView.text = self.writeView.setWriteVCPlaceholder(type: self.diarytype)
+                    self.writeView.textView.resignFirstResponder()
+                    return
+                }
+                OneDayDiaryRepository.shared.deleteRecord(item: data)
+                self.writeView.textView.text = nil
                 self.writeView.textView.text = self.writeView.setWriteVCPlaceholder(type: self.diarytype)
-                return
+                self.writeView.textView.resignFirstResponder()
+                self.fetch!()
             }
-            OneDayDiaryRepository.shared.deleteRecord(item: data)
-            self.writeView.textView.text = nil
-            self.writeView.textView.text = self.writeView.setWriteVCPlaceholder(type: self.diarytype)
-            self.writeView.textView.resignFirstResponder()
-            self.fetch!()
-        }
-        
-        let cancel = UIAlertAction(title: "아니오", style: .cancel)
-        
-        alert.addAction(ok)
-        alert.addAction(cancel)
-        
-        present(alert, animated: true)
+            
+            let cancel = UIAlertAction(title: "아니오", style: .cancel)
+            
+            alert.addAction(ok)
+            alert.addAction(cancel)
+            
+            present(alert, animated: true)
+ 
     }
 }
 
