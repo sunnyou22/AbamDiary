@@ -144,10 +144,21 @@ class PopUpViewController: BaseViewController {
             view.text = "어떤 아밤인지 모르겠어요 🤔"
             return
         }
-       
+        
         let attributeString = NSMutableAttributedString(string: "당신은 \(result) 아밤이궁요!")
+        
+        switch result {
+        case "아침형":
+            attributeString.addAttributes([.foregroundColor: Color.BaseColorWtihDark.popupViewLabel(type: .morning)], range: NSRange(location: 4, length: 3))
+        case "저녁형":
+            attributeString.addAttributes([.foregroundColor: Color.BaseColorWtihDark.popupViewLabel(type: .night)], range: NSRange(location: 4, length: 3))
+            
+        default:
+            attributeString.addAttributes([.foregroundColor: Color.BaseColorWtihDark.popupViewLabel(type: .morning)], range: NSRange(location: 4, length: 3))
+        }
+        
         view.font = UIFont.systemFont(ofSize: 18, weight: .heavy)
-        attributeString.addAttributes([.foregroundColor: Color.BaseColorWtihDark.popupViewLabel], range: NSRange(location: 4, length: 3))
+        
         view.attributedText = attributeString
     }
     

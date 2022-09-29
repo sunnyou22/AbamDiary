@@ -390,7 +390,7 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
             
             switch calendarDay {
             case lastDate:
-                return Color.BaseColorWtihDark.popupViewLabel
+                return Color.BaseColorWtihDark.popupViewLabel(type: .morning)
             default:
                 return nil
             }
@@ -407,7 +407,7 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
             
             switch calendarDay {
             case lastDate:
-                return Color.BaseColorWtihDark.popupViewLabel
+                return Color.BaseColorWtihDark.popupViewLabel(type: .morning)
             default:
                 return appearance.selectionColor
             }

@@ -88,9 +88,9 @@ struct Color {
             systemcolorChange(traitCollection: $0).calendarSelectedDay
         }
         
-        static let popupViewLabel = UIColor {
-            systemcolorChange(traitCollection: $0).popupViewLabel
-        }
+        static func popupViewLabel(type: MorningAndNight) -> UIColor {
+            UIColor { systemcolorChange(traitCollection: $0).popupViewLabel(type: type) }}
+        
         
         static private func systemcolorChange(traitCollection: UITraitCollection) -> Theme {
             guard let theme = Theme(rawValue: traitCollection.userInterfaceStyle.rawValue) else { return .anycase}
@@ -484,14 +484,29 @@ enum Theme: Int {
         }
     }
     
-    var popupViewLabel: UIColor {
+    func popupViewLabel(type: MorningAndNight) -> UIColor {
         switch self {
         case .anycase:
-            return UIColor(hex: "#FF9F0F")
+            switch type {
+            case .morning:
+                return UIColor(hex: "#FF9F0F")
+            case .night:
+                return UIColor(hex: "#6A7BA8")
+            }
         case .lignt:
-            return UIColor(hex: "#FF9F0F")
+            switch type {
+            case .morning:
+                return UIColor(hex: "#FF9F0F")
+            case .night:
+                return UIColor(hex: "#6A7BA8")
+            }
         case .dark:
-            return UIColor(hex: "#6A7BA8")
+            switch type {
+            case .morning:
+                return UIColor(hex: "#FF9F0F")
+            case .night:
+                return UIColor(hex: "#6A7BA8")
+            }
         }
     }
 }
