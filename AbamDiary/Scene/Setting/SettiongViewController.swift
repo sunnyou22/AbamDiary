@@ -97,6 +97,7 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
                 
                 buttonCell.subTitle.text = "아침 알림 시간"
                 buttonCell.selectionStyle = .none
+                buttonCell.contentView.backgroundColor = .systemGray6
                 buttonCell.timeButton.addTarget(self, action: #selector(MpopDatePicker), for: .touchUpInside)
                 setButtonConfig(buttonCell.timeButton)
                 
@@ -112,7 +113,7 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
                 buttonCell.subTitle.text = "밤 알림 시간"
                
                 setButtonConfig(buttonCell.timeButton)
-                
+                buttonCell.contentView.backgroundColor = .systemGray6
                 buttonCell.timeButton.addTarget(self, action: #selector(NpopDatePicker), for: .touchUpInside)
                 buttonCell.selectionStyle = .none
                 return buttonCell
@@ -123,7 +124,7 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 
                 switchCell.subTitle.text = "알림받기"
-                
+                switchCell.contentView.backgroundColor = .systemGray6
                 SettingSwitchTableViewCell.notificationSwitch.addTarget(self, action: #selector(changeSwitch), for: .valueChanged)
                 switchCell.selectionStyle = .none
                 return switchCell
@@ -132,6 +133,7 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             guard let defaultCell = tableView.dequeueReusableCell(withIdentifier: SettingDefaultTableViewCell.reuseIdentifier, for: indexPath) as? SettingDefaultTableViewCell else { return UITableViewCell() }
             defaultCell.selectionStyle = .none
+            defaultCell.contentView.backgroundColor = .systemGray6
             defaultCell.subTitle.text = Setting.allCases[indexPath.section].subTitle[indexPath.row]
             return defaultCell
         }

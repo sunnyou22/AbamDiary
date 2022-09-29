@@ -34,7 +34,6 @@ class SettingView: BaseView {
         view.titleLabel?.font = UIFont.systemFont(ofSize: FontSize.subTitle_16, weight: .regular)
         view.setTitleColor(.systemBlue, for: .normal)
         view.tintColor = .systemBlue
-        
         return view
     }()
     
@@ -50,7 +49,7 @@ class SettingView: BaseView {
         view.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         view.separatorStyle = .singleLine
         //        view.backgroundColor = Color.BaseColorWtihDark.backgorund
-        
+        view.backgroundColor = Color.BaseColorWtihDark.backgorund
         return view
     }()
     
