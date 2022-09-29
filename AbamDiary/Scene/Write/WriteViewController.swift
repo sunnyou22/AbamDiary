@@ -157,7 +157,14 @@ class WriteViewController: BaseViewController {
     }
     
     @objc func deleteDiary() {
+        fetch!()
         
+        guard writeView.textView.text != writeView.setWriteVCPlaceholder(type: diarytype), !writeView.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            writeView.makeToast("삭제할 데이터가 없습니다!", position: .center)
+            writeView.textView.text = writeView.setWriteVCPlaceholder(type: diarytype)
+            writeView.textView.resignFirstResponder()
+            return
+        }
             let alert = UIAlertController(title: "일기 삭제", message: "정말 현재 일기를 삭제하시겠습니까?", preferredStyle: .alert)
             let ok = UIAlertAction(title: "네", style: .default) { [weak self] _ in
                 guard let self = self else { return }
@@ -181,7 +188,7 @@ class WriteViewController: BaseViewController {
             
             present(alert, animated: true)
  
-    }
+     }
 }
 
 //데이터 넣고 화면반영하기
