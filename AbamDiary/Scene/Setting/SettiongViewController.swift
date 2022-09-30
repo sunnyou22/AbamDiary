@@ -59,7 +59,7 @@ class SettiongViewController: BaseViewController {
         settingView.profileimageView.image = loadImageFromDocument(fileName: profileImage)
         
         tasks = OneDayDiaryRepository.shared.fetchLatestOrder()
-        cheerupTasks = CheerupMessageRepository.shared.fetchDate()
+        cheerupTasks = CheerupMessageRepository.shared.fetchDate(ascending: false)
     }
 }
 

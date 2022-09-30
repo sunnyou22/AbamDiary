@@ -74,6 +74,7 @@ class CalendarViewController: BaseViewController {
     //MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print(#function, "=============================")
         mainview.profileImage.image = loadImageFromDocument(fileName: "profile.jpg")
         fetchRealm() // 램 패치
         //        mainview.calendar.reloadData()
@@ -260,7 +261,7 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
         
         if lastDate == calendarDay && lastDate == calendarToday {
             let vc = PopUpViewController()
-            vc.modalPresentationStyle = .overCurrentContext
+            vc.modalPresentationStyle = .overFullScreen
             present(vc, animated: true)
         }
     }

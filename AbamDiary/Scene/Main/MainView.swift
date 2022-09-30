@@ -29,7 +29,7 @@ class MainView: BaseView {
         let view = UILabel()
         view.font = .systemFont(ofSize: FontSize.subTitle_16, weight: .bold)
         view.textColor = Color.BaseColorWtihDark.cheerupMessege
-        view.text = CheerupMessageRepository.shared.fetchDate().randomElement()?.cheerup ?? "응원의 메세지를 추가해보세요!"
+        view.text = CheerupMessageRepository.shared.fetchDate(ascending: false).randomElement()?.cheerup ?? "응원의 메세지를 추가해보세요!"
         return view
     }()
     

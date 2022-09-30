@@ -9,7 +9,7 @@ import UIKit
 import RealmSwift
 
 class CheerupViewController: BaseViewController {
-    
+    var keyHeight: CGFloat?
     var cheerupView = CheerupView()
     var countMessageModel = CountMessage()
     var tasks: Results<CheerupMessage>! {
@@ -39,11 +39,16 @@ class CheerupViewController: BaseViewController {
         cheerupView.tableView.delegate = self
         cheerupView.tableView.dataSource = self
         cheerupView.birdButton.addTarget(self, action: #selector(insertMessage), for: .touchUpInside)
+        cheerupView.textField.addTarget(self, action: #selector(keyboard), for: .editingDidBegin)
         navigationItem.titleView?.accessibilityScroll(.up)
         
         //메세지 초기화
         let reset = UIBarButtonItem(title: "초기화", style: .plain, target: self, action: #selector(resetMessage))
         self.navigationItem.rightBarButtonItem = reset
+    }
+    
+    @objc func keyboard() {
+        addKeyboardNotifications()
     }
     
     @objc func resetMessage() {
@@ -71,11 +76,8 @@ class CheerupViewController: BaseViewController {
         }
         
         cheerupView.countLabel.text = "\(tasks.count)"
-       
-        // tap 제스처 알아보기
-//        cheerupView.addGestureRecognizer(.init(target: self, action: #selector(downKeyboard())))
         cheerupView.textField.addTarget(self, action: #selector(downKeyboard), for: .editingDidEndOnExit)
-                                               
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -83,9 +85,9 @@ class CheerupViewController: BaseViewController {
     }
     
     //MARK: 메서드
-
+    
     func fetchRealm() {
-        tasks = CheerupMessageRepository.shared.fetchDate()
+        tasks = CheerupMessageRepository.shared.fetchDate(ascending: false)
     }
     
     @objc func insertMessage() {
@@ -168,5 +170,40 @@ extension CheerupViewController: UITableViewDelegate, UITableViewDataSource {
         delete.backgroundColor = .systemRed
         
         return UISwipeActionsConfiguration(actions: [delete])
+    }
+}
+
+extension CheerupViewController {
+    //MARK: - 키보드 메서드
+    func addKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    func removeKeyboardNotifications() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc
+    func keyboardWillShow(_ sender: Notification) {
+        if let keyboardFrame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            keyHeight = keyboardHeight
+            
+            self.view.frame.origin.y = -30
+        }
+    }
+    @objc
+    func keyboardWillHide(_ sender: Notification) {
+        self.view.frame.origin.y = 0
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        removeKeyboardNotifications()
     }
 }

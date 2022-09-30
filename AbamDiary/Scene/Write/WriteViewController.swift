@@ -229,6 +229,7 @@ extension WriteViewController {
     @objc private func adjustKeyboard(noti: Notification) {
         guard let userInfo = noti.userInfo else { return }
         guard let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
+        
         let adjustmentHeight = keyboardFrame.height
         if noti.name == UIResponder.keyboardWillChangeFrameNotification {
             writeView.textView.contentInset.bottom = adjustmentHeight - 80

@@ -67,6 +67,7 @@ class PopUpViewController: BaseViewController {
         
         profileimageView.image = loadImageFromDocument(fileName: "profile.jpg")
         swipeDown()
+        self.navigationController?.tabBarController?.tabBar.isUserInteractionEnabled = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -144,13 +145,11 @@ class PopUpViewController: BaseViewController {
         }
         
         let attributeString = NSMutableAttributedString(string: "당신은 \(result) 아밤이궁요!")
-        
         switch result {
         case "아침형":
             attributeString.addAttributes([.foregroundColor: Color.BaseColorWtihDark.popupViewLabel(type: .morning)], range: NSRange(location: 4, length: 3))
         case "저녁형":
             attributeString.addAttributes([.foregroundColor: Color.BaseColorWtihDark.popupViewLabel(type: .night)], range: NSRange(location: 4, length: 3))
-            
         default:
             attributeString.addAttributes([.foregroundColor: Color.BaseColorWtihDark.popupViewLabel(type: .morning)], range: NSRange(location: 4, length: 3))
         }
