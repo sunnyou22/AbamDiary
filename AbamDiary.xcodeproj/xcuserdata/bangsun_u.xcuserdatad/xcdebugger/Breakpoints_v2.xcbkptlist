@@ -23,54 +23,22 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "5708D583-75E8-4C89-8BAF-3EE55E84FF21"
-            shouldBeEnabled = "No"
+            uuid = "AFE9B46A-DC9A-4AFF-9FD5-C3447F24EB59"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AbamDiary/Scene/Setting/SettiongViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "476"
-            endingLineNumber = "476"
+            startingLineNumber = "471"
+            endingLineNumber = "471"
             landmarkName = "documentPicker(_:didPickDocumentsAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "0715FF17-4224-4520-9621-A2D1F2F3E3F2"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "AbamDiary/Constant/FileManager+Extension.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "248"
-            endingLineNumber = "248"
-            landmarkName = "UIViewController"
-            landmarkType = "21">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "1CB06355-2080-45FC-BABF-E9C2B7AE24E7"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "Yes"
-            filePath = "AbamDiary/Scene/Write/WriteViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
-            landmarkName = "viewWillAppear(_:)"
             landmarkType = "7">
             <Actions>
                <BreakpointActionProxy
                   ActionExtensionID = "Xcode.BreakpointAction.DebuggerCommand">
                   <ActionContent
-                     consoleCommand = "&quot;&#xbdf0;&#xc719;&#xc5b4;&#xd53c;&#xc5c9;!!!!!!!!!!!!!!!!!!!!&quot;">
+                     consoleCommand = "&quot;&#xc555;&#xcd95;&#xd480;&#xae30;&#xc2e4;&#xd328;&#xb2e4; &#xc774;&#xb188;&#xc544;&quot;">
                   </ActionContent>
                </BreakpointActionProxy>
             </Actions>
@@ -79,47 +47,143 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "FA8C150F-FF04-4E2C-8560-097B24B6CBF3"
+            uuid = "919DA555-01C1-42EC-8FD6-2E164CD5BC96"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "AbamDiary/Scene/Main/CalendarViewController.swift"
+            filePath = "AbamDiary/Scene/Setting/SettiongViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "409"
-            endingLineNumber = "409"
-            landmarkName = "calculateMoringDiary()"
+            startingLineNumber = "473"
+            endingLineNumber = "473"
+            landmarkName = "documentPicker(_:didPickDocumentsAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AF9871AB-3125-4B7D-8651-72F964D4DF01"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AbamDiary/Scene/Setting/SettiongViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "495"
+            endingLineNumber = "495"
+            landmarkName = "documentPicker(_:didPickDocumentsAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B9A6A8CF-2FEE-4A9C-BA37-932A42D9D5BB"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AbamDiary/Scene/Setting/SettiongViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "493"
+            endingLineNumber = "493"
+            landmarkName = "documentPicker(_:didPickDocumentsAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E0958ABB-BC24-4050-87FE-91441D2DDD49"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AbamDiary/Scene/Setting/SettiongViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "475"
+            endingLineNumber = "475"
+            landmarkName = "documentPicker(_:didPickDocumentsAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B54010FA-543A-4B11-A12A-0953447C7FE4"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AbamDiary/Scene/Setting/SettiongViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "481"
+            endingLineNumber = "481"
+            landmarkName = "documentPicker(_:didPickDocumentsAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0A8F2D13-9E98-4EF1-B85A-7F29CB7B6F84"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AbamDiary/Scene/Setting/SettiongViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "485"
+            endingLineNumber = "485"
+            landmarkName = "documentPicker(_:didPickDocumentsAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "91D55F4E-CD5A-4AA3-A21C-DB5C89CD2A38"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AbamDiary/Constant/FileManager+Extension.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "256"
+            endingLineNumber = "256"
+            landmarkName = "unzipFile(fileURL:documentURL:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "FA8C150F-FF04-4E2C-8560-097B24B6CBF3 - 449c1aa33dadea7b"
+                  uuid = "91D55F4E-CD5A-4AA3-A21C-DB5C89CD2A38 - 9aa6ed4253a259ae"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "AbamDiary.CalendarViewController.calculateMoringDiary() -&gt; ()"
+                  symbolName = "__C.UIViewController.unzipFile(fileURL: Foundation.URL, documentURL: Foundation.URL) throws -&gt; ()"
                   moduleName = "AbamDiary"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/bangsun_u/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7/%E1%84%8E%E1%85%AE%E1%86%AF%E1%84%89%E1%85%B5%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3%20-%20%E1%84%8B%E1%85%A1%E1%84%87%E1%85%A1%E1%86%B7%E1%84%8B%E1%85%B5%E1%86%AF%E1%84%80%E1%85%B5/AbamDiary/AbamDiary/Scene/Main/CalendarViewController.swift"
+                  urlString = "file:///Users/bangsun_u/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7/%E1%84%8E%E1%85%AE%E1%86%AF%E1%84%89%E1%85%B5%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3%20-%20%E1%84%8B%E1%85%A1%E1%84%87%E1%85%A1%E1%86%B7%E1%84%8B%E1%85%B5%E1%86%AF%E1%84%80%E1%85%B5/AbamDiary/AbamDiary/Constant/FileManager+Extension.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "405"
-                  endingLineNumber = "405"
-                  offsetFromSymbolStart = "72">
+                  startingLineNumber = "256"
+                  endingLineNumber = "256"
+                  offsetFromSymbolStart = "212">
                </Location>
                <Location
-                  uuid = "FA8C150F-FF04-4E2C-8560-097B24B6CBF3 - 7291d912db68c89d"
+                  uuid = "91D55F4E-CD5A-4AA3-A21C-DB5C89CD2A38 - 9aa6ed4253a259ae"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (AbamDiary.Diary) -&gt; Swift.Bool in AbamDiary.CalendarViewController.calculateMoringDiary() -&gt; ()"
+                  symbolName = "__C.UIViewController.unzipFile(fileURL: Foundation.URL, documentURL: Foundation.URL) throws -&gt; ()"
                   moduleName = "AbamDiary"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/bangsun_u/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7/%E1%84%8E%E1%85%AE%E1%86%AF%E1%84%89%E1%85%B5%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3%20-%20%E1%84%8B%E1%85%A1%E1%84%87%E1%85%A1%E1%86%B7%E1%84%8B%E1%85%B5%E1%86%AF%E1%84%80%E1%85%B5/AbamDiary/AbamDiary/Scene/Main/CalendarViewController.swift"
+                  urlString = "file:///Users/bangsun_u/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7/%E1%84%8E%E1%85%AE%E1%86%AF%E1%84%89%E1%85%B5%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3%20-%20%E1%84%8B%E1%85%A1%E1%84%87%E1%85%A1%E1%86%B7%E1%84%8B%E1%85%B5%E1%86%AF%E1%84%80%E1%85%B5/AbamDiary/AbamDiary/Constant/FileManager+Extension.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "406"
-                  endingLineNumber = "406"
-                  offsetFromSymbolStart = "32">
+                  startingLineNumber = "256"
+                  endingLineNumber = "256"
+                  offsetFromSymbolStart = "272">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -127,32 +191,128 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "4EB96F3C-9A25-453F-B2B6-5885C98378C5"
+            uuid = "2543ACDB-A7DF-4896-8D79-3EE1D1D40CD7"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "AbamDiary/Scene/Main/CalendarViewController.swift"
+            filePath = "AbamDiary/Constant/FileManager+Extension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
-            landmarkName = "fetchRealm()"
+            startingLineNumber = "252"
+            endingLineNumber = "252"
+            landmarkName = "unzipFile(fileURL:documentURL:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "0A58ED76-79F5-406C-918B-EE97EC2B01AF"
+            uuid = "1CEE3F41-4C80-49BC-AF99-47BAC3D6697F"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "AbamDiary/Scene/Main/CalendarViewController.swift"
+            filePath = "AbamDiary/Constant/FileManager+Extension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
-            landmarkName = "viewWillAppear(_:)"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
+            landmarkName = "createBackupFile()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "91D1B8E9-06A6-4915-999B-0C8A0FB9C2B3"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AbamDiary/Constant/FileManager+Extension.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "229"
+            endingLineNumber = "229"
+            landmarkName = "saveEncodeCheerupToDocument(tasks:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0949FF9E-ECB1-4706-9E6C-076E1F9849C9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AbamDiary/Scene/Setting/SettiongViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "457"
+            endingLineNumber = "457"
+            landmarkName = "documentPicker(_:didPickDocumentsAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "67C54337-9DEF-4454-B6C9-A653DF58FA0B"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AbamDiary/Scene/Setting/SettiongViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "461"
+            endingLineNumber = "461"
+            landmarkName = "documentPicker(_:didPickDocumentsAt:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "67C54337-9DEF-4454-B6C9-A653DF58FA0B - cf612f34e3246b37"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AbamDiary.SettiongViewController.documentPicker(_: __C.UIDocumentPickerViewController, didPickDocumentsAt: Swift.Array&lt;Foundation.URL&gt;) -&gt; ()"
+                  moduleName = "AbamDiary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bangsun_u/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7/%E1%84%8E%E1%85%AE%E1%86%AF%E1%84%89%E1%85%B5%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3%20-%20%E1%84%8B%E1%85%A1%E1%84%87%E1%85%A1%E1%86%B7%E1%84%8B%E1%85%B5%E1%86%AF%E1%84%80%E1%85%B5/AbamDiary/AbamDiary/Scene/Setting/SettiongViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "461"
+                  endingLineNumber = "461"
+                  offsetFromSymbolStart = "744">
+               </Location>
+               <Location
+                  uuid = "67C54337-9DEF-4454-B6C9-A653DF58FA0B - cf612f34e3246b37"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AbamDiary.SettiongViewController.documentPicker(_: __C.UIDocumentPickerViewController, didPickDocumentsAt: Swift.Array&lt;Foundation.URL&gt;) -&gt; ()"
+                  moduleName = "AbamDiary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bangsun_u/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7/%E1%84%8E%E1%85%AE%E1%86%AF%E1%84%89%E1%85%B5%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3%20-%20%E1%84%8B%E1%85%A1%E1%84%87%E1%85%A1%E1%86%B7%E1%84%8B%E1%85%B5%E1%86%AF%E1%84%80%E1%85%B5/AbamDiary/AbamDiary/Scene/Setting/SettiongViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "461"
+                  endingLineNumber = "461"
+                  offsetFromSymbolStart = "832">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "26DA8D48-7928-4B91-8950-C880ED962D23"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AbamDiary/Scene/Setting/SettiongViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "466"
+            endingLineNumber = "466"
+            landmarkName = "documentPicker(_:didPickDocumentsAt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -170,4 +170,34 @@ let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
  
 ---
 
+# 0921
+## pop뷰컨 띄우기
+### 마지막날에 pop뷰컨 띄우기
+1. 달의 첫날 구하기
+2. 달의 마지막 날 구하기
+- dateComponents를 이용해서 year, month까지 입력하고 day를 입력하지 않으면 달의 첫날을 구할 수 있다.
+- byAdding을 통해서 다음달을 구해주고, 그 다음달에서 하루를 빼면 당월의 마지막날이 나온다.
+### 활용메서드
+`func component(_ component: Calendar.Component, from date: Date) -> Int`
+- 위의 코드에서 year, month까지만 입력하면 day는 1로 반영된다.
+`calendar?.date(from: components!)!`
+- 이를 다시 date로 변환시키는 함수에 넣어주면 달의 첫날을 구할 수 있다.
 
+=> 이런방식으로 components와 date를 변환해서 쓰면 된다.
+
+# 0922
+## 탭바 화면전환
+- `self.tabBarController?.selectedIndex = 0` 
+  - 탭바는 넣을 때부터 배열형태로 넣을 수 있어서 인덱스를 가진다. 그래서 이렇게 화면 전환을 할 수 있음
+## 동시간에 노티를 같이 걸었을 때
+- 같은 시간에 노트가 요청돼서 마지막 순서의 로컬알림만 올 수 있음
+- 비동기처리로 해결
+
+## 백업복구: 코더블
+### 백업
+- 
+### 복구
+-
+
+# 0923
+- iqkeyboad를 빼고 textView

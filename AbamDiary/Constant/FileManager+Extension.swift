@@ -71,7 +71,7 @@ extension UIViewController {
         }
     }
     
-    
+// //제이슨 파일 다시 데이터로 만들기
     func DfetchJSONData() throws -> Data {
         guard let path = documentDirectoryPath() else { throw DocumentPathError.fetchBackupFileError }
        
@@ -85,6 +85,7 @@ extension UIViewController {
         }
     }
     
+    //제이슨 파일 다시 데이터로 만들기
     func CfetchJSONData() throws -> Data {
         guard let path = documentDirectoryPath() else { throw DocumentPathError.fetchBackupFileError }
        
@@ -175,6 +176,7 @@ extension UIViewController {
         }
     }
     
+    //다이어리 디코드
     @discardableResult
     func decoedDiary(_ diaryData: Data) throws -> [Diary]? {
         
@@ -189,6 +191,7 @@ extension UIViewController {
         }
     }
   
+    // 응원메세지 디코드
     @discardableResult
     func decoedCheerup(_ data: Data) throws -> [CheerupMessage]? {
         
@@ -205,6 +208,7 @@ extension UIViewController {
         }
     }
     
+    //도큐먼트에 저장
     func saveDataToDocument(data: Data, fileName: String) throws {
         guard let documentPath = documentDirectoryPath() else { throw DocumentPathError.directoryPathError
         }
@@ -213,23 +217,19 @@ extension UIViewController {
         try data.write(to: jsonDataPath)
     }
     
+    //도큐먼트에 다이어리 인코드한거 저장하기 위해 준비 - 1
     func saveEncodedDiaryToDocument(tasks: Results<Diary>) throws {
         let encodedData = try encodeDiary(tasks)
         try saveDataToDocument(data: encodedData, fileName: "diary")
     }
     
+    //도큐먼트에 응원메세지 인코드한거 저장하기 위해 준비 - 2
     func saveEncodeCheerupToDocument(tasks: Results<CheerupMessage>) throws {
         let encodedData = try encodeCheerup(tasks)
         try saveDataToDocument(data: encodedData, fileName: "cheerup")
     }
     
-    func showActivityViewController(backupFileURL: URL) throws {
-        
-        let vc = UIActivityViewController(activityItems: [backupFileURL], applicationActivities: [])
-        
-        self.present(vc, animated: true)
-    }
-    
+    //백업파일 복구하기
     func restoreRealmForBackupFile() throws {
         let DjsonData = try DfetchJSONData()
         let CjsonData = try CfetchJSONData()
@@ -244,7 +244,7 @@ extension UIViewController {
         })
     }
    
-    
+    //언집하기
     func unzipFile(fileURL: URL, documentURL: URL) throws {
         do {
             try Zip.unzipFile(fileURL, destination: documentURL, overwrite: true, password: nil, progress: { progress in

@@ -91,7 +91,6 @@ class CustomFormatter {
     
     static func isDateEndOfMonth() -> Date {
         
-        
         let date = Date(timeIntervalSinceNow: 0)
         var calendar = Calendar(identifier: .gregorian)
         calendar.locale = Locale(identifier: "ko")
@@ -101,7 +100,7 @@ class CustomFormatter {
         guard let startOfMonth = calendar.date(from: components) else {
             return Date()
         }
-       
+        
         guard let nextMonth = calendar.date(byAdding: .month, value: +1, to: startOfMonth) else {
             return  Date()
         }

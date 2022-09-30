@@ -47,6 +47,8 @@
 		90CCDB7328D06F6B00CDEE06 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CCDB7228D06F6B00CDEE06 /* WriteViewController.swift */; };
 		90CCDB7528D0706100CDEE06 /* CustomFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CCDB7428D0706100CDEE06 /* CustomFormatter.swift */; };
 		90D3F65D28E5EDEF0016C859 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90D3F65C28E5EDEF0016C859 /* Main.storyboard */; };
+		90D3F66028E75EE60016C859 /* BackupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D3F65F28E75EE60016C859 /* BackupViewController.swift */; };
+		90D3F66228E75F1A0016C859 /* BackupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D3F66128E75F1A0016C859 /* BackupView.swift */; };
 		90D919E328E0DA8000CB3307 /* TapBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D919E228E0DA8000CB3307 /* TapBarController.swift */; };
 		90DF62FF28D8924F0046A3E7 /* SwitchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DF62FE28D8924F0046A3E7 /* SwitchModel.swift */; };
 		90DF632A28D981900046A3E7 /* AlarmTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DF632928D981900046A3E7 /* AlarmTableViewCell.swift */; };
@@ -102,6 +104,8 @@
 		90CCDB7228D06F6B00CDEE06 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		90CCDB7428D0706100CDEE06 /* CustomFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFormatter.swift; sourceTree = "<group>"; };
 		90D3F65C28E5EDEF0016C859 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		90D3F65F28E75EE60016C859 /* BackupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupViewController.swift; sourceTree = "<group>"; };
+		90D3F66128E75F1A0016C859 /* BackupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupView.swift; sourceTree = "<group>"; };
 		90D919E228E0DA8000CB3307 /* TapBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapBarController.swift; sourceTree = "<group>"; };
 		90DF62FE28D8924F0046A3E7 /* SwitchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchModel.swift; sourceTree = "<group>"; };
 		90DF632928D981900046A3E7 /* AlarmTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmTableViewCell.swift; sourceTree = "<group>"; };
@@ -217,6 +221,7 @@
 		90B7210C28CDAC9400B243AE /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				90D3F65E28E75EBC0016C859 /* Backup */,
 				90DF632D28D984B00046A3E7 /* Cell */,
 				90B7211528CDAD0500B243AE /* SettiongViewController.swift */,
 				90B8CB2328D7130F00A2C5E9 /* SettingView.swift */,
@@ -243,6 +248,15 @@
 				90CB363B28D08BA6002FCB45 /* WriteView.swift */,
 			);
 			path = Write;
+			sourceTree = "<group>";
+		};
+		90D3F65E28E75EBC0016C859 /* Backup */ = {
+			isa = PBXGroup;
+			children = (
+				90D3F65F28E75EE60016C859 /* BackupViewController.swift */,
+				90D3F66128E75F1A0016C859 /* BackupView.swift */,
+			);
+			path = Backup;
 			sourceTree = "<group>";
 		};
 		90DF632D28D984B00046A3E7 /* Cell */ = {
@@ -429,6 +443,7 @@
 				900AEE0528CC5DB500F18360 /* CalendarTableViewCell.swift in Sources */,
 				90B7211828CDB53D00B243AE /* TabBarImage.swift in Sources */,
 				90CB364028D0A530002FCB45 /* Transition.swift in Sources */,
+				90D3F66028E75EE60016C859 /* BackupViewController.swift in Sources */,
 				90D919E328E0DA8000CB3307 /* TapBarController.swift in Sources */,
 				900AEE1A28CC9A5300F18360 /* Observable.swift in Sources */,
 				90CCDB6728D056C800CDEE06 /* Diary.swift in Sources */,
@@ -442,6 +457,7 @@
 				900AEE0028CC5BA700F18360 /* BaseTableViewCell.swift in Sources */,
 				903B429528E15C7B00012204 /* SearchTableViewCell.swift in Sources */,
 				90F0592728D84A4500F61899 /* NoficationPush + Extension.swift in Sources */,
+				90D3F66228E75F1A0016C859 /* BackupView.swift in Sources */,
 				90DF633328DB18380046A3E7 /* PopUpViewController.swift in Sources */,
 				90F8261428CB799A008E8E6B /* AppDelegate.swift in Sources */,
 				90DF632C28D983D60046A3E7 /* SwitchTableViewCell.swift in Sources */,
@@ -584,7 +600,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = V8L83798C5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AbamDiary/Info.plist;
@@ -621,7 +637,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = V8L83798C5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AbamDiary/Info.plist;

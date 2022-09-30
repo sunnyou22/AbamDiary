@@ -29,6 +29,8 @@ class CalendarViewController: BaseViewController {
             DispatchQueue.main.async {
                 self.mainview.calendar.reloadData()
             }
+            print("Realm is located at:", OneDayDiaryRepository.shared.localRealm.configuration.fileURL!)
+                         print("리로드캘린더♻️")
         }
     }
     
@@ -96,13 +98,14 @@ class CalendarViewController: BaseViewController {
         animationUIImage()
        
        //랜덤응원메세지 반영
-        mainview.cheerupMessage.text = CheerupMessageRepository.shared.fetchDate(ascending: false).randomElement()?.cheerup ?? "응원의 메세지를 추가해보세요!"
+//        mainview.cheerupMessage.text = CheerupMessageRepository.shared.fetchDate(ascending: false).randomElement()?.cheerup ?? "응원의 메세지를 추가해보세요!"
         
 //        self.tabBarController?.tabBar.isHidden = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        mainview.cheerupMessage.text = CheerupMessageRepository.shared.fetchDate(ascending: false).randomElement()?.cheerup ?? "응원의 메세지를 추가해보세요!"
     }
     
     func fetchRealm() {

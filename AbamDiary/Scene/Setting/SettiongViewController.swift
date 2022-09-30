@@ -145,16 +145,14 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
         
         if indexPath.section == 1 {
             if indexPath.row == 0 {
-                clickBackupCell()
-            } else if indexPath.row == 1 {
-                clickRestoreCell()
-            } else {
-                clickBackupList()
+                let vc = BackupViewController()
+                transition(vc, transitionStyle: .push)
             }
         } else if indexPath.section == 2 {
             if indexPath.row == 0 {
                 let alert = UIAlertController(title: "알림", message: "정말 모든 데이터를 삭제하시겠습니까?", preferredStyle: .alert)
                 let ok = UIAlertAction(title: "네", style: .destructive) {_ in
+                    
                     OneDayDiaryRepository.shared.deleteTasks(tasks: self.tasks)
                     
                     self.settingView.makeToast("삭제완료", duration: 0.7, position: .center) { didTap in
@@ -400,8 +398,6 @@ extension SettiongViewController {
             try saveEncodeCheerupToDocument(tasks: cheerupTasks)
             let backupFilePth = try createBackupFile()
             
-            try showActivityViewController(backupFileURL: backupFilePth)
-            
             fetchDocumentZipFile()
         }
         catch {
@@ -424,11 +420,10 @@ extension SettiongViewController {
                 doucumentPicker.allowsMultipleSelection = false
                 self.present(doucumentPicker, animated: true)
                 
-                try self.restoreRealmForBackupFile()
+//                try self.restoreRealmForBackupFile()
                 
-                let backupFilePth = try self.createBackupFile()
-                try self.showActivityViewController(backupFileURL: backupFilePth)
-              
+//                let backupFilePth = try self.createBackupFile()
+//                try self.showActivityViewController(backupFileURL: backupFilePth)
             }
             catch {
                 print("압축에 실패하였습니다")
@@ -470,7 +465,6 @@ extension SettiongViewController: UIDocumentPickerDelegate {
         //sandboxFileURL 단지 경로
         let sandboxFileURL = path.appendingPathComponent(selectedFileURL.lastPathComponent) //lastPathComponent: 경로의  마지막 구성요소 SeSACDiary_1.zip, 그니까 마지막 path를 가져오는 것 이것과 도큐먼트의 url의 path와 합쳐주는 것
        
-        
         // 여기서 sandboxFileURL경로있는지 확인
         if FileManager.default.fileExists(atPath: sandboxFileURL.path) {
             let filename_zip = selectedFileURL.lastPathComponent
