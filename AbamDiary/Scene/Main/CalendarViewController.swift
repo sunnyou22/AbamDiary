@@ -97,6 +97,8 @@ class CalendarViewController: BaseViewController {
        
        //랜덤응원메세지 반영
         mainview.cheerupMessage.text = CheerupMessageRepository.shared.fetchDate(ascending: false).randomElement()?.cheerup ?? "응원의 메세지를 추가해보세요!"
+        
+//        self.tabBarController?.tabBar.isHidden = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -225,17 +227,19 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         switch mode {
             
         case .newDiary:
+            vc.hidesBottomBarWhenPushed = true
             transition(vc, transitionStyle: .push)
             switch diaryType {
             case .morning:
                 vc.writeView.setWriteVCPlaceholder(type: .morning)
+                
             case .night:
                 vc.writeView.setWriteVCPlaceholder(type: .night)
                 
             }
         case .modified:
+            vc.hidesBottomBarWhenPushed = true
             transition(vc, transitionStyle: .push)
-            
         }
         
     }

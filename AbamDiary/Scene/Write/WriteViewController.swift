@@ -40,12 +40,13 @@ class WriteViewController: BaseViewController {
     }
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         self.writeView.textView.delegate = self
         setnavigation()
         //        self.tabBarController?.tabBar.isHidden = true
         textViewDoneBtnMake(text_field: writeView.textView)
+        
+//        self.tabBarController?.tabBar.isHidden = true
     }
     
     
@@ -125,6 +126,8 @@ class WriteViewController: BaseViewController {
     //MARK: 저장 메서드 - 키보드 내려줌
     @objc func save() {
         
+        self.navigationController?.navigationBar.isUserInteractionEnabled = false
+        
         let task = Diary(type: diarytype.rawValue, contents: writeView.textView.text, selecteddate: selectedDate ?? Date(), createdDate: Date())
 
       if writeView.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || writeView.textView.text == writeView.setWriteVCPlaceholder(type: diarytype) {
@@ -147,9 +150,9 @@ class WriteViewController: BaseViewController {
             }
         }
 //        fetch!()
-        writeView.makeToast("\n저장완료!", duration: 0.6, position: .center, title: nil, image: UIImage(named: "ABAM")) { didTap in
+
+        writeView.makeToast("\n저장완료!", duration: 0.4, position: .center, title: nil, image: UIImage(named: "ABAM")) { [self] didTap in
             self.navigationController?.popViewController(animated: true)
-//            self.navigationController?.navigationBar. => 알아오기
         }
         writeView.textView.resignFirstResponder()
     }

@@ -43,7 +43,7 @@ class WriteView: BaseView {
     
     override func configuration() {
         self.backgroundColor = Color.BaseColorWtihDark.backgorund
-        [dateLabel, sectionBar, textView, bottomSectionBar].forEach { self.addSubview($0) }
+        [dateLabel, sectionBar, textView, bottomSectionBar ].forEach { self.addSubview($0) }
         textView.backgroundColor = .clear
     }
     
@@ -68,7 +68,7 @@ class WriteView: BaseView {
         }
         
         bottomSectionBar.snp.makeConstraints { make in
-            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-20)
+            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-40)
             make.height.equalTo(1)
             make.centerX.equalTo(self.snp.centerX)
             make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(40)
