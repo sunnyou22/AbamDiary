@@ -68,7 +68,7 @@ class WriteView: BaseView {
         }
         
         bottomSectionBar.snp.makeConstraints { make in
-            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-24)
+            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-20)
             make.height.equalTo(1)
             make.centerX.equalTo(self.snp.centerX)
             make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(40)

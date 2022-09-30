@@ -67,7 +67,7 @@ class CustomFormatter {
     static func setWritedate(date: Date) -> String {
         
         let ampm = setAMPM(date: date) == "오전" ? "AM " : "PM "
-        return setDateFormatter(date: date) + ampm + setTime(date: date)
+        return setDateFormatter(date: date) + ampm + setTime(date: date) + " "
     }
     
 //    이렇게 모델로 빼줘서 적용하면 시간이 제대로 적용이 안됨
