@@ -402,6 +402,7 @@ extension CalendarViewController {
     
     //아침일기 개수 계산
     func calculateMoringDiary() {
+
         let filterMorningcount = monthFilterTasks.filter { task in
             return task.type == 0
         }.count
@@ -412,7 +413,7 @@ extension CalendarViewController {
     
     //저녁일기 개수 계산
     func calculateNightDiary() {
-        
+
         let filterNightcount = monthFilterTasks.filter { task in
             return task.type == 1
         }.count

@@ -64,7 +64,7 @@ class OneDayDiaryRepository: OnedayDiaryRepositoryType {
     
     func fetchFilterMonth(start: Date, last: Date) -> Results<Diary> {
         
-        return localRealm.objects(Diary.self).filter("selecteddate >= %@ AND selecteddate <= %@", start, last)
+        return localRealm.objects(Diary.self).filter("selecteddate >= %@ AND selecteddate <= %@", start, last + 86400)
     }
     
     func deleteRecord(item: Diary) {
