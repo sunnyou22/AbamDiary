@@ -107,7 +107,8 @@ class WriteViewController: BaseViewController {
         let ViewForDoneButtonOnKeyboard = UIToolbar()
         ViewForDoneButtonOnKeyboard.sizeToFit()
         let btnDoneOnKeyboard = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.doneBtnFromKeyboardClicked))
-        ViewForDoneButtonOnKeyboard.items = [btnDoneOnKeyboard]
+        let test = UIBarButtonItem.flexibleSpace()
+        ViewForDoneButtonOnKeyboard.items = [test, btnDoneOnKeyboard]
         text_field.inputAccessoryView = ViewForDoneButtonOnKeyboard
     }
     
@@ -146,7 +147,10 @@ class WriteViewController: BaseViewController {
             }
         }
 //        fetch!()
-        writeView.makeToast("\n저장완료!", duration: 0.6, position: .center, title: nil, image: UIImage(named: "ABAM"))
+        writeView.makeToast("\n저장완료!", duration: 0.6, position: .center, title: nil, image: UIImage(named: "ABAM")) { didTap in
+            self.navigationController?.popViewController(animated: true)
+//            self.navigationController?.navigationBar. => 알아오기
+        }
         writeView.textView.resignFirstResponder()
     }
     

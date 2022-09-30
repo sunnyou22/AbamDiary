@@ -76,9 +76,9 @@ class CalendarViewController: BaseViewController {
         super.viewWillAppear(animated)
         print(#function, "=============================")
         mainview.profileImage.image = loadImageFromDocument(fileName: "profile.jpg")
+       
         fetchRealm() // 램 패치
-        //        mainview.calendar.reloadData()
-        
+     
         //카운트 세팅
         calculateMoringDiary()
         calculateNightDiary()
@@ -95,8 +95,8 @@ class CalendarViewController: BaseViewController {
         setProgressRetio()
         animationUIImage()
        
-           
-        
+       //랜덤응원메세지 반영
+        mainview.cheerupMessage.text = CheerupMessageRepository.shared.fetchDate(ascending: false).randomElement()?.cheerup ?? "응원의 메세지를 추가해보세요!"
     }
     
     override func viewDidAppear(_ animated: Bool) {
