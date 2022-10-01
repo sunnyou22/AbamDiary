@@ -32,8 +32,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "277"
             endingLineNumber = "277"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "unzipFile(fileURL:documentURL:)"
+            landmarkType = "7">
             <Locations>
                <Location
                   uuid = "91D55F4E-CD5A-4AA3-A21C-DB5C89CD2A38 - 9aa6ed4253a259ae"
@@ -80,8 +80,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "273"
             endingLineNumber = "273"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "unzipFile(fileURL:documentURL:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -96,56 +96,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "241"
             endingLineNumber = "241"
-            landmarkName = "restoreRealmForBackupFile()"
+            landmarkName = "saveEncodeCheerupToDocument(tasks:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "F5111211-8662-4C14-B348-85D0D284C4F6"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "AbamDiary/Scene/Setting/Backup/BackupViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
-            landmarkName = "clickedBackupButton()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "F5111211-8662-4C14-B348-85D0D284C4F6 - 1df28cbaa37c7a79"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "AbamDiary.BackupViewController.clickedBackupButton() -&gt; ()"
-                  moduleName = "AbamDiary"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/bangsun_u/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7/%E1%84%8E%E1%85%AE%E1%86%AF%E1%84%89%E1%85%B5%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3%20-%20%E1%84%8B%E1%85%A1%E1%84%87%E1%85%A1%E1%86%B7%E1%84%8B%E1%85%B5%E1%86%AF%E1%84%80%E1%85%B5/AbamDiary/AbamDiary/Scene/Setting/Backup/BackupViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "89"
-                  endingLineNumber = "89"
-                  offsetFromSymbolStart = "116">
-               </Location>
-               <Location
-                  uuid = "F5111211-8662-4C14-B348-85D0D284C4F6 - 1df28cbaa37c7a79"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "AbamDiary.BackupViewController.clickedBackupButton() -&gt; ()"
-                  moduleName = "AbamDiary"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/bangsun_u/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7/%E1%84%8E%E1%85%AE%E1%86%AF%E1%84%89%E1%85%B5%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3%20-%20%E1%84%8B%E1%85%A1%E1%84%87%E1%85%A1%E1%86%B7%E1%84%8B%E1%85%B5%E1%86%AF%E1%84%80%E1%85%B5/AbamDiary/AbamDiary/Scene/Setting/Backup/BackupViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "89"
-                  endingLineNumber = "89"
-                  offsetFromSymbolStart = "228">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -180,7 +132,7 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "3124E198-098E-499B-AE87-4E47AF4D7D9D - b16ab3ff171a9d19"
+                  uuid = "3124E198-098E-499B-AE87-4E47AF4D7D9D - b16ab3ff171a9ddf"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -190,12 +142,12 @@
                   urlString = "file:///Users/bangsun_u/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7/%E1%84%8E%E1%85%AE%E1%86%AF%E1%84%89%E1%85%B5%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3%20-%20%E1%84%8B%E1%85%A1%E1%84%87%E1%85%A1%E1%86%B7%E1%84%8B%E1%85%B5%E1%86%AF%E1%84%80%E1%85%B5/AbamDiary/AbamDiary/Scene/Setting/Backup/BackupViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "114"
-                  endingLineNumber = "114"
-                  offsetFromSymbolStart = "668">
+                  startingLineNumber = "116"
+                  endingLineNumber = "116"
+                  offsetFromSymbolStart = "676">
                </Location>
                <Location
-                  uuid = "3124E198-098E-499B-AE87-4E47AF4D7D9D - 83b8e9c4391e1dd4"
+                  uuid = "3124E198-098E-499B-AE87-4E47AF4D7D9D - 83b8e9c4391e1d12"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -205,8 +157,8 @@
                   urlString = "file:///Users/bangsun_u/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7/%E1%84%8E%E1%85%AE%E1%86%AF%E1%84%89%E1%85%B5%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3%20-%20%E1%84%8B%E1%85%A1%E1%84%87%E1%85%A1%E1%86%B7%E1%84%8B%E1%85%B5%E1%86%AF%E1%84%80%E1%85%B5/AbamDiary/AbamDiary/Scene/Setting/Backup/BackupViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "114"
-                  endingLineNumber = "114"
+                  startingLineNumber = "116"
+                  endingLineNumber = "116"
                   offsetFromSymbolStart = "308">
                </Location>
             </Locations>

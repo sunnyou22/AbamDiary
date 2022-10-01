@@ -16,29 +16,29 @@ struct Id: Hashable {
 }
 
 enum Section: CaseIterable {
-       case main
-   }
+    case main
+}
 
 //디퍼플을 상속받는 클래스 만들어주기
 class DataSource: UITableViewDiffableDataSource<Section, Id> {
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-//
+    //
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // 현재스냅샷
             var snapshot = self.snapshot()
-           // 해당인덱스에 있는 식별자 반환
+            // 해당인덱스에 있는 식별자 반환
             if let item = itemIdentifier(for: indexPath) {
-                    // 3. delete the item from the snapshot
-                    snapshot.deleteItems([item])
-                    // 4. apply the snapshot (apply changes to the datasource which in turn updates the table view)
-                    apply(snapshot, animatingDifferences: true)
-                }
+                // 3. delete the item from the snapshot
+                snapshot.deleteItems([item])
+                // 4. apply the snapshot (apply changes to the datasource which in turn updates the table view)
+                apply(snapshot, animatingDifferences: true)
             }
-           }
-         }
+        }
+    }
+}
 
 
 class BackupViewController: BaseViewController {
@@ -59,9 +59,9 @@ class BackupViewController: BaseViewController {
     
     func configureNavBar() {
         navigationItem.title = "백업/복구"
-     
-      }
-   
+        
+    }
+    
     override func loadView() {
         view = backupView
     }
@@ -72,7 +72,7 @@ class BackupViewController: BaseViewController {
         backupView.tableView.delegate = self
         
         backupView.backupFileButton.addTarget(self, action: #selector(clickedBackupButton), for: .touchUpInside)
-       setDataSource()
+        setDataSource()
         configureNavBar()
     }
     
@@ -100,13 +100,13 @@ class BackupViewController: BaseViewController {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingDefaultTableViewCell.reuseIdentifier, for: indexPath) as? SettingDefaultTableViewCell else {
                 preconditionFailure()
             }
-            cell = cell
+            //            cell = cell
             cell.subTitle.text = itemIdentifier.name
             
             return cell
         })
     }
-       
+    
     //셀에 들어갈 데이터 즉 스냅샷 + 백업
     func setTextData(text: String) {
         var snapshot = dataSource.snapshot()
@@ -132,7 +132,7 @@ class BackupViewController: BaseViewController {
             backupView.makeToast("압축에 실패하였습니다")
         }
     }
- 
+    
     
     func clickRestoreCell(text: String) {
         
@@ -159,17 +159,17 @@ class BackupViewController: BaseViewController {
                     doucumentPicker.delegate = self
                     doucumentPicker.allowsMultipleSelection = false
                     self.present(doucumentPicker, animated: true)
-              
+                    
                     try self.restoreRealmForBackupFile()
                 }
                 catch {
                     print("압축에 실패하였습니다")
                 }
             }
-//복구완료 얼럿넣기
-                self.tabBarController?.selectedIndex = 0
+            //복구완료 얼럿넣기
+            self.tabBarController?.selectedIndex = 0
         }
-            let cancel = UIAlertAction(title: "취소", style: .cancel)
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
         
         alert.addAction(ok)
         alert.addAction(cancel)
@@ -188,13 +188,13 @@ class BackupViewController: BaseViewController {
 extension BackupViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//
-//        guard let text = cell.subTitle.text else {
-//            print("🔴 해당셀의 레이블은 nil입니다.")
-//            return
-//        }
+        //
+        //        guard let text = cell.subTitle.text else {
+        //            print("🔴 해당셀의 레이블은 nil입니다.")
+        //            return
+        //        }
         
-//        clickRestoreCell(text: cell.sub)
+        //        clickRestoreCell(text: cell.sub)
     }
 }
 
@@ -227,8 +227,8 @@ extension BackupViewController: UIDocumentPickerDelegate {
             print(filename_zip, "========🚀🚀🚀🚀🚀")
             
             let zipfileURL = path.appendingPathComponent(filename_zip)
-  print(zipfileURL)
-           
+            print(zipfileURL)
+            
             do {
                 try unzipFile(fileURL: zipfileURL, documentURL: path)
                 do {
@@ -250,7 +250,7 @@ extension BackupViewController: UIDocumentPickerDelegate {
                 try FileManager.default.copyItem(at: selectedFileURL, to: sandboxFileURL)
                 let filename_zip = selectedFileURL.lastPathComponent
                 let zipfileURL = path.appendingPathExtension(filename_zip)
-
+                
                 do {
                     try unzipFile(fileURL: zipfileURL, documentURL: path)
                     do {

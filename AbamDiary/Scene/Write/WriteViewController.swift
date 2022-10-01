@@ -86,13 +86,11 @@ class WriteViewController: BaseViewController {
     //MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        self.navigationItem.largeTitleDisplayMode = .never
         //데이터 패치
         OneDayDiaryRepository.shared.fetchLatestOrder()
         writeView.dateLabel.text = CustomFormatter.setWritedate(date: data?.createdDate ?? Date())
     }
-    
-    
     
     //MARK: - viewWillDisappear
     override func viewWillDisappear(_ animated: Bool) {
