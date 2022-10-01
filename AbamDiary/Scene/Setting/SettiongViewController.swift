@@ -269,7 +269,7 @@ extension SettiongViewController {
             
             // 버튼 타이틀에 데이터피커의 값을 넣어주기 포맷터
             sender.setTitle(dateString, for: .normal)
-   
+            
             var date = DateComponents(timeZone: .current)
             
             //h m가 int로 변환되서 배열로 넣어줌 -> 데이트 컴포넌트를 위해서
@@ -278,7 +278,7 @@ extension SettiongViewController {
             // 유저가 설정한 시간에 대한 데이트컴포넌트 배열을 유저디폴트에 저장해줌
             UserDefaults.standard.set(Marray, forKey: "Mdate")
             Marray = UserDefaults.standard.array(forKey: "Mdate") as? [Int] ?? [Int]()
- 
+            
             
             date.hour = Marray[0]
             date.minute = Marray[1]
@@ -389,128 +389,7 @@ extension SettiongViewController {
             
         }
     }
-    
-    //MARK: 백업복구
-    
-    func clickBackupCell() {
-        do {
-            try saveEncodedDiaryToDocument(tasks: tasks)
-            try saveEncodeCheerupToDocument(tasks: cheerupTasks)
-            let backupFilePth = try createBackupFile()
-            
-            fetchDocumentZipFile()
-        }
-        catch {
-            print("압축에 실패하였습니다")
-        }
-    }
-    
-    func clickRestoreCell() {
-        let alert = UIAlertController(title: "알림", message: "현재 일기에 덮어씌워집니다. 진행하시겠습니까?", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "네", style: .default) { [weak self]_ in
-            
-            guard let self = self else { return }
-            
-            OneDayDiaryRepository.shared.deleteTasks(tasks: self.tasks)
-            CheerupMessageRepository.shared.deleteTasks(tasks: self.cheerupTasks)
-            do {
-                
-                let doucumentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.archive], asCopy: true)
-                doucumentPicker.delegate = self
-                doucumentPicker.allowsMultipleSelection = false
-                self.present(doucumentPicker, animated: true)
-                
-//                try self.restoreRealmForBackupFile()
-                
-//                let backupFilePth = try self.createBackupFile()
-//                try self.showActivityViewController(backupFileURL: backupFilePth)
-            }
-            catch {
-                print("압축에 실패하였습니다")
-            }
-//복구완료 얼럿넣기
-                self.tabBarController?.selectedIndex = 0
-        }
-            let cancel = UIAlertAction(title: "취소", style: .cancel)
-        
-        alert.addAction(ok)
-        alert.addAction(cancel)
-        
-        present(alert, animated: true)
-    }
-    
-    func clickBackupList() {
-        let alert = UIAlertController(title: "알림", message: "업데이트 예정입니다!\n조금만 기다려주세요!", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "네", style: .default)
-        alert.addAction(ok)
-        present(alert, animated: true)
-    }
 }
-
-extension SettiongViewController: UIDocumentPickerDelegate {
-    
-    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
-    }
-    
-    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) { // 어떤 압축파일을 선택했는지 명세
-        
-        guard let selectedFileURL = urls.first else {
-            return
-        }
-        
-        guard let path = documentDirectoryPath() else {
-            return
-        }
-        
-        //sandboxFileURL 단지 경로
-        let sandboxFileURL = path.appendingPathComponent(selectedFileURL.lastPathComponent) //lastPathComponent: 경로의  마지막 구성요소 SeSACDiary_1.zip, 그니까 마지막 path를 가져오는 것 이것과 도큐먼트의 url의 path와 합쳐주는 것
-       
-        // 여기서 sandboxFileURL경로있는지 확인
-        if FileManager.default.fileExists(atPath: sandboxFileURL.path) {
-            let filename_zip = selectedFileURL.lastPathComponent
-            let zipfileURL = path.appendingPathComponent(filename_zip)
-  print(zipfileURL)
-           
-            do {
-                try unzipFile(fileURL: zipfileURL, documentURL: path)
-                do {
-                    let Dfetch = try DfetchJSONData()
-                    let Cfetch = try CfetchJSONData()
-                    try decoedDiary(Dfetch)
-                    try decoedCheerup(Cfetch)
-                    fetchDocumentZipFile()
-                } catch {
-                }
-            } catch {
-                print("압축풀기 실패 다 이놈아~~~===============")
-            }
-        } else {
-            
-            do {
-                try FileManager.default.copyItem(at: selectedFileURL, to: sandboxFileURL)
-                let filename_zip = selectedFileURL.lastPathComponent
-                let zipfileURL = path.appendingPathExtension(filename_zip)
-
-                do {
-                    try unzipFile(fileURL: zipfileURL, documentURL: path)
-                    do {
-                        let Dfetch = try DfetchJSONData()
-                        let Cfetch = try CfetchJSONData()
-                        try decoedDiary(Dfetch)
-                        try decoedCheerup(Cfetch)
-                    } catch {
-                        print("복구실패~~~")
-                    }
-                } catch {
-                    print("압축풀기 실패 다 이놈아~~~")
-                }
-            } catch {
-                print("🔴 압축 해제 실패")
-            }
-        }
-    }
-}
-
 
 extension SettiongViewController: MFMailComposeViewControllerDelegate {
     func sendMail() {

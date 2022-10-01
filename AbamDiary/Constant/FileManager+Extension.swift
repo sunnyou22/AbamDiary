@@ -119,8 +119,21 @@ extension UIViewController {
         }
     }
     
+    func fetchJSONData() throws -> Data {
+        guard let path = documentDirectoryPath() else { throw DocumentPathError.fetchBackupFileError }
+        
+        let jsonDataPath = path.appendingPathComponent("encodedData.json")
+        
+        do {
+            return try Data(contentsOf: jsonDataPath)
+        }
+        catch {
+            throw DocumentPathError.fetchBackupFileError
+        }
+    }
+    
     //파일생성
-    func createBackupFile() throws -> URL {
+    func createBackupFile(fileName: String) throws -> URL {
         
         var urlpath = [URL]()
         let fileNameDate = CustomFormatter.setWritedate(date: Date())
@@ -137,11 +150,10 @@ extension UIViewController {
             throw DocumentPathError.compressionFailedError
         }
         
-        
         urlpath.append(contentsOf: [DencodedFilePath, CencodedFilePath])
         
         do {
-            let zipFilePath = try Zip.quickZipFiles(urlpath, fileName: "diary \(fileNameDate)") // 확장자 없으면 저장이 안됨
+            let zipFilePath = try Zip.quickZipFiles(urlpath, fileName: "\(fileName).zip") // 확장자 없으면 저장이 안됨
             print("Archive Lcation: \(zipFilePath.lastPathComponent)")
             return zipFilePath
         } catch {
@@ -244,6 +256,15 @@ extension UIViewController {
         })
     }
    
+    //도큐먼트 피커보여주기
+    func showActivityViewController(backupFileURL: URL) throws {
+        
+        let vc = UIActivityViewController(activityItems: [backupFileURL], applicationActivities: [])
+        
+        self.present(vc, animated: true)
+    }
+    
+    
     //언집하기
     func unzipFile(fileURL: URL, documentURL: URL) throws {
         do {
