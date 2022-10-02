@@ -20,7 +20,10 @@ extension SettiongViewController {
                 UserDefaults.standard.set(true, forKey: "switch")
                 
                 SettiongViewController.MDefaultNoti()
-                SettiongViewController.NDefaultNoti()
+                
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+                    SettiongViewController.NDefaultNoti()
+                }
               
                 SettiongViewController.autorizationSwitchModel.isValid.value = true
               
