@@ -112,8 +112,7 @@ class BackupViewController: BaseViewController {
         var snapshot = dataSource.snapshot()
         
         guard arr.filter({ id in
-            snapshot.itemIdentifiers.contains(id)
-        }).isEmpty else {
+            snapshot.itemIdentifiers.contains(id)}).isEmpty else {
             backupView.makeToast("기존 파일명은 사용할 수 없습니다!", duration: 0.8, position: .center)
             return
         }

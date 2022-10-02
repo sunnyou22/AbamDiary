@@ -180,7 +180,6 @@
 			isa = PBXGroup;
 			children = (
 				90CCDB7128D06F5D00CDEE06 /* Write */,
-				90B7210C28CDAC9400B243AE /* Setting */,
 				90B7210B28CDAC8400B243AE /* MonthDiary */,
 				90B7210A28CDAC7D00B243AE /* Search */,
 				90B7210928CDAC6000B243AE /* Cheerup */,
@@ -246,6 +245,7 @@
 			children = (
 				90CCDB7228D06F6B00CDEE06 /* WriteViewController.swift */,
 				90CB363B28D08BA6002FCB45 /* WriteView.swift */,
+				90B7210C28CDAC9400B243AE /* Setting */,
 			);
 			path = Write;
 			sourceTree = "<group>";
