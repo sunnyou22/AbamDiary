@@ -245,3 +245,25 @@ let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
   - 새작성화면 - 비활성화
   - 수정 - 토스트
 
+# 0929
+## 일기를 새로 작성하는 뷰컨 이슈
+- 처음에는 viewWillDisappear에 걸어줬다가 새로 작성하는 화면에서는 작성뷰컨에서 홈화면으로 이동하려는 스와이프 동작을
+화면을 터치한 상태로 반복하면 레코드가 계속 추가됐음
+- viewDidDisappear에 넣어주면 탭바 이동시에 레코드가 계속 추가됨
+  - 탭바를 없앨 수 있지만 사용성이 떨어짐 
+- 저장버튼을 따로 만들어주고 버튼을 눌렀을 때 저장할 수 있게 변경
+  - 저장되면 바로 pop되게 변경
+- 완료버튼을 저장버튼으로 하고 툴바 생성해서 textView가 firstResponder가 됐을 때 보이는 뷰(inputAccessoryView)에 추가해 키보드를 내릴 수 있도록함
+  ```
+  func textViewDoneBtnMake(text_field : UITextView) {
+        let ViewForDoneButtonOnKeyboard = UIToolbar()
+        ViewForDoneButtonOnKeyboard.sizeToFit()
+        let btnDoneOnKeyboard = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.doneBtnFromKeyboardClicked))
+        let flexibleSpace = UIBarButtonItem.flexibleSpace()
+        ViewForDoneButtonOnKeyboard.items = [flexibleSpace, btnDoneOnKeyboard]
+        text_field.inputAccessoryView = ViewForDoneButtonOnKeyboard
+    }
+    ```
+
+- 삭제를 누르고 플레이스홀더를 편집할 수 있는 버그 수정
+  - 삭제버튼을 누르면 textView에 resignResponder해줌

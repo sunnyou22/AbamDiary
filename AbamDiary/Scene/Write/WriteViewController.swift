@@ -106,8 +106,8 @@ class WriteViewController: BaseViewController {
         let ViewForDoneButtonOnKeyboard = UIToolbar()
         ViewForDoneButtonOnKeyboard.sizeToFit()
         let btnDoneOnKeyboard = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.doneBtnFromKeyboardClicked))
-        let test = UIBarButtonItem.flexibleSpace()
-        ViewForDoneButtonOnKeyboard.items = [test, btnDoneOnKeyboard]
+        let flexibleSpace = UIBarButtonItem.flexibleSpace()
+        ViewForDoneButtonOnKeyboard.items = [flexibleSpace, btnDoneOnKeyboard]
         text_field.inputAccessoryView = ViewForDoneButtonOnKeyboard
     }
     
