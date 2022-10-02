@@ -186,6 +186,7 @@ let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
 => 이런방식으로 components와 date를 변환해서 쓰면 된다.
 ## 액션시트에 커스텀뷰 넣기
 - 얼럿으로 커스텀뷰를 넣었었지만 안드로이드 스타일이라고 해서 액션시트로 바꿈
+
 ```
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .time
@@ -203,6 +204,7 @@ let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
         contentVC.preferredContentSize.height = 200
         dateChooseAlert.setValue(contentVC, forKey: "contentViewController")
         ```
+        
 - forKey: "contentViewController"는 바꾸면 커스텀뷰컨을 넣을 수 없다. 애플이 고정해둔 키 값
 
 # 0922
@@ -274,6 +276,7 @@ let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
 - 저장버튼을 따로 만들어주고 버튼을 눌렀을 때 저장할 수 있게 변경
   - 저장되면 바로 pop되게 변경
 - 완료버튼을 저장버튼으로 하고 툴바 생성해서 textView가 firstResponder가 됐을 때 보이는 뷰(inputAccessoryView)에 추가해 키보드를 내릴 수 있도록함
+ 
   ```
   func textViewDoneBtnMake(text_field : UITextView) {
         let ViewForDoneButtonOnKeyboard = UIToolbar()

@@ -7,7 +7,7 @@
 import UIKit
 import RealmSwift
 
-fileprivate protocol OnedayDiaryRepositoryType {
+fileprivate protocol OnedayDiaryRepositoryType: AnyObject {
     func fetchLatestOrder() -> Results<Diary> // 기본정렬값
     func fetchOlderOrder() -> Results<Diary>
     func fetchSearchFilter(text: String?, type: Int) -> Results<Diary>?

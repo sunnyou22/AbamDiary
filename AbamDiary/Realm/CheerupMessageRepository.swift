@@ -7,7 +7,7 @@
 
 import RealmSwift
 
-fileprivate protocol CheerupMessageRepositoryType {
+fileprivate protocol CheerupMessageRepositoryType: AnyObject {
     func fetchDate(ascending: Bool) -> Results<CheerupMessage>
     func deleteRecord(item: CheerupMessage)
     func deleteTasks(tasks: Results<CheerupMessage>)
