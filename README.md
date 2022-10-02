@@ -184,6 +184,26 @@ let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
 - 이를 다시 date로 변환시키는 함수에 넣어주면 달의 첫날을 구할 수 있다.
 
 => 이런방식으로 components와 date를 변환해서 쓰면 된다.
+## 액션시트에 커스텀뷰 넣기
+- 얼럿으로 커스텀뷰를 넣었었지만 안드로이드 스타일이라고 해서 액션시트로 바꿈
+```
+        let datePicker = UIDatePicker()
+        datePicker.datePickerMode = .time
+        datePicker.preferredDatePickerStyle = .wheels
+        
+        //dateformat으로 나중에 빼기
+        let dateStringFormatter = DateFormatter()
+        dateStringFormatter.locale = NSLocale(localeIdentifier: "ko_KO") as Locale
+        dateStringFormatter.dateFormat = "H:mm"
+        dateStringFormatter.string(from: datePicker.date)
+        
+        let dateChooseAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let contentVC = UIViewController()
+        contentVC.view = datePicker
+        contentVC.preferredContentSize.height = 200
+        dateChooseAlert.setValue(contentVC, forKey: "contentViewController")
+        ```
+- forKey: "contentViewController"는 바꾸면 커스텀뷰컨을 넣을 수 없다. 애플이 고정해둔 키 값
 
 # 0922
 ## 탭바 화면전환
