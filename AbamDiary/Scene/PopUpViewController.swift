@@ -65,7 +65,7 @@ class PopUpViewController: BaseViewController {
         view.backgroundColor = .black.withAlphaComponent(0.4)
         view.isOpaque = false
         
-        profileimageView.image = loadImageFromDocument(fileName: "profile.jpg")
+        profileimageView.image = loadImageFromFolder(fileName: "profile.jpg", folderName: .imageFoler)
         swipeDown()
         self.navigationController?.tabBarController?.tabBar.isUserInteractionEnabled = false
     }

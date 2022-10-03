@@ -9,6 +9,10 @@ import UIKit
 import RealmSwift
 import Zip
 
+enum PathComponentName: String {
+    case imageFoler
+}
+
 enum CodableError: Error {
     case jsonEncodeError
     case jsonDecodeError
@@ -41,6 +45,42 @@ extension UIViewController {
         do {
             try data.write(to: fileURL)
         } catch let error {
+            print("file save error🔴", error)
+        }
+    }
+    
+    func saveImageToFolder(foldername: PathComponentName, filename: String, image: UIImage) {
+        
+        guard let documentsFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+        let folderURL = documentsFolder.appendingPathComponent(foldername.rawValue)
+        let folderExists = (try? folderURL.checkResourceIsReachable()) ?? false // 폴더에 도달 가능?
+        
+        do { //try문이기 땜눈에 do
+            if !folderExists { // 도달가능해
+                // 그럼 그 url에 해당하는 폴더 만들어
+                try FileManager.default.createDirectory(at: folderURL, withIntermediateDirectories: false)
+            }
+            let fileURL = folderURL.appendingPathComponent(filename) // 파일 경로 생성 및 저장
+            guard let data = image.jpegData(compressionQuality: 0.8) else { return }
+            
+            do {
+                try data.write(to: fileURL)
+            } catch {
+                print(error, "====> 해당 이미지를 URL로 수정할 수 없습니다.")
+            }
+        } catch { print("=====> 이미지 폴더를 만들 수 없습니다") }
+    }
+    
+    func loadImageFromFolder(fileName: String, folderName: PathComponentName) -> UIImage? {
+        guard let documentsFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil}
+        let folderURL = documentsFolder.appendingPathComponent(folderName.rawValue)
+        let fileURL = folderURL.appendingPathComponent(fileName)
+        
+        if FileManager.default.fileExists(atPath: fileURL.path) {
+            return UIImage(contentsOfFile: fileURL.path)
+            
+        } else {
+            return UIImage(named: "ABAM")
         }
     }
     
@@ -59,7 +99,7 @@ extension UIViewController {
         return image
     }
     
-    func removeImageFromDocument(fileName: String) {
+    func removeImageFromFolderDocument(fileName: String) {
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return } // 내 앱에 해당되는 도큐먼트 폴더가 있늬?
         let fileURL = documentDirectory.appendingPathComponent(fileName)
         
@@ -71,9 +111,10 @@ extension UIViewController {
         }
     }
    
-    func removeBackupFileDocument(fileName: String) {
+    func removeBackupFileDocument(fileName: String, folderName: PathComponentName) {
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return } // 내 앱에 해당되는 도큐먼트 폴더가 있늬?
-        let fileURL = documentDirectory.appendingPathComponent(fileName)
+        let folderURL = documentDirectory.appendingPathComponent(folderName.rawValue)
+        let fileURL = folderURL.appendingPathComponent(fileName)
         
         do {
             try FileManager.default.removeItem(at: fileURL)
@@ -134,7 +175,7 @@ extension UIViewController {
     }
     
     //파일생성
-    func createBackupFile(fileName: String) throws -> URL {
+    func createBackupFile(fileName: String, folderName: PathComponentName) throws -> URL {
         
         var urlpath = [URL]()
         let fileNameDate = CustomFormatter.setWritedate(date: Date())
@@ -143,15 +184,17 @@ extension UIViewController {
             throw DocumentPathError.directoryPathError
         }
         
+        let folderURL = path.appendingPathComponent(folderName.rawValue)
+        
         let DencodedFilePath = path.appendingPathComponent("diary.json")
         let CencodedFilePath = path.appendingPathComponent("cheerup.json")
-        
+//        let image = folderURL.appendingPathComponent("profile.jpg")
         
         guard FileManager.default.fileExists(atPath: DencodedFilePath.path) && FileManager.default.fileExists(atPath: CencodedFilePath.path) else {
             throw DocumentPathError.compressionFailedError
         }
         
-        urlpath.append(contentsOf: [DencodedFilePath, CencodedFilePath])
+        urlpath.append(contentsOf: [DencodedFilePath, CencodedFilePath, folderURL])
         
         do {
             let zipFilePath = try Zip.quickZipFiles(urlpath, fileName: "\(fileName)") // 확장자 없으면 저장이 안됨

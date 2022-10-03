@@ -22,6 +22,7 @@ class BackupViewController: BaseViewController {
     
     func configureNavBar() {
         navigationItem.title = "백업/복구"
+        self.navigationController?.navigationBar.tintColor = Color.BaseColorWtihDark.navigationBarItem
     }
     
     override func loadView() {
@@ -55,7 +56,7 @@ class BackupViewController: BaseViewController {
     }
     
     @objc func clickedBackupButton() {
-        setTextBackupData(text: "ABAM\(CustomFormatter.setWritedate(date: Date()))")
+        setTextBackupData(text: "ABAM \(CustomFormatter.setWritedate(date: Date()))")
     }
     
     //셀에 들어갈 데이터 즉 스냅샷 + 백업
@@ -64,7 +65,7 @@ class BackupViewController: BaseViewController {
         do {
             try saveEncodedDiaryToDocument(tasks: tasks)
             try saveEncodeCheerupToDocument(tasks: cheerupTasks)
-            let backupFilePth = try createBackupFile(fileName: text)
+            let backupFilePth = try createBackupFile(fileName: text, folderName: .imageFoler)
             fetchBackupFileList()
             backupView.tableView.reloadData()
             try showActivityViewController(backupFileURL: backupFilePth)
@@ -139,7 +140,7 @@ extension BackupViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            removeBackupFileDocument(fileName: (backupfiles?[indexPath.row])!)
+            removeBackupFileDocument(fileName: (backupfiles?[indexPath.row])!, folderName: .imageFoler)
             fetchBackupFileList()
             backupView.tableView.reloadData()
         }
