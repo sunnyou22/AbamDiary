@@ -40,7 +40,6 @@ class DataSource: UITableViewDiffableDataSource<Section, Id> {
     }
 }
 
-
 class BackupViewController: BaseViewController {
     
     static let shared = BackupViewController()
@@ -55,11 +54,10 @@ class BackupViewController: BaseViewController {
     
     var dataSource: DataSource!
     
-    var cell: UITableViewCell?
+    var customcell: SettingDefaultTableViewCell?
     
     func configureNavBar() {
         navigationItem.title = "백업/복구"
-        
     }
     
     override func loadView() {
@@ -74,6 +72,12 @@ class BackupViewController: BaseViewController {
         backupView.backupFileButton.addTarget(self, action: #selector(clickedBackupButton), for: .touchUpInside)
         setDataSource()
         configureNavBar()
+        
+        NotificationCenter.default.post(
+              name: Notification.Name("Content"),
+              object: nil,
+              userInfo: ["content" : self.arr as Any]
+              )
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -91,35 +95,39 @@ class BackupViewController: BaseViewController {
             backupView.makeToast("메세지를 다시 입력해주세요", duration: 0.5, position: .center)
             return
         }
-        setTextData(text: text)
+        setTextBackupData(text: text)
     }
     
     // 스냅샷에서 데이터를 뽑아와서 셀에 보여지는 것
     func setDataSource() {
         self.dataSource = DataSource(tableView: backupView.tableView, cellProvider: { tableView, indexPath, itemIdentifier in
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingDefaultTableViewCell.reuseIdentifier, for: indexPath) as? SettingDefaultTableViewCell else {
-                preconditionFailure()
-            }
-            //            cell = cell
-            cell.subTitle.text = itemIdentifier.name
+//            guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingDefaultTableViewCell.reuseIdentifier, for: indexPath) as? SettingDefaultTableViewCell else {
+//                preconditionFailure()
+//            }
             
-            return cell
+            self.customcell = self.fetchCell(tableView, didSelectRowAt: indexPath)
+            self.customcell?.subTitle.text = itemIdentifier.name
+            
+            return self.customcell
         })
     }
     
     //셀에 들어갈 데이터 즉 스냅샷 + 백업
-    func setTextData(text: String) {
-        var snapshot = dataSource.snapshot()
-        
+    func setTextBackupData(text: String) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Id>()
+       
         guard arr.filter({ id in
-            snapshot.itemIdentifiers.contains(id)}).isEmpty else {
+            snapshot.itemIdentifiers.last?.name == id.name }).isEmpty else {
             backupView.makeToast("기존 파일명은 사용할 수 없습니다!", duration: 0.8, position: .center)
+
             return
         }
         
         arr.append(Id(name: text))
         
         do {
+            try saveEncodedDiaryToDocument(tasks: tasks)
+            try saveEncodeCheerupToDocument(tasks: cheerupTasks)
             let backupFilePth = try createBackupFile(fileName: text)
             try showActivityViewController(backupFileURL: backupFilePth)
             fetchDocumentZipFile()
@@ -144,29 +152,21 @@ class BackupViewController: BaseViewController {
                 print("도큐먼트 위치에 오류가 있습니다.")
                 return
             }
-            
-            OneDayDiaryRepository.shared.deleteTasks(tasks: self.tasks)
-            CheerupMessageRepository.shared.deleteTasks(tasks: self.cheerupTasks)
-            
+          
             if FileManager.default.fileExists(atPath: path.path) {
                 let fileURL = path.appendingPathComponent(text)
                 
                 do {
-                    
-                    
                     let doucumentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.archive], asCopy: true)
                     doucumentPicker.delegate = self
                     doucumentPicker.allowsMultipleSelection = false
                     self.present(doucumentPicker, animated: true)
-                    
-                    try self.restoreRealmForBackupFile()
                 }
                 catch {
-                    print("압축에 실패하였습니다")
+                    print("압축풀기에 실패하였습니다")
                 }
             }
             //복구완료 얼럿넣기
-            self.tabBarController?.selectedIndex = 0
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel)
         
@@ -176,9 +176,9 @@ class BackupViewController: BaseViewController {
         present(alert, animated: true)
     }
     
-    func fetchCell(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) -> CalendarTableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CalendarTableViewCell.reuseIdentifier, for: indexPath) as? CalendarTableViewCell else { return CalendarTableViewCell()}
-        self.cell = cell
+    func fetchCell(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) -> SettingDefaultTableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingDefaultTableViewCell.reuseIdentifier, for: indexPath) as? SettingDefaultTableViewCell else { return SettingDefaultTableViewCell()}
+        self.customcell = cell
         
         return cell
     }
@@ -187,13 +187,8 @@ class BackupViewController: BaseViewController {
 extension BackupViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //
-        //        guard let text = cell.subTitle.text else {
-        //            print("🔴 해당셀의 레이블은 nil입니다.")
-        //            return
-        //        }
         
-        //        clickRestoreCell(text: cell.sub)
+        clickRestoreCell(text: (customcell?.subTitle.text)!)
     }
 }
 
@@ -229,13 +224,14 @@ extension BackupViewController: UIDocumentPickerDelegate {
             print(zipfileURL)
             
             do {
+                
+                OneDayDiaryRepository.shared.deleteTasks(tasks: self.tasks)
+                CheerupMessageRepository.shared.deleteTasks(tasks: self.cheerupTasks)
+                
                 try unzipFile(fileURL: zipfileURL, documentURL: path)
                 do {
-                    let Dfetch = try DfetchJSONData()
-                    let Cfetch = try CfetchJSONData()
-                    try decoedDiary(Dfetch)
-                    try decoedCheerup(Cfetch)
-                    fetchDocumentZipFile()
+                    try self.restoreRealmForBackupFile()
+                    self.tabBarController?.selectedIndex = 0
                 } catch {
                     print("복구실패~~~")
                 }

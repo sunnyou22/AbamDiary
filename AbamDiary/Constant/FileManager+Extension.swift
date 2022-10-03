@@ -119,19 +119,6 @@ extension UIViewController {
         }
     }
     
-    func fetchJSONData() throws -> Data {
-        guard let path = documentDirectoryPath() else { throw DocumentPathError.fetchBackupFileError }
-        
-        let jsonDataPath = path.appendingPathComponent("encodedData.json")
-        
-        do {
-            return try Data(contentsOf: jsonDataPath)
-        }
-        catch {
-            throw DocumentPathError.fetchBackupFileError
-        }
-    }
-    
     //파일생성
     func createBackupFile(fileName: String) throws -> URL {
         
@@ -153,7 +140,7 @@ extension UIViewController {
         urlpath.append(contentsOf: [DencodedFilePath, CencodedFilePath])
         
         do {
-            let zipFilePath = try Zip.quickZipFiles(urlpath, fileName: "\(fileName).zip") // 확장자 없으면 저장이 안됨
+            let zipFilePath = try Zip.quickZipFiles(urlpath, fileName: "\(fileName)") // 확장자 없으면 저장이 안됨
             print("Archive Lcation: \(zipFilePath.lastPathComponent)")
             return zipFilePath
         } catch {
