@@ -70,6 +70,18 @@ extension UIViewController {
             print(error)
         }
     }
+   
+    func removeBackupFileDocument(fileName: String) {
+        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return } // 내 앱에 해당되는 도큐먼트 폴더가 있늬?
+        let fileURL = documentDirectory.appendingPathComponent(fileName)
+        
+        do {
+            try FileManager.default.removeItem(at: fileURL)
+        } catch let error {
+            view.makeToast("삭제할 백업파일이 없습니다", duration: 1.5, position: .center)
+            print(error)
+        }
+    }
     
 // //제이슨 파일 다시 데이터로 만들기
     func DfetchJSONData() throws -> Data {
@@ -99,10 +111,10 @@ extension UIViewController {
         }
     }
     
-    func fetchDocumentZipFile() {
+    func fetchDocumentZipFile() -> [String] {
         
         do {
-            guard let path = documentDirectoryPath() else { return } //도큐먼트 경로 가져옴
+            guard let path = documentDirectoryPath() else { return [] } //도큐먼트 경로 가져옴
             
             let docs =  try FileManager.default.contentsOfDirectory(at: path, includingPropertiesForKeys: nil)
             print("👉 docs: \(docs)")
@@ -113,9 +125,11 @@ extension UIViewController {
             let result = zip.map { $0.lastPathComponent } //경로 다 보여줄 필요 없으니까 마지막 확장자를 string으로 가져오는 것
             print("👉 result: \(result)") // 오 이렇게 하면 폴더로 만들어서 관리하기도 쉬울듯
             
+            return result
             
         } catch {
             print("Error🔴")
+            return []
         }
     }
     

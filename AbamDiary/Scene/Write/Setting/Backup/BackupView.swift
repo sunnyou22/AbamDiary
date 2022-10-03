@@ -10,25 +10,68 @@ import SnapKit
 
 class BackupView: BaseView {
     
-    let backupFileNameTextField: UITextField = {
-        let view = UITextField()
-        view.placeholder = "백업파일이름을 입력해주세요"
-        view.backgroundColor = .brown
+    let notiLabel: UILabel = {
+        let view = UILabel()
+        view.numberOfLines = 0
+        view.text = """
+앱 삭제시 백업파일이 함께 삭제되기 때문에 파일앱 등 별도의 저장소에 관리하는 것을 권장드립니다 :)
+
+파일 복구 시 아밤일기의 데이터가 아닌 경우 기존 데이터가 손실 될 위험이 있습니다.
+"""
+        view.font = UIFont.systemFont(ofSize: 14, weight: .light)
+        view.textColor = .systemGray
         return view
     }()
     
     let backupFileButton: UIButton = {
         let view = UIButton()
         view.setTitle("백업", for: .normal)
-        view.backgroundColor = .blue
+        view.backgroundColor = .systemGray6
+        view.setTitleColor(Color.BaseColorWtihDark.date, for: .normal)
+       
+        DispatchQueue.main.async {
+            view.clipsToBounds = true
+            view.layer.cornerRadius = 20
+        }
+        
+        return view
+    }()
+    
+    let restoreFileButton: UIButton = {
+        let view = UIButton()
+        view.setTitle("복구", for: .normal)
+        view.backgroundColor = .systemGray6
+        view.setTitleColor(Color.BaseColorWtihDark.date, for: .normal)
+        
+        DispatchQueue.main.async {
+            view.clipsToBounds = true
+            view.layer.cornerRadius = 20
+        }
+        
         return view
     }()
     
     let tableView: UITableView = {
-        let view = UITableView()
+        let view = UITableView(frame: .zero, style: .insetGrouped)
         view.register(SettingDefaultTableViewCell.self, forCellReuseIdentifier: SettingDefaultTableViewCell.reuseIdentifier)
-        view.backgroundColor = .gray
+        view.backgroundColor = .clear
+        DispatchQueue.main.async {
+            
+            view.clipsToBounds = true
+            view.layer.cornerRadius = 20
+        }
+        view.separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
         return view
+    }()
+    
+    let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .fillEqually
+        stackView.spacing = 16
+        
+        return stackView
     }()
     
     override init(frame: CGRect) {
@@ -42,26 +85,27 @@ class BackupView: BaseView {
     
     
     override func configuration() {
-        [backupFileNameTextField, backupFileButton, tableView].forEach { self.addSubview($0)  }
+        [backupFileButton, restoreFileButton].forEach { stackView.addArrangedSubview($0) }
+        [notiLabel, stackView, tableView].forEach { self.addSubview($0)  }
     }
     
     override func setConstraints() {
-        backupFileNameTextField.snp.makeConstraints { make in
+        
+        notiLabel.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(28)
-            make.leading.equalTo(self.snp.leading).offset(28)
-            make.trailing.equalTo(backupFileButton.snp.leading).offset(-16)
+            make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(28)
         }
         
-        backupFileButton.snp.makeConstraints { make in
-            make.trailing.equalTo(self.safeAreaLayoutGuide.snp.trailing).offset(-28)
-            make.centerY.equalTo(backupFileNameTextField.snp.centerY)
-            make.width.equalTo(48)
-            make.height.equalTo(28)
+        stackView.snp.makeConstraints { make in
+            make.top.equalTo(notiLabel.snp.bottom).offset(28)
+            make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(28)
+            make.height.equalTo(50)
+            make.centerX.equalTo(self.snp.centerX)
         }
         
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(backupFileNameTextField.snp.bottom).offset(20)
-            make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(28)
+            make.top.equalTo(backupFileButton.snp.bottom).offset(8)
+            make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(8)
             make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-20)
         }
     }
