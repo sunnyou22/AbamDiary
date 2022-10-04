@@ -156,8 +156,6 @@ class WriteViewController: BaseViewController {
     }
     
     @objc func deleteDiary() {
-        fetch!()
-        
         guard writeView.textView.text != writeView.setWriteVCPlaceholder(type: diarytype), !writeView.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
             writeView.makeToast("삭제할 데이터가 없습니다!", duration: 0.6, position: .center)
             writeView.textView.text = writeView.setWriteVCPlaceholder(type: diarytype)
@@ -177,7 +175,13 @@ class WriteViewController: BaseViewController {
                 self.writeView.textView.text = nil
                 self.writeView.textView.text = self.writeView.setWriteVCPlaceholder(type: self.diarytype)
                 self.writeView.textView.resignFirstResponder()
-                self.fetch!()
+                
+                guard let fetch = self.fetch else {
+                    print("패치할 데이터가 없습니다")
+                    return
+                }
+                
+                fetch()
             }
             
             let cancel = UIAlertAction(title: "아니오", style: .cancel)
@@ -210,7 +214,6 @@ extension WriteViewController: UITextViewDelegate {
      
         case .modified:
             try! OneDayDiaryRepository.shared.localRealm.write {
-           
                 task.contents = writeView.textView.text
                 task.createdDate = Date()
             }
