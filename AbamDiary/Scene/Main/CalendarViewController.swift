@@ -77,7 +77,7 @@ class CalendarViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print(#function, "=============================")
-        mainview.profileImage.image = loadImageFromFolder(fileName: "profile.jpg", folderName: .imageFoler)
+        mainview.profileImage.image = loadImageFromDocument(fileName: "profile.jpg")
        
         fetchRealm() // 램 패치
      

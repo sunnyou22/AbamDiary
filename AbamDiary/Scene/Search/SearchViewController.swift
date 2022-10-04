@@ -69,7 +69,7 @@ class SearchViewController: BaseViewController {
     }
     
     func fetch() {
-        tasks = OneDayDiaryRepository.shared.fetchOlderOrder()
+        tasks = OneDayDiaryRepository.shared.fetchLatestOrder()
     }
     
     func setupSearchController() {

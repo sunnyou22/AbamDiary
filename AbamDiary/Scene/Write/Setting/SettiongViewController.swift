@@ -56,7 +56,7 @@ class SettiongViewController: BaseViewController {
         settingView.changeButton.addTarget(self, action: #selector(changeProfileButtonClicked), for: .touchUpInside)
         
         //MARK: 프로필 이미지
-        settingView.profileimageView.image = loadImageFromFolder(fileName: profileImage, folderName: .imageFoler)
+        settingView.profileimageView.image = loadImageFromDocument(fileName: profileImage)
        
         tasks = OneDayDiaryRepository.shared.fetchLatestOrder()
         cheerupTasks = CheerupMessageRepository.shared.fetchDate(ascending: false)
@@ -228,7 +228,7 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
             guard let image = self?.profileImage else {
                 return
             }
-            self?.removeBackupFileDocument(fileName: image, folderName: .imageFoler)
+            self?.removeBackupFileDocument(fileName: image)
             self?.settingView.profileimageView.image = UIImage(named: "ABAM")
         }
         

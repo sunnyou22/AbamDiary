@@ -67,11 +67,11 @@ extension SettiongViewController: UIImagePickerControllerDelegate, PHPickerViewC
         
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
            
-            saveImageToFolder(foldername: .imageFoler, filename: "profile.jpg", image: (self.settingView.profileimageView.image ?? UIImage(systemName: "person"))!)
+            saveImageToDocument(fileName: "profile.jpg", image: (self.settingView.profileimageView.image ?? UIImage(systemName: "person"))!)
         }
         
         dismiss(animated: true)
-        settingView.profileimageView.image = loadImageFromFolder(fileName: profileImage, folderName: .imageFoler)
+        settingView.profileimageView.image = loadImageFromDocument(fileName: profileImage)
     }
     
     func presentAlbum() {
@@ -109,8 +109,8 @@ extension SettiongViewController: CropViewControllerDelegate {
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
         
         self.settingView.profileimageView.image = image
-        saveImageToFolder(foldername: .imageFoler, filename: "profile.jpg", image: (self.settingView.profileimageView.image ?? UIImage(systemName: "person"))!)
-        settingView.profileimageView.image = loadImageFromFolder(fileName: profileImage, folderName: .imageFoler)
+        saveImageToDocument(fileName: "profile.jpg", image: (self.settingView.profileimageView.image ?? UIImage(systemName: "person"))!)
+        settingView.profileimageView.image = loadImageFromDocument(fileName: profileImage)
         self.dismiss(animated: true)
        
     }

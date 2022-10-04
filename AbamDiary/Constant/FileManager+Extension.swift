@@ -10,7 +10,9 @@ import RealmSwift
 import Zip
 
 enum PathComponentName: String {
-    case imageFoler
+    case imageFile = "profile.jpg"
+    case ABAMKeyFile
+    case defaultImage
 }
 
 enum CodableError: Error {
@@ -38,9 +40,9 @@ extension UIViewController {
     }
     
     func saveImageToDocument(fileName: String, image: UIImage) {
-        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return } // 내 앱에 해당되는 도큐먼트 폴더가 있늬?
-        let fileURL = documentDirectory.appendingPathComponent(fileName) // 이걸로 도큐먼트에 저장해줌 세부파일 경로(이미지 저장위치)
-        guard let data = image.jpegData(compressionQuality: 0.5) else { return } //용량을 줄이기 위함 용량을 키우는 건 못하고 작아질수밖에 없음
+        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+        let fileURL = documentDirectory.appendingPathComponent(fileName)
+        guard let data = image.jpegData(compressionQuality: 0.5) else { return }
         
         do {
             try data.write(to: fileURL)
@@ -49,40 +51,55 @@ extension UIViewController {
         }
     }
     
-    func saveImageToFolder(foldername: PathComponentName, filename: String, image: UIImage) {
-        
-        guard let documentsFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
-        let folderURL = documentsFolder.appendingPathComponent(foldername.rawValue)
-        let folderExists = (try? folderURL.checkResourceIsReachable()) ?? false // 폴더에 도달 가능?
-        
+    func createFile(fileName: PathComponentName) -> URL {
+        guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            print("폴더를 생성할 수 없습니다")
+            return URL(fileURLWithPath: "") }
+        let fileURL = path.appendingPathComponent(fileName.rawValue)
+        let myTextString = NSString(string: fileName.rawValue)
+    
         do { //try문이기 땜눈에 do
-            if !folderExists { // 도달가능해
-                // 그럼 그 url에 해당하는 폴더 만들어
-                try FileManager.default.createDirectory(at: folderURL, withIntermediateDirectories: false)
-            }
-            let fileURL = folderURL.appendingPathComponent(filename) // 파일 경로 생성 및 저장
-            guard let data = image.jpegData(compressionQuality: 0.8) else { return }
-            
-            do {
-                try data.write(to: fileURL)
-            } catch {
-                print(error, "====> 해당 이미지를 URL로 수정할 수 없습니다.")
-            }
-        } catch { print("=====> 이미지 폴더를 만들 수 없습니다") }
+            try myTextString.write(to: fileURL, atomically: true, encoding: String.Encoding.utf8.rawValue)
+        } catch {
+            print("=====> 이미지 폴더를 만들 수 없습니다")
+        }
+        
+        return fileURL
     }
     
-    func loadImageFromFolder(fileName: String, folderName: PathComponentName) -> UIImage? {
-        guard let documentsFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil}
-        let folderURL = documentsFolder.appendingPathComponent(folderName.rawValue)
-        let fileURL = folderURL.appendingPathComponent(fileName)
-        
-        if FileManager.default.fileExists(atPath: fileURL.path) {
-            return UIImage(contentsOfFile: fileURL.path)
-            
-        } else {
-            return UIImage(named: "ABAM")
-        }
-    }
+//    func saveImageToFolder(foldername: PathComponentName, filename: String, image: UIImage) {
+//
+//        guard let documentsFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+//        let folderURL = documentsFolder.appendingPathComponent(foldername.rawValue)
+//        let folderExists = (try? folderURL.checkResourceIsReachable()) ?? false // 폴더에 도달 가능?
+//
+//        do { //try문이기 땜눈에 do
+//            if !folderExists { // 도달가능해
+//                // 그럼 그 url에 해당하는 폴더 만들어
+//                try FileManager.default.createDirectory(at: folderURL, withIntermediateDirectories: false)
+//            }
+//            let fileURL = folderURL.appendingPathComponent(filename) // 파일 경로 생성 및 저장
+//            guard let data = image.jpegData(compressionQuality: 0.8) else { return }
+//
+//            do {
+//                try data.write(to: fileURL)
+//            } catch {
+//                print(error, "====> 해당 이미지를 URL로 수정할 수 없습니다.")
+//            }
+//    }
+    
+//    func loadImageFromFolder(fileName: String, folderName: PathComponentName) -> UIImage? {
+//        guard let documentsFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil}
+//        let folderURL = documentsFolder.appendingPathComponent(folderName.rawValue)
+//        let fileURL = folderURL.appendingPathComponent(fileName)
+//
+//        if FileManager.default.fileExists(atPath: fileURL.path) {
+//            return UIImage(contentsOfFile: fileURL.path)
+//
+//        } else {
+//            return UIImage(named: "ABAM")
+//        }
+//    }
     
     func loadImageFromDocument(fileName: String) -> UIImage? {
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil } // 내 앱에 해당되는 도큐먼트 폴더가 있늬?
@@ -99,22 +116,34 @@ extension UIViewController {
         return image
     }
     
-    func removeImageFromFolderDocument(fileName: String) {
+//    func removeImageFromFolderDocument(fileName: String) {
+//        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return } // 내 앱에 해당되는 도큐먼트 폴더가 있늬?
+//        let fileURL = documentDirectory.appendingPathComponent(fileName)
+//
+//        do {
+//            try FileManager.default.removeItem(at: fileURL)
+//        } catch let error {
+//            view.makeToast("삭제할 이미지가 없습니다", duration: 1.5, position: .center)
+//            print(error)
+//        }
+//    }
+   
+    func removeKeyFileDocument(fileName: PathComponentName) {
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return } // 내 앱에 해당되는 도큐먼트 폴더가 있늬?
-        let fileURL = documentDirectory.appendingPathComponent(fileName)
+        let fileURL = documentDirectory.appendingPathComponent(fileName.rawValue)
         
         do {
             try FileManager.default.removeItem(at: fileURL)
         } catch let error {
-            view.makeToast("삭제할 이미지가 없습니다", duration: 1.5, position: .center)
+            view.makeToast("삭제할 키파일이 없습니다", duration: 1.5, position: .center)
             print(error)
         }
     }
-   
-    func removeBackupFileDocument(fileName: String, folderName: PathComponentName) {
+    
+    func removeBackupFileDocument(fileName: String) {
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return } // 내 앱에 해당되는 도큐먼트 폴더가 있늬?
-        let folderURL = documentDirectory.appendingPathComponent(folderName.rawValue)
-        let fileURL = folderURL.appendingPathComponent(fileName)
+       
+        let fileURL = documentDirectory.appendingPathComponent(fileName)
         
         do {
             try FileManager.default.removeItem(at: fileURL)
@@ -175,26 +204,30 @@ extension UIViewController {
     }
     
     //파일생성
-    func createBackupFile(fileName: String, folderName: PathComponentName) throws -> URL {
+    func createBackupFile(fileName: String, keyFile: PathComponentName, imageFile: PathComponentName) throws -> URL {
         
         var urlpath = [URL]()
-        let fileNameDate = CustomFormatter.setWritedate(date: Date())
         //도큐먼트트 위치에 백업 파일 확인
         guard let path = documentDirectoryPath() else {
             throw DocumentPathError.directoryPathError
         }
         
-        let folderURL = path.appendingPathComponent(folderName.rawValue)
-        
+        let keyFileURL = createFile(fileName: keyFile)
+        let imageFileURL = path.appendingPathComponent(imageFile.rawValue)
         let DencodedFilePath = path.appendingPathComponent("diary.json")
         let CencodedFilePath = path.appendingPathComponent("cheerup.json")
-//        let image = folderURL.appendingPathComponent("profile.jpg")
         
-        guard FileManager.default.fileExists(atPath: DencodedFilePath.path) && FileManager.default.fileExists(atPath: CencodedFilePath.path) else {
+        print(imageFileURL)
+        
+        guard FileManager.default.fileExists(atPath: DencodedFilePath.path) && FileManager.default.fileExists(atPath: CencodedFilePath.path), FileManager.default.fileExists(atPath: keyFileURL.path) else {
             throw DocumentPathError.compressionFailedError
         }
         
-        urlpath.append(contentsOf: [DencodedFilePath, CencodedFilePath, folderURL])
+        if FileManager.default.fileExists(atPath: imageFileURL.path) {
+            urlpath.append(contentsOf: [DencodedFilePath, CencodedFilePath, keyFileURL, imageFileURL])
+        } else {
+            urlpath.append(contentsOf: [DencodedFilePath, CencodedFilePath, keyFileURL])
+        }
         
         do {
             let zipFilePath = try Zip.quickZipFiles(urlpath, fileName: "\(fileName)") // 확장자 없으면 저장이 안됨
@@ -314,7 +347,7 @@ extension UIViewController {
         do {
             try Zip.unzipFile(fileURL, destination: documentURL, overwrite: true, password: nil, progress: { progress in
             }, fileOutputHandler: { unzippedFile in
-                print("복구 완료")
+                print("압축풀기 완료")
             })
         }
         catch {

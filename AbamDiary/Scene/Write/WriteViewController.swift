@@ -147,8 +147,7 @@ class WriteViewController: BaseViewController {
                 writeDiary(mode: .modified, task: data!)
             }
         }
-//        fetch!()
-
+        
         writeView.makeToast("\n저장완료!", duration: 0.4, position: .center, title: nil, image: UIImage(named: "ABAM")) { [self] didTap in
             self.navigationController?.popViewController(animated: true)
         }
@@ -156,6 +155,7 @@ class WriteViewController: BaseViewController {
     }
     
     @objc func deleteDiary() {
+
         guard writeView.textView.text != writeView.setWriteVCPlaceholder(type: diarytype), !writeView.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
             writeView.makeToast("삭제할 데이터가 없습니다!", duration: 0.6, position: .center)
             writeView.textView.text = writeView.setWriteVCPlaceholder(type: diarytype)
@@ -176,12 +176,7 @@ class WriteViewController: BaseViewController {
                 self.writeView.textView.text = self.writeView.setWriteVCPlaceholder(type: self.diarytype)
                 self.writeView.textView.resignFirstResponder()
                 
-                guard let fetch = self.fetch else {
-                    print("패치할 데이터가 없습니다")
-                    return
-                }
-                
-                fetch()
+                self.navigationController?.popViewController(animated: true)
             }
             
             let cancel = UIAlertAction(title: "아니오", style: .cancel)
