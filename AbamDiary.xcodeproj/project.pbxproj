@@ -67,6 +67,7 @@
 		90F8262028CB799F008E8E6B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90F8261E28CB799F008E8E6B /* LaunchScreen.storyboard */; };
 		90F8262A28CB7DB4008E8E6B /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 90F8262928CB7DB4008E8E6B /* .gitignore */; };
 		90F8262D28CB9F24008E8E6B /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F8262C28CB9F24008E8E6B /* Color.swift */; };
+		90F8A96D28ED93D9001AF95F /* MarqueeLabel in Frameworks */ = {isa = PBXBuildFile; productRef = 90F8A96C28ED93D9001AF95F /* MarqueeLabel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -136,6 +137,7 @@
 				90DF634328DF88AF0046A3E7 /* TOCropViewController in Frameworks */,
 				900AEE0F28CC6E8400F18360 /* Toast in Frameworks */,
 				900AEE1228CC6E9900F18360 /* FSCalendar in Frameworks */,
+				90F8A96D28ED93D9001AF95F /* MarqueeLabel in Frameworks */,
 				900AEE0C28CC6E6F00F18360 /* SnapKit in Frameworks */,
 				90CCDB6C28D057FB00CDEE06 /* Realm in Frameworks */,
 				90DF634128DF88AF0046A3E7 /* CropViewController in Frameworks */,
@@ -350,6 +352,7 @@
 				90DF634028DF88AF0046A3E7 /* CropViewController */,
 				90DF634228DF88AF0046A3E7 /* TOCropViewController */,
 				903B429A28E464B900012204 /* AcknowList */,
+				90F8A96C28ED93D9001AF95F /* MarqueeLabel */,
 			);
 			productName = AbamDiary;
 			productReference = 90F8261028CB799A008E8E6B /* AbamDiary.app */;
@@ -387,6 +390,7 @@
 				90DF633C28DC5D4C0046A3E7 /* XCRemoteSwiftPackageReference "Zip" */,
 				90DF633F28DF88AF0046A3E7 /* XCRemoteSwiftPackageReference "TOCropViewController" */,
 				903B429928E464B900012204 /* XCRemoteSwiftPackageReference "AcknowList" */,
+				90F8A96B28ED93D9001AF95F /* XCRemoteSwiftPackageReference "MarqueeLabel" */,
 			);
 			productRefGroup = 90F8261128CB799A008E8E6B /* Products */;
 			projectDirPath = "";
@@ -748,6 +752,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		90F8A96B28ED93D9001AF95F /* XCRemoteSwiftPackageReference "MarqueeLabel" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/cbpowell/MarqueeLabel.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -795,6 +807,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 90DF633F28DF88AF0046A3E7 /* XCRemoteSwiftPackageReference "TOCropViewController" */;
 			productName = TOCropViewController;
+		};
+		90F8A96C28ED93D9001AF95F /* MarqueeLabel */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 90F8A96B28ED93D9001AF95F /* XCRemoteSwiftPackageReference "MarqueeLabel" */;
+			productName = MarqueeLabel;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

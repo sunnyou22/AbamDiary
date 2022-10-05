@@ -8,9 +8,11 @@
 
 
 import UIKit
+
 import FSCalendar
 import SnapKit
 import RealmSwift
+import MarqueeLabel
 
 class CalendarViewController: BaseViewController {
     
@@ -38,6 +40,7 @@ class CalendarViewController: BaseViewController {
     var moningTask: Diary?
     var nightTask: Diary? // 캘린더에 해당하는 날짜를 받아오기 위함
     var diaryList: [Diary?]?
+    var isExpanded = false
     
     //MARK: - LoadView
     override func loadView() {
@@ -61,8 +64,10 @@ class CalendarViewController: BaseViewController {
         CalendarViewController.gageCountModel.nightDiaryCount.bind { count in
             self.changeNightcount = count
         }
-        
         setNavigation()
+        
+        mainview.cheerupMessage.speed = .duration(40)
+        mainview.coverCheerupMessageButton.addTarget(self, action: #selector(pauseRestart), for: .touchUpInside)
     }
     
     func setNavigation() {
@@ -71,6 +76,16 @@ class CalendarViewController: BaseViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navigationtitleView)
       
     navigationItem.largeTitleDisplayMode = .never
+    }
+    
+    @objc func pauseRestart(_ sender: UIButton) {
+        isExpanded = !isExpanded
+        
+        if isExpanded {
+           mainview.cheerupMessage.pauseLabel()
+        } else {
+            mainview.cheerupMessage.unpauseLabel()
+        }
     }
     
     //MARK: - viewWillAppear
@@ -98,9 +113,8 @@ class CalendarViewController: BaseViewController {
         animationUIImage()
        
        //랜덤응원메세지 반영
-//        mainview.cheerupMessage.text = CheerupMessageRepository.shared.fetchDate(ascending: false).randomElement()?.cheerup ?? "응원의 메세지를 추가해보세요!"
-        
-//        self.tabBarController?.tabBar.isHidden = false
+        mainview.cheerupMessage.text = CheerupMessageRepository.shared.fetchDate(ascending: false).randomElement()?.cheerup ?? "응원의 메세지를 추가해보세요!"
+       self.tabBarController?.tabBar.isHidden = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -148,7 +162,6 @@ class CalendarViewController: BaseViewController {
 extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
         return mainview.tableView.frame.height / 2.1
     }
     // 타이틀적인 요소는 섹션도 좋음
@@ -255,7 +268,6 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
     func calendar(_ calendar: FSCalendar, shouldDeselect date: Date, at monthPosition: FSCalendarMonthPosition) -> Bool {
         return date == Date() ? false : true
     }
-    
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         diaryTypefilterDate()
@@ -443,6 +455,7 @@ extension CalendarViewController {
     
     //MARK: 이미지 애니메이션
     func animationUIImage() {
+        
         UIImageView.animate(withDuration: 0.4) {
             let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeNightcount + self.changeMorningcount)) * self.digit) / self.digit)
             

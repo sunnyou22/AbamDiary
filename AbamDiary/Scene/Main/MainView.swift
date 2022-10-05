@@ -8,6 +8,7 @@
 import UIKit
 import FSCalendar
 import SnapKit
+import MarqueeLabel
 
 class MainView: BaseView {
     
@@ -25,10 +26,16 @@ class MainView: BaseView {
         return view
     }()
     
-    let cheerupMessage: UILabel = {
-        let view = UILabel()
+    let cheerupMessage: MarqueeLabel = {
+        let view = MarqueeLabel()
         view.font = .systemFont(ofSize: FontSize.subTitle_16, weight: .bold)
         view.textColor = Color.BaseColorWtihDark.cheerupMessege
+        return view
+    }()
+    
+    let coverCheerupMessageButton: UIButton = {
+        let view = UIButton()
+        view.backgroundColor = .clear
         return view
     }()
     
@@ -143,7 +150,7 @@ class MainView: BaseView {
     }
     
     override func configuration() {
-        [ABAMImage, cheerupUnderView, cheerupMessage, calendar, cellTitle, tableView, gageTitle, progressBar, profileImage].forEach { self.addSubview($0) }
+        [ABAMImage, cheerupUnderView, cheerupMessage, coverCheerupMessageButton, calendar, cellTitle, tableView, gageTitle, progressBar, profileImage].forEach { self.addSubview($0) }
         self.backgroundColor = Color.BaseColorWtihDark.backgorund
         
     }
@@ -169,8 +176,11 @@ class MainView: BaseView {
             make.horizontalEdges.equalTo(cheerupUnderView.snp.horizontalEdges).inset(12)
         }
         
+        coverCheerupMessageButton.snp.makeConstraints { make in
+            make.edges.equalTo(cheerupUnderView.snp.edges)
+        }
+        
         calendar.snp.makeConstraints { make in
-            
             make.top.equalTo(ABAMImage.snp.bottom).offset(16)
             make.bottom.equalTo(cellTitle.snp.top).offset(-12)
             make.centerX.equalTo(self.snp.centerX)
