@@ -236,7 +236,6 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         let vc = WriteViewController(diarytype: diaryType, writeMode: mode)
        
         vc.data = task
-        vc.fetch = fetchRealm
         vc.selectedDate = mainview.calendar.selectedDate ?? Date()
         //task nil 로 분기해보기
         

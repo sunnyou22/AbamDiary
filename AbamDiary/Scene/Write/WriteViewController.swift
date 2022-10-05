@@ -21,7 +21,6 @@ class WriteViewController: BaseViewController {
     var data: Diary?
     var diarytype: MorningAndNight
     var writeMode: WriteMode
-    var fetch: (() -> Void)?
     var selectedDate: Date?
     var keyHeight: CGFloat = 0
     
