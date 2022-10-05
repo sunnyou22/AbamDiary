@@ -31,6 +31,7 @@ class CheerupTableViewCell: BaseTableViewCell {
     let subTitle: UILabel = {
         let view = UILabel()
         view.text = "rdadfa"
+        view.lineBreakMode = .byTruncatingTail
         return view
     }()
     
@@ -67,11 +68,12 @@ class CheerupTableViewCell: BaseTableViewCell {
             make.verticalEdges.equalTo(contentView.snp.verticalEdges)
             make.width.equalTo(1)
         }
-        //
+        
         subTitle.snp.makeConstraints { make in
             make.centerY.equalTo(contentView.snp.centerY)
-            make.leading.equalTo(sectionView.snp.trailing).offset(8)
-            make.trailing.equalTo(contentView.snp.trailing)
+            make.leading.equalTo(labelContainView.snp.trailing).offset(8)
+            make.trailing.equalTo(contentView.snp.trailing).offset(-8)
+            make.height.equalTo(contentView.snp.height).inset(16)
             
         }
     }

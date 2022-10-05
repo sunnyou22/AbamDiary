@@ -17,6 +17,7 @@ class CheerupViewController: BaseViewController {
             cheerupView.tableView.reloadData()
         }
     }
+    var isExpanded = false
     
     let sectionView: UIView = {
         let view = UIView()
@@ -45,6 +46,8 @@ class CheerupViewController: BaseViewController {
         //메세지 초기화
         let reset = UIBarButtonItem(title: "초기화", style: .plain, target: self, action: #selector(resetMessage))
         self.navigationItem.rightBarButtonItem = reset
+        
+//        cheerupView.tableView.estimatedRowHeight = 52
     }
     
     @objc func keyboard() {
@@ -126,8 +129,13 @@ class CheerupViewController: BaseViewController {
 }
 
 extension CheerupViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tasks.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -141,9 +149,8 @@ extension CheerupViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.subTitle.text = item.cheerup
         cell.title.text = CustomFormatter.setCheerupDate(date: Date())
-        
+        cell.subTitle.numberOfLines = isExpanded ? 0 : 1
         cell.contentView.addSubview(sectionView)
-        
         sectionView.snp.makeConstraints { make in
             make.leading.equalTo(cell.labelContainView.snp.trailing).offset(0)
             make.verticalEdges.equalTo(cell.contentView.snp.verticalEdges)
@@ -170,6 +177,11 @@ extension CheerupViewController: UITableViewDelegate, UITableViewDataSource {
         delete.backgroundColor = .systemRed
         
         return UISwipeActionsConfiguration(actions: [delete])
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        isExpanded = !isExpanded
+        cheerupView.tableView.reloadRows(at: [indexPath], with: .none)
     }
 }
 

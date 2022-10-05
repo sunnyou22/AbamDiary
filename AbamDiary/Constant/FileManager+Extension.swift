@@ -337,7 +337,6 @@ extension UIViewController {
     func showActivityViewController(backupFileURL: URL) throws {
         
         let vc = UIActivityViewController(activityItems: [backupFileURL], applicationActivities: [])
-        
         self.present(vc, animated: true)
     }
     

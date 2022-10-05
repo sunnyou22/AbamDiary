@@ -350,12 +350,19 @@ extension SettiongViewController {
             sender.setOn(false, animated: true)
             
             let authorizationAlert = UIAlertController(title: "알림권한", message: """
-알림을 받기 위해서 시스템 설정에서 권한을 허용하고,
-앱을 재시작해주세요.
+알림을 받기 위해서는 시스템 설정에서
+알림을 허용으로 변경해야합니다.
+시스템 설정으로 이동하시겠습니까?
+(허용한 이후 앱을 껐다 켜주세요!)
 """, preferredStyle: .alert)
-            let authorizationOk = UIAlertAction(title: "확인", style: .default)
+            let authorizationOk = UIAlertAction(title: "네", style: .default) { [weak self] _ in
+                guard let self = self else { return }
+                self.goSettingURL()
+            }
+            let authorizationcancel = UIAlertAction(title: "아니오", style: .cancel)
             
             authorizationAlert.addAction(authorizationOk)
+            authorizationAlert.addAction(authorizationcancel)
             
             //MARK: 만약 사용자가 시스템권한을 해제했을 때 대응
             guard autorizationStatus == false else {
@@ -388,6 +395,14 @@ extension SettiongViewController {
             present(alert, animated: true)
             
         }
+    }
+    
+    func goSettingURL() {
+        guard let settingURL = URL(string: UIApplication.openSettingsURLString) else {
+            settingView.makeToast("설정창으로 이동할 수 없습니다ㅠㅠ!")
+            return
+        }
+        UIApplication.shared.open(settingURL, options: [:], completionHandler: nil)
     }
 }
 

@@ -173,9 +173,8 @@ extension BackupViewController: UIDocumentPickerDelegate {
             let filename_zip = selectedFileURL.lastPathComponent
             print(filename_zip, "========🚀🚀🚀🚀🚀")
             let zipfileURL = path.appendingPathComponent(filename_zip)
-            print(zipfileURL)
             let keyFileURL = path.appendingPathComponent(PathComponentName.ABAMKeyFile.rawValue)
-            print(keyFileURL)
+         
             
             do {
                 OneDayDiaryRepository.shared.deleteTasks(tasks: self.tasks)
@@ -210,7 +209,6 @@ extension BackupViewController: UIDocumentPickerDelegate {
                 let filename_zip = selectedFileURL.lastPathComponent
                 let zipfileURL = path.appendingPathComponent(filename_zip)
                 let keyFileURL = path.appendingPathComponent(PathComponentName.ABAMKeyFile.rawValue)
-                print(keyFileURL)
                 
                 do {
                     OneDayDiaryRepository.shared.deleteTasks(tasks: self.tasks)
