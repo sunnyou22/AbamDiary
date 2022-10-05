@@ -33,6 +33,7 @@ class CheerupView: BaseView {
     let textField: UITextField = {
        let view = UITextField()
         view.attributedPlaceholder = NSAttributedString(string: "응원의 메세지를 적어보세요", attributes: [NSAttributedString.Key.foregroundColor : Color.BaseColorWtihDark.cheerupMsgPlaceholder, NSAttributedString.Key.font : UIFont.systemFont(ofSize: FontSize.subTitle_16, weight: .bold)])
+        view.becomeFirstResponder()
         return view
     }()
                                                                                      
@@ -73,7 +74,7 @@ class CheerupView: BaseView {
         
         return view
     }()
-    
+ 
     override func configuration() {
         self.backgroundColor = Color.BaseColorWtihDark.backgorund
         [textFieldView, roundImage, textField, subTitle, title, birdButton, countLabel, tableView].forEach { self.addSubview($0) }

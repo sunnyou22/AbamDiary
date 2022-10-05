@@ -438,3 +438,13 @@ extension SettiongViewController: MFMailComposeViewControllerDelegate {
         controller.dismiss(animated: true)
     }
 }
+
+extension Bundle {
+    
+    class var appVersion: String {
+        if let value = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            return value
+        }
+        return ""
+    }
+}

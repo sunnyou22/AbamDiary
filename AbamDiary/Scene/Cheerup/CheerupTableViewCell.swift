@@ -35,6 +35,13 @@ class CheerupTableViewCell: BaseTableViewCell {
         return view
     }()
     
+    
+    let bottonSectionView: UIView = {
+       let view = UIView()
+        view.backgroundColor = Color.BaseColorWtihDark.thineBar
+        return view
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -47,8 +54,7 @@ class CheerupTableViewCell: BaseTableViewCell {
     
     override func configuration() {
         
-        [labelContainView, title, sectionView, subTitle].forEach { contentView.addSubview($0) }
-        
+        [labelContainView, title, sectionView, subTitle, bottonSectionView].forEach { contentView.addSubview($0) }
         
     }
     
@@ -75,6 +81,12 @@ class CheerupTableViewCell: BaseTableViewCell {
             make.trailing.equalTo(contentView.snp.trailing).offset(-8)
             make.height.equalTo(contentView.snp.height).inset(16)
             
+        }
+        
+        bottonSectionView.snp.makeConstraints { make in
+            make.horizontalEdges.equalTo(self.snp.horizontalEdges)
+            make.bottom.equalTo(contentView.snp.bottom)
+            make.height.equalTo(1)
         }
     }
     
