@@ -40,7 +40,7 @@ extension SettiongViewController {
             date.hour = 9
             date.minute = 0
             SettiongViewController.sendNotification(subTitle: "아침일기를 쓰러가볼까요?", date: date, type: MorningAndNight.morning.rawValue)
-            print("아침일기 알람 설정 📍")
+            print("아침일기 알람 설정 📍노티 샌드")
             return
         }
     }
@@ -51,6 +51,7 @@ extension SettiongViewController {
             date.hour = 22
             date.minute = 0
             SettiongViewController.sendNotification(subTitle: "밤 일기를 쓰러가볼까요?", date: date, type: MorningAndNight.night.rawValue)
+            print("밤일기 알람 설정 📍노티 샌드")
             return
         }
     }
@@ -68,20 +69,5 @@ extension SettiongViewController {
         
         SettiongViewController.notificationCenter.add(request)
     }
-    
-//    func setButtonInCell(cell: SettingAlarmTableViewCell, buttonTag: Int, defaultTitle: String, key: String, title: Setting, action: ((_ sender: UIButton) -> Void)) {
-//
-//        let btnTitle = UserDefaults.standard.string(forKey: "\(key)")
-//        let defaultTitle = defaultTitle
-//
-//        cell.timeButton.setTitle("\(btnTitle ?? defaultTitle)", for: .normal)
-//        cell.timeButton.tag = indexPath.row
-//        print(buttonCell.timeButton.tag, indexPath.row, "===================================🔴🔴")
-//        cell.subTitle.text = "아침 알림 시간"
-//        cell.selectionStyle = .none
-//        cell.contentView.backgroundColor = .systemGray6
-//        cell.timeButton.addTarget(self, action: #selector(MpopDatePicker), for: .touchUpInside)
-//        setButtonConfig(buttonCell.timeButton)
-//    }
 }
 

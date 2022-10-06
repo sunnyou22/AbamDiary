@@ -41,6 +41,13 @@ class SettingAlarmTableViewCell: BaseTableViewCell {
     override func configuration() {
         
         [subTitle, timeButton].forEach { contentView.addSubview($0) }
+        
+    }
+    
+    override func prepareForReuse() {
+    super.prepareForReuse()
+        timeButton.removeTarget(nil, action: nil, for: .touchUpInside)
+    
     }
     
     override func setConstraints() {
@@ -57,9 +64,4 @@ class SettingAlarmTableViewCell: BaseTableViewCell {
             make.height.equalTo(40)
         }
     }
-    
-  
-//    func setTest(tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell.
-//    }
 }

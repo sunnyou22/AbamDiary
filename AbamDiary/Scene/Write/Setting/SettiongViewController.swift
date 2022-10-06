@@ -283,7 +283,7 @@ extension SettiongViewController {
             
             //h m가 int로 변환되서 배열로 넣어줌 -> 데이트 컴포넌트를 위해서
             var Marray = [CustomFormatter.changeHourToInt(date: datePicker.date), CustomFormatter.changeMinuteToInt(date: datePicker.date)]
-            
+            print(dateString, Marray, #function)
             // 유저가 설정한 시간에 대한 데이트컴포넌트 배열을 유저디폴트에 저장해줌
             UserDefaults.standard.set(Marray, forKey: "Mdate")
             Marray = UserDefaults.standard.array(forKey: "Mdate") as? [Int] ?? [Int]()
@@ -334,7 +334,7 @@ extension SettiongViewController {
             
             var date = DateComponents(timeZone: .current)
             var Narray = [CustomFormatter.changeHourToInt(date: datePicker.date), CustomFormatter.changeMinuteToInt(date: datePicker.date)]
-            
+            print(dateString, Narray, #function)
             UserDefaults.standard.set(Narray, forKey: "Ndate")
             Narray = UserDefaults.standard.array(forKey: "Ndate") as? [Int] ?? [Int]()
             
@@ -356,9 +356,9 @@ extension SettiongViewController {
     //MARK: switch버튼 cell 안에서 처리
     @objc func changeSwitch(_ sender: UISwitch) {
         
-        if sender.isOn == true {
+        if sender.isOn == true { //현재 스위치 상태 1
             
-            sender.setOn(false, animated: true)
+//            sender.setOn(false, animated: true)
             
             let authorizationAlert = UIAlertController(title: "알림권한", message: """
 알림을 받기 위해서는 시스템 설정에서
@@ -385,15 +385,16 @@ extension SettiongViewController {
             }
             present(authorizationAlert, animated: true)
             
-        } else if sender.isOn == false {
+        } else if sender.isOn == false { // 스위치 끄먄 바로 넘어옴 2
             
-            sender.setOn(true, animated: true) // 2
+            sender.setOn(true, animated: true) // 3
+            
             let alert = UIAlertController(title: "알림해제", message: "알림을 받지 않으시겠습니까?", preferredStyle: .alert)
             let ok = UIAlertAction(title: "네", style: .default) { _ in
                 
                 SettiongViewController.notificationCenter.removeAllPendingNotificationRequests()
                 UserDefaults.standard.set(false, forKey: "switch")
-                sender.setOn(false, animated: true) // 4
+                sender.setOn(false, animated: true) //  5
                 self.settingView.tableView.reloadData()
             }
             
