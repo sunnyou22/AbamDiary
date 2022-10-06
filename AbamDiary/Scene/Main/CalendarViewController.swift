@@ -69,22 +69,8 @@ class CalendarViewController: BaseViewController {
         
         mainview.cheerupMessage.speed = .duration(36)
         mainview.coverCheerupMessageButton.addTarget(self, action: #selector(pauseRestart), for: .touchUpInside)
-        
-        
-//        여기서 크래시 버튼 달았구여
-        
-        let button = UIButton(type: .roundedRect)
-        button.frame = CGRect(x: 20, y: 100, width: 100, height: 30)
-        button.setTitle("Test Crash", for: [])
-        button.addTarget(self, action: #selector(self.crashButtonTapped(_:)), for: .touchUpInside)
-        mainview.addSubview(button)
     }
-    
-    @objc func crashButtonTapped(_ sender: AnyObject) {
-        let numbers = [0]
-        let _ = numbers[1]
-    }
-    
+   
     func setNavigation() {
         self.navigationController?.navigationBar.prefersLargeTitles = false
         let navigationtitleView = navigationTitleVIew()

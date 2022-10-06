@@ -91,7 +91,7 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
                     return UITableViewCell()
                 }
                 buttonCell.timeButton.tag = indexPath.row
-                if  buttonCell.timeButton.tag == 0 {
+//                if  buttonCell.timeButton.tag == 0 {
                     
                     let btnTitle = UserDefaults.standard.string(forKey: "MbtnSelected")
                     let defaultTitle = "09:00"
@@ -103,7 +103,7 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
                     buttonCell.contentView.backgroundColor = .systemGray6
                     buttonCell.timeButton.addTarget(self, action: #selector(MpopDatePicker), for: .touchUpInside)
                     setButtonConfig(buttonCell.timeButton)
-                }
+//                }
                 
                 return buttonCell
                 
@@ -113,7 +113,7 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 buttonCell.timeButton.tag = indexPath.row
                 
-                if  buttonCell.timeButton.tag == 1 {
+//                if  buttonCell.timeButton.tag == 1 {
                     
                     let btnTitle = UserDefaults.standard.string(forKey: "NbtnSelected")
                     let defaultTitle = "22:00"
@@ -124,7 +124,7 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
                     buttonCell.contentView.backgroundColor = .systemGray6
                     buttonCell.timeButton.addTarget(self, action: #selector(NpopDatePicker), for: .touchUpInside)
                     buttonCell.selectionStyle = .none
-                }
+//                }
                 return buttonCell
 
             } else if indexPath.row == 2 {
@@ -161,9 +161,7 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
             if indexPath.row == 0 {
                 let alert = UIAlertController(title: "알림", message: "정말 모든 데이터를 삭제하시겠습니까?", preferredStyle: .alert)
                 let ok = UIAlertAction(title: "네", style: .destructive) {_ in
-                    
                     OneDayDiaryRepository.shared.deleteTasks(tasks: self.tasks)
-                    
                     self.settingView.makeToast("삭제완료", duration: 0.7, position: .center) { didTap in
                         
                         self.tabBarController?.selectedIndex = 0
