@@ -192,8 +192,7 @@ extension BackupViewController: UIDocumentPickerDelegate {
                             self.removeBackupFileDocument(fileName: filename_zip)
                             
                             Analytics.logEvent("notMyBackupFile", parameters: [
-                                "name": "notMyBackupFile in document",
-                                "full_text": "is not my AppBackupFile",
+                                "name": "not my AppBackupFile",
                             ])
                             
                             alert.addAction(ok)
@@ -203,7 +202,6 @@ extension BackupViewController: UIDocumentPickerDelegate {
                 } catch {
                     Analytics.logEvent("documentRestore", parameters: [
                         "name": "DocfailRestore",
-                        "full_text": "restoreRealmForBackupFile method is fail",
                     ])
                     print("복구실패~~~")
                 }
@@ -234,8 +232,7 @@ extension BackupViewController: UIDocumentPickerDelegate {
                                 let alert = UIAlertController(title: "복구 알림", message: "아밤일기의 파일이 맞으신가요?ㅠㅠ", preferredStyle: .alert)
                                 let ok = UIAlertAction(title: "확인", style: .default) { _ in
                                     Analytics.logEvent("fileAppRestore", parameters: [
-                                        "name": "notMyBackupFile",
-                                        "full_text": "none ABAMKeyFile",
+                                        "name": "not my AppBackupFile",
                                     ])
                                 }
                                 alert.addAction(ok)
@@ -246,7 +243,6 @@ extension BackupViewController: UIDocumentPickerDelegate {
                     } catch {
                         Analytics.logEvent("fileAppRestore", parameters: [
                             "name": "failRestore",
-                            "full_text": "restoreRealmForBackupFile method is fail",
                         ])
                         print("복구실패~~~")
                     }

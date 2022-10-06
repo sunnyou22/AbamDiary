@@ -28,7 +28,7 @@ enum Setting: Int, CaseIterable {
         
         switch self {
         case .notification:
-            return ["아침시간설정", "저녁시간설정", "알림받기"]
+            return ["아침 알림 시간", "저녁 알림 시간", "알림받기"]
         case .backup:
             return ["백업/복구"]
         case .reset:

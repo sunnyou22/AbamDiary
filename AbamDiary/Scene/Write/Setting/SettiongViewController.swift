@@ -90,40 +90,49 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
                 guard let buttonCell = tableView.dequeueReusableCell(withIdentifier: SettingAlarmTableViewCell.reuseIdentifier, for: indexPath) as? SettingAlarmTableViewCell else {
                     return UITableViewCell()
                 }
-                
-                let btnTitle = UserDefaults.standard.string(forKey: "MbtnSelected")
-                let defaultTitle = "09:00"
-                buttonCell.timeButton.setTitle("\(btnTitle ?? defaultTitle)", for: .normal)
-                
-                buttonCell.subTitle.text = "아침 알림 시간"
-                buttonCell.selectionStyle = .none
-                buttonCell.contentView.backgroundColor = .systemGray6
-                buttonCell.timeButton.addTarget(self, action: #selector(MpopDatePicker), for: .touchUpInside)
-                setButtonConfig(buttonCell.timeButton)
+                buttonCell.timeButton.tag = indexPath.row
+                if  buttonCell.timeButton.tag == 0 {
+                    
+                    let btnTitle = UserDefaults.standard.string(forKey: "MbtnSelected")
+                    let defaultTitle = "09:00"
+                    
+                    buttonCell.timeButton.setTitle("\(btnTitle ?? defaultTitle)", for: .normal)
+                    print(buttonCell.timeButton.tag, indexPath.row, btnTitle, "===================================🟠")
+                    buttonCell.subTitle.text = Setting.allCases[indexPath.section].subTitle[indexPath.row]
+                    buttonCell.selectionStyle = .none
+                    buttonCell.contentView.backgroundColor = .systemGray6
+                    buttonCell.timeButton.addTarget(self, action: #selector(MpopDatePicker), for: .touchUpInside)
+                    setButtonConfig(buttonCell.timeButton)
+                }
                 
                 return buttonCell
+                
             } else if indexPath.row == 1 {
                 guard let buttonCell = tableView.dequeueReusableCell(withIdentifier: SettingAlarmTableViewCell.reuseIdentifier, for: indexPath) as? SettingAlarmTableViewCell else {
                     return UITableViewCell()
                 }
+                buttonCell.timeButton.tag = indexPath.row
                 
-                let btnTitle = UserDefaults.standard.string(forKey: "NbtnSelected")
-                let defaultTitle = "22:00"
-                buttonCell.timeButton.setTitle("\(btnTitle ?? defaultTitle)", for: .normal)
-                buttonCell.subTitle.text = "밤 알림 시간"
-               
-                setButtonConfig(buttonCell.timeButton)
-                buttonCell.contentView.backgroundColor = .systemGray6
-                buttonCell.timeButton.addTarget(self, action: #selector(NpopDatePicker), for: .touchUpInside)
-                buttonCell.selectionStyle = .none
+                if  buttonCell.timeButton.tag == 1 {
+                    
+                    let btnTitle = UserDefaults.standard.string(forKey: "NbtnSelected")
+                    let defaultTitle = "22:00"
+                    buttonCell.timeButton.setTitle("\(btnTitle ?? defaultTitle)", for: .normal)
+                    buttonCell.subTitle.text = Setting.allCases[indexPath.section].subTitle[indexPath.row]
+                    print(buttonCell.timeButton.tag, indexPath.row, btnTitle, "===================================🔴🔴")
+                    setButtonConfig(buttonCell.timeButton)
+                    buttonCell.contentView.backgroundColor = .systemGray6
+                    buttonCell.timeButton.addTarget(self, action: #selector(NpopDatePicker), for: .touchUpInside)
+                    buttonCell.selectionStyle = .none
+                }
                 return buttonCell
-                
+
             } else if indexPath.row == 2 {
                 guard let switchCell = tableView.dequeueReusableCell(withIdentifier: SettingSwitchTableViewCell.reuseIdentifier, for: indexPath) as? SettingSwitchTableViewCell else {
                     return UITableViewCell()
                 }
                 
-                switchCell.subTitle.text = "알림받기"
+                switchCell.subTitle.text = Setting.allCases[indexPath.section].subTitle[indexPath.row]
                 switchCell.contentView.backgroundColor = .systemGray6
                 SettingSwitchTableViewCell.notificationSwitch.addTarget(self, action: #selector(changeSwitch), for: .valueChanged)
                 switchCell.selectionStyle = .none
@@ -245,7 +254,7 @@ extension SettiongViewController {
     
     //MARK: 아침 데이트피커 버튼 누름
     @objc func MpopDatePicker(_ sender: UIButton) {
-        
+        print("아침일기 알람 설정시작 📍")
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .time
         datePicker.preferredDatePickerStyle = .wheels
@@ -298,6 +307,7 @@ extension SettiongViewController {
     
     //MARK: 저녁 데이트피커 버튼 누름
     @objc func NpopDatePicker(_ sender: UIButton) {
+        print("밤 일기 알람 설정시작 📍")
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .time
         datePicker.preferredDatePickerStyle = .wheels
@@ -332,6 +342,7 @@ extension SettiongViewController {
             date.minute = Narray[1]
             
             SettiongViewController.sendNotification(subTitle: "밤일기를 쓰러가볼까요?", date: date, type: MorningAndNight.night.rawValue)
+            print("밤 일기 알람 설정 📍")
         }
         //MARK: cancel버튼
         let cancel = UIAlertAction(title: "취소", style: .cancel)
@@ -366,7 +377,7 @@ extension SettiongViewController {
             
             //MARK: 만약 사용자가 시스템권한을 해제했을 때 대응
             guard autorizationStatus == false else {
-                //                SettiongViewController.requestAutorization()
+                                SettiongViewController.requestAutorization()
                 UserDefaults.standard.set(true, forKey: "switch")
                 sender.setOn(true, animated: true)
                 self.settingView.tableView.reloadData()
@@ -382,8 +393,6 @@ extension SettiongViewController {
                 
                 SettiongViewController.notificationCenter.removeAllPendingNotificationRequests()
                 UserDefaults.standard.set(false, forKey: "switch")
-                //                UserDefaults.standard.removeObject(forKey: "MbtnSelected")
-                //                UserDefaults.standard.removeObject(forKey: "NbtnSelected")
                 sender.setOn(false, animated: true) // 4
                 self.settingView.tableView.reloadData()
             }

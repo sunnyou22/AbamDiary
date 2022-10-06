@@ -68,5 +68,20 @@ extension SettiongViewController {
         
         SettiongViewController.notificationCenter.add(request)
     }
+    
+//    func setButtonInCell(cell: SettingAlarmTableViewCell, buttonTag: Int, defaultTitle: String, key: String, title: Setting, action: ((_ sender: UIButton) -> Void)) {
+//
+//        let btnTitle = UserDefaults.standard.string(forKey: "\(key)")
+//        let defaultTitle = defaultTitle
+//
+//        cell.timeButton.setTitle("\(btnTitle ?? defaultTitle)", for: .normal)
+//        cell.timeButton.tag = indexPath.row
+//        print(buttonCell.timeButton.tag, indexPath.row, "===================================🔴🔴")
+//        cell.subTitle.text = "아침 알림 시간"
+//        cell.selectionStyle = .none
+//        cell.contentView.backgroundColor = .systemGray6
+//        cell.timeButton.addTarget(self, action: #selector(MpopDatePicker), for: .touchUpInside)
+//        setButtonConfig(buttonCell.timeButton)
+//    }
 }
 
