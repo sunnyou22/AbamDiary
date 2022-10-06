@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import Toast
 import RealmSwift
+import FirebaseAnalytics
 
 class BackupViewController: BaseViewController {
     
@@ -174,7 +175,6 @@ extension BackupViewController: UIDocumentPickerDelegate {
             print(filename_zip, "========🚀🚀🚀🚀🚀")
             let zipfileURL = path.appendingPathComponent(filename_zip)
             let keyFileURL = path.appendingPathComponent(PathComponentName.ABAMKeyFile.rawValue)
-         
             
             do {
                 OneDayDiaryRepository.shared.deleteTasks(tasks: self.tasks)
@@ -191,11 +191,20 @@ extension BackupViewController: UIDocumentPickerDelegate {
                             let ok = UIAlertAction(title: "확인", style: .default)
                             self.removeBackupFileDocument(fileName: filename_zip)
                             
+                            Analytics.logEvent("notMyBackupFile", parameters: [
+                                "name": "notMyBackupFile in document",
+                                "full_text": "is not my AppBackupFile",
+                            ])
+                            
                             alert.addAction(ok)
                             self.present(alert, animated: true)
                         }
                     }
                 } catch {
+                    Analytics.logEvent("documentRestore", parameters: [
+                        "name": "DocfailRestore",
+                        "full_text": "restoreRealmForBackupFile method is fail",
+                    ])
                     print("복구실패~~~")
                 }
             } catch {
@@ -223,20 +232,29 @@ extension BackupViewController: UIDocumentPickerDelegate {
                         } else {
                             controller.dismiss(animated: true) {
                                 let alert = UIAlertController(title: "복구 알림", message: "아밤일기의 파일이 맞으신가요?ㅠㅠ", preferredStyle: .alert)
-                                let ok = UIAlertAction(title: "확인", style: .default)
+                                let ok = UIAlertAction(title: "확인", style: .default) { _ in
+                                    Analytics.logEvent("fileAppRestore", parameters: [
+                                        "name": "notMyBackupFile",
+                                        "full_text": "none ABAMKeyFile",
+                                    ])
+                                }
                                 alert.addAction(ok)
                                 self.removeBackupFileDocument(fileName: filename_zip)
                                 self.present(alert, animated: true)
                             }
                         }
                     } catch {
+                        Analytics.logEvent("fileAppRestore", parameters: [
+                            "name": "failRestore",
+                            "full_text": "restoreRealmForBackupFile method is fail",
+                        ])
                         print("복구실패~~~")
                     }
                 } catch {
                     print("압축풀기 실패 다 이놈아~~~")
                 }
             } catch {
-                print("🔴 압축 해제 실패")
+                print("파일앱에서 복사 실패")
             }
         }
     }

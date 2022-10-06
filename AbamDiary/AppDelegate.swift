@@ -7,6 +7,7 @@
 
 import UIKit
 import UserNotifications
+import FirebaseCore
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,8 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         UNUserNotificationCenter.current().delegate = self
     
-        return true
+        FirebaseApp.configure()
         
+        return true
     }
         
         // MARK: UISceneSession Lifecycle

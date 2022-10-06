@@ -7,6 +7,7 @@
 
 import UIKit
 import RealmSwift
+import FirebaseAnalytics
 
 class CheerupViewController: BaseViewController {
     var keyHeight: CGFloat?
@@ -114,6 +115,10 @@ class CheerupViewController: BaseViewController {
                 self.countMessageModel.count.value = self.tasks.count
                 
                 self.cheerupView.textField.text = nil
+                
+                Analytics.logEvent("sendMSG", parameters: [
+                    "name": "\(#function)",
+                ])
             }
             let cancel = UIAlertAction(title: "취소", style: .cancel)
             

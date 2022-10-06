@@ -181,6 +181,7 @@ extension UIViewController {
         }
     }
     
+    @discardableResult
     func fetchDocumentZipFile() -> [String] {
         
         do {

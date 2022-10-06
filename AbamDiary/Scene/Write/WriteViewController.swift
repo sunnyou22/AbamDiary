@@ -9,6 +9,7 @@ import UIKit
 
 import RealmSwift
 import Toast
+import FirebaseAnalytics
 
 enum WriteMode {
     case newDiary
@@ -194,6 +195,12 @@ extension WriteViewController: UITextViewDelegate {
     //플레이스 홀더 없애기 생각하기
     func textViewDidBeginEditing(_ textView: UITextView) {
         
+        Analytics.logEvent("writeDiary", parameters: [
+          "name": "\(diarytype)",
+          "full_text": "\(#function)",
+        ])
+        
+        // 컬러로 변경하기
         if textView.text == "오늘 아침! 당신의 한줄은 무엇인가요?" || textView.text == "오늘 밤! 당신의 한줄은 무엇인가요?" {
             textView.text = nil
         }

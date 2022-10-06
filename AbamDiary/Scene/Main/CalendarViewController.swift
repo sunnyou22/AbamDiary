@@ -13,6 +13,7 @@ import FSCalendar
 import SnapKit
 import RealmSwift
 import MarqueeLabel
+import FirebaseAnalytics
 
 class CalendarViewController: BaseViewController {
     
@@ -32,7 +33,7 @@ class CalendarViewController: BaseViewController {
                 self.mainview.calendar.reloadData()
             }
             print("Realm is located at:", OneDayDiaryRepository.shared.localRealm.configuration.fileURL!)
-                         print("리로드캘린더♻️")
+            print("리로드캘린더♻️")
         }
     }
     
@@ -68,6 +69,20 @@ class CalendarViewController: BaseViewController {
         
         mainview.cheerupMessage.speed = .duration(36)
         mainview.coverCheerupMessageButton.addTarget(self, action: #selector(pauseRestart), for: .touchUpInside)
+        
+        
+//        여기서 크래시 버튼 달았구여
+        
+        let button = UIButton(type: .roundedRect)
+        button.frame = CGRect(x: 20, y: 100, width: 100, height: 30)
+        button.setTitle("Test Crash", for: [])
+        button.addTarget(self, action: #selector(self.crashButtonTapped(_:)), for: .touchUpInside)
+        mainview.addSubview(button)
+    }
+    
+    @objc func crashButtonTapped(_ sender: AnyObject) {
+        let numbers = [0]
+        let _ = numbers[1]
     }
     
     func setNavigation() {
@@ -279,6 +294,11 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
         
         if lastDate == calendarDay && lastDate == calendarToday {
             let vc = PopUpViewController()
+            
+            Analytics.logEvent("lastDayPopup", parameters: [
+                "name": "\(lastDate)",
+            ])
+            
             vc.modalPresentationStyle = .overFullScreen
             present(vc, animated: true)
         }
