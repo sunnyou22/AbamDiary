@@ -25,7 +25,7 @@ class CalendarViewController: BaseViewController {
     let digit: Float = pow(10, 2) // 10의 2제곱
     var cell: CalendarTableViewCell? // 셀 인스턴스 통일시켜줘야 플레이스홀더 오류 없어짐
     var preparedCell: CalendarTableViewCell?
-    
+  
     var tasks: Results<Diary>! {
         didSet {
             mainview.tableView.reloadData()

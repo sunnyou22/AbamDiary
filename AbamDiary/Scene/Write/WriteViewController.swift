@@ -45,7 +45,6 @@ class WriteViewController: BaseViewController {
         setnavigation()
         //        self.tabBarController?.tabBar.isHidden = true
         textViewDoneBtnMake(text_field: writeView.textView)
-        
 //        self.tabBarController?.tabBar.isHidden = true
     }
     
@@ -90,6 +89,8 @@ class WriteViewController: BaseViewController {
         //데이터 패치
         OneDayDiaryRepository.shared.fetchLatestOrder()
         writeView.dateLabel.text = CustomFormatter.setWritedate(date: data?.createdDate ?? Date())
+        
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     //MARK: - viewWillDisappear
@@ -112,11 +113,7 @@ class WriteViewController: BaseViewController {
     }
     
     @objc func doneBtnFromKeyboardClicked (sender: Any) {
-        
         print("Done Button Clicked.")
-        
-        //Hide Keyboard by endEditing or Anything you want.
-        
         writeView.textView.resignFirstResponder()
     }
     
@@ -126,6 +123,7 @@ class WriteViewController: BaseViewController {
         
         self.navigationController?.navigationBar.isUserInteractionEnabled = false
         self.writeView.isUserInteractionEnabled = false
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         
         let task = Diary(type: diarytype.rawValue, contents: writeView.textView.text, selecteddate: selectedDate ?? Date(), createdDate: Date())
 
@@ -134,8 +132,7 @@ class WriteViewController: BaseViewController {
             if data?.isInvalidated == true {
                 return
             }
-            
-            //MARK: 텍스트뷰가 공백이 아니거나 플레이스 홀러와 같지 않을 때
+
         } else {
             switch writeMode {
             case .newDiary:
@@ -212,6 +209,7 @@ extension WriteViewController: UITextViewDelegate {
     func writeDiary(mode: WriteMode, task: Diary) {
         switch mode {
         case .newDiary:
+            
             OneDayDiaryRepository.shared.addItem(item: task)
      
         case .modified:
@@ -253,4 +251,3 @@ extension WriteViewController {
        
     }
 }
-

@@ -22,6 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
         FirebaseApp.configure()
         
+        UITextField.appearance().tintColor = Color.BaseColorWtihDark.labelColor
+        UITextView.appearance().tintColor = Color.BaseColorWtihDark.labelColor
+            
         return true
     }
         

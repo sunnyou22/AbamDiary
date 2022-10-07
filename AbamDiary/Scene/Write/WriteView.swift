@@ -13,8 +13,8 @@ class WriteView: BaseView {
         let view = UILabel()
         let matrix = CGAffineTransform(a: 1, b: 0, c: CGFloat(tanf(12 * 3.141592653589793 / 180 )), d: 1, tx: 0, ty: 0)
         let desc = UIFontDescriptor.init(name: "Helvetica Neue Light", matrix: matrix)
-        view.font = UIFont(descriptor: desc, size: 18)
-        view.textColor =  Color.BaseColorWtihDark.thineBar
+        view.font = UIFont(descriptor: desc, size: 16)
+        view.textColor = Color.BaseColorWtihDark.thineBar
 //        view.font = UIFont.italicSystemFont(ofSize: FontSize.subTitle_16)
         view.text = "888888888888"
         return view
@@ -35,7 +35,7 @@ class WriteView: BaseView {
     //플레이스 홀더
     let textView: UITextView = {
         let view = UITextView()
-        view.font = UIFont.systemFont(ofSize: FontSize.subTitle_16, weight: .light)
+        view.font = UIFont.systemFont(ofSize: FontSize.label_14, weight: .light)
         view.isScrollEnabled = true
         view.textColor = Color.BaseColorWtihDark.labelColor
         view.backgroundColor = .clear
