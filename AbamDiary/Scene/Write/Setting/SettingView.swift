@@ -31,7 +31,7 @@ class SettingView: BaseView {
         let view = UIButton()
         view.tintColor = .black
         view.setTitle("프로필 사진 바꾸기", for: .normal)
-        view.titleLabel?.font = UIFont.systemFont(ofSize: FontSize.subTitle_16, weight: .regular)
+        view.titleLabel?.font = UIFont.systemFont(ofSize: FontSize.label_14, weight: .regular)
         view.setTitleColor(.systemBlue, for: .normal)
         view.tintColor = .systemBlue
         return view

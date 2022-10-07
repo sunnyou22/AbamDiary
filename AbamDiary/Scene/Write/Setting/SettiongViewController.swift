@@ -351,16 +351,23 @@ extension SettiongViewController {
         present(dateChooseAlert, animated: true)
     }
     
+    func test(arr: [Int]) -> DateComponents {
+        var date = DateComponents(timeZone: .current)
+        date.hour = arr[0]
+        date.minute = arr[1]
+        
+        return date
+    }
+    
     //MARK: switch버튼 cell 안에서 처리
     @objc func changeSwitch(_ sender: UISwitch) {
         
         if sender.isOn == true { //현재 스위치 상태 1
             
-//            sender.setOn(false, animated: true)
+            sender.setOn(false, animated: true)
             
             let authorizationAlert = UIAlertController(title: "알림권한", message: """
-알림을 받기 위해서는 시스템 설정에서
-알림을 허용으로 변경해야합니다.
+먼저 알림상태를 허용으로 바꿔주세요!
 시스템 설정으로 이동하시겠습니까?
 (허용한 이후 앱을 껐다 켜주세요!)
 """, preferredStyle: .alert)
@@ -375,7 +382,13 @@ extension SettiongViewController {
             
             //MARK: 만약 사용자가 시스템권한을 해제했을 때 대응
             guard autorizationStatus == false else {
-                                SettiongViewController.requestAutorization()
+                let M = test(arr: UserDefaults.standard.array(forKey: "Mdate") as? [Int] ?? [9, 0])
+                let N = test(arr: UserDefaults.standard.array(forKey: "Ndate") as? [Int] ?? [22, 0])
+                
+                SettiongViewController.sendNotification(subTitle: "아침일기를 쓰러가볼까요?", date: M, type: MorningAndNight.morning.rawValue)
+                SettiongViewController.sendNotification(subTitle: "밤일기를 쓰러가볼까요?", date: N, type: MorningAndNight.night.rawValue)
+           
+//                                SettiongViewController.requestAutorization()
                 UserDefaults.standard.set(true, forKey: "switch")
                 sender.setOn(true, animated: true)
                 self.settingView.tableView.reloadData()
