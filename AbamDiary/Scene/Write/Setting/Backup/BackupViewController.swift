@@ -173,24 +173,38 @@ extension BackupViewController: UIDocumentPickerDelegate {
         if FileManager.default.fileExists(atPath: sandboxFileURL.path) {
             let filename_zip = selectedFileURL.lastPathComponent
             print(filename_zip, "========🚀🚀🚀🚀🚀")
+            let temporaryFolder = createFolder(foldername: .unzipFolder)
+
             let zipfileURL = path.appendingPathComponent(filename_zip)
-            let keyFileURL = path.appendingPathComponent(PathComponentName.ABAMKeyFile.rawValue)
+            let keyFileURL = temporaryFolder.appendingPathComponent(PathComponentName.ABAMKeyFile.rawValue)
+            let newzipfileURL = temporaryFolder.appendingPathComponent(filename_zip)
             
             do {
-                OneDayDiaryRepository.shared.deleteTasks(tasks: self.tasks)
-                CheerupMessageRepository.shared.deleteTasks(tasks: self.cheerupTasks)
-                try unzipFile(fileURL: zipfileURL, documentURL: path)
+                try FileManager.default.copyItem(at: zipfileURL, to: newzipfileURL)
+            } catch {
+                print(#function, "🔴copyItem 오류")
+            }
+            
+            do {
+                try unzipFile(fileURL: newzipfileURL, documentURL: temporaryFolder)
                 do {
                     if FileManager.default.fileExists(atPath: keyFileURL.path) {
-                        try self.restoreRealmForBackupFile()
+                        try FileManager.default.removeItem(at: temporaryFolder)
+                        try unzipFile(fileURL: zipfileURL, documentURL: path)
+                        
+                        //여기서 작세하는 keyfile은 도큐
                         removeKeyFileDocument(fileName: .ABAMKeyFile)
+                        OneDayDiaryRepository.shared.deleteTasks(tasks: self.tasks)
+                        CheerupMessageRepository.shared.deleteTasks(tasks: self.cheerupTasks)
+                        
+                        try self.restoreRealmForBackupFile()
                         self.tabBarController?.selectedIndex = 0
                     } else {
                         controller.dismiss(animated: true) {
                             let alert = UIAlertController(title: "복구 알림", message: "아밤일기의 파일이 맞으신가요?ㅠㅠ", preferredStyle: .alert)
                             let ok = UIAlertAction(title: "확인", style: .default)
                             self.removeBackupFileDocument(fileName: filename_zip)
-                            
+                           try! FileManager.default.removeItem(at: temporaryFolder)
                             Analytics.logEvent("notMyBackupFile", parameters: [
                                 "name": "not my AppBackupFile",
                             ])
@@ -215,22 +229,35 @@ extension BackupViewController: UIDocumentPickerDelegate {
                 try FileManager.default.copyItem(at: selectedFileURL, to: sandboxFileURL)
                 let filename_zip = selectedFileURL.lastPathComponent
                 let zipfileURL = path.appendingPathComponent(filename_zip)
-                let keyFileURL = path.appendingPathComponent(PathComponentName.ABAMKeyFile.rawValue)
+                let temporaryFolder = createFolder(foldername: .unzipFolder)
+                let keyFileURL = temporaryFolder.appendingPathComponent(PathComponentName.ABAMKeyFile.rawValue)
+                let newzipfileURL = temporaryFolder.appendingPathComponent(filename_zip)
                 
                 do {
-                    OneDayDiaryRepository.shared.deleteTasks(tasks: self.tasks)
-                    CheerupMessageRepository.shared.deleteTasks(tasks: self.cheerupTasks)
-                    
-                    try unzipFile(fileURL: zipfileURL, documentURL: path)
+                    try FileManager.default.copyItem(at: zipfileURL, to: newzipfileURL)
+                } catch {
+                    print(#function, "🔴copyItem 오류")
+                }
+                
+                do {
+                    try unzipFile(fileURL: newzipfileURL, documentURL: temporaryFolder)
                     do {
                         if FileManager.default.fileExists(atPath: keyFileURL.path) {
+                            try FileManager.default.removeItem(at: temporaryFolder)
+                            try unzipFile(fileURL: zipfileURL, documentURL: path)
+                           
+                            removeKeyFileDocument(fileName: .ABAMKeyFile)
+                            OneDayDiaryRepository.shared.deleteTasks(tasks: self.tasks)
+                            CheerupMessageRepository.shared.deleteTasks(tasks: self.cheerupTasks)
+                            
                             try self.restoreRealmForBackupFile()
                             self.tabBarController?.selectedIndex = 0
-                            removeKeyFileDocument(fileName: .ABAMKeyFile)
+                           
                         } else {
                             controller.dismiss(animated: true) {
                                 let alert = UIAlertController(title: "복구 알림", message: "아밤일기의 파일이 맞으신가요?ㅠㅠ", preferredStyle: .alert)
                                 let ok = UIAlertAction(title: "확인", style: .default) { _ in
+                                    try! FileManager.default.removeItem(at: temporaryFolder)
                                     Analytics.logEvent("fileAppRestore", parameters: [
                                         "name": "not my AppBackupFile",
                                     ])

@@ -13,6 +13,7 @@ enum PathComponentName: String {
     case imageFile = "profile.jpg"
     case ABAMKeyFile
     case defaultImage
+    case unzipFolder
 }
 
 enum CodableError: Error {
@@ -53,7 +54,7 @@ extension UIViewController {
     
     func createFile(fileName: PathComponentName) -> URL {
         guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
-            print("폴더를 생성할 수 없습니다")
+            print("도큐먼트에 접근할 수 없습니다.🔴")
             return URL(fileURLWithPath: "") }
         let fileURL = path.appendingPathComponent(fileName.rawValue)
         let myTextString = NSString(string: fileName.rawValue)
@@ -61,10 +62,29 @@ extension UIViewController {
         do { //try문이기 땜눈에 do
             try myTextString.write(to: fileURL, atomically: true, encoding: String.Encoding.utf8.rawValue)
         } catch {
-            print("=====> 이미지 폴더를 만들 수 없습니다")
+            print("=====> 키폴더를 만들 수 없습니다")
         }
         
         return fileURL
+    }
+ 
+    @discardableResult
+    func createFolder(foldername: PathComponentName) -> URL {
+            guard let documentsFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { print("도큐먼트에 접근할 수 없습니다.🔴")
+                return URL(fileURLWithPath: "") }
+            let folderURL = documentsFolder.appendingPathComponent(foldername.rawValue)
+            let folderExists = (try? folderURL.checkResourceIsReachable()) ?? false // 폴더에 도달 가능?
+            
+            do {
+                if !folderExists {
+                    try FileManager.default.createDirectory(at: folderURL, withIntermediateDirectories: false)
+                }
+                } catch {
+                    print("=====> 임시 폴더를 만들 수 없습니다")
+                }
+                
+                
+        return folderURL
     }
     
 //    func saveImageToFolder(foldername: PathComponentName, filename: String, image: UIImage) {
@@ -219,6 +239,7 @@ extension UIViewController {
         let CencodedFilePath = path.appendingPathComponent("cheerup.json")
         
         print(imageFileURL)
+        createFolder(foldername: .unzipFolder)
         
         guard FileManager.default.fileExists(atPath: DencodedFilePath.path) && FileManager.default.fileExists(atPath: CencodedFilePath.path), FileManager.default.fileExists(atPath: keyFileURL.path) else {
             throw DocumentPathError.compressionFailedError

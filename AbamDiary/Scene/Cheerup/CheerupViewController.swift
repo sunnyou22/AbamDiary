@@ -210,7 +210,7 @@ extension CheerupViewController {
             let keyboardHeight = keyboardRectangle.height
             keyHeight = keyboardHeight
             
-            self.view.frame.origin.y = -30
+            self.view.frame.origin.y = -50
         }
     }
     @objc
