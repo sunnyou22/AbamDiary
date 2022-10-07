@@ -391,6 +391,10 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
         let eventScaleFactor: CGFloat = 1.2
         cell.eventIndicator.transform = CGAffineTransform(scaleX: eventScaleFactor, y: eventScaleFactor)
     }
+    
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventOffsetFor date: Date) -> CGPoint {
+        return CGPoint(x: 0, y: 0.5)
+    }
 }
 
 //MARK: 네비게이션 타이틀 뷰 커스텀

@@ -14,13 +14,14 @@ class BackupView: BaseView {
         let view = UILabel()
         view.numberOfLines = 0
         view.text = """
-백업파일 생성 시 앱 내부 저장소에 자동저장되며, 앱 삭제 시 함께 삭제됩니다.
-복구 시 파일앱의 벡압파일을 기준으로 복구됩니다 :)
+백업파일 생성 시 앱 내부 저장소에 자동저장되며,
+앱을 삭제할 경우 함께 삭제됩니다!
 
-아래 항목의 파일명과 파일앱에서 불러오는 파일명이 다를 경우
+복구 시 파일앱의 벡압파일을 기준으로 복구됩니다 :)
+아래 항목의 파일명과 파일앱에서 불러오는 파일명이 다를 경우,
 두 파일 모두 앱 내 저장소에 보관되며 아래 항목에 표시됩니다.
 
-:( 복구과정에서 아밤일기의 데이터가 아닌 경우 현재 앱의 데이터가 유실 될 위험이 있습니다.
+📍 복구과정에서 아밤일기의 데이터가 아닌 경우 현재 앱의 데이터가 유실 될 위험이 있습니다ㅠㅠ
 """
         view.font = UIFont.systemFont(ofSize: 13, weight: .light)
         view.textColor = .systemGray
@@ -86,7 +87,6 @@ class BackupView: BaseView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
     override func configuration() {
         [backupFileButton, restoreFileButton].forEach { stackView.addArrangedSubview($0) }

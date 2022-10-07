@@ -414,7 +414,6 @@ extension SettiongViewController {
             alert.addAction(cancel)
             
             present(alert, animated: true)
-            
         }
     }
     

@@ -72,11 +72,6 @@ class SettingView: BaseView {
     
     override func setConstraints() {
 
-//        header.snp.makeConstraints { make in
-//            make.height.equalTo(self.snp.width).multipliedBy(0.5)
-//            make.width.equalTo(self.snp.width)
-//        }
-//
         profileimageView.snp.makeConstraints { make in
             make.centerY.equalTo(header.snp.centerY)
             make.leading.equalTo(header.snp.leading).offset(20)
@@ -88,9 +83,9 @@ class SettingView: BaseView {
             make.top.equalTo(profileimageView.snp.bottom).offset(4)
             make.centerX.equalTo(profileimageView.snp.centerX)
         }
-        //
+
         tableView.snp.makeConstraints { make in
-//            make.top.equalTo(changeButton.snp.bottom).offset(20)
+
             make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(0)
             make.verticalEdges.equalTo(self.safeAreaLayoutGuide.snp.verticalEdges)
         }
