@@ -125,6 +125,7 @@ class WriteViewController: BaseViewController {
     @objc func save() {
         
         self.navigationController?.navigationBar.isUserInteractionEnabled = false
+        self.writeView.isUserInteractionEnabled = false
         
         let task = Diary(type: diarytype.rawValue, contents: writeView.textView.text, selecteddate: selectedDate ?? Date(), createdDate: Date())
 
@@ -148,7 +149,7 @@ class WriteViewController: BaseViewController {
             }
         }
         
-        writeView.makeToast("\n저장완료!", duration: 0.4, position: .center, title: nil, image: UIImage(named: "ABAM")) { [self] didTap in
+        writeView.makeToast("\n저장완료!", duration: 0.8, position: .center, title: nil, image: UIImage(named: "ABAM")) { [self] didTap in
             self.navigationController?.popViewController(animated: true)
         }
         writeView.textView.resignFirstResponder()
