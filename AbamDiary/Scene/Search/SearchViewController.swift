@@ -149,7 +149,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             let attributedString = NSMutableAttributedString(string: cell.diaryLabel.text ?? "test")
             attributedString.addAttribute(.foregroundColor, value: UIColor.orange, range: (cell.diaryLabel.text! as NSString).range(of: "\(text)"))
             cell.diaryLabel.attributedText = attributedString
-            cell.heightAnchor.constraint(equalToConstant: 20)
             cell.backgroundColor = .clear
             cell.selectionStyle = .none
         }

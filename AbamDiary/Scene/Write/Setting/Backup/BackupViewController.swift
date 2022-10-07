@@ -97,8 +97,7 @@ class BackupViewController: BaseViewController {
                     doucumentPicker.delegate = self
                     doucumentPicker.allowsMultipleSelection = false
                     self.present(doucumentPicker, animated: true)
-                }
-                catch {
+                } catch {
                     print("압축풀기에 실패하였습니다")
                 }
             }
@@ -132,6 +131,7 @@ extension BackupViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.subTitle.text =  backupfiles?[indexPath.row]
         cell.contentView.backgroundColor = .systemGray6
+        cell.selectionStyle = .none
         return cell
     }
     

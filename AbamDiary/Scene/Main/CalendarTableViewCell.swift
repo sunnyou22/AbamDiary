@@ -59,9 +59,7 @@ class CalendarTableViewCell: BaseTableViewCell {
         [systemImageView, dateLabel, diaryLabel].forEach { baseView.addSubview($0) }
         
         self.backgroundColor = .clear
-        contentView.backgroundColor = .clear
-        
-        
+        contentView.backgroundColor = .clear  
     }
 
     override func setConstraints() {

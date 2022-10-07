@@ -31,7 +31,8 @@ class CheerupMessageRepository: CheerupMessageRepositoryType {
                 localRealm.delete(item)
             })
             
-        } catch let error {
+        } catch {
+            print("셀을 삭제할 수 없음")
         }
     }
     

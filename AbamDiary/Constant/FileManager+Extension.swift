@@ -168,7 +168,7 @@ extension UIViewController {
         do {
             try FileManager.default.removeItem(at: fileURL)
         } catch let error {
-            view.makeToast("삭제할 백업파일이 없습니다", duration: 1.5, position: .center)
+            view.makeToast("삭제할 이미지가 없습니다", duration: 1.5, position: .center)
             print(error)
         }
     }
