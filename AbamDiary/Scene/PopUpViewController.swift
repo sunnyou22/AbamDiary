@@ -122,7 +122,7 @@ class PopUpViewController: BaseViewController {
     }
     
     //MARK: - 메서드
-    func setResultLabelComponent(m: Float, n: Float) -> String? {
+    private func setResultLabelComponent(m: Float, n: Float) -> String? {
         
         if m > n {
             return "아침형"
@@ -135,7 +135,7 @@ class PopUpViewController: BaseViewController {
         }
     }
     
-    func setResultLabel(_ view: UILabel) {
+    private func setResultLabel(_ view: UILabel) {
         let m = CalendarViewController.gageCountModel.morningDiaryCount.value
         let n = CalendarViewController.gageCountModel.nightDiaryCount.value
         
@@ -163,13 +163,13 @@ class PopUpViewController: BaseViewController {
 
 extension PopUpViewController {
     
-    func swipeDown () {
+    private func swipeDown () {
         let swipe = UISwipeGestureRecognizer(target: self, action: #selector(respondSwipe(_:)))
         swipe.direction = UISwipeGestureRecognizer.Direction.down
         self.view.addGestureRecognizer(swipe)
     }
     
-    @objc func respondSwipe(_ gesture: UIGestureRecognizer) {
+    @objc private func respondSwipe(_ gesture: UIGestureRecognizer) {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizer.Direction.down:

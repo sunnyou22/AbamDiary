@@ -190,7 +190,7 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
   
-    func moveToWriteReview() {
+   private func moveToWriteReview() {
         
         if let reviewURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\(1645004739)?ls=1&mt=8&action=write-review"), UIApplication.shared.canOpenURL(reviewURL) {
             UIApplication.shared.open(reviewURL, options: [:], completionHandler: nil)
@@ -200,7 +200,7 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
         
     
     //MARK: - 메서드
-    func setButtonConfig(_ sender: UIButton) {
+    private func setButtonConfig(_ sender: UIButton) {
         //            "MbtnSelected"
         if UserDefaults.standard.bool(forKey: "switch") == true {
             sender.isUserInteractionEnabled = true
@@ -217,7 +217,7 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     //MARK: 프로필 사진 바꾸기
-    @objc func changeProfileButtonClicked() {
+    @objc private func changeProfileButtonClicked() {
         let alert = UIAlertController(title: nil, message: "프로필 사진 변경하기", preferredStyle: .alert)
         
         let cancel = UIAlertAction(title: "취소", style: .destructive)
@@ -251,7 +251,7 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
 extension SettiongViewController {
     
     //MARK: 아침 데이트피커 버튼 누름
-    @objc func MpopDatePicker(_ sender: UIButton) {
+    @objc private func MpopDatePicker(_ sender: UIButton) {
         print("아침일기 알람 설정시작 📍")
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .time
@@ -304,7 +304,7 @@ extension SettiongViewController {
     }
     
     //MARK: 저녁 데이트피커 버튼 누름
-    @objc func NpopDatePicker(_ sender: UIButton) {
+    @objc private func NpopDatePicker(_ sender: UIButton) {
         print("밤 일기 알람 설정시작 📍")
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .time
@@ -351,7 +351,7 @@ extension SettiongViewController {
         present(dateChooseAlert, animated: true)
     }
     
-    func test(arr: [Int]) -> DateComponents {
+    private func test(arr: [Int]) -> DateComponents {
         var date = DateComponents(timeZone: .current)
         date.hour = arr[0]
         date.minute = arr[1]
@@ -360,7 +360,7 @@ extension SettiongViewController {
     }
     
     //MARK: switch버튼 cell 안에서 처리
-    @objc func changeSwitch(_ sender: UISwitch) {
+    @objc private func changeSwitch(_ sender: UISwitch) {
         
         if sender.isOn == true { //현재 스위치 상태 1
             
@@ -417,7 +417,7 @@ extension SettiongViewController {
         }
     }
     
-    func goSettingURL() {
+    private func goSettingURL() {
         guard let settingURL = URL(string: UIApplication.openSettingsURLString) else {
             settingView.makeToast("설정창으로 이동할 수 없습니다ㅠㅠ!")
             return
@@ -427,7 +427,7 @@ extension SettiongViewController {
 }
 
 extension SettiongViewController: MFMailComposeViewControllerDelegate {
-    func sendMail() {
+    private func sendMail() {
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
             mail.setToRecipients(["sunnyouyaya22@gmail.com"])

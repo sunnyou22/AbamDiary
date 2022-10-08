@@ -68,11 +68,11 @@ class SearchViewController: BaseViewController {
         fetch()
     }
     
-    func fetch() {
+   private func fetch() {
         tasks = OneDayDiaryRepository.shared.fetchLatestOrder()
     }
     
-    func setupSearchController() {
+    private func setupSearchController() {
         searchController.searchBar.placeholder = "원하는 키워드를 입력해주세요"
         searchController.hidesNavigationBarDuringPresentation = false
         self.navigationItem.searchController = searchController
@@ -201,7 +201,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
     
-        func setWritModeAndTransition(_ mode: WriteMode, diaryType: MorningAndNight, task: Diary?) {
+    private func setWritModeAndTransition(_ mode: WriteMode, diaryType: MorningAndNight, task: Diary?) {
             let vc = WriteViewController(diarytype: diaryType, writeMode: mode)
             vc.data = task
             

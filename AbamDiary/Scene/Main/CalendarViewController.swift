@@ -71,7 +71,7 @@ class CalendarViewController: BaseViewController {
         mainview.coverCheerupMessageButton.addTarget(self, action: #selector(pauseRestart), for: .touchUpInside)
     }
    
-    func setNavigation() {
+    private func setNavigation() {
         self.navigationController?.navigationBar.prefersLargeTitles = false
         let navigationtitleView = navigationTitleVIew()
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navigationtitleView)
@@ -79,7 +79,7 @@ class CalendarViewController: BaseViewController {
     navigationItem.largeTitleDisplayMode = .never
     }
     
-    @objc func pauseRestart(_ sender: UIButton) {
+    @objc private func pauseRestart(_ sender: UIButton) {
         isExpanded = !isExpanded
         
         if isExpanded {
@@ -123,7 +123,7 @@ class CalendarViewController: BaseViewController {
         mainview.cheerupMessage.text = CheerupMessageRepository.shared.fetchDate(ascending: false).randomElement()?.cheerup ?? "응원의 메세지를 추가해보세요!"
     }
     
-    func fetchRealm() {
+    private func fetchRealm() {
         tasks = OneDayDiaryRepository.shared.fetchLatestOrder()
         diaryTypefilterDate()
         
@@ -132,7 +132,7 @@ class CalendarViewController: BaseViewController {
     }
     
     //MARK: 여기서 아침일기 저녁일기 task 생성
-    func diaryTypefilterDate() {
+    private func diaryTypefilterDate() {
         
         let selectedDate = CustomFormatter.setDateFormatter(date: mainview.calendar.selectedDate ?? Date())
         let calendarToday = CustomFormatter.setDateFormatter(date: mainview.calendar.today!)
@@ -226,14 +226,14 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     //cell을 통일시켜주기
-    func fetchCell(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) -> CalendarTableViewCell {
+    private func fetchCell(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) -> CalendarTableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CalendarTableViewCell.reuseIdentifier, for: indexPath) as? CalendarTableViewCell else { return CalendarTableViewCell()}
         self.cell = cell
         
         return cell
     }
     
-    func setWritModeAndTransition(_ mode: WriteMode, diaryType: MorningAndNight, task: Diary?) {
+    private func setWritModeAndTransition(_ mode: WriteMode, diaryType: MorningAndNight, task: Diary?) {
         let vc = WriteViewController(diarytype: diaryType, writeMode: mode)
        
         vc.data = task
@@ -425,7 +425,7 @@ class navigationTitleVIew: BaseView {
 extension CalendarViewController {
     
     //아침일기 개수 계산
-    func calculateMoringDiary() {
+    private func calculateMoringDiary() {
 
         let filterMorningcount = monthFilterTasks.filter { task in
             return task.type == 0
@@ -436,7 +436,7 @@ extension CalendarViewController {
     }
     
     //저녁일기 개수 계산
-    func calculateNightDiary() {
+    private func calculateNightDiary() {
 
         let filterNightcount = monthFilterTasks.filter { task in
             return task.type == 1
@@ -446,7 +446,7 @@ extension CalendarViewController {
         self.changeNightcount = Float(filterNightcount)
     }
     
-    func setProgressRetio() {
+    private func setProgressRetio() {
         let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeMorningcount + self.changeNightcount)) * digit) / digit)
         
         if moringCountRatio.isNaN {
@@ -459,7 +459,7 @@ extension CalendarViewController {
     
     
     //MARK: 이미지 애니메이션
-    func animationUIImage() {
+    private func animationUIImage() {
         
         UIImageView.animate(withDuration: 0.4) {
             let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeNightcount + self.changeMorningcount)) * self.digit) / self.digit)

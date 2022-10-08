@@ -47,21 +47,21 @@ class BackupViewController: BaseViewController {
         fetchBackupFileList()
     }
     
-    func fetchBackupFileList() {
+   private func fetchBackupFileList() {
         backupfiles = fetchDocumentZipFile().sorted(by: >)
     }
     
-    func fetch() {
+    private func fetch() {
         tasks = OneDayDiaryRepository.shared.fetchLatestOrder()
         cheerupTasks = CheerupMessageRepository.shared.fetchDate(ascending: false)
     }
     
-    @objc func clickedBackupButton() {
+    @objc private func clickedBackupButton() {
         setTextBackupData(text: "ABAM \(CustomFormatter.setWritedate(date: Date()))")
     }
     
     //셀에 들어갈 데이터 즉 스냅샷 + 백업
-    func setTextBackupData(text: String) {
+    private func setTextBackupData(text: String) {
         
         do {
             try saveEncodedDiaryToDocument(tasks: tasks)
@@ -78,7 +78,7 @@ class BackupViewController: BaseViewController {
         removeKeyFileDocument(fileName: .ABAMKeyFile)
     }
     
-    @objc func clickRestoreCell() {
+    @objc private func clickRestoreCell() {
         
         let alert = UIAlertController(title: "알림", message: "현재 일기에 덮어씌워집니다. 진행하시겠습니까?", preferredStyle: .alert)
         let ok = UIAlertAction(title: "네", style: .default) { [weak self]_ in
@@ -154,7 +154,7 @@ extension BackupViewController: UIDocumentPickerDelegate {
         print("도큐머트픽커 닫음", #function)
     }
     
-    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) { // 어떤 압축파일을 선택했는지 명세
+   func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) { // 어떤 압축파일을 선택했는지 명세
         
         //파일앱에서 선택한 filURL
         guard let selectedFileURL = urls.first else {
