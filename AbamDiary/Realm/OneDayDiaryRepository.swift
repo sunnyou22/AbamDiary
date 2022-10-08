@@ -39,7 +39,7 @@ class OneDayDiaryRepository: OnedayDiaryRepositoryType {
             return nil
         }
         let items = localRealm.objects(Diary.self)
-           let item2 = items.filter("contents CONTAINS[c] '\(text)")
+        let item2 = items.filter("contents CONTAINS[c] '\(text)")
         let result = items.filter("type == %@", type)
         
         return result
@@ -50,17 +50,30 @@ class OneDayDiaryRepository: OnedayDiaryRepositoryType {
     }
     
     func fetchDate(date: Date, type: Int) -> Results<Diary> {
-        let item = localRealm.objects(Diary.self).filter("selecteddate >= %@ AND selecteddate < %@", date, Date(timeInterval: 86400, since: date)) //NSPredicate 애플이 만들어준 Filter
+        //해당날짜의 시작을 가져올 수있게함
+        var calendar = Calendar(identifier: .gregorian)
+        let components = calendar.dateComponents([.day], from: date)
+        let day = calendar.date(from: components) ?? Date()
+        
+        let item = localRealm.objects(Diary.self).filter("selecteddate >= %@ AND selecteddate < %@", day, Date(timeInterval: 86400, since: day)) //NSPredicate 애플이 만들어준 Filter
         if item.isEmpty {
             return item
         } else {
             let result = item.filter("type == %@", type)
             return result
         }
-//        return
+        //        return
     }
     
-    
+    func isWritedDiaryToday(type: Int) -> Bool {
+        var calendar = Calendar(identifier: .gregorian)
+        let date = Date(timeIntervalSinceNow: 0)
+        calendar.locale = Locale(identifier: "ko")
+        let item = localRealm.objects(Diary.self).filter("type == %@", type)
+        let result = item.filter("selecteddate >= %@ AND selecteddate < %@", calendar.isDateInToday(Date()), calendar.isDateInTomorrow(Date()))
+        
+        return !result.isEmpty
+    }
     
     func fetchFilterMonth(start: Date, last: Date) -> Results<Diary> {
         
@@ -68,7 +81,6 @@ class OneDayDiaryRepository: OnedayDiaryRepositoryType {
     }
     
     func deleteRecord(item: Diary) {
-        
         do {
             try localRealm.write {
                 localRealm.delete(item)
