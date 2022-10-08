@@ -8,9 +8,7 @@
 import UIKit
 
 extension SettiongViewController {
-    
-    //send에 sendNotification이 함수 담기
-    //거절했을 때의 값을 받아올 수 있나?
+   
     static func requestAutorization() {
         
         let authorizationOptions = UNAuthorizationOptions(arrayLiteral: .alert, .badge, .sound)
@@ -39,7 +37,7 @@ extension SettiongViewController {
             var date = DateComponents(timeZone: .current)
             date.hour = 9
             date.minute = 0
-            SettiongViewController.sendNotification(subTitle: "아침일기를 쓰러가볼까요?", date: date, type: MorningAndNight.morning.rawValue)
+            SettiongViewController.sendNotification(subTitle: "오늘 아침일기를 작성하셨나요?", date: date, type: MorningAndNight.morning.rawValue)
             print("아침일기 알람 설정 📍노티 샌드")
             return
         }
@@ -50,7 +48,7 @@ extension SettiongViewController {
             var date = DateComponents(timeZone: .current)
             date.hour = 22
             date.minute = 0
-            SettiongViewController.sendNotification(subTitle: "밤 일기를 쓰러가볼까요?", date: date, type: MorningAndNight.night.rawValue)
+            SettiongViewController.sendNotification(subTitle: "오늘 밤 일기를 작성하셨나요?", date: date, type: MorningAndNight.night.rawValue)
             print("밤일기 알람 설정 📍노티 샌드")
             return
         }

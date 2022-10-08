@@ -62,7 +62,6 @@ class OneDayDiaryRepository: OnedayDiaryRepositoryType {
             let result = item.filter("type == %@", type)
             return result
         }
-        //        return
     }
     
     func isWritedDiaryToday(type: Int) -> Bool {
@@ -95,6 +94,7 @@ class OneDayDiaryRepository: OnedayDiaryRepositoryType {
                 localRealm.delete(tasks)
             }
         } catch {
+            
         }
     }
     

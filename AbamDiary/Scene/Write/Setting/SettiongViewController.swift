@@ -290,7 +290,7 @@ extension SettiongViewController {
             date.hour = Marray[0]
             date.minute = Marray[1]
             
-            SettiongViewController.sendNotification(subTitle: "아침일기를 쓰러가볼까요?", date: date, type: MorningAndNight.morning.rawValue)
+            SettiongViewController.sendNotification(subTitle: "오늘 아침일기를 작성하셨나요?", date: date, type: MorningAndNight.morning.rawValue)
             print("아침일기 알람 설정 📍")
             
         }
@@ -339,7 +339,7 @@ extension SettiongViewController {
             date.hour = Narray[0]
             date.minute = Narray[1]
             
-            SettiongViewController.sendNotification(subTitle: "밤일기를 쓰러가볼까요?", date: date, type: MorningAndNight.night.rawValue)
+            SettiongViewController.sendNotification(subTitle: "오늘 밤 일기를 작성하셨나요?", date: date, type: MorningAndNight.night.rawValue)
             print("밤 일기 알람 설정 📍")
         }
         //MARK: cancel버튼
@@ -385,7 +385,7 @@ extension SettiongViewController {
                 let M = test(arr: UserDefaults.standard.array(forKey: "Mdate") as? [Int] ?? [9, 0])
                 let N = test(arr: UserDefaults.standard.array(forKey: "Ndate") as? [Int] ?? [22, 0])
                 
-                SettiongViewController.sendNotification(subTitle: "아침일기를 쓰러가볼까요?", date: M, type: MorningAndNight.morning.rawValue)
+                SettiongViewController.sendNotification(subTitle: "오늘 아침일기를 작성하셨나요?", date: M, type: MorningAndNight.morning.rawValue)
                 SettiongViewController.sendNotification(subTitle: "밤일기를 쓰러가볼까요?", date: N, type: MorningAndNight.night.rawValue)
            
 //                                SettiongViewController.requestAutorization()
