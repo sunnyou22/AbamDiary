@@ -52,7 +52,7 @@ class OneDayDiaryRepository: OnedayDiaryRepositoryType {
     func fetchDate(date: Date, type: Int) -> Results<Diary> {
         //해당날짜의 시작을 가져올 수있게함
         var calendar = Calendar(identifier: .gregorian)
-        let components = calendar.dateComponents([.day], from: date)
+        let components = calendar.dateComponents([.year, .month, .day], from: date)
         let day = calendar.date(from: components) ?? Date()
         
         let item = localRealm.objects(Diary.self).filter("selecteddate >= %@ AND selecteddate < %@", day, Date(timeInterval: 86400, since: day)) //NSPredicate 애플이 만들어준 Filter

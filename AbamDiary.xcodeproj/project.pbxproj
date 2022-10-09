@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		9004E9D128F2E6DF00684415 /* OnboadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9004E9D028F2E6DF00684415 /* OnboadingViewController.swift */; };
+		9004E9D328F31D4C00684415 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9004E9D228F31D4C00684415 /* FirstViewController.swift */; };
+		9004E9D728F31E1D00684415 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9004E9D628F31E1D00684415 /* SecondViewController.swift */; };
 		900AEDFA28CC5A9100F18360 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900AEDF928CC5A9100F18360 /* BaseViewController.swift */; };
 		900AEDFC28CC5AB100F18360 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900AEDFB28CC5AB000F18360 /* BaseView.swift */; };
 		900AEE0028CC5BA700F18360 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900AEDFF28CC5BA700F18360 /* BaseTableViewCell.swift */; };
@@ -76,6 +78,8 @@
 
 /* Begin PBXFileReference section */
 		9004E9D028F2E6DF00684415 /* OnboadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboadingViewController.swift; sourceTree = "<group>"; };
+		9004E9D228F31D4C00684415 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
+		9004E9D628F31E1D00684415 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		900AEDF928CC5A9100F18360 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		900AEDFB28CC5AB000F18360 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		900AEDFF28CC5BA700F18360 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
@@ -340,6 +344,8 @@
 			isa = PBXGroup;
 			children = (
 				9004E9D028F2E6DF00684415 /* OnboadingViewController.swift */,
+				9004E9D228F31D4C00684415 /* FirstViewController.swift */,
+				9004E9D628F31E1D00684415 /* SecondViewController.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -484,6 +490,7 @@
 				904492B328D5ACC90028F920 /* CheeupView.swift in Sources */,
 				90CCDB7328D06F6B00CDEE06 /* WriteViewController.swift in Sources */,
 				90DF62FF28D8924F0046A3E7 /* SwitchModel.swift in Sources */,
+				9004E9D728F31E1D00684415 /* SecondViewController.swift in Sources */,
 				900AEE1E28CC9EA000F18360 /* UserDefaultHelper.swift in Sources */,
 				90B7211628CDAD0500B243AE /* SettiongViewController.swift in Sources */,
 				90BCB60D28D5EA3600602FA0 /* CheerupMessageRepository.swift in Sources */,
@@ -493,6 +500,7 @@
 				90B7211828CDB53D00B243AE /* TabBarImage.swift in Sources */,
 				90CB364028D0A530002FCB45 /* Transition.swift in Sources */,
 				90D3F66028E75EE60016C859 /* BackupViewController.swift in Sources */,
+				9004E9D328F31D4C00684415 /* FirstViewController.swift in Sources */,
 				90D919E328E0DA8000CB3307 /* TapBarController.swift in Sources */,
 				900AEE1A28CC9A5300F18360 /* Observable.swift in Sources */,
 				90CCDB6728D056C800CDEE06 /* Diary.swift in Sources */,

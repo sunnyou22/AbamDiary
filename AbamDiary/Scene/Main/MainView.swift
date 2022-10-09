@@ -138,7 +138,6 @@ class MainView: BaseView {
     override func configuration() {
         [ABAMImage, cheerupUnderView, cheerupMessage, coverCheerupMessageButton, calendar, cellTitle, tableView, gageTitle, progressBar, profileImage].forEach { self.addSubview($0) }
         self.backgroundColor = Color.BaseColorWtihDark.backgorund
-        
     }
     
     override func setConstraints() {
