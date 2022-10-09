@@ -40,8 +40,8 @@ class SettiongViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         settingView.tableView.tableHeaderView = settingView.header
-        SettiongViewController.autorizationSwitchModel.isValid.bind { bool in
-            self.autorizationStatus = bool
+        SettiongViewController.autorizationSwitchModel.isValid.bind { [weak self] bool in
+            self?.autorizationStatus = bool
         }
     }
     
@@ -49,7 +49,7 @@ class SettiongViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         let navigationtitleView = navigationTitleVIew()
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navigationtitleView)
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navigationtitleView)
         settingView.tableView.delegate = self
         settingView.tableView.dataSource = self
         
@@ -60,6 +60,25 @@ class SettiongViewController: BaseViewController {
        
         tasks = OneDayDiaryRepository.shared.fetchLatestOrder()
         cheerupTasks = CheerupMessageRepository.shared.fetchDate(ascending: false)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        print("설정창 viewWillDisappear 🔴🔴🔴🔴", CFGetRetainCount(self))
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        print("설정창 viewDidDisappear 🔴🔴🔴🔴", CFGetRetainCount(self))
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("설정창 viewDidAppear 🔴🔴🔴🔴", CFGetRetainCount(self))
+    }
+    
+    deinit {
+        print("설정창 디이닛 🔴🔴🔴🔴=========================================", CFGetRetainCount(self), CustomFormatter.setTime(date: Date()))
     }
 }
 
@@ -160,7 +179,8 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
         } else if indexPath.section == 2 {
             if indexPath.row == 0 {
                 let alert = UIAlertController(title: "알림", message: "정말 모든 데이터를 삭제하시겠습니까?", preferredStyle: .alert)
-                let ok = UIAlertAction(title: "네", style: .destructive) {_ in
+                let ok = UIAlertAction(title: "네", style: .destructive) { [weak self] _ in
+                    guard let self = self else { return }
                     OneDayDiaryRepository.shared.deleteTasks(tasks: self.tasks)
                     self.settingView.makeToast("삭제완료", duration: 0.7, position: .center) { didTap in
                         

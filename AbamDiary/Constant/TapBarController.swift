@@ -12,12 +12,9 @@ final class TapBarController: UITabBarController {
     
     private let mainVC = CalendarViewController()
     private let searchVC = SearchViewController()
-   
  //        let monthVC = UINavigationController(rootViewController: MonthDiaryViewController())
     private let cheerupVC = CheerupViewController()
-    private let settingVC = SettiongViewController()
-    
-    
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,15 +27,13 @@ final class TapBarController: UITabBarController {
         let navMainVC = UINavigationController(rootViewController: mainVC)
         let navSearchVC = UINavigationController(rootViewController: searchVC)
         let navCheerupVC = UINavigationController(rootViewController: cheerupVC)
-        let navSettingVC = UINavigationController(rootViewController: settingVC)
-        
-        setViewControllers([navMainVC, navSearchVC, navCheerupVC, navSettingVC], animated: true)
+
+        setViewControllers([navMainVC, navSearchVC, navCheerupVC], animated: true)
         
         if let items = tabBar.items {
             for i in 0...(items.count - 1) {
                 
                 items[i].selectedImage = UIImage(systemName: "lock.open.fill")
-                
                 items[i].image = UIImage(systemName: TabBarImage.allCases[i].systemImage)
                 items[i].title = TabBarImage.allCases[i].tapBarSubTitle
                 

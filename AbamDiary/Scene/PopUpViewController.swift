@@ -70,6 +70,10 @@ class PopUpViewController: BaseViewController {
         self.navigationController?.tabBarController?.tabBar.isUserInteractionEnabled = false
     }
     
+    deinit {
+        print("팝업 디이닛 🔴🔴🔴🔴=========================================", CFGetRetainCount(self), CustomFormatter.setTime(date: Date()))
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }

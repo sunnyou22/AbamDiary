@@ -31,16 +31,42 @@ enum DocumentPathError: Error {
     case restoreFailError
 }
 
-extension UIViewController {
+
+protocol CustomFileManager {
+    func documentDirectoryPath() -> URL?
+    func saveImageToDocument(fileName: String, image: UIImage)
+    func createFile(fileName: PathComponentName) -> URL
+    func loadImageFromDocument(fileName: String) -> UIImage?
+    func removeKeyFileDocument(fileName: PathComponentName)
+    func removeBackupFileDocument(fileName: String)
     
-    func documentDirectoryPath() -> URL? {
+    func DfetchJSONData() throws -> Data
+    func CfetchJSONData() throws -> Data
+    func fetchDocumentZipFile() -> [String]
+    func createBackupFile(fileName: String, keyFile: PathComponentName, imageFile: PathComponentName) throws -> URL
+    func encodeDiary(_ diaryData: Results<Diary>) throws -> Data
+    func encodeCheerup(_ data: Results<CheerupMessage>) throws -> Data
+    func decoedDiary(_ diaryData: Data) throws -> [Diary]?
+    func decoedCheerup(_ data: Data) throws -> [CheerupMessage]?
+    
+    func saveDataToDocument(data: Data, fileName: String) throws
+    func saveEncodedDiaryToDocument(tasks: Results<Diary>) throws
+    func saveEncodeCheerupToDocument(tasks: Results<CheerupMessage>) throws
+    func restoreRealmForBackupFile() throws
+    func showActivityViewController(backupFileURL: URL) throws
+    func unzipFile(fileURL: URL, documentURL: URL) throws
+}
+
+extension UIViewController: CustomFileManager {
+ 
+   final func documentDirectoryPath() -> URL? {
         
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil } // 내 앱에 해당되는 도큐먼트 폴더가 있늬?
         
         return documentDirectory
     }
     
-    func saveImageToDocument(fileName: String, image: UIImage) {
+    final func saveImageToDocument(fileName: String, image: UIImage) {
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
         let fileURL = documentDirectory.appendingPathComponent(fileName)
         guard let data = image.jpegData(compressionQuality: 0.5) else { return }
@@ -52,7 +78,7 @@ extension UIViewController {
         }
     }
     
-    func createFile(fileName: PathComponentName) -> URL {
+    final func createFile(fileName: PathComponentName) -> URL {
         guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
             print("도큐먼트에 접근할 수 없습니다.🔴")
             return URL(fileURLWithPath: "") }
@@ -69,7 +95,7 @@ extension UIViewController {
     }
  
     @discardableResult
-    func createFolder(foldername: PathComponentName) -> URL {
+    final func createFolder(foldername: PathComponentName) -> URL {
             guard let documentsFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { print("도큐먼트에 접근할 수 없습니다.🔴")
                 return URL(fileURLWithPath: "") }
             let folderURL = documentsFolder.appendingPathComponent(foldername.rawValue)
@@ -121,7 +147,7 @@ extension UIViewController {
 //        }
 //    }
     
-    func loadImageFromDocument(fileName: String) -> UIImage? {
+    final func loadImageFromDocument(fileName: String) -> UIImage? {
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil } // 내 앱에 해당되는 도큐먼트 폴더가 있늬?
         let fileURL = documentDirectory.appendingPathComponent(fileName) // 이걸로 도큐먼트에 저장해줌 세부파일 경로(이미지 저장위치)
         
@@ -148,7 +174,7 @@ extension UIViewController {
 //        }
 //    }
    
-    func removeKeyFileDocument(fileName: PathComponentName) {
+    final func removeKeyFileDocument(fileName: PathComponentName) {
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return } // 내 앱에 해당되는 도큐먼트 폴더가 있늬?
         let fileURL = documentDirectory.appendingPathComponent(fileName.rawValue)
         
@@ -160,7 +186,7 @@ extension UIViewController {
         }
     }
     
-    func removeBackupFileDocument(fileName: String) {
+    final func removeBackupFileDocument(fileName: String) {
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return } // 내 앱에 해당되는 도큐먼트 폴더가 있늬?
        
         let fileURL = documentDirectory.appendingPathComponent(fileName)
@@ -174,7 +200,7 @@ extension UIViewController {
     }
     
 // //제이슨 파일 다시 데이터로 만들기
-    func DfetchJSONData() throws -> Data {
+    final func DfetchJSONData() throws -> Data {
         guard let path = documentDirectoryPath() else { throw DocumentPathError.fetchBackupFileError }
        
         let DjsonDataPath = path.appendingPathComponent("diary.json")
@@ -188,7 +214,7 @@ extension UIViewController {
     }
     
     //제이슨 파일 다시 데이터로 만들기
-    func CfetchJSONData() throws -> Data {
+    final func CfetchJSONData() throws -> Data {
         guard let path = documentDirectoryPath() else { throw DocumentPathError.fetchBackupFileError }
        
         let CjsonDataPath = path.appendingPathComponent("cheerup.json")
@@ -202,7 +228,7 @@ extension UIViewController {
     }
     
     @discardableResult
-    func fetchDocumentZipFile() -> [String] {
+    final func fetchDocumentZipFile() -> [String] {
         
         do {
             guard let path = documentDirectoryPath() else { return [] } //도큐먼트 경로 가져옴
@@ -225,7 +251,7 @@ extension UIViewController {
     }
     
     //파일생성
-    func createBackupFile(fileName: String, keyFile: PathComponentName, imageFile: PathComponentName) throws -> URL {
+    final func createBackupFile(fileName: String, keyFile: PathComponentName, imageFile: PathComponentName) throws -> URL {
         
         var urlpath = [URL]()
         //도큐먼트트 위치에 백업 파일 확인
@@ -261,7 +287,7 @@ extension UIViewController {
     }
     
     //MARK: 다이어리 인코드
-    func encodeDiary(_ diaryData: Results<Diary>) throws -> Data {
+    final func encodeDiary(_ diaryData: Results<Diary>) throws -> Data {
         
         do {
             let encoder = JSONEncoder()
@@ -275,7 +301,7 @@ extension UIViewController {
     }
     
     //MARK: 응원메세지 인코드
-    func encodeCheerup(_ data: Results<CheerupMessage>) throws -> Data {
+    final func encodeCheerup(_ data: Results<CheerupMessage>) throws -> Data {
         do {
             let encoder = JSONEncoder()
             encoder.dateEncodingStrategy = .iso8601
@@ -289,7 +315,7 @@ extension UIViewController {
     
     //다이어리 디코드
     @discardableResult
-    func decoedDiary(_ diaryData: Data) throws -> [Diary]? {
+    final func decoedDiary(_ diaryData: Data) throws -> [Diary]? {
         
         do {
             let decoder = JSONDecoder()
@@ -304,7 +330,7 @@ extension UIViewController {
   
     // 응원메세지 디코드
     @discardableResult
-    func decoedCheerup(_ data: Data) throws -> [CheerupMessage]? {
+    final func decoedCheerup(_ data: Data) throws -> [CheerupMessage]? {
         
         do {
             let decoder = JSONDecoder()
@@ -320,7 +346,7 @@ extension UIViewController {
     }
     
     //도큐먼트에 저장
-    func saveDataToDocument(data: Data, fileName: String) throws {
+    final func saveDataToDocument(data: Data, fileName: String) throws {
         guard let documentPath = documentDirectoryPath() else { throw DocumentPathError.directoryPathError
         }
         
@@ -329,19 +355,19 @@ extension UIViewController {
     }
     
     //도큐먼트에 다이어리 인코드한거 저장하기 위해 준비 - 1
-    func saveEncodedDiaryToDocument(tasks: Results<Diary>) throws {
+    final func saveEncodedDiaryToDocument(tasks: Results<Diary>) throws {
         let encodedData = try encodeDiary(tasks)
         try saveDataToDocument(data: encodedData, fileName: "diary")
     }
     
     //도큐먼트에 응원메세지 인코드한거 저장하기 위해 준비 - 2
-    func saveEncodeCheerupToDocument(tasks: Results<CheerupMessage>) throws {
+    final func saveEncodeCheerupToDocument(tasks: Results<CheerupMessage>) throws {
         let encodedData = try encodeCheerup(tasks)
         try saveDataToDocument(data: encodedData, fileName: "cheerup")
     }
     
     //백업파일 복구하기
-    func restoreRealmForBackupFile() throws {
+    final func restoreRealmForBackupFile() throws {
         let DjsonData = try DfetchJSONData()
         let CjsonData = try CfetchJSONData()
         guard let DdecodedData = try decoedDiary(DjsonData) else { return }
@@ -356,7 +382,7 @@ extension UIViewController {
     }
    
     //도큐먼트 피커보여주기
-    func showActivityViewController(backupFileURL: URL) throws {
+    final func showActivityViewController(backupFileURL: URL) throws {
         
         let vc = UIActivityViewController(activityItems: [backupFileURL], applicationActivities: [])
         self.present(vc, animated: true)
@@ -364,7 +390,7 @@ extension UIViewController {
     
     
     //언집하기
-    func unzipFile(fileURL: URL, documentURL: URL) throws {
+    final func unzipFile(fileURL: URL, documentURL: URL) throws {
         do {
             try Zip.unzipFile(fileURL, destination: documentURL, overwrite: true, password: nil, progress: { progress in
             }, fileOutputHandler: { unzippedFile in

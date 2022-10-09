@@ -37,7 +37,7 @@
             <Locations>
                <Location
                   uuid = "9EAFFB32-4BDF-4B50-9853-177D2EFD7507 - b16ab3ff171a9ddf"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "AbamDiary.BackupViewController.setTextData(text: Swift.String) -&gt; ()"

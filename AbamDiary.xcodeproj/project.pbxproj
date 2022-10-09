@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9004E9D128F2E6DF00684415 /* OnboadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9004E9D028F2E6DF00684415 /* OnboadingViewController.swift */; };
 		900AEDFA28CC5A9100F18360 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900AEDF928CC5A9100F18360 /* BaseViewController.swift */; };
 		900AEDFC28CC5AB100F18360 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900AEDFB28CC5AB000F18360 /* BaseView.swift */; };
 		900AEE0028CC5BA700F18360 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900AEDFF28CC5BA700F18360 /* BaseTableViewCell.swift */; };
@@ -74,6 +75,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9004E9D028F2E6DF00684415 /* OnboadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboadingViewController.swift; sourceTree = "<group>"; };
 		900AEDF928CC5A9100F18360 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		900AEDFB28CC5AB000F18360 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		900AEDFF28CC5BA700F18360 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 		90B7210828CDAC5100B243AE /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				90F8A97928F2E0ED001AF95F /* Onboarding */,
 				90CCDB7128D06F5D00CDEE06 /* Write */,
 				90B7210B28CDAC8400B243AE /* MonthDiary */,
 				90B7210A28CDAC7D00B243AE /* Search */,
@@ -331,6 +334,14 @@
 				90D919E228E0DA8000CB3307 /* TapBarController.swift */,
 			);
 			path = Constant;
+			sourceTree = "<group>";
+		};
+		90F8A97928F2E0ED001AF95F /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				9004E9D028F2E6DF00684415 /* OnboadingViewController.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -497,6 +508,7 @@
 				90F0592728D84A4500F61899 /* NoficationPush + Extension.swift in Sources */,
 				90D3F66228E75F1A0016C859 /* BackupView.swift in Sources */,
 				90DF633328DB18380046A3E7 /* PopUpViewController.swift in Sources */,
+				9004E9D128F2E6DF00684415 /* OnboadingViewController.swift in Sources */,
 				90F8261428CB799A008E8E6B /* AppDelegate.swift in Sources */,
 				90DF632C28D983D60046A3E7 /* SwitchTableViewCell.swift in Sources */,
 				90F8261628CB799A008E8E6B /* SceneDelegate.swift in Sources */,

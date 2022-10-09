@@ -105,20 +105,10 @@ class MainView: BaseView {
         let view = UIImageView()
         view.image = UIImage(systemName: "person")
         view.backgroundColor = Color.BaseColorWtihDark.setABAMBackground
-        DispatchQueue.main.async {
-            view.contentMode = .scaleAspectFill
-            view.clipsToBounds = true
-            view.layer.cornerRadius = view.frame.size.height / 2
-        }
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 25
         return view
     }()
-    
-//    let profilebackgroundView: UIImageView = {
-//        let view = UIImageView()
-//        view.image = UIImage(named: "profileBackImage")
-//
-//        return view
-//    }()
     
     let progressBar: UIProgressView = {
         let view = UIProgressView()
@@ -127,12 +117,8 @@ class MainView: BaseView {
         view.clipsToBounds = true
         view.layer.borderWidth = 1.5
         view.layer.borderColor = UIColor.black.cgColor
-        
-        DispatchQueue.main.async {
-            view.layer.cornerRadius = view.frame.height / 2
-        }
+        view.layer.cornerRadius = 10
         view.progress = 0.5 // 초기값
-        
         return view
     }()
     
@@ -200,8 +186,6 @@ class MainView: BaseView {
         }
         
         gageTitle.snp.makeConstraints { make in
-//            let topSpacing = UIScreen.main.isWiderThan375pt ? 0 : -4
-            
             make.bottom.equalTo(progressBar.snp.top).offset(-24)
             make.leading.equalTo(self.snp.leading).offset(28)
         }
@@ -209,23 +193,16 @@ class MainView: BaseView {
         progressBar.snp.makeConstraints { make in
 
             make.horizontalEdges.equalTo(self.snp.horizontalEdges).inset(36)
-            make.height.equalTo(self.snp.height).multipliedBy(0.025)
+            make.height.equalTo(20)
             make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-28)
         }
         
         profileImage.snp.makeConstraints { make in
-            make.height.equalTo(self.snp.width).multipliedBy(0.12)
-            
+            make.height.equalTo(50)
             make.width.equalTo(profileImage.snp.height).multipliedBy(1)
             make.centerY.equalTo(progressBar.snp.centerY)
             make.centerX.equalTo(self.snp.centerX)
         }
-        
-//        profilebackgroundView.snp.makeConstraints { make in
-//            make.size.equalTo(profileImage.snp.size).multipliedBy(1.14)
-//            make.top.equalTo(profileImage.snp.top).offset(-6)
-//            make.trailing.equalTo(profileImage.snp.trailing).offset(6)
-//        }
     }
 }
 

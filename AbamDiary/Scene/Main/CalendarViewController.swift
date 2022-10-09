@@ -25,7 +25,7 @@ class CalendarViewController: BaseViewController {
     let digit: Float = pow(10, 2) // 10의 2제곱
     var cell: CalendarTableViewCell? // 셀 인스턴스 통일시켜줘야 플레이스홀더 오류 없어짐
     var preparedCell: CalendarTableViewCell?
-  
+    
     var tasks: Results<Diary>! {
         didSet {
             mainview.tableView.reloadData()
@@ -51,12 +51,13 @@ class CalendarViewController: BaseViewController {
     //MARK: - viewDidload
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
         mainview.tableView.delegate = self
         mainview.tableView.dataSource = self
         
         mainview.calendar.dataSource = self
         mainview.calendar.delegate = self
+        
         //MARK: 변하는 값에 대한 관찰시작
         CalendarViewController.gageCountModel.morningDiaryCount.bind { count in
             self.changeMorningcount = count
@@ -73,10 +74,22 @@ class CalendarViewController: BaseViewController {
    
     private func setNavigation() {
         self.navigationController?.navigationBar.prefersLargeTitles = false
+        
         let navigationtitleView = navigationTitleVIew()
+        let settingButton = UIBarButtonItem(image: UIImage(systemName: "gearshape.fill"), style: .plain, target: self, action: #selector(gosettingVC))
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navigationtitleView)
-      
+        navigationItem.rightBarButtonItem = settingButton
+        
+        self.navigationController?.navigationBar.tintColor = Color.BaseColorWtihDark.navigationBarItem
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: Color.BaseColorWtihDark.navigationBarItem]
+        
     navigationItem.largeTitleDisplayMode = .never
+    }
+    
+    @objc private func gosettingVC() {
+        let vc = SettiongViewController()
+        transition(vc, transitionStyle: .push)
     }
     
     @objc private func pauseRestart(_ sender: UIButton) {

@@ -21,6 +21,10 @@ class BackupViewController: BaseViewController {
     var cheerupTasks: Results<CheerupMessage>!
     var backupfiles: [String]?
     
+    deinit {
+        print("=========================================백업창 디이닛 🔴🔴🔴🔴")
+    }
+    
     func configureNavBar() {
         navigationItem.title = "백업/복구"
         self.navigationController?.navigationBar.tintColor = Color.BaseColorWtihDark.navigationBarItem
@@ -198,7 +202,18 @@ extension BackupViewController: UIDocumentPickerDelegate {
                         CheerupMessageRepository.shared.deleteTasks(tasks: self.cheerupTasks)
                         
                         try self.restoreRealmForBackupFile()
-                        self.tabBarController?.selectedIndex = 0
+                        
+                        let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+                        let sceneDelegate = windowScene?.delegate as? SceneDelegate
+                        
+                        let transition = CATransition()
+                        transition.type = .fade
+                        transition.duration = 0.3
+                        sceneDelegate?.window?.layer.add(transition, forKey: kCATransition)
+                        
+                        sceneDelegate?.window?.rootViewController = TapBarController()
+                        sceneDelegate?.window?.makeKeyAndVisible()
+
                     } else {
                         controller.dismiss(animated: true) {
                             let alert = UIAlertController(title: "복구 알림", message: "아밤일기의 파일이 맞으신가요?ㅠㅠ", preferredStyle: .alert)
@@ -251,7 +266,17 @@ extension BackupViewController: UIDocumentPickerDelegate {
                             CheerupMessageRepository.shared.deleteTasks(tasks: self.cheerupTasks)
                             
                             try self.restoreRealmForBackupFile()
-                            self.tabBarController?.selectedIndex = 0
+                            
+                            let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+                            let sceneDelegate = windowScene?.delegate as? SceneDelegate
+                            
+                            let transition = CATransition()
+                            transition.type = .fade
+                            transition.duration = 0.3
+                            sceneDelegate?.window?.layer.add(transition, forKey: kCATransition)
+                            
+                            sceneDelegate?.window?.rootViewController = TapBarController()
+                            sceneDelegate?.window?.makeKeyAndVisible()
                            
                         } else {
                             controller.dismiss(animated: true) {
