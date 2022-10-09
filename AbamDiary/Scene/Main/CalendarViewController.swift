@@ -76,7 +76,9 @@ class CalendarViewController: BaseViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = false
         
         let navigationtitleView = navigationTitleVIew()
-        let settingButton = UIBarButtonItem(image: UIImage(systemName: "gearshape.fill"), style: .plain, target: self, action: #selector(gosettingVC))
+        let config = UIImage.SymbolConfiguration(pointSize: 17, weight: .bold)
+        
+        let settingButton = UIBarButtonItem(image: UIImage(systemName: "gearshape", withConfiguration: config), style: .plain, target: self, action: #selector(gosettingVC))
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navigationtitleView)
         navigationItem.rightBarButtonItem = settingButton

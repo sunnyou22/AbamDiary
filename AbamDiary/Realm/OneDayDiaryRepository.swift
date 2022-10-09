@@ -51,7 +51,7 @@ class OneDayDiaryRepository: OnedayDiaryRepositoryType {
     
     func fetchDate(date: Date, type: Int) -> Results<Diary> {
         //해당날짜의 시작을 가져올 수있게함
-        var calendar = Calendar(identifier: .gregorian)
+        let calendar = Calendar(identifier: .gregorian)
         let components = calendar.dateComponents([.year, .month, .day], from: date)
         let day = calendar.date(from: components) ?? Date()
         
@@ -62,16 +62,6 @@ class OneDayDiaryRepository: OnedayDiaryRepositoryType {
             let result = item.filter("type == %@", type)
             return result
         }
-    }
-    
-    func isWritedDiaryToday(type: Int) -> Bool {
-        var calendar = Calendar(identifier: .gregorian)
-        let date = Date(timeIntervalSinceNow: 0)
-        calendar.locale = Locale(identifier: "ko")
-        let item = localRealm.objects(Diary.self).filter("type == %@", type)
-        let result = item.filter("selecteddate >= %@ AND selecteddate < %@", calendar.isDateInToday(Date()), calendar.isDateInTomorrow(Date()))
-        
-        return !result.isEmpty
     }
     
     func fetchFilterMonth(start: Date, last: Date) -> Results<Diary> {
