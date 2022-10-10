@@ -17,6 +17,7 @@ import Foundation
             case nightDiaryCount
             case morningNotiPush
             case nightNotiPush
+            case initialUser
         }
         
         let userDefaults = UserDefaults.standard
@@ -36,6 +37,14 @@ import Foundation
             }
             set  {
                 userDefaults.set(newValue, forKey: Key.nightDiaryCount.rawValue)
+            }
+}
+        var initialUser: Bool {
+            get  {
+                return userDefaults.bool(forKey: Key.initialUser.rawValue)
+            }
+            set  {
+                userDefaults.set(newValue, forKey: Key.initialUser.rawValue)
             }
 }
         

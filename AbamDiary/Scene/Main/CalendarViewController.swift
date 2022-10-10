@@ -70,6 +70,8 @@ class CalendarViewController: BaseViewController {
         
         mainview.cheerupMessage.speed = .duration(36)
         mainview.coverCheerupMessageButton.addTarget(self, action: #selector(pauseRestart), for: .touchUpInside)
+        
+        UserDefaultHelper.shared.initialUser = true
     }
    
     private func setNavigation() {

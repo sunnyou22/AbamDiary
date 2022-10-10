@@ -136,6 +136,14 @@
             </objects>
             <point key="canvasLocation" x="-227.536231884058" y="77.678571428571431"/>
         </scene>
+        <!--Page View Controller-->
+        <scene sceneID="aKP-YR-NU0">
+            <objects>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="jzW-SO-but" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hnb-j9-kMb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="744" y="88"/>
+        </scene>
     </scenes>
     <resources>
         <image name="envelope.fill" catalog="system" width="128" height="93"/>
