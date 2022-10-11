@@ -11,27 +11,12 @@ import UIKit
 final class PageViewController: UIPageViewController {
     
     var pageViewControllerList: [UIViewController] = []
-    let pageControl = UIPageControl()
      
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .cyan
+        view.backgroundColor = Color.BaseColorWtihDark.backgorund
         createPageViewController()
         configurePageViewController()
-        // pageControl
-        pageControl.frame = CGRect()
-        pageControl.currentPageIndicatorTintColor = UIColor.black
-        pageControl.pageIndicatorTintColor = UIColor.lightGray
-        pageControl.numberOfPages = pageViewControllerList.count
-        pageControl.currentPage = 0
-        view.addSubview(pageControl)
-        
-        pageControl.translatesAutoresizingMaskIntoConstraints = false
-        pageControl.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -4
-        ).isActive = true
-        pageControl.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: -20).isActive = true
-        pageControl.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        pageControl.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
     }
     
     func createPageViewController() {
@@ -78,15 +63,5 @@ extension PageViewController: UIPageViewControllerDelegate, UIPageViewController
         let nextIndex = viewControllerIndex + 1
         
         return nextIndex >= pageViewControllerList.count ? nil : pageViewControllerList[nextIndex]
-    }
-    
-    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-      
-        // set the pageControl.currentPage to the index of the current viewController in pages
-            if let viewControllers = pageViewController.viewControllers {
-                if let viewControllerIndex = pageViewControllerList.firstIndex(of: viewControllers[0]) {
-                    self.pageControl.currentPage = viewControllerIndex
-                }
-            }
     }
 }

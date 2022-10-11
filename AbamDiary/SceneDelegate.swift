@@ -16,11 +16,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
-        
+         
         if UserDefaultHelper.shared.initialUser {
             //MARK: 탭바
             let tapbarController = TapBarController()
                 window?.rootViewController = tapbarController
+           
             } else {
             let onboardingViewController = OnboardingViewController()
             window?.rootViewController = onboardingViewController

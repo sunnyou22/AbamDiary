@@ -9,14 +9,6 @@ import Foundation
 import UIKit
 import SnapKit
 
-enum onboardImgList: String {
-    case first
-    case second
-    case third
-    case foured
-    case fifth
-}
-
 fileprivate func setImgInOnboard(name: onboardImgList, to: UIView){
     let img = UIImageView()
     img.image = UIImage(named: name.rawValue)
@@ -59,7 +51,7 @@ class FouredViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setImgInOnboard(name: .foured, to: view)
+        setImgInOnboard(name: .fourth, to: view)
     }
 }
 

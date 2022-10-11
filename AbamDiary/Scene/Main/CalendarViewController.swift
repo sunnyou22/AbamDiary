@@ -52,6 +52,8 @@ class CalendarViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     
+        SettiongViewController.requestAutorization()
+        
         mainview.tableView.delegate = self
         mainview.tableView.dataSource = self
         
