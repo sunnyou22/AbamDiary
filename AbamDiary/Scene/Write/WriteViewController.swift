@@ -26,6 +26,7 @@ class WriteViewController: BaseViewController {
     var keyHeight: CGFloat = 0
     
     init(diarytype: MorningAndNight, writeMode: WriteMode) {
+        
         self.diarytype = diarytype
         self.writeMode = writeMode
         super.init(nibName: nil, bundle: nil)

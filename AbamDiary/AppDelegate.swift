@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         //2. 노티제거
-        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+//        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         UNUserNotificationCenter.current().delegate = self
     
         FirebaseApp.configure()
@@ -27,10 +27,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
         if #available(iOS 10.0, *) {
           // For iOS 10 display notification (sent via APNS)
-          UNUserNotificationCenter.current().delegate = self
+            SettiongViewController.notificationCenter.delegate = self
 
           let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-          UNUserNotificationCenter.current().requestAuthorization(
+            SettiongViewController.notificationCenter.requestAuthorization(
             options: authOptions,
             completionHandler: { _, _ in }
           )
@@ -76,11 +76,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     extension AppDelegate: UNUserNotificationCenterDelegate {
         
         func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-            completionHandler([.list, .sound, .banner])
+            completionHandler([.list, .sound, .badge, .banner])
         }
         
         func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
             Messaging.messaging().apnsToken = deviceToken
+        }
+        
+        func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+            print("=================사용자가 푸시를 클릭했습니다")
+            
+            let id = response.notification.request.identifier
+            print(id, "============================")
+            guard let viewController = (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.window?.rootViewController?.topViewController else { return }
+            print(viewController)
+            
+            if id == "0" {
+                print("======================", #function)
+                if viewController is CalendarViewController {
+                    let vc = WriteViewController(diarytype: .morning, writeMode: .newDiary)
+                    // 이부분이 false로 계속 나옴
+                    print("=================if 안~~~")
+                    viewController.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
+            
         }
     }
 
@@ -100,4 +120,28 @@ extension AppDelegate: MessagingDelegate {
       // Note: This callback is fired at each app startup and whenever a new token is generated.
     }
 
+}
+
+extension UIViewController {
+    //현재 뷰를 취상단뷰로 설정해줌
+    var topViewController: UIViewController? {
+        return self.topViewController(currtentViewController: self)
+    }
+    
+    func topViewController(currtentViewController: UIViewController) -> UIViewController {
+        
+        //최상탄 뷰컨이 탭바일때
+        if let tabBarController = currtentViewController as? UITabBarController, let selectedViewController = tabBarController.selectedViewController {
+            return self.topViewController(currtentViewController: selectedViewController)
+            
+        } else if let navigationController = currtentViewController as? UINavigationController, let visibleViewController = navigationController.visibleViewController {
+            return self.topViewController(currtentViewController: visibleViewController)
+            
+        } else if let presentedViewController = currtentViewController.presentedViewController {
+            return self.topViewController(currtentViewController: presentedViewController)
+            
+        } else {
+           return currtentViewController
+        }
+    }
 }

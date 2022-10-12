@@ -58,11 +58,13 @@ extension SettiongViewController {
     
     static func sendNotification(subTitle: String, date: DateComponents, type: Int) -> Void {
         //노티푸시 구성하기
+       
         let notificationContent = UNMutableNotificationContent()
         notificationContent.sound = .default
         notificationContent.title = "아밤일기"
         notificationContent.subtitle = subTitle
-        
+        notificationContent.badge = (UIApplication.shared.applicationIconBadgeNumber) as NSNumber
+       
         let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
         
         let request = UNNotificationRequest(identifier: "\(type)", content: notificationContent, trigger: trigger)
@@ -71,10 +73,12 @@ extension SettiongViewController {
     }
     
     static func sendBlueBirdNotification(context: String) {
+        let badgeCount: NSNumber?
         let notificationContent = UNMutableNotificationContent()
         notificationContent.sound = .default
         notificationContent.title = "아밤일기"
         notificationContent.body = context
+        notificationContent.badge = (UIApplication.shared.applicationIconBadgeNumber) as NSNumber
         
         let imageName = "icon-park-solid_bird-1"
         guard let imgaeURL = Bundle.main.url(forResource: imageName, withExtension: ".png") else { return }
@@ -86,9 +90,9 @@ extension SettiongViewController {
             print("attachment실패")
         }
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3, repeats: false)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
         let request = UNNotificationRequest(identifier: "test", content: notificationContent, trigger: trigger)
         
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        SettiongViewController.notificationCenter.add(request, withCompletionHandler: nil)
     }
 }

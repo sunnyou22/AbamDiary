@@ -61,6 +61,8 @@ class SearchViewController: BaseViewController {
         searchView.tableView.dataSource = self
         setupSearchController()
         
+        self.tabBarController?.tabBar.isHidden = false
+     let vc =  self.tabBarController?.selectedViewController
     }
     
     override func viewWillAppear(_ animated: Bool) {
