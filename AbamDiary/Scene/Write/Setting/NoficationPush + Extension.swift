@@ -8,7 +8,7 @@
 import UIKit
 
 extension SettiongViewController {
-   
+    
     static func requestAutorization() {
         
         let authorizationOptions = UNAuthorizationOptions(arrayLiteral: .alert, .badge, .sound)
@@ -19,11 +19,13 @@ extension SettiongViewController {
                 
                 SettiongViewController.MDefaultNoti()
                 SettiongViewController.NDefaultNoti()
-              
+                
+                SettiongViewController.sendBlueBirdNotification(context: "test블루버드 노티피케이션")
+                
                 SettiongViewController.autorizationSwitchModel.isValid.value = true
-              
+                
             } else {
-               
+                
                 UserDefaults.standard.set(false, forKey: "switch")
                 SettiongViewController.autorizationSwitchModel.isValid.value = false
             }
@@ -32,7 +34,7 @@ extension SettiongViewController {
     
     
     static func MDefaultNoti() {
-      
+        
         guard (UserDefaults.standard.string(forKey: "MbtnSelected") != nil) else {
             var date = DateComponents(timeZone: .current)
             date.hour = 9
@@ -67,5 +69,26 @@ extension SettiongViewController {
         
         SettiongViewController.notificationCenter.add(request)
     }
+    
+    static func sendBlueBirdNotification(context: String) {
+        let notificationContent = UNMutableNotificationContent()
+        notificationContent.sound = .default
+        notificationContent.title = "아밤일기"
+        notificationContent.body = context
+        
+        let imageName = "blueBird"
+        guard let imgaeURL = Bundle.main.url(forResource: imageName, withExtension: ".png") else { return }
+        
+        do {
+            let attachment = try UNNotificationAttachment(identifier: imageName, url: imgaeURL, options: .none)
+            notificationContent.attachments = [attachment]
+        } catch {
+            print("attachment실패")
+        }
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3, repeats: false)
+        let request = UNNotificationRequest(identifier: "test", content: notificationContent, trigger: trigger)
+        
+        SettiongViewController.notificationCenter.add(request, withCompletionHandler: nil)
+    }
 }
-

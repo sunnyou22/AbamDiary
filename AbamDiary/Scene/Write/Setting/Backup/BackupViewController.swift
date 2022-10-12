@@ -219,7 +219,13 @@ extension BackupViewController: UIDocumentPickerDelegate {
                             let alert = UIAlertController(title: "복구 알림", message: "아밤일기의 파일이 맞으신가요?ㅠㅠ", preferredStyle: .alert)
                             let ok = UIAlertAction(title: "확인", style: .default)
                             self.removeBackupFileDocument(fileName: filename_zip)
-                           try! FileManager.default.removeItem(at: temporaryFolder)
+                            
+                            do {
+                                try FileManager.default.removeItem(at: temporaryFolder)
+                            } catch {
+                                print("FileManager.default.removeItem(at: temporaryFolder🔴🔴")
+                            }
+                            
                             Analytics.logEvent("notMyBackupFile", parameters: [
                                 "name": "not my AppBackupFile",
                             ])

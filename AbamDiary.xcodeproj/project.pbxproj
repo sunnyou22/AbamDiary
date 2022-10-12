@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		900417AD28F5585C00145F93 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 900417AC28F5585C00145F93 /* FirebaseAnalyticsWithoutAdIdSupport */; };
+		900417AF28F5585C00145F93 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 900417AE28F5585C00145F93 /* FirebaseCrashlytics */; };
+		900417B128F5585C00145F93 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 900417B028F5585C00145F93 /* FirebaseMessaging */; };
 		9004E9D128F2E6DF00684415 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9004E9D028F2E6DF00684415 /* PageViewController.swift */; };
 		9004E9D328F31D4C00684415 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9004E9D228F31D4C00684415 /* FirstViewController.swift */; };
 		9004E9DF28F3E8FD00684415 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9004E9DE28F3E8FD00684415 /* OnboardingViewController.swift */; };
@@ -71,12 +74,11 @@
 		90F8262A28CB7DB4008E8E6B /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 90F8262928CB7DB4008E8E6B /* .gitignore */; };
 		90F8262D28CB9F24008E8E6B /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F8262C28CB9F24008E8E6B /* Color.swift */; };
 		90F8A96D28ED93D9001AF95F /* MarqueeLabel in Frameworks */ = {isa = PBXBuildFile; productRef = 90F8A96C28ED93D9001AF95F /* MarqueeLabel */; };
-		90F8A97328EEC259001AF95F /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 90F8A97228EEC259001AF95F /* FirebaseAnalyticsWithoutAdIdSupport */; };
-		90F8A97528EEC259001AF95F /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 90F8A97428EEC259001AF95F /* FirebaseCrashlytics */; };
 		90F8A97828EED3B2001AF95F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 90F8A97728EED3B2001AF95F /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		900417B228F55C7500145F93 /* AbamDiaryDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AbamDiaryDebug.entitlements; sourceTree = "<group>"; };
 		9004E9D028F2E6DF00684415 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		9004E9D228F31D4C00684415 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		9004E9DE28F3E8FD00684415 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
@@ -145,12 +147,13 @@
 				903B429B28E464B900012204 /* AcknowList in Frameworks */,
 				90CCDB6E28D057FB00CDEE06 /* RealmSwift in Frameworks */,
 				90DF634328DF88AF0046A3E7 /* TOCropViewController in Frameworks */,
-				90F8A97328EEC259001AF95F /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
+				900417AD28F5585C00145F93 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				900AEE0F28CC6E8400F18360 /* Toast in Frameworks */,
 				900AEE1228CC6E9900F18360 /* FSCalendar in Frameworks */,
 				90F8A96D28ED93D9001AF95F /* MarqueeLabel in Frameworks */,
+				900417B128F5585C00145F93 /* FirebaseMessaging in Frameworks */,
 				900AEE0C28CC6E6F00F18360 /* SnapKit in Frameworks */,
-				90F8A97528EEC259001AF95F /* FirebaseCrashlytics in Frameworks */,
+				900417AF28F5585C00145F93 /* FirebaseCrashlytics in Frameworks */,
 				90CCDB6C28D057FB00CDEE06 /* Realm in Frameworks */,
 				90DF634128DF88AF0046A3E7 /* CropViewController in Frameworks */,
 			);
@@ -305,6 +308,7 @@
 		90F8261228CB799A008E8E6B /* AbamDiary */ = {
 			isa = PBXGroup;
 			children = (
+				900417B228F55C7500145F93 /* AbamDiaryDebug.entitlements */,
 				90F8A97728EED3B2001AF95F /* GoogleService-Info.plist */,
 				90CCDB6328D04BF800CDEE06 /* Realm */,
 				900AEE1828CC9A3200F18360 /* Observable */,
@@ -378,8 +382,9 @@
 				90DF634228DF88AF0046A3E7 /* TOCropViewController */,
 				903B429A28E464B900012204 /* AcknowList */,
 				90F8A96C28ED93D9001AF95F /* MarqueeLabel */,
-				90F8A97228EEC259001AF95F /* FirebaseAnalyticsWithoutAdIdSupport */,
-				90F8A97428EEC259001AF95F /* FirebaseCrashlytics */,
+				900417AC28F5585C00145F93 /* FirebaseAnalyticsWithoutAdIdSupport */,
+				900417AE28F5585C00145F93 /* FirebaseCrashlytics */,
+				900417B028F5585C00145F93 /* FirebaseMessaging */,
 			);
 			productName = AbamDiary;
 			productReference = 90F8261028CB799A008E8E6B /* AbamDiary.app */;
@@ -418,7 +423,7 @@
 				90DF633F28DF88AF0046A3E7 /* XCRemoteSwiftPackageReference "TOCropViewController" */,
 				903B429928E464B900012204 /* XCRemoteSwiftPackageReference "AcknowList" */,
 				90F8A96B28ED93D9001AF95F /* XCRemoteSwiftPackageReference "MarqueeLabel" */,
-				90F8A97128EEC259001AF95F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				900417AB28F5585C00145F93 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 90F8261128CB799A008E8E6B /* Products */;
 			projectDirPath = "";
@@ -657,6 +662,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = AbamDiary/AbamDiaryDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -751,6 +757,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		900417AB28F5585C00145F93 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
 		900AEE0A28CC6E6F00F18360 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -815,17 +829,24 @@
 				minimumVersion = 4.0.0;
 			};
 		};
-		90F8A97128EEC259001AF95F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 9.0.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		900417AC28F5585C00145F93 /* FirebaseAnalyticsWithoutAdIdSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 900417AB28F5585C00145F93 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsWithoutAdIdSupport;
+		};
+		900417AE28F5585C00145F93 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 900417AB28F5585C00145F93 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+		900417B028F5585C00145F93 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 900417AB28F5585C00145F93 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
 		900AEE0B28CC6E6F00F18360 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 900AEE0A28CC6E6F00F18360 /* XCRemoteSwiftPackageReference "SnapKit" */;
@@ -875,16 +896,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 90F8A96B28ED93D9001AF95F /* XCRemoteSwiftPackageReference "MarqueeLabel" */;
 			productName = MarqueeLabel;
-		};
-		90F8A97228EEC259001AF95F /* FirebaseAnalyticsWithoutAdIdSupport */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 90F8A97128EEC259001AF95F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsWithoutAdIdSupport;
-		};
-		90F8A97428EEC259001AF95F /* FirebaseCrashlytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 90F8A97128EEC259001AF95F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseCrashlytics;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

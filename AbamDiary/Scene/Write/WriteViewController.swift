@@ -149,7 +149,8 @@ class WriteViewController: BaseViewController {
             }
         }
         
-        writeView.makeToast("\n저장완료!", duration: 0.8, position: .center, title: nil, image: UIImage(named: "ABAM")) { [self] didTap in
+        writeView.makeToast("\n저장완료!", duration: 0.8, position: .center, title: nil, image: UIImage(named: "ABAM")) { [weak self] didTap in
+            guard let self = self else { return }
             self.navigationController?.popViewController(animated: true)
         }
         writeView.textView.resignFirstResponder()

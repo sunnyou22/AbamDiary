@@ -57,7 +57,8 @@ class CheerupViewController: BaseViewController {
     
     @objc func resetMessage() {
         let alert = UIAlertController(title: "알림", message: "정말 모든 데이터를 삭제하시겠습니까?", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "네", style: .default) {_ in
+        let ok = UIAlertAction(title: "네", style: .default) { [weak self] _ in
+            guard let self = self else { return }
             CheerupMessageRepository.shared.deleteTasks(tasks: self.tasks)
             self.cheerupView.countLabel.text = "0"
             self.cheerupView.tableView.reloadData()
@@ -108,7 +109,8 @@ class CheerupViewController: BaseViewController {
             present(alert, animated: true)
         } else {
             let alert = UIAlertController(title: nil, message: "파랑새에게 전송할까요?", preferredStyle: .alert)
-            let ok = UIAlertAction(title: "전송", style: .default) { _ in
+            let ok = UIAlertAction(title: "전송", style: .default) { [weak self] _ in
+                guard let self = self else { return }
                 let task = CheerupMessage(cheerup: text, date: Date())
                 CheerupMessageRepository.shared.addItem(item: task)
                 self.cheerupView.tableView.reloadData()

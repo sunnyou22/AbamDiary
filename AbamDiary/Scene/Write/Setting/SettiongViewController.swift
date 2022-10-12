@@ -41,7 +41,8 @@ class SettiongViewController: BaseViewController {
         super.viewDidLoad()
         settingView.tableView.tableHeaderView = settingView.header
         SettiongViewController.autorizationSwitchModel.isValid.bind { [weak self] bool in
-            self?.autorizationStatus = bool
+            guard let self = self else { return }
+            self.autorizationStatus = bool
         }
     }
     
@@ -243,20 +244,20 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
         let cancel = UIAlertAction(title: "취소", style: .destructive)
         
         let cameraButton = UIAlertAction(title: "카메라", style: .default) { [weak self] _ in
-            
-            self?.presentCamara()
+            guard let self = self else { return }
+            self.presentCamara()
         }
         
         let photoLibrary = UIAlertAction(title: "앨범", style: .default) { [weak self] _ in
-            self?.presentAlbum()
+            guard let self = self else { return }
+            self.presentAlbum()
         }
         
         let delete = UIAlertAction(title: "현재 사진 삭제", style: .default) { [weak self] _ in
-            guard let image = self?.profileImage else {
-                return
-            }
-            self?.removeBackupFileDocument(fileName: image)
-            self?.settingView.profileimageView.image = UIImage(named: "ABAM")
+            guard let self = self else { return }
+          
+            self.removeBackupFileDocument(fileName: self.profileImage)
+            self.settingView.profileimageView.image = UIImage(named: "ABAM")
         }
         
         alert.addAction(delete)
@@ -488,3 +489,4 @@ extension Bundle {
         return ""
     }
 }
+

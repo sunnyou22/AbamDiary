@@ -299,10 +299,10 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
         
         if lastDate == calendarDay && lastDate == calendarToday {
             let vc = PopUpViewController()
-            
-            Analytics.logEvent("lastDayPopup", parameters: [
-                "name": "\(lastDate)",
-            ])
+//
+//            Analytics.logEvent("lastDayPopup", parameters: [
+//                "name": "\(lastDate)",
+//            ])
             
             vc.modalPresentationStyle = .overFullScreen
             present(vc, animated: true)
@@ -498,7 +498,8 @@ extension CalendarViewController {
             }
             
             
-        } completion: { _ in
+        } completion: { [weak self] _ in
+            guard let self = self else { return }
             let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeMorningcount + self.changeNightcount)) * self.digit) / self.digit)
             let width: Float = Float(self.mainview.progressBar.frame.size.width) * moringCountRatio - (Float(self.mainview.progressBar.frame.size.width) / 2)
             let newWidth = (round(width) * self.digit) / self.digit
