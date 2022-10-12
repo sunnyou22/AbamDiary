@@ -89,6 +89,6 @@ extension SettiongViewController {
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3, repeats: false)
         let request = UNNotificationRequest(identifier: "test", content: notificationContent, trigger: trigger)
         
-        SettiongViewController.notificationCenter.add(request, withCompletionHandler: nil)
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
 }
