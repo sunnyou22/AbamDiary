@@ -281,6 +281,7 @@ extension BackupViewController: UIDocumentPickerDelegate {
                             transition.duration = 0.3
                             sceneDelegate?.window?.layer.add(transition, forKey: kCATransition)
                             
+                            
                             sceneDelegate?.window?.rootViewController = TapBarController()
                             sceneDelegate?.window?.makeKeyAndVisible()
                            
