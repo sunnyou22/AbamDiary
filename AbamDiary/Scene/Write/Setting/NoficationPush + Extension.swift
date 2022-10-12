@@ -76,7 +76,7 @@ extension SettiongViewController {
         notificationContent.title = "아밤일기"
         notificationContent.body = context
         
-        let imageName = "blueBird"
+        let imageName = "icon-park-solid_bird-1"
         guard let imgaeURL = Bundle.main.url(forResource: imageName, withExtension: ".png") else { return }
         
         do {

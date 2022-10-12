@@ -10,6 +10,7 @@
 		900417AD28F5585C00145F93 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 900417AC28F5585C00145F93 /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		900417AF28F5585C00145F93 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 900417AE28F5585C00145F93 /* FirebaseCrashlytics */; };
 		900417B128F5585C00145F93 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 900417B028F5585C00145F93 /* FirebaseMessaging */; };
+		900417B428F6CBA900145F93 /* icon-park-solid_bird-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 900417B328F6CBA900145F93 /* icon-park-solid_bird-1.png */; };
 		9004E9D128F2E6DF00684415 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9004E9D028F2E6DF00684415 /* PageViewController.swift */; };
 		9004E9D328F31D4C00684415 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9004E9D228F31D4C00684415 /* FirstViewController.swift */; };
 		9004E9DF28F3E8FD00684415 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9004E9DE28F3E8FD00684415 /* OnboardingViewController.swift */; };
@@ -79,6 +80,7 @@
 
 /* Begin PBXFileReference section */
 		900417B228F55C7500145F93 /* AbamDiaryDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AbamDiaryDebug.entitlements; sourceTree = "<group>"; };
+		900417B328F6CBA900145F93 /* icon-park-solid_bird-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-park-solid_bird-1.png"; sourceTree = SOURCE_ROOT; };
 		9004E9D028F2E6DF00684415 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		9004E9D228F31D4C00684415 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		9004E9DE28F3E8FD00684415 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 		90F8261228CB799A008E8E6B /* AbamDiary */ = {
 			isa = PBXGroup;
 			children = (
+				900417B328F6CBA900145F93 /* icon-park-solid_bird-1.png */,
 				900417B228F55C7500145F93 /* AbamDiaryDebug.entitlements */,
 				90F8A97728EED3B2001AF95F /* GoogleService-Info.plist */,
 				90CCDB6328D04BF800CDEE06 /* Realm */,
@@ -445,6 +448,7 @@
 				90F8262028CB799F008E8E6B /* LaunchScreen.storyboard in Resources */,
 				90F8261D28CB799F008E8E6B /* Assets.xcassets in Resources */,
 				90F8A97828EED3B2001AF95F /* GoogleService-Info.plist in Resources */,
+				900417B428F6CBA900145F93 /* icon-park-solid_bird-1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
