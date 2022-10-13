@@ -79,6 +79,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             completionHandler([.list, .sound, .badge, .banner])
         }
         
+        //  Messaging.messaging().apnsToken -> 파이어베이스
+        // 여기에 디바이스 토큰을 할당해줬을 때, 파베가 푸시를 보낼 때 apns한테 이 토큰에게 푸시를 보내고싶다고 하면
+        //apns가 이 토큰을 가지고 있는 디바이스한테 푸시를 보냄
         func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
             Messaging.messaging().apnsToken = deviceToken
         }

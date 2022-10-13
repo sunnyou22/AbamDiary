@@ -39,6 +39,7 @@ extension SettiongViewController {
             var date = DateComponents(timeZone: .current)
             date.hour = 9
             date.minute = 0
+           
             SettiongViewController.sendNotification(subTitle: "오늘 아침일기를 작성하셨나요?", date: date, type: MorningAndNight.morning.rawValue)
             print("아침일기 알람 설정 📍노티 샌드")
             return
@@ -58,41 +59,54 @@ extension SettiongViewController {
     
     static func sendNotification(subTitle: String, date: DateComponents, type: Int) -> Void {
         //노티푸시 구성하기
-       
-        let notificationContent = UNMutableNotificationContent()
-        notificationContent.sound = .default
-        notificationContent.title = "아밤일기"
-        notificationContent.subtitle = subTitle
-        notificationContent.badge = (UIApplication.shared.applicationIconBadgeNumber) as NSNumber
-       
-        let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
-        
-        let request = UNNotificationRequest(identifier: "\(type)", content: notificationContent, trigger: trigger)
-        
-        SettiongViewController.notificationCenter.add(request)
+        DispatchQueue.main.async {
+            let notificationContent = UNMutableNotificationContent()
+            notificationContent.sound = .default
+            notificationContent.title = "아밤일기"
+            notificationContent.subtitle = subTitle
+            SettiongViewController.notificationCenter.tri
+            notificationContent.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
+           
+            let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
+            
+            let request = UNNotificationRequest(identifier: "\(type)", content: notificationContent, trigger: trigger)
+            
+            SettiongViewController.notificationCenter.add(request)
+        }
     }
     
     static func sendBlueBirdNotification(context: String) {
-        let badgeCount: NSNumber?
-        let notificationContent = UNMutableNotificationContent()
-        notificationContent.sound = .default
-        notificationContent.title = "아밤일기"
-        notificationContent.body = context
-        notificationContent.badge = (UIApplication.shared.applicationIconBadgeNumber) as NSNumber
-        
-        let imageName = "icon-park-solid_bird-1"
-        guard let imgaeURL = Bundle.main.url(forResource: imageName, withExtension: ".png") else { return }
-        
-        do {
-            let attachment = try UNNotificationAttachment(identifier: imageName, url: imgaeURL, options: .none)
-            notificationContent.attachments = [attachment]
-        } catch {
-            print("attachment실패")
+        DispatchQueue.main.async {
+//            let badgeCount: NSNumber?
+            var number = [UNNotification]()
+            
+            let notificationContent = UNMutableNotificationContent()
+            notificationContent.sound = .default
+            notificationContent.title = "아밤일기"
+            notificationContent.body = context
+            
+            SettiongViewController.notificationCenter.getDeliveredNotifications(completionHandler: { list in
+                number = list
+            })
+            
+            notificationContent.badge = (number.count) as NSNumber
+            
+//            (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
+            
+            let imageName = "icon-park-solid_bird-1"
+            guard let imgaeURL = Bundle.main.url(forResource: imageName, withExtension: ".png") else { return }
+            
+            do {
+                let attachment = try UNNotificationAttachment(identifier: imageName, url: imgaeURL, options: .none)
+                notificationContent.attachments = [attachment]
+            } catch {
+                print("attachment실패")
+            }
+            
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
+            let request = UNNotificationRequest(identifier: "\(Date())", content: notificationContent, trigger: trigger)
+            
+            SettiongViewController.notificationCenter.add(request, withCompletionHandler: nil)
         }
-        
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
-        let request = UNNotificationRequest(identifier: "test", content: notificationContent, trigger: trigger)
-        
-        SettiongViewController.notificationCenter.add(request, withCompletionHandler: nil)
     }
 }

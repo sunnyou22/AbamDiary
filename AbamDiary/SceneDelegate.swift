@@ -40,11 +40,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
-        
-        UIApplication.shared.applicationIconBadgeNumber = 0
-        UserDefaults.standard.set(0, forKey: "AppBadgeNumber")
-//        UIApplication.shared.applicationIconBadgeNumber = 0
-        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
        
     }
     
@@ -59,8 +54,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
+        
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
 }
+
+//var number = [UNNotification]()
+//
+//SettiongViewController.notificationCenter.getDeliveredNotifications { list in
+//    number = list
+//}
+//
+//DispatchQueue.main.async {
+//    if #available(iOS 16.0, *) {
+//        SettiongViewController.notificationCenter.setBadgeCount(number.count)
+//        print(#function, "여기함수에 드러옴=========================")
+//    } else {
+//        // Fallback on earlier versions
+//    }
