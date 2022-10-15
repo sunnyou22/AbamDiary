@@ -57,68 +57,77 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
-        
-        // MARK: UISceneSession Lifecycle
-        
-        func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-            // Called when a new scene session is being created.
-            // Use this method to select a configuration to create the new scene with.
-            return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+    
+    // MARK: UISceneSession Lifecycle
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        SettiongViewController.notificationCenter.getDeliveredNotifications { list in
+            DispatchQueue.main.async {
+                UIApplication.shared.applicationIconBadgeNumber = list.count
+                print("\(#function), \(list), 🔴\(list.count)🔴 ===========")
+            }
         }
-        
-        func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-            // Called when the user discards a scene session.
-            // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-            // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
-        }
+    }
+   
+    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        // Called when a new scene session is being created.
+        // Use this method to select a configuration to create the new scene with.
+        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
     
-    extension AppDelegate: UNUserNotificationCenterDelegate {
-        
-        func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-            completionHandler([.list, .sound, .badge, .banner])
-        }
-        
-        //  Messaging.messaging().apnsToken -> 파이어베이스
-        // 여기에 디바이스 토큰을 할당해줬을 때, 파베가 푸시를 보낼 때 apns한테 이 토큰에게 푸시를 보내고싶다고 하면
-        //apns가 이 토큰을 가지고 있는 디바이스한테 푸시를 보냄
-        func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-            Messaging.messaging().apnsToken = deviceToken
-        }
-        
-        func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-            print("=================사용자가 푸시를 클릭했습니다")
-            
-            let id = response.notification.request.identifier
-            print(id, "============================")
-            guard let viewController = (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.window?.rootViewController?.topViewController else { return }
-            print(viewController)
-            
-            if id == "0" {
-                print("======================", #function)
-                if viewController is CalendarViewController {
-                    let vc = WriteViewController(diarytype: .morning, writeMode: .newDiary)
-                    // 이부분이 false로 계속 나옴
-                    print("=================if 안~~~")
-                    viewController.navigationController?.pushViewController(vc, animated: true)
-                }
-            }
-            
-        }
+    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
+        // Called when the user discards a scene session.
+        // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
+        // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.list, .sound, .badge, .banner])
+    }
+    
+    //  Messaging.messaging().apnsToken -> 파이어베이스
+    // 여기에 디바이스 토큰을 할당해줬을 때, 파베가 푸시를 보낼 때 apns한테 이 토큰에게 푸시를 보내고싶다고 하면
+    //apns가 이 토큰을 가지고 있는 디바이스한테 푸시를 보냄
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Messaging.messaging().apnsToken = deviceToken
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        print("=================사용자가 푸시를 클릭했습니다")
+        
+        let id = response.notification.request.identifier
+        print(id, "============================")
+        guard let viewController = (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.window?.rootViewController?.topViewController else { return }
+        print(viewController)
+        
+        if id == "0" {
+            print("======================", #function)
+            if viewController is CalendarViewController {
+                let vc = WriteViewController(diarytype: .morning, writeMode: .newDiary)
+                // 이부분이 false로 계속 나옴
+                print("=================if 안~~~")
+                viewController.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
+        
+    }
+}
 
 extension AppDelegate: MessagingDelegate {
     
     //사용자가 앱을 삭제하거나, 핸드폰 기종을 바꿀 때 등으로 토큰에 대한 정보가 바뀔 때 불리는 메서드
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-      print("Firebase registration token: \(String(describing: fcmToken))")
-
-      let dataDict: [String: String] = ["token": fcmToken ?? ""]
-      NotificationCenter.default.post(
-        name: Notification.Name("FCMToken"),
-        object: nil,
-        userInfo: dataDict
-      )
+        print("Firebase registration token: \(String(describing: fcmToken))")
+        
+        let dataDict: [String: String] = ["token": fcmToken ?? ""]
+        NotificationCenter.default.post(
+            name: Notification.Name("FCMToken"),
+            object: nil,
+            userInfo: dataDict
+        )
       // TODO: If necessary send token to application server.
       // Note: This callback is fired at each app startup and whenever a new token is generated.
     }

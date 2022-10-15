@@ -172,6 +172,7 @@ extension BackupViewController: UIDocumentPickerDelegate {
         }
         
         let sandboxFileURL = path.appendingPathComponent(selectedFileURL.lastPathComponent)
+       print("sandboxFileURL=====================", sandboxFileURL)
         
         //여기서 앱의 백업복구 파일과 같은지 비교
         if FileManager.default.fileExists(atPath: sandboxFileURL.path) {

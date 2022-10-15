@@ -8,9 +8,7 @@
 import UIKit
 
 extension SettiongViewController {
-    
     static func requestAutorization() {
-        
         let authorizationOptions = UNAuthorizationOptions(arrayLiteral: .alert, .badge, .sound)
         SettiongViewController.notificationCenter.requestAuthorization(options: authorizationOptions) {  success, error in
             
@@ -31,7 +29,6 @@ extension SettiongViewController {
             }
         }
     }
-    
     
     static func MDefaultNoti() {
         
@@ -58,41 +55,26 @@ extension SettiongViewController {
     }
     
     static func sendNotification(subTitle: String, date: DateComponents, type: Int) -> Void {
-        //노티푸시 구성하기
-        DispatchQueue.main.async {
             let notificationContent = UNMutableNotificationContent()
             notificationContent.sound = .default
             notificationContent.title = "아밤일기"
             notificationContent.subtitle = subTitle
-            SettiongViewController.notificationCenter.tri
-            notificationContent.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
-           
+        
             let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
             
-            let request = UNNotificationRequest(identifier: "\(type)", content: notificationContent, trigger: trigger)
+            let request = UNNotificationRequest(
+                identifier: "\(type)", content: notificationContent, trigger: trigger)
             
             SettiongViewController.notificationCenter.add(request)
         }
-    }
     
     static func sendBlueBirdNotification(context: String) {
-        DispatchQueue.main.async {
-//            let badgeCount: NSNumber?
-            var number = [UNNotification]()
-            
+ 
             let notificationContent = UNMutableNotificationContent()
             notificationContent.sound = .default
             notificationContent.title = "아밤일기"
             notificationContent.body = context
-            
-            SettiongViewController.notificationCenter.getDeliveredNotifications(completionHandler: { list in
-                number = list
-            })
-            
-            notificationContent.badge = (number.count) as NSNumber
-            
-//            (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
-            
+   
             let imageName = "icon-park-solid_bird-1"
             guard let imgaeURL = Bundle.main.url(forResource: imageName, withExtension: ".png") else { return }
             
@@ -108,5 +90,4 @@ extension SettiongViewController {
             
             SettiongViewController.notificationCenter.add(request, withCompletionHandler: nil)
         }
-    }
 }
