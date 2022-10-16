@@ -59,6 +59,16 @@ extension SettiongViewController {
             notificationContent.sound = .default
             notificationContent.title = "아밤일기"
             notificationContent.subtitle = subTitle
+      
+        notificationContent.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
+        UIApplication.shared.applicationIconBadgeNumber += 1
+        
+        SettiongViewController.notificationCenter.getDeliveredNotifications { list in
+            DispatchQueue.main.async {
+                notificationContent.badge = (list.count + 1) as NSNumber
+                print(#function, notificationContent.badge, "===========💥💥💥💥💥")
+            }
+    }
         
             let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
             
@@ -69,12 +79,18 @@ extension SettiongViewController {
         }
     
     static func sendBlueBirdNotification(context: String) {
- 
+        var noticount: NSNumber?
+        
+        DispatchQueue.main.async {
+           noticount = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
+        }
+        
             let notificationContent = UNMutableNotificationContent()
             notificationContent.sound = .default
             notificationContent.title = "아밤일기"
             notificationContent.body = context
-   
+        notificationContent.badge = noticount
+
             let imageName = "icon-park-solid_bird-1"
             guard let imgaeURL = Bundle.main.url(forResource: imageName, withExtension: ".png") else { return }
             
@@ -86,8 +102,10 @@ extension SettiongViewController {
             }
             
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
+
             let request = UNNotificationRequest(identifier: "\(Date())", content: notificationContent, trigger: trigger)
             
             SettiongViewController.notificationCenter.add(request, withCompletionHandler: nil)
         }
+   
 }

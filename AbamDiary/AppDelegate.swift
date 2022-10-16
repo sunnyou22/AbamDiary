@@ -10,7 +10,6 @@ import UserNotifications
 import FirebaseCore
 import FirebaseMessaging
 
-
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -35,6 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             completionHandler: { _, _ in }
           )
         } else {
+            
           let settings: UIUserNotificationSettings =
             UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
           application.registerUserNotificationSettings(settings)
@@ -54,20 +54,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            self.fcmRegTokenMessage.text  = "Remote FCM registration token: \(token)" - 필요없음
           }
         }
-        
         return true
     }
-    
+  
     // MARK: UISceneSession Lifecycle
-    
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        SettiongViewController.notificationCenter.getDeliveredNotifications { list in
-            DispatchQueue.main.async {
-                UIApplication.shared.applicationIconBadgeNumber = list.count
-                print("\(#function), \(list), 🔴\(list.count)🔴 ===========")
-            }
-        }
-    }
    
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
@@ -91,6 +81,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     //  Messaging.messaging().apnsToken -> 파이어베이스
     // 여기에 디바이스 토큰을 할당해줬을 때, 파베가 푸시를 보낼 때 apns한테 이 토큰에게 푸시를 보내고싶다고 하면
     //apns가 이 토큰을 가지고 있는 디바이스한테 푸시를 보냄
+    
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
     }
@@ -98,6 +89,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         print("=================사용자가 푸시를 클릭했습니다")
         
+        UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber - 1
+    
         let id = response.notification.request.identifier
         print(id, "============================")
         guard let viewController = (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.window?.rootViewController?.topViewController else { return }

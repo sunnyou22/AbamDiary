@@ -44,9 +44,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     
     func sceneWillResignActive(_ scene: UIScene) {
-        // Called when the scene will move from an active state to an inactive state.
-        // This may occur due to temporary interruptions (ex. an incoming phone call).
-        
         
         SettiongViewController.notificationCenter.getDeliveredNotifications { list in
             DispatchQueue.main.async {
@@ -75,11 +72,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     //    number = list
     //}
     //
-    //DispatchQueue.main.async {
-    //    if #available(iOS 16.0, *) {
-    //        SettiongViewController.notificationCenter.setBadgeCount(number.count)
-    //        print(#function, "여기함수에 드러옴=========================")
-    //    } else {
-    //        // Fallback on earlier versions
-    //    }
+//    DispatchQueue.main.async {
+//        if #available(iOS 16.0, *) {
+//            SettiongViewController.notificationCenter.setBadgeCount(number.count)
+//            print(#function, "여기함수에 드러옴=========================")
+//        } else {
+//            // Fallback on earlier versions
+//        }
 }
