@@ -82,38 +82,25 @@ class BackupViewController: BaseViewController {
         removeKeyFileDocument(fileName: .ABAMKeyFile)
     }
     
+    // alert 함수 넣음
     @objc private func clickRestoreCell() {
-        
-        let alert = UIAlertController(title: "알림", message: "현재 일기에 덮어씌워집니다. 진행하시겠습니까?", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "네", style: .default) { [weak self]_ in
-            
-            guard let self = self else { return }
-            
-            guard let path = self.documentDirectoryPath() else {
-                print("도큐먼트 위치에 오류가 있습니다.")
-                return
-            }
-            
-            if FileManager.default.fileExists(atPath: path.path) {
+        CustomAlert.shared.showMessageWithHandler(title: "알림", message: "현재 일기에 덮어씌워집니다. 진행하시겠습니까?", okCompletionHandler: showDocumentPicker)
+    }
+    
+    func showDocumentPicker() {
+//        guard let self = self else { return }
+                guard let path = self.documentDirectoryPath() else {
+                    print("도큐먼트 위치에 오류가 있습니다.")
+                    return
+                }
                 
-                do {
-                    let doucumentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.archive], asCopy: true)
-                    doucumentPicker.delegate = self
-                    doucumentPicker.allowsMultipleSelection = false
-                    self.present(doucumentPicker, animated: true)
-                } catch {
-                    print("압축풀기에 실패하였습니다")
+                if FileManager.default.fileExists(atPath: path.path) {
+                        let doucumentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.archive], asCopy: true)
+                        doucumentPicker.delegate = self
+                        doucumentPicker.allowsMultipleSelection = false
+                        self.present(doucumentPicker, animated: true)
                 }
             }
-            //복구완료 얼럿넣기
-        }
-        let cancel = UIAlertAction(title: "취소", style: .cancel)
-        
-        alert.addAction(ok)
-        alert.addAction(cancel)
-        
-        present(alert, animated: true)
-    }
 }
 
 extension BackupViewController: UITableViewDelegate, UITableViewDataSource {

@@ -59,10 +59,7 @@ extension SettiongViewController {
             notificationContent.sound = .default
             notificationContent.title = "아밤일기"
             notificationContent.subtitle = subTitle
-      
-        notificationContent.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
-        UIApplication.shared.applicationIconBadgeNumber += 1
-        
+    
         SettiongViewController.notificationCenter.getDeliveredNotifications { list in
             DispatchQueue.main.async {
                 notificationContent.badge = (list.count + 1) as NSNumber
