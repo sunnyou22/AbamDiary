@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BaseCollectionViewCell: UICollectionViewCell {
+class BaseCollectionViewCell: UICollectionViewListCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
