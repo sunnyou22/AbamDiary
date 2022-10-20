@@ -8,6 +8,17 @@
 import UIKit
 import SnapKit
 
+//final class HeaderView: UICollectionReusableView {
+//
+//  override init(frame: CGRect) {
+//    super.init(frame: frame)
+//  }
+//
+//  required init?(coder: NSCoder) {
+//    fatalError("init(coder:) has not been implemented")
+//  }
+//}
+
 class SettingView: BaseView {
     
     let header: UIView = {
@@ -44,6 +55,11 @@ class SettingView: BaseView {
         view.register(SettingAlarmTableViewCell.self, forCellReuseIdentifier: SettingAlarmTableViewCell.reuseIdentifier)
         
         view.register(SettingSwitchTableViewCell.self, forCellReuseIdentifier: SettingSwitchTableViewCell.reuseIdentifier)
+        
+        
+//        view.register(Header.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "MyHeaderView")
+//
+//
         
         view.isScrollEnabled = true
         view.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)

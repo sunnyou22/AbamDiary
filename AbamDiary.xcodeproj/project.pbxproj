@@ -76,6 +76,8 @@
 		90F8262D28CB9F24008E8E6B /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F8262C28CB9F24008E8E6B /* Color.swift */; };
 		90F8A96D28ED93D9001AF95F /* MarqueeLabel in Frameworks */ = {isa = PBXBuildFile; productRef = 90F8A96C28ED93D9001AF95F /* MarqueeLabel */; };
 		90F8A97828EED3B2001AF95F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 90F8A97728EED3B2001AF95F /* GoogleService-Info.plist */; };
+		90FC80982901353200351E5C /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FC80972901353200351E5C /* BaseCollectionViewCell.swift */; };
+		90FC809A290135CE00351E5C /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FC8099290135CE00351E5C /* SearchCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -138,6 +140,8 @@
 		90F8262928CB7DB4008E8E6B /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		90F8262C28CB9F24008E8E6B /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		90F8A97728EED3B2001AF95F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		90FC80972901353200351E5C /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
+		90FC8099290135CE00351E5C /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +174,7 @@
 				900AEDF928CC5A9100F18360 /* BaseViewController.swift */,
 				900AEDFB28CC5AB000F18360 /* BaseView.swift */,
 				900AEDFF28CC5BA700F18360 /* BaseTableViewCell.swift */,
+				90FC80972901353200351E5C /* BaseCollectionViewCell.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -201,7 +206,6 @@
 				90F8A97928F2E0ED001AF95F /* Onboarding */,
 				90B7210C28CDAC9400B243AE /* Setting */,
 				90CCDB7128D06F5D00CDEE06 /* Write */,
-				90B7210B28CDAC8400B243AE /* MonthDiary */,
 				90B7210A28CDAC7D00B243AE /* Search */,
 				90B7210928CDAC6000B243AE /* Cheerup */,
 				900AEE0128CC5D0E00F18360 /* Main */,
@@ -226,6 +230,7 @@
 				90B7210F28CDACC900B243AE /* SearchViewController.swift */,
 				905E099328D1C3700084ADAE /* SearchView.swift */,
 				903B429428E15C7B00012204 /* SearchTableViewCell.swift */,
+				90FC8099290135CE00351E5C /* SearchCollectionViewCell.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -275,6 +280,7 @@
 			children = (
 				90D3F65F28E75EE60016C859 /* BackupViewController.swift */,
 				90D3F66128E75F1A0016C859 /* BackupView.swift */,
+				90B7210B28CDAC8400B243AE /* MonthDiary */,
 			);
 			path = Backup;
 			sourceTree = "<group>";
@@ -492,10 +498,12 @@
 				90B7210E28CDACBE00B243AE /* CheerupViewController.swift in Sources */,
 				90B3090D28D3FCD900A7BCC7 /* DateModel.swift in Sources */,
 				900AEE0928CC642D00F18360 /* Font.swift in Sources */,
+				90FC809A290135CE00351E5C /* SearchCollectionViewCell.swift in Sources */,
 				907FF54828D769930037BF28 /* Photos + Extension.swift in Sources */,
 				90B7211028CDACC900B243AE /* SearchViewController.swift in Sources */,
 				90F0592528D8138F00F61899 /* DefaultTableViewCell.swift in Sources */,
 				90B8CB2428D7130F00A2C5E9 /* SettingView.swift in Sources */,
+				90FC80982901353200351E5C /* BaseCollectionViewCell.swift in Sources */,
 				904492B328D5ACC90028F920 /* CheeupView.swift in Sources */,
 				90CCDB7328D06F6B00CDEE06 /* WriteViewController.swift in Sources */,
 				90DF62FF28D8924F0046A3E7 /* SwitchModel.swift in Sources */,

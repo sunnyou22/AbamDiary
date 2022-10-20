@@ -54,10 +54,10 @@ class SettiongViewController: BaseViewController {
         settingView.tableView.delegate = self
         settingView.tableView.dataSource = self
         
-        settingView.changeButton.addTarget(self, action: #selector(changeProfileButtonClicked), for: .touchUpInside)
+//        settingView.changeButton.addTarget(self, action: #selector(changeProfileButtonClicked), for: .touchUpInside)
         
         //MARK: 프로필 이미지
-        settingView.profileimageView.image = loadImageFromDocument(fileName: profileImage)
+//        settingView.profileimageView.image = loadImageFromDocument(fileName: profileImage)
        
         tasks = OneDayDiaryRepository.shared.fetchLatestOrder()
         cheerupTasks = CheerupMessageRepository.shared.fetchDate(ascending: false)
@@ -235,36 +235,6 @@ extension SettiongViewController: UITableViewDelegate, UITableViewDataSource {
             sender.setTitle("--:--", for: .normal)
         }
         
-    }
-    
-    //MARK: 프로필 사진 바꾸기
-    @objc private func changeProfileButtonClicked() {
-        let alert = UIAlertController(title: nil, message: "프로필 사진 변경하기", preferredStyle: .alert)
-        
-        let cancel = UIAlertAction(title: "취소", style: .destructive)
-        
-        let cameraButton = UIAlertAction(title: "카메라", style: .default) { [weak self] _ in
-            guard let self = self else { return }
-            self.presentCamara()
-        }
-        
-        let photoLibrary = UIAlertAction(title: "앨범", style: .default) { [weak self] _ in
-            guard let self = self else { return }
-            self.presentAlbum()
-        }
-        
-        let delete = UIAlertAction(title: "현재 사진 삭제", style: .default) { [weak self] _ in
-            guard let self = self else { return }
-          
-            self.removeBackupFileDocument(fileName: self.profileImage)
-            self.settingView.profileimageView.image = UIImage(named: "ABAM")
-        }
-        
-        alert.addAction(delete)
-        alert.addAction(cameraButton)
-        alert.addAction(photoLibrary)
-        alert.addAction(cancel)
-        present(alert, animated: true, completion: nil)
     }
 }
 

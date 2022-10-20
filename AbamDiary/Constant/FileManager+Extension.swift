@@ -32,7 +32,7 @@ enum DocumentPathError: Error {
 }
 
 
-protocol CustomFileManager {
+protocol CustomFileManagerType {
     func documentDirectoryPath() -> URL?
     func saveImageToDocument(fileName: String, image: UIImage)
     func createFile(fileName: PathComponentName) -> URL
@@ -57,8 +57,10 @@ protocol CustomFileManager {
     func unzipFile(fileURL: URL, documentURL: URL) throws
 }
 
-extension UIViewController: CustomFileManager {
+final class CustomFileManager: UIViewController, CustomFileManagerType {
  
+    static let shared = CustomFileManager()
+    
    final func documentDirectoryPath() -> URL? {
         
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil } // 내 앱에 해당되는 도큐먼트 폴더가 있늬?
@@ -383,9 +385,10 @@ extension UIViewController: CustomFileManager {
    
     //도큐먼트 피커보여주기
     final func showActivityViewController(backupFileURL: URL) throws {
+        guard let viewController = (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.window?.rootViewController?.topViewController else { return }
         
         let vc = UIActivityViewController(activityItems: [backupFileURL], applicationActivities: [])
-        self.present(vc, animated: true)
+        viewController.present(vc, animated: true)
     }
     
     

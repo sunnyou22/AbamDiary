@@ -52,7 +52,7 @@ class BackupViewController: BaseViewController {
     }
     
    private func fetchBackupFileList() {
-        backupfiles = fetchDocumentZipFile().sorted(by: >)
+       backupfiles = CustomFileManager.shared.fetchDocumentZipFile().sorted(by: >)
     }
     
     private func fetch() {
@@ -66,20 +66,19 @@ class BackupViewController: BaseViewController {
     
     //셀에 들어갈 데이터 즉 스냅샷 + 백업
     private func setTextBackupData(text: String) {
-        
         do {
-            try saveEncodedDiaryToDocument(tasks: tasks)
-            try saveEncodeCheerupToDocument(tasks: cheerupTasks)
-            let backupFilePth = try createBackupFile(fileName: text, keyFile: .ABAMKeyFile, imageFile: .imageFile)
+            try CustomFileManager.shared.saveEncodedDiaryToDocument(tasks: tasks)
+            try CustomFileManager.shared.saveEncodeCheerupToDocument(tasks: cheerupTasks)
+            let backupFilePth = try CustomFileManager.shared.createBackupFile(fileName: text, keyFile: .ABAMKeyFile, imageFile: .imageFile)
             fetchBackupFileList()
             backupView.tableView.reloadData()
-            try showActivityViewController(backupFileURL: backupFilePth)
-            fetchDocumentZipFile()
+            try CustomFileManager.shared.showActivityViewController(backupFileURL: backupFilePth)
+            CustomFileManager.shared.fetchDocumentZipFile()
         }
         catch {
             backupView.makeToast("압축에 실패하였습니다")
         }
-        removeKeyFileDocument(fileName: .ABAMKeyFile)
+        CustomFileManager.shared.removeKeyFileDocument(fileName: .ABAMKeyFile)
     }
     
     // alert 함수 넣음
@@ -89,7 +88,7 @@ class BackupViewController: BaseViewController {
     
     func showDocumentPicker() {
 //        guard let self = self else { return }
-                guard let path = self.documentDirectoryPath() else {
+        guard let path = CustomFileManager.shared.documentDirectoryPath() else {
                     print("도큐먼트 위치에 오류가 있습니다.")
                     return
                 }
@@ -132,7 +131,7 @@ extension BackupViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            removeBackupFileDocument(fileName: (backupfiles?[indexPath.row])!)
+            CustomFileManager.shared.removeBackupFileDocument(fileName: (backupfiles?[indexPath.row])!)
             fetchBackupFileList()
             backupView.tableView.reloadData()
         }
@@ -153,7 +152,7 @@ extension BackupViewController: UIDocumentPickerDelegate {
             return
         }
         
-        guard let path = documentDirectoryPath() else {
+       guard let path = CustomFileManager.shared.documentDirectoryPath() else {
             print("도큐먼트 위치에 오류가 있습니다.")
             return
         }
@@ -165,7 +164,7 @@ extension BackupViewController: UIDocumentPickerDelegate {
         if FileManager.default.fileExists(atPath: sandboxFileURL.path) {
             let filename_zip = selectedFileURL.lastPathComponent
             print(filename_zip, "========🚀🚀🚀🚀🚀")
-            let temporaryFolder = createFolder(foldername: .unzipFolder)
+            let temporaryFolder = CustomFileManager.shared.createFolder(foldername: .unzipFolder)
 
             let zipfileURL = path.appendingPathComponent(filename_zip)
             let keyFileURL = temporaryFolder.appendingPathComponent(PathComponentName.ABAMKeyFile.rawValue)
@@ -178,18 +177,18 @@ extension BackupViewController: UIDocumentPickerDelegate {
             }
             
             do {
-                try unzipFile(fileURL: newzipfileURL, documentURL: temporaryFolder)
+                try CustomFileManager.shared.unzipFile(fileURL: newzipfileURL, documentURL: temporaryFolder)
                 do {
                     if FileManager.default.fileExists(atPath: keyFileURL.path) {
                         try FileManager.default.removeItem(at: temporaryFolder)
-                        try unzipFile(fileURL: zipfileURL, documentURL: path)
+                        try CustomFileManager.shared.unzipFile(fileURL: zipfileURL, documentURL: path)
                         
                         //여기서 작세하는 keyfile은 도큐
-                        removeKeyFileDocument(fileName: .ABAMKeyFile)
+                        CustomFileManager.shared.removeKeyFileDocument(fileName: .ABAMKeyFile)
                         OneDayDiaryRepository.shared.deleteTasks(tasks: self.tasks)
                         CheerupMessageRepository.shared.deleteTasks(tasks: self.cheerupTasks)
                         
-                        try self.restoreRealmForBackupFile()
+                        try CustomFileManager.shared.restoreRealmForBackupFile()
                         
                         let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
                         let sceneDelegate = windowScene?.delegate as? SceneDelegate
@@ -206,7 +205,7 @@ extension BackupViewController: UIDocumentPickerDelegate {
                         controller.dismiss(animated: true) {
                             let alert = UIAlertController(title: "복구 알림", message: "아밤일기의 파일이 맞으신가요?ㅠㅠ", preferredStyle: .alert)
                             let ok = UIAlertAction(title: "확인", style: .default)
-                            self.removeBackupFileDocument(fileName: filename_zip)
+                            CustomFileManager.shared.removeBackupFileDocument(fileName: filename_zip)
                             
                             do {
                                 try FileManager.default.removeItem(at: temporaryFolder)
@@ -238,7 +237,7 @@ extension BackupViewController: UIDocumentPickerDelegate {
                 try FileManager.default.copyItem(at: selectedFileURL, to: sandboxFileURL)
                 let filename_zip = selectedFileURL.lastPathComponent
                 let zipfileURL = path.appendingPathComponent(filename_zip)
-                let temporaryFolder = createFolder(foldername: .unzipFolder)
+                let temporaryFolder = CustomFileManager.shared.createFolder(foldername: .unzipFolder)
                 let keyFileURL = temporaryFolder.appendingPathComponent(PathComponentName.ABAMKeyFile.rawValue)
                 let newzipfileURL = temporaryFolder.appendingPathComponent(filename_zip)
                 
@@ -249,17 +248,17 @@ extension BackupViewController: UIDocumentPickerDelegate {
                 }
                 
                 do {
-                    try unzipFile(fileURL: newzipfileURL, documentURL: temporaryFolder)
+                    try CustomFileManager.shared.unzipFile(fileURL: newzipfileURL, documentURL: temporaryFolder)
                     do {
                         if FileManager.default.fileExists(atPath: keyFileURL.path) {
                             try FileManager.default.removeItem(at: temporaryFolder)
-                            try unzipFile(fileURL: zipfileURL, documentURL: path)
+                            try CustomFileManager.shared.unzipFile(fileURL: zipfileURL, documentURL: path)
                            
-                            removeKeyFileDocument(fileName: .ABAMKeyFile)
+                            CustomFileManager.shared.removeKeyFileDocument(fileName: .ABAMKeyFile)
                             OneDayDiaryRepository.shared.deleteTasks(tasks: self.tasks)
                             CheerupMessageRepository.shared.deleteTasks(tasks: self.cheerupTasks)
                             
-                            try self.restoreRealmForBackupFile()
+                            try CustomFileManager.shared.restoreRealmForBackupFile()
                             
                             let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
                             let sceneDelegate = windowScene?.delegate as? SceneDelegate
@@ -283,7 +282,7 @@ extension BackupViewController: UIDocumentPickerDelegate {
                                     ])
                                 }
                                 alert.addAction(ok)
-                                self.removeBackupFileDocument(fileName: filename_zip)
+                                CustomFileManager.shared.removeBackupFileDocument(fileName: filename_zip)
                                 self.present(alert, animated: true)
                             }
                         }

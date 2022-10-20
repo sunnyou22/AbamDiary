@@ -8,7 +8,7 @@
 import UIKit
 
 //Alert 따로 빼주기
-//Alert 따로 빼주기
+
 final class CustomAlert: UIViewController {
 
    static let shared = CustomAlert()
@@ -30,12 +30,13 @@ final class CustomAlert: UIViewController {
         present(alert, animated: true)
     }
     
+    
     func showMessageWithHandler(title: String, message: String, okCompletionHandler handler: (() -> Void)?) {
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         let ok = UIAlertAction(title: "네", style: .default) { _ in
-            guard let handler = handler else {return}
+            guard let handler = handler else { return }
             handler()
         }
         
@@ -44,10 +45,11 @@ final class CustomAlert: UIViewController {
         alert.addAction(ok)
         alert.addAction(cancel)
         
+        //UIWindow present keywindow rootview.present -> alert
         DispatchQueue.main.async {
-            self.present(alert, animated: true)
+            guard let viewController = (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.window?.rootViewController?.topViewController else { return }
+            
+            viewController.present(alert, animated: true)
         }
     }
-    
-    
 }

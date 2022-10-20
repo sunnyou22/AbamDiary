@@ -9,6 +9,7 @@ import UIKit
 
 import RealmSwift
 
+
 class SearchViewController: BaseViewController {
     
     var searchView = SearchView()
@@ -25,6 +26,8 @@ class SearchViewController: BaseViewController {
             searchView.tableView.reloadData()
         }
     }
+    
+    var cellRegistration: UICollectionView.CellRegistration<SearchCollectionViewCell, Results<Diary>>!
     
     var filteredArr: Results<Diary>! {
         didSet {
@@ -157,6 +160,14 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         cell.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         return cell
     }
+    
+    private func setCellConfig(cell: UICollectionViewListCell, indexPath: IndexPath, itemIdentifier: Results<Diary>) {
+      
+            var content = UIListContentConfiguration.valueCell()
+            var backgroundConfig = UIBackgroundConfiguration.listPlainCell()
+            backgroundConfig.cornerRadius = 10
+            
+        }
         
         func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
             
@@ -249,5 +260,17 @@ extension SearchViewController: UISearchBarDelegate {
     
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         true
+    }
+}
+
+extension SearchViewController {
+    private func createLayout() -> UICollectionViewLayout {
+        var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+        
+        configuration.showsSeparators = true
+        configuration.backgroundColor = .brown
+        
+        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+        return layout
     }
 }
