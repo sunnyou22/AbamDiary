@@ -57,7 +57,7 @@ class SettiongViewController: BaseViewController {
 //        settingView.changeButton.addTarget(self, action: #selector(changeProfileButtonClicked), for: .touchUpInside)
         
         //MARK: 프로필 이미지
-//        settingView.profileimageView.image = loadImageFromDocument(fileName: profileImage)
+        settingView.profileimageView.image = CustomFileManager.shared.loadImageFromDocument(fileName: profileImage)
        
         tasks = OneDayDiaryRepository.shared.fetchLatestOrder()
         cheerupTasks = CheerupMessageRepository.shared.fetchDate(ascending: false)
