@@ -249,8 +249,8 @@
 				90D3F65E28E75EBC0016C859 /* Backup */,
 				90DF632D28D984B00046A3E7 /* Cell */,
 				90B7211528CDAD0500B243AE /* SettiongViewController.swift */,
-				90B8CB2328D7130F00A2C5E9 /* SettingView.swift */,
 				90F0592228D80E1D00F61899 /* SettiongConstants.swift */,
+				90B8CB2328D7130F00A2C5E9 /* SettingView.swift */,
 				90F0592628D84A4500F61899 /* NoficationPush + Extension.swift */,
 			);
 			path = Setting;

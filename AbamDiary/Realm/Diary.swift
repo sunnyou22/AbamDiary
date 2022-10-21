@@ -23,6 +23,13 @@ class Diary: Object, Codable {
  
     @Persisted(primaryKey: true) var objectID: ObjectId
     
+//    override func hash(into hasher: inout Hasher) {
+//        hasher.combine(objectID)
+//    }
+//    static func == (lhs: Diary, rhs: Diary) -> Bool {
+//        lhs.objectID = rhs.objectID
+//    }
+    
     convenience init(type: Int, contents: String?, selecteddate: Date, createdDate: Date) {
         self.init()
         self.objectID = objectID
