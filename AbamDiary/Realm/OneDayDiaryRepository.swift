@@ -69,6 +69,17 @@ class OneDayDiaryRepository: OnedayDiaryRepositoryType {
         return localRealm.objects(Diary.self).filter("selecteddate >= %@ AND selecteddate <= %@", start, last + 86399)
     }
     
+    func fetchType(type: Int) -> Results<Diary> {
+        let item = localRealm.objects(Diary.self)
+     let result = item.filter("type == %@", type)
+        
+        guard !item.isEmpty else {
+            return item
+        }
+        return result
+    }
+    
+    
     func deleteRecord(item: Diary) {
         do {
             try localRealm.write {

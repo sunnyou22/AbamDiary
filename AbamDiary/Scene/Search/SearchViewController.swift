@@ -19,16 +19,11 @@ class SearchViewController: BaseViewController, UICollectionViewDelegate {
     }
     
     let searchController = UISearchController(searchResultsController: nil)
-    
-    var tasks: Results<Diary>!
-    
+ 
     private var cellRegistration: UICollectionView.CellRegistration<SearchCollectionViewCell, Diary>!
     private var dataSource: UICollectionViewDiffableDataSource<MorningAndNight, Diary>!
-    
-    var filteredArr: Results<Diary>!
-    
+
     var morningFilteredArr: Results<Diary>!
-    
     var nightFilteredArr: Results<Diary>!
     
     var isFiltering: Bool {
@@ -65,7 +60,11 @@ class SearchViewController: BaseViewController, UICollectionViewDelegate {
     }
     
     private func fetch() {
-        tasks = OneDayDiaryRepository.shared.fetchLatestOrder()
+        
+        morningFilteredArr = OneDayDiaryRepository.shared.fetchType(type: MorningAndNight.morning.rawValue)
+        nightFilteredArr = OneDayDiaryRepository.shared.fetchType(type: MorningAndNight.night.rawValue)
+//       nightFilteredArr = items.where { ($0.type == 1) }
+        print("==========", morningFilteredArr, nightFilteredArr)
     }
     
     private func setupSearchController() {
@@ -88,15 +87,8 @@ class SearchViewController: BaseViewController, UICollectionViewDelegate {
 extension SearchViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
-        
-        print("fsdfsdfs")
-        guard let text = searchController.searchBar.text else { return }
         fetch()
-        guard let items = tasks else {
-            return
-        }
-        self.morningFilteredArr = items.where { $0.contents.contains(text) && ($0.type == 0) }
-        self.nightFilteredArr = items.where { $0.contents.contains(text) && ($0.type == 1) }
+//        applySnapShot()
     }
 }
 
@@ -105,8 +97,13 @@ extension SearchViewController: UISearchBarDelegate {
         dismiss(animated: true)
     }
     
-    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        true
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        fetch()
+        
+    }
+    
+        func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+            return true
     }
     
     private func setWritModeAndTransition(_ mode: WriteMode, diaryType: MorningAndNight, task: Diary?) {
@@ -152,7 +149,6 @@ extension SearchViewController {
         
         dataSource = UICollectionViewDiffableDataSource(collectionView: searchView.collectionView) { collectionView, indexPath, itemIdentifier in
             let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
-            
             return cell
         }
         
@@ -165,35 +161,46 @@ extension SearchViewController {
         }
     }
     
-    func applySnapShot() {
-        
+    func applySnapShot(text: String = "안") {
+        //초기 옵셔널 오류 방지
         guard (morningFilteredArr != nil) && (nightFilteredArr != nil) else { return }
         
+        let Mitem = morningFilteredArr.where { $0.contents.contains(text) }
+        let Nitem = nightFilteredArr.where { $0.contents.contains(text) }
+    
         var snapshot = dataSource.snapshot()
         snapshot.appendSections([.morning, .night])
-        snapshot.appendItems(morningFilteredArr.compactMap { $0 }, toSection: .morning)
-        snapshot.appendItems(nightFilteredArr.compactMap { $0 }, toSection: .night)
+        snapshot.appendItems(Mitem.compactMap({ $0 }), toSection: .morning)
+        snapshot.appendItems(Nitem.compactMap({ $0 }), toSection: .night)
+       
+        print("🤯🤯🤯🤯🤯🤯🤯 🟢 Mitem : \(Mitem),  🟢 Nitem: \(Nitem), 🟢 morningFilteredArr: \(morningFilteredArr), 🟢 nightFilteredArr: \(nightFilteredArr)🚀🚀🚀🚀🚀")
+        
         dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
-//
+
 //extension SearchViewController: UICollectionViewDelegate {
-//    
+//
+//    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+//        let selectedItem = dataSource.itemIdentifier(for: indexPath)
+//
+//    }
+//
 //    //학퍼블한테 물어보기
 //    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
-//        
+//
 //        guard let morningFilteredArr = self.morningFilteredArr else {
 //            return nil
 //        }
-//        
+//
 //        guard let nightFilteredArr = self.nightFilteredArr else {
 //            return nil
 //        }
-//        
+//
 //        let currentDiaryDelete = UIAction(title: "해당 일기 삭제") { [weak self] _ in
-//            
+//
 //            guard let self = self else { return }
-//            
+//
 //            if indexPaths.first?.section == 0 {
 //                let Mitem = morningFilteredArr[indexPaths.first!.row]
 //                OneDayDiaryRepository.shared.deleteRecord(item: Mitem)
@@ -202,11 +209,11 @@ extension SearchViewController {
 //                OneDayDiaryRepository.shared.deleteRecord(item: Nitem)
 //            }
 //        }
-//        
+//
 //        let currdntDiaryModifing = UIAction(title: "수정") { [weak self] _ in
-//            
+//
 //            guard let self = self else { return }
-//            
+//
 //            if indexPaths.first?.section == 0 {
 //                let Mitem = morningFilteredArr[indexPaths.first!.row]
 //                setWritModeAndTransition(.modified, diaryType: .morning, task: Mitem)
@@ -215,9 +222,10 @@ extension SearchViewController {
 //                self.setWritModeAndTransition(.modified, diaryType: .morning, task: Nitem)
 //            }
 //        }
-//        
-//        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+//
+//        return  UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
 //            UIMenu(title: "", children: [currdntDiaryModifing, currentDiaryDelete])
 //        }
 //    }
+//
 //}

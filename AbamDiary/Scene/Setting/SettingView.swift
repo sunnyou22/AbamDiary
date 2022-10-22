@@ -8,16 +8,16 @@
 import UIKit
 import SnapKit
 
-//final class HeaderView: UICollectionReusableView {
-//
-//  override init(frame: CGRect) {
-//    super.init(frame: frame)
-//  }
-//
-//  required init?(coder: NSCoder) {
-//    fatalError("init(coder:) has not been implemented")
-//  }
-//}
+final class HeaderView: UICollectionReusableView {
+
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+  }
+
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+}
 
 class SettingView: BaseView {
     
