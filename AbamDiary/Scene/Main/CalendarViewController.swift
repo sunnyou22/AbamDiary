@@ -18,9 +18,9 @@ import FirebaseAnalytics
 class CalendarViewController: BaseViewController {
     
     let mainview = MainView()
-    static var gageCountModel = GageModel()
-    var changeMorningcount: Float = 0 // 테스트용
-    var changeNightcount: Float = 0 // 테스트용
+    var calendarModel = CalendarModel()
+    var changeMorningcount: Float = 0
+    var changeNightcount: Float = 0
     var progress: Float = 0 // 변수로 빼줘야 동작
     let digit: Float = pow(10, 2) // 10의 2제곱
     var cell: CalendarTableViewCell? // 셀 인스턴스 통일시켜줘야 플레이스홀더 오류 없어짐
@@ -43,6 +43,24 @@ class CalendarViewController: BaseViewController {
     var diaryList: [Diary?]?
     var isExpanded = false
     
+    //MARK: bindData
+    func bindData() {
+        //MARK: gage변하는 값에 대한 관찰시작
+        calendarModel.morningDiaryCount.bind { [weak self] count in
+            self?.changeMorningcount = count
+        }
+        
+        calendarModel.nightDiaryCount.bind { [weak self] count in
+            self?.changeNightcount = count
+        }
+        
+        calendarModel.isExpanded.bind { [weak self] bool in
+            self?.isExpanded = bool
+        }
+    }
+    
+    
+    
     //MARK: - LoadView
     override func loadView() {
         self.view = mainview
@@ -60,14 +78,8 @@ class CalendarViewController: BaseViewController {
         mainview.calendar.dataSource = self
         mainview.calendar.delegate = self
         
-        //MARK: 변하는 값에 대한 관찰시작
-        CalendarViewController.gageCountModel.morningDiaryCount.bind { count in
-            self.changeMorningcount = count
-        }
+      
         
-        CalendarViewController.gageCountModel.nightDiaryCount.bind { count in
-            self.changeNightcount = count
-        }
         setNavigation()
         
         mainview.cheerupMessage.speed = .duration(36)
@@ -99,7 +111,7 @@ class CalendarViewController: BaseViewController {
     }
     
     @objc private func pauseRestart(_ sender: UIButton) {
-        isExpanded = !isExpanded
+        isExpanded = !calendarModel.isExpanded.value
         
         if isExpanded {
            mainview.cheerupMessage.pauseLabel()
@@ -450,7 +462,7 @@ extension CalendarViewController {
             return task.type == 0
         }.count
         
-        CalendarViewController.gageCountModel.morningDiaryCount.value = Float(filterMorningcount)
+        calendarModel.morningDiaryCount.value = Float(filterMorningcount)
         self.changeMorningcount = Float(filterMorningcount)
     }
     
@@ -461,7 +473,7 @@ extension CalendarViewController {
             return task.type == 1
         }.count
                 
-        CalendarViewController.gageCountModel.nightDiaryCount.value = Float(filterNightcount)
+        calendarModel.nightDiaryCount.value = Float(filterNightcount)
         self.changeNightcount = Float(filterNightcount)
     }
     

@@ -20,6 +20,7 @@ class PopUpViewController: BaseViewController {
     
     let morningDiaryCount: UILabel = {
         let view = UILabel()
+        //calendarVC 의존관계 끊기
         let count = Int(CalendarViewController.gageCountModel.morningDiaryCount.value)
         view.text = "아침일기: \(count)개"
         view.font = UIFont.systemFont(ofSize: FontSize.label_14, weight: .medium)
