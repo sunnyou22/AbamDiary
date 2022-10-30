@@ -32,7 +32,7 @@ class CheerupViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let navigationtitleView = navigationTitleVIew()
+        let navigationtitleView = NavigationTitleVIew()
         
         self.navigationController?.navigationBar.tintColor = Color.BaseColorWtihDark.navigationBarItem
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: Color.BaseColorWtihDark.navigationBarItem]

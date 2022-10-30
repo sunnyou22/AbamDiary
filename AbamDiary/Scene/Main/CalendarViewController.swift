@@ -19,13 +19,12 @@ class CalendarViewController: BaseViewController {
     
     let mainview = MainView()
     var calendarModel = CalendarModel()
-    var changeMorningcount: Float = 0
-    var changeNightcount: Float = 0
-    var progress: Float = 0 // 변수로 빼줘야 동작
-    let digit: Float = pow(10, 2) // 10의 2제곱
+    
+    
     var cell: CalendarTableViewCell? // 셀 인스턴스 통일시켜줘야 플레이스홀더 오류 없어짐
     var preparedCell: CalendarTableViewCell?
     
+    //뷰모델로 빼줌
     var tasks: Results<Diary>! {
         didSet {
             mainview.tableView.reloadData()
@@ -37,29 +36,27 @@ class CalendarViewController: BaseViewController {
         }
     }
     
-    var monthFilterTasks: Results<Diary>!
-    var moningTask: Diary?
-    var nightTask: Diary? // 캘린더에 해당하는 날짜를 받아오기 위함
-    var diaryList: [Diary?]?
-    var isExpanded = false
+    //    var monthFilterTasks: Results<Diary>!
+    //    var moningTask: Diary?
+    //    var nightTask: Diary? // 캘린더에 해당하는 날짜를 받아오기 위함
+    //    var diaryList: [Diary?]?
+    //    var isExpanded = false
     
     //MARK: bindData
-    func bindData() {
-        //MARK: gage변하는 값에 대한 관찰시작
-        calendarModel.morningDiaryCount.bind { [weak self] count in
-            self?.changeMorningcount = count
-        }
-        
-        calendarModel.nightDiaryCount.bind { [weak self] count in
-            self?.changeNightcount = count
-        }
-        
-        calendarModel.isExpanded.bind { [weak self] bool in
-            self?.isExpanded = bool
-        }
-    }
-    
-    
+    //    func bindData() {
+    //        //MARK: gage변하는 값에 대한 관찰시작
+    //        calendarModel.changeMorningcount.bind { [weak self] count in
+    //            self?.changeMorningcount = count
+    //        }
+    //
+    //        calendarModel.changeNightcount.bind { [weak self] count in
+    //            self?.changeNightcount = count
+    //        }
+    //
+    //        calendarModel.isExpanded.bind { [weak self] bool in
+    //            self?.isExpanded = bool
+    //        }
+    //    }
     
     //MARK: - LoadView
     override func loadView() {
@@ -69,7 +66,7 @@ class CalendarViewController: BaseViewController {
     //MARK: - viewDidload
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         SettiongViewController.requestAutorization()
         
         mainview.tableView.delegate = self
@@ -78,7 +75,7 @@ class CalendarViewController: BaseViewController {
         mainview.calendar.dataSource = self
         mainview.calendar.delegate = self
         
-      
+        //        bindData()
         
         setNavigation()
         
@@ -87,11 +84,11 @@ class CalendarViewController: BaseViewController {
         
         UserDefaultHelper.shared.initialUser = true
     }
-   
+    
     private func setNavigation() {
         self.navigationController?.navigationBar.prefersLargeTitles = false
         
-        let navigationtitleView = navigationTitleVIew()
+        let navigationtitleView = NavigationTitleVIew()
         let config = UIImage.SymbolConfiguration(pointSize: 17, weight: .bold)
         
         let settingButton = UIBarButtonItem(image: UIImage(systemName: "gearshape", withConfiguration: config), style: .plain, target: self, action: #selector(gosettingVC))
@@ -102,7 +99,7 @@ class CalendarViewController: BaseViewController {
         self.navigationController?.navigationBar.tintColor = Color.BaseColorWtihDark.navigationBarItem
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: Color.BaseColorWtihDark.navigationBarItem]
         
-    navigationItem.largeTitleDisplayMode = .never
+        navigationItem.largeTitleDisplayMode = .never
     }
     
     @objc private func gosettingVC() {
@@ -114,7 +111,7 @@ class CalendarViewController: BaseViewController {
         isExpanded = !calendarModel.isExpanded.value
         
         if isExpanded {
-           mainview.cheerupMessage.pauseLabel()
+            mainview.cheerupMessage.pauseLabel()
         } else {
             mainview.cheerupMessage.unpauseLabel()
         }
@@ -125,12 +122,12 @@ class CalendarViewController: BaseViewController {
         super.viewWillAppear(animated)
         print(#function, "=============================")
         mainview.profileImage.image = CustomFileManager.shared.loadImageFromDocument(fileName: "profile.jpg")
-       
-        fetchRealm() // 램 패치
-     
+        
+        calendarModel.fetchRealm()
+        
         //카운트 세팅
-        calculateMoringDiary()
-        calculateNightDiary()
+        calendarModel.calculateMoringDiary()
+        calendarModel.calculateNightDiary()
         animationUIImage()
         
         guard changeMorningcount != 0.0 || changeNightcount != 0.0 else {
@@ -140,55 +137,23 @@ class CalendarViewController: BaseViewController {
         }
         
         //화면이 로드될 때도 호출되야하기 때문에 여기서만 걸어주기
-
+        
         setProgressRetio()
         animationUIImage()
-       
-       //랜덤응원메세지 반영
+        
+        //랜덤응원메세지 반영
         mainview.cheerupMessage.text = CheerupMessageRepository.shared.fetchDate(ascending: false).randomElement()?.cheerup ?? "응원의 메세지를 추가해보세요!"
-       self.tabBarController?.tabBar.isHidden = false
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         mainview.cheerupMessage.text = CheerupMessageRepository.shared.fetchDate(ascending: false).randomElement()?.cheerup ?? "응원의 메세지를 추가해보세요!"
     }
-    
-    private func fetchRealm() {
-        tasks = OneDayDiaryRepository.shared.fetchLatestOrder()
-        diaryTypefilterDate()
-        
-        //시간잘 맞춰서 해당 달의 날짜가 들어옴
-        monthFilterTasks = OneDayDiaryRepository.shared.fetchFilterMonth(start: CustomFormatter.isStarDateOfMonth(), last: CustomFormatter.isDateEndOfMonth())
-    }
-    
-    //MARK: 여기서 아침일기 저녁일기 task 생성
-    private func diaryTypefilterDate() {
-        
-        let selectedDate = CustomFormatter.setDateFormatter(date: mainview.calendar.selectedDate ?? Date())
-        let calendarToday = CustomFormatter.setDateFormatter(date: mainview.calendar.today!)
-        let today =  CustomFormatter.setDateFormatter(date: Date())
-        
-        //self.dateFilterTask = OneDayDiaryRepository.shared.fetchDate(date: Date())[0] -> 왜 이렇게 하면안됨? 오늘 작성한게 많을수도 있잖아
-        
-        // 오늘인 캘린더를 띄워서 경우
-        if mainview.calendar.selectedDate == nil, calendarToday == today  {
-            moningTask = OneDayDiaryRepository.shared.fetchDate(date: mainview.calendar.today!, type: 0).first
-            nightTask = OneDayDiaryRepository.shared.fetchDate(date: mainview.calendar.today!, type: 1).first
-            // 오늘을 선택한 경우
-        } else if mainview.calendar.selectedDate != nil, selectedDate == today {
-            moningTask = OneDayDiaryRepository.shared.fetchDate(date: mainview.calendar.today!, type: 0).first // nil이 들어올 수 있음
-            nightTask = OneDayDiaryRepository.shared.fetchDate(date: mainview.calendar.today!, type: 1).first
-            // 오늘이 아닌 다른 날을 선택한 경우
-        } else if mainview.calendar.selectedDate != nil, selectedDate != today {
-            moningTask = OneDayDiaryRepository.shared.fetchDate(date: mainview.calendar.selectedDate!, type: 0).first
-            nightTask = OneDayDiaryRepository.shared.fetchDate(date: mainview.calendar.selectedDate!, type: 1).first
-        } else {
-            moningTask = nil
-            nightTask = nil
-        }
-    }
 }
+    
+    
+   
 
 //램 데이터 기반으로 바꾸기
 extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
@@ -218,7 +183,7 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
             cell.selectionStyle = .none
             return UITableViewCell()
         }
-      // 내용 셀에 적용
+        // 내용 셀에 적용
         cell.diaryLabel.text = diaryList[indexPath.row]?.contents ?? placeholder[indexPath.row]
         guard let time = diaryList[indexPath.row]?.createdDate else {
             cell.dateLabel.text = "--:--"
@@ -266,7 +231,7 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
     
     private func setWritModeAndTransition(_ mode: WriteMode, diaryType: MorningAndNight, task: Diary?) {
         let vc = WriteViewController(diarytype: diaryType, writeMode: mode)
-       
+        
         vc.data = task
         vc.selectedDate = mainview.calendar.selectedDate ?? Date()
         //task nil 로 분기해보기
@@ -311,11 +276,6 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
         
         if lastDate == calendarDay && lastDate == calendarToday {
             let vc = PopUpViewController()
-//
-//            Analytics.logEvent("lastDayPopup", parameters: [
-//                "name": "\(lastDate)",
-//            ])
-            
             vc.modalPresentationStyle = .overFullScreen
             present(vc, animated: true)
         }
@@ -346,16 +306,16 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
         let nightTask = tasks.filter { task in
             CustomFormatter.setCellTitleDateFormatter(date: task.selecteddate ?? Date()) == test
         }.first { $0.type == 1 }
-      
-            if moningTask != nil && nightTask != nil {
-                return [Color.BaseColorWtihDark.setCalendarPoint(type: .morning), Color.BaseColorWtihDark.setCalendarPoint(type: .night)]
-            } else if moningTask == nil && nightTask == nil {
-                return nil
-            } else if moningTask != nil && nightTask == nil {
-                return [Color.BaseColorWtihDark.setCalendarPoint(type: .morning)]
-            } else if moningTask == nil && nightTask != nil {
-                return [Color.BaseColorWtihDark.setCalendarPoint(type: .night)]
-            }
+        
+        if moningTask != nil && nightTask != nil {
+            return [Color.BaseColorWtihDark.setCalendarPoint(type: .morning), Color.BaseColorWtihDark.setCalendarPoint(type: .night)]
+        } else if moningTask == nil && nightTask == nil {
+            return nil
+        } else if moningTask != nil && nightTask == nil {
+            return [Color.BaseColorWtihDark.setCalendarPoint(type: .morning)]
+        } else if moningTask == nil && nightTask != nil {
+            return [Color.BaseColorWtihDark.setCalendarPoint(type: .night)]
+        }
         
         return nil
     }
@@ -369,20 +329,20 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
         let nightTask = tasks.filter { task in
             CustomFormatter.setCellTitleDateFormatter(date: task.selecteddate ?? Date()) == test
         }.first { $0.type == 1 }
-      
-            if moningTask != nil && nightTask != nil {
-                return [Color.BaseColorWtihDark.setCalendarPoint(type: .morning), Color.BaseColorWtihDark.setCalendarPoint(type: .night)]
-            } else if moningTask == nil && nightTask == nil {
-                return nil
-            } else if moningTask != nil && nightTask == nil {
-                return [Color.BaseColorWtihDark.setCalendarPoint(type: .morning)]
-            } else if moningTask == nil && nightTask != nil {
-                return [Color.BaseColorWtihDark.setCalendarPoint(type: .night)]
-            }
+        
+        if moningTask != nil && nightTask != nil {
+            return [Color.BaseColorWtihDark.setCalendarPoint(type: .morning), Color.BaseColorWtihDark.setCalendarPoint(type: .night)]
+        } else if moningTask == nil && nightTask == nil {
+            return nil
+        } else if moningTask != nil && nightTask == nil {
+            return [Color.BaseColorWtihDark.setCalendarPoint(type: .morning)]
+        } else if moningTask == nil && nightTask != nil {
+            return [Color.BaseColorWtihDark.setCalendarPoint(type: .night)]
+        }
         
         return nil
     }
- 
+    
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillDefaultColorFor date: Date) -> UIColor? {
         
         let lastDate = CustomFormatter.setDateFormatter(date:  CustomFormatter.isDateEndOfMonth())
@@ -429,7 +389,7 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
 }
 
 //MARK: 네비게이션 타이틀 뷰 커스텀
-class navigationTitleVIew: BaseView {
+class NavigationTitleVIew: BaseView {
     let title: UILabel = {
         let view = UILabel()
         view.text = "ABAM"
@@ -455,40 +415,6 @@ class navigationTitleVIew: BaseView {
 //MARK: - 애니메이션 Extension => 모델로 빼주기
 extension CalendarViewController {
     
-    //아침일기 개수 계산
-    private func calculateMoringDiary() {
-
-        let filterMorningcount = monthFilterTasks.filter { task in
-            return task.type == 0
-        }.count
-        
-        calendarModel.morningDiaryCount.value = Float(filterMorningcount)
-        self.changeMorningcount = Float(filterMorningcount)
-    }
-    
-    //저녁일기 개수 계산
-    private func calculateNightDiary() {
-
-        let filterNightcount = monthFilterTasks.filter { task in
-            return task.type == 1
-        }.count
-                
-        calendarModel.nightDiaryCount.value = Float(filterNightcount)
-        self.changeNightcount = Float(filterNightcount)
-    }
-    
-    private func setProgressRetio() {
-        let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeMorningcount + self.changeNightcount)) * digit) / digit)
-        
-        if moringCountRatio.isNaN {
-            progress = 0
-        } else {
-            progress = moringCountRatio
-        }
-        mainview.progressBar.setProgress(progress, animated: true)
-    }
-    
-    
     //MARK: 이미지 애니메이션
     private func animationUIImage() {
         
@@ -504,7 +430,7 @@ extension CalendarViewController {
             if moringCountRatio < 0.5 || moringCountRatio > 0.5 {
                 self.mainview.profileImage.transform = .identity
                 self.mainview.profileImage.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
-                 
+                
             } else {
                 self.mainview.profileImage.transform = .identity
             }

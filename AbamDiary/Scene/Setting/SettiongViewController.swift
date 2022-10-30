@@ -49,7 +49,7 @@ class SettiongViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let navigationtitleView = navigationTitleVIew()
+        let navigationtitleView = NavigationTitleVIew()
 //        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navigationtitleView)
         settingView.tableView.delegate = self
         settingView.tableView.dataSource = self

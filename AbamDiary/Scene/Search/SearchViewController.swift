@@ -75,7 +75,7 @@ class SearchViewController: BaseViewController, UICollectionViewDelegate {
         self.navigationItem.hidesSearchBarWhenScrolling = false
         searchController.searchResultsUpdater = self
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        let navigationtitleView = navigationTitleVIew()
+        let navigationtitleView = NavigationTitleVIew()
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navigationtitleView)
         
         let barAppearance = UINavigationBarAppearance()

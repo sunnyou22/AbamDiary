@@ -26,6 +26,7 @@ class Observable<T> {
         self.value = value
     }
     
+    //바뀔때마다 값을 반영해주는 메서드
     func bind(_ closusre: @escaping (T) -> Void) {
         closusre(value)
         listener = closusre
