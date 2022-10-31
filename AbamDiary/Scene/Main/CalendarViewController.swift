@@ -19,44 +19,38 @@ class CalendarViewController: BaseViewController {
     
     let mainview = MainView()
     var calendarModel = CalendarModel()
-    
-    
     var cell: CalendarTableViewCell? // 셀 인스턴스 통일시켜줘야 플레이스홀더 오류 없어짐
     var preparedCell: CalendarTableViewCell?
-    
-    //뷰모델로 빼줌
-    var tasks: Results<Diary>! {
-        didSet {
-            mainview.tableView.reloadData()
-            DispatchQueue.main.async {
-                self.mainview.calendar.reloadData()
-            }
-            print("Realm is located at:", OneDayDiaryRepository.shared.localRealm.configuration.fileURL!)
-            print("리로드캘린더♻️")
-        }
-    }
+    var isExpanded: Bool?
     
     //    var monthFilterTasks: Results<Diary>!
     //    var moningTask: Diary?
     //    var nightTask: Diary? // 캘린더에 해당하는 날짜를 받아오기 위함
-    //    var diaryList: [Diary?]?
+
     //    var isExpanded = false
     
     //MARK: bindData
-    //    func bindData() {
-    //        //MARK: gage변하는 값에 대한 관찰시작
-    //        calendarModel.changeMorningcount.bind { [weak self] count in
-    //            self?.changeMorningcount = count
-    //        }
-    //
-    //        calendarModel.changeNightcount.bind { [weak self] count in
-    //            self?.changeNightcount = count
-    //        }
-    //
-    //        calendarModel.isExpanded.bind { [weak self] bool in
-    //            self?.isExpanded = bool
-    //        }
-    //    }
+        func bindData() {
+            
+            calendarModel.tasks.bind { [weak self] value in
+                self?.mainview.tableView.reloadData()
+                DispatchQueue.main.async {
+                    self?.mainview.calendar.reloadData()
+                }
+                print("Realm is located at:", OneDayDiaryRepository.shared.localRealm.configuration.fileURL!)
+                print("리로드캘린더♻️")
+            }
+            
+            calendarModel.fetchRealm()
+            
+            calendarModel.changeMorningcount.bind { [weak self] _ in
+                self?.calendarModel.calculateMornigDiary()
+            }
+            
+            calendarModel.changeNightcount.bind { [weak self] _ in
+                self?.calendarModel.calculateNightDiary()
+            }
+        }
     
     //MARK: - LoadView
     override func loadView() {
@@ -108,12 +102,16 @@ class CalendarViewController: BaseViewController {
     }
     
     @objc private func pauseRestart(_ sender: UIButton) {
-        isExpanded = !calendarModel.isExpanded.value
-        
-        if isExpanded {
-            mainview.cheerupMessage.pauseLabel()
-        } else {
-            mainview.cheerupMessage.unpauseLabel()
+        calendarModel.isExpanded.bind { [weak self] value in
+            guard var isExpanded = self?.isExpanded else { return }
+            
+            isExpanded = !value
+            
+            if isExpanded {
+                self?.mainview.cheerupMessage.pauseLabel()
+            } else {
+                self?.mainview.cheerupMessage.unpauseLabel()
+            }
         }
     }
     
@@ -121,25 +119,19 @@ class CalendarViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print(#function, "=============================")
+    
         mainview.profileImage.image = CustomFileManager.shared.loadImageFromDocument(fileName: "profile.jpg")
-        
-        calendarModel.fetchRealm()
+     
+        bindData()
         
         //카운트 세팅
-        calendarModel.calculateMoringDiary()
-        calendarModel.calculateNightDiary()
-        animationUIImage()
-        
-        guard changeMorningcount != 0.0 || changeNightcount != 0.0 else {
+        calendarModel.checkCount {
             animationUIImage()
             mainview.progressBar.progress = 0.5
-            return
+        } nonzero: {
+            calendarModel.setProgressRetio()
+            animationUIImage()
         }
-        
-        //화면이 로드될 때도 호출되야하기 때문에 여기서만 걸어주기
-        
-        setProgressRetio()
-        animationUIImage()
         
         //랜덤응원메세지 반영
         mainview.cheerupMessage.text = CheerupMessageRepository.shared.fetchDate(ascending: false).randomElement()?.cheerup ?? "응원의 메세지를 추가해보세요!"
@@ -151,9 +143,7 @@ class CalendarViewController: BaseViewController {
         mainview.cheerupMessage.text = CheerupMessageRepository.shared.fetchDate(ascending: false).randomElement()?.cheerup ?? "응원의 메세지를 추가해보세요!"
     }
 }
-    
-    
-   
+ 
 
 //램 데이터 기반으로 바꾸기
 extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
@@ -171,10 +161,10 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = fetchCell(tableView, didSelectRowAt: indexPath)
         let placeholder = ["오늘 아침! 당신의 한줄은 무엇인가요?", "오늘 밤! 당신의 한줄은 무엇인가요?"]
         
-        diaryList = [moningTask, nightTask]
+        calendarModel.diaryList.value = [calendarModel.moningTask.value, calendarModel.nightTask.value]
         
         //배열의 옵셔널 풀어주기
-        guard let diaryList = diaryList else {
+        guard let diaryList = calendarModel.diaryList.value else {
             cell.diaryLabel.text = placeholder[indexPath.row]
             cell.dateLabel.text = "--:--"
             
@@ -205,15 +195,15 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if indexPath.row == 0 {
-            guard let moningTask = moningTask else  {
-                setWritModeAndTransition(.newDiary, diaryType: .morning, task: moningTask)
+            guard let moningTask = calendarModel.moningTask.value else  {
+            setWritModeAndTransition(.newDiary, diaryType: .morning, task: calendarModel.moningTask.value)
                 return
             }
             setWritModeAndTransition(.modified, diaryType: .morning, task: moningTask)
             
         } else {
-            guard let nightTask = nightTask else  {
-                setWritModeAndTransition(.newDiary, diaryType: .night, task: nightTask)
+            guard let nightTask = calendarModel.nightTask.value else  {
+                setWritModeAndTransition(.newDiary, diaryType: .night, task: calendarModel.nightTask.value)
                 return
             }
             setWritModeAndTransition(.modified, diaryType: .night, task: nightTask)
@@ -266,7 +256,7 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
     }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        diaryTypefilterDate()
+        calendarModel.diaryTypefilterDate()
         mainview.tableView.reloadData()
         mainview.cellTitle.text = CustomFormatter.setCellTitleDateFormatter(date: date)
         
@@ -282,6 +272,12 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
     }
     
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+        
+        guard let tasks = calendarModel.tasks.value else {
+            print(#function ,"tasks가 없습니다.")
+            return 0
+        }
+        
         let test = CustomFormatter.setDateFormatter(date: date)
         let testArr = tasks.filter { task in
             CustomFormatter.setDateFormatter(date: task.selecteddate ?? Date()) == test
@@ -297,6 +293,11 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
     }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventDefaultColorsFor date: Date) -> [UIColor]? {
+        
+        guard let tasks = calendarModel.tasks.value else {
+            print(#function ,"tasks가 없습니다.")
+            return nil
+        }
         
         let test = CustomFormatter.setCellTitleDateFormatter(date: date)
         //해당날짜에 맞는 걸로 필터
@@ -321,6 +322,12 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
     }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventSelectionColorsFor date: Date) -> [UIColor]? {
+        
+        guard let tasks = calendarModel.tasks.value else {
+            print(#function ,"tasks가 없습니다.")
+            return nil
+        }
+        
         let test = CustomFormatter.setCellTitleDateFormatter(date: date)
         //해당날짜에 맞는 걸로 필터
         let moningTask = tasks.filter { task in
@@ -417,15 +424,14 @@ extension CalendarViewController {
     
     //MARK: 이미지 애니메이션
     private func animationUIImage() {
+        let digit: Float = pow(10, 2)
+        let moringCountRatio = calendarModel.moringCountRatio()
+        let width = Float(self.mainview.progressBar.frame.size.width) * moringCountRatio - (Float(self.mainview.progressBar.frame.size.width) / 2)
+        let newWidth = (round(width) * digit) / digit
         
         UIImageView.animate(withDuration: 0.4) {
-            let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeNightcount + self.changeMorningcount)) * self.digit) / self.digit)
-            
-            let width = Float(self.mainview.progressBar.frame.size.width) * moringCountRatio - (Float(self.mainview.progressBar.frame.size.width) / 2)
             
             self.mainview.progressBar.transform = .identity
-            
-            let newWidth = (round(width) * self.digit) / self.digit
             
             if moringCountRatio < 0.5 || moringCountRatio > 0.5 {
                 self.mainview.profileImage.transform = .identity
@@ -434,14 +440,8 @@ extension CalendarViewController {
             } else {
                 self.mainview.profileImage.transform = .identity
             }
-            
-            
         } completion: { [weak self] _ in
             guard let self = self else { return }
-            let moringCountRatio: Float = (round((self.changeMorningcount / (self.changeMorningcount + self.changeNightcount)) * self.digit) / self.digit)
-            let width: Float = Float(self.mainview.progressBar.frame.size.width) * moringCountRatio - (Float(self.mainview.progressBar.frame.size.width) / 2)
-            let newWidth = (round(width) * self.digit) / self.digit
-            
             
             if moringCountRatio < 0.5 {
                 self.mainview.profileImage.transform = .identity
@@ -454,6 +454,5 @@ extension CalendarViewController {
                 self.mainview.profileImage.transform = .identity
             }
         }
-        
     }
 }

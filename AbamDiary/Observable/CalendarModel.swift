@@ -21,7 +21,8 @@ final class CalendarModel {
     
     var moningTask: Observable<Diary?> = Observable(nil)
     var nightTask: Observable<Diary?> = Observable(nil)
-    
+    var diaryList: Observable<[Diary?]?> = Observable(nil)
+
     var selectedDate: Observable<Date?> = Observable(nil)
     var calendarToday: Observable<Date> = Observable(Date())
     
@@ -29,7 +30,7 @@ final class CalendarModel {
     var progress: Float = 0 // 변수로 빼줘야 동작
     
     //MARK: 여기서 아침일기 저녁일기 task 생성
-  func diaryTypefilterDate() {
+    func diaryTypefilterDate() {
         
         //mainview.calendar.selectedDate
         let selectedDate = CustomFormatter.setDateFormatter(date: selectedDate.value ?? Date())
@@ -56,6 +57,22 @@ final class CalendarModel {
         }
 }
     
+    func checkCount(zero: (() -> Void), nonzero: (() -> Void)) {
+        guard changeMorningcount.value != 0.0 || changeNightcount.value != 0.0 else {
+            zero()
+            return
+        }
+        nonzero()
+    }
+    
+    func moringCountRatio() -> Float {
+        let plus: Float = changeMorningcount.value + changeNightcount.value
+        let round: Float = round((changeMorningcount.value / plus) * digit)
+        let moringCountRatio: Float = round / digit
+        
+        return moringCountRatio
+    }
+    
     func fetchRealm() {
 
         tasks.value = OneDayDiaryRepository.shared.fetchLatestOrder()
@@ -66,27 +83,26 @@ final class CalendarModel {
     }
     
     //아침일기 개수 계산
- func calculateMoringDiary() {
+ func calculateMornigDiary() {
         let filterMorningcount = monthFilterTasks.filter { task in
             return task.type == 0
         }.count
         
         changeMorningcount.value = Float(filterMorningcount)
-        changeNightcount.value = Float(filterMorningcount)
+//        changeNightcount.value = Float(filterMorningcount)
     }
     
     //저녁일기 개수 계산
   func calculateNightDiary() {
-        
         let filterNightcount = monthFilterTasks.filter { task in
             return task.type == 1
         }.count
         
-        changeMorningcount.value = Float(filterNightcount)
+//        changeMorningcount.value = Float(filterNightcount)
         changeNightcount.value = Float(filterNightcount)
     }
     
-   func setProgressRetio(completionHandler: (() -> Void)) {
+   func setProgressRetio() {
         let moringCountRatio: Float = (round((changeMorningcount.value / (changeMorningcount.value + changeNightcount.value)) * digit) / digit)
         
         if moringCountRatio.isNaN {
@@ -97,6 +113,6 @@ final class CalendarModel {
         
        //mainview.progressBar.setProgress(progress, animated: true)
         //completionHandler에 넣어주기
-        completionHandler()
+//        completionHandler()
     }
 }

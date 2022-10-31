@@ -8,8 +8,7 @@
 import UIKit
 import SnapKit
 
-class PopUpViewController: BaseViewController {
-    
+class PopView: BaseView {
     let popView: UIView = {
         let view = UIView()
         view.backgroundColor = Color.BaseColorWtihDark.backgorund
@@ -18,19 +17,15 @@ class PopUpViewController: BaseViewController {
         return view
     }()
     
-    let morningDiaryCount: UILabel = {
+    var morningDiaryCount: UILabel = {
         let view = UILabel()
         //calendarVC 의존관계 끊기
-        let count = Int(CalendarViewController.gageCountModel.morningDiaryCount.value)
-        view.text = "아침일기: \(count)개"
         view.font = UIFont.systemFont(ofSize: FontSize.label_14, weight: .medium)
         return view
     }()
     
     let nightDiaryCount: UILabel = {
         let view = UILabel()
-        let count = Int(CalendarViewController.gageCountModel.nightDiaryCount.value)
-        view.text = "저녁일기: \(count)개"
         view.font = UIFont.systemFont(ofSize: FontSize.label_14, weight: .medium)
         return view
     }()
@@ -61,12 +56,74 @@ class PopUpViewController: BaseViewController {
          return view
      }()
     
+    override func configuration() {
+        [morningDiaryCount, nightDiaryCount, resultLabel, profileBackView, profileimageView].forEach { popView.addSubview($0) }
+        self.addSubview(popView)
+    }
+    
+    override func setConstraints() {
+        
+        popView.snp.makeConstraints { make in
+            make.center.equalTo(self.snp.center)
+            make.width.equalTo(240)
+            make.height.equalTo(240)
+            
+        }
+        
+        morningDiaryCount.snp.makeConstraints { make in
+            make.bottom.equalTo(nightDiaryCount.snp.top).offset(-8)
+            make.centerX.equalTo(self.snp.centerX)
+        }
+        
+        nightDiaryCount.snp.makeConstraints { make in
+            make.bottom.equalTo(resultLabel.snp.top).offset(-30)
+            make.centerX.equalTo(self.snp.centerX)
+        }
+        
+        resultLabel.snp.makeConstraints { make in
+            make.center.equalTo(self.snp.center)
+        }
+        
+        profileimageView.snp.makeConstraints { make in
+            make.top.equalTo(resultLabel.snp.bottom).offset(30)
+            make.centerX.equalTo(self.snp.centerX)
+            make.width.equalTo(60)
+            make.height.equalTo(60)
+        }
+        
+        profileBackView.snp.makeConstraints { make in
+            make.bottom.equalTo(profileimageView.snp.bottom)
+            make.trailing.equalTo(profileimageView.snp.trailing).offset(8)
+            make.width.equalTo(profileimageView.snp.width).multipliedBy(1.1)
+            make.height.equalTo(profileimageView.snp.height).multipliedBy(1.1)
+        }
+    }
+}
+
+class PopUpViewController: BaseViewController {
+    
+    var popView = PopView()
+    let viewModel = CalendarModel()
+    
+    override func loadView() {
+        view = popView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        viewModel.changeMorningcount.bind { [weak self] value in
+            self?.popView.morningDiaryCount.text = "아침일기: \(value)개"
+        }
+        
+        viewModel.changeNightcount.bind { [weak self] value in
+            self?.popView.nightDiaryCount.text = "저녁일기: \(value)개"
+        }
+        
         view.backgroundColor = .black.withAlphaComponent(0.4)
         view.isOpaque = false
         
-        profileimageView.image = CustomFileManager.shared.loadImageFromDocument(fileName: "profile.jpg")
+        popView.profileimageView.image = CustomFileManager.shared.loadImageFromDocument(fileName: "profile.jpg")
         swipeDown()
         self.navigationController?.tabBarController?.tabBar.isUserInteractionEnabled = false
     }
@@ -79,52 +136,9 @@ class PopUpViewController: BaseViewController {
         super.viewWillAppear(animated)
     }
     
-    override func setValueOfView() {
-        setResultLabel(resultLabel)
-    }
-    
-    override func configuration() {
-        [morningDiaryCount, nightDiaryCount, resultLabel, profileBackView, profileimageView].forEach { popView.addSubview($0) }
-        view.addSubview(popView)
-    }
-    
-    override func setConstraints() {
-        
-        popView.snp.makeConstraints { make in
-            make.center.equalTo(view.snp.center)
-            make.width.equalTo(240)
-            make.height.equalTo(240)
-            
-        }
-        
-        morningDiaryCount.snp.makeConstraints { make in
-            make.bottom.equalTo(nightDiaryCount.snp.top).offset(-8)
-            make.centerX.equalTo(view.snp.centerX)
-        }
-        
-        nightDiaryCount.snp.makeConstraints { make in
-            make.bottom.equalTo(resultLabel.snp.top).offset(-30)
-            make.centerX.equalTo(view.snp.centerX)
-        }
-        
-        resultLabel.snp.makeConstraints { make in
-            make.center.equalTo(view.snp.center)
-        }
-        
-        profileimageView.snp.makeConstraints { make in
-            make.top.equalTo(resultLabel.snp.bottom).offset(30)
-            make.centerX.equalTo(view.snp.centerX)
-            make.width.equalTo(60)
-            make.height.equalTo(60)
-        }
-      
-        profileBackView.snp.makeConstraints { make in
-            make.bottom.equalTo(profileimageView.snp.bottom)
-            make.trailing.equalTo(profileimageView.snp.trailing).offset(8)
-            make.width.equalTo(profileimageView.snp.width).multipliedBy(1.1)
-            make.height.equalTo(profileimageView.snp.height).multipliedBy(1.1)
-        }
-    }
+       override func setValueOfView() {
+           setResultLabel(popView.resultLabel)
+       }
     
     //MARK: - 메서드
     private func setResultLabelComponent(m: Float, n: Float) -> String? {
@@ -141,8 +155,8 @@ class PopUpViewController: BaseViewController {
     }
     
     private func setResultLabel(_ view: UILabel) {
-        let m = CalendarViewController.gageCountModel.morningDiaryCount.value
-        let n = CalendarViewController.gageCountModel.nightDiaryCount.value
+        let m = viewModel.changeMorningcount.value
+        let n = viewModel.changeNightcount.value
         
         guard let result = setResultLabelComponent(m: m, n: n) else {
             view.text = "어떤 아밤인지 모르겠어요 🤔"
