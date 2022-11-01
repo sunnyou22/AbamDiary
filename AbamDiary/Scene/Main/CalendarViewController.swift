@@ -43,7 +43,7 @@ class CalendarViewController: BaseViewController {
             }
             
             //데이터 fetch
-            calendarModel.fetchRealm()
+            calendarModel.fetchRealm(calendar: mainview.calendar)
             
             //한달 일기 아침task count 구하기
             calendarModel.monthFilterTasks.bind { [weak self] list in
@@ -179,7 +179,7 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         let placeholder = ["오늘 아침! 당신의 한줄은 무엇인가요?", "오늘 밤! 당신의 한줄은 무엇인가요?"]
         
         calendarModel.diaryList.value = [calendarModel.moningTask.value, calendarModel.nightTask.value]
-        
+        print(calendarModel.diaryList.value, "================🤯")
         //배열의 옵셔널 풀어주기
         guard let diaryList = calendarModel.diaryList.value else {
             cell.diaryLabel.text = placeholder[indexPath.row]
@@ -273,7 +273,7 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCa
     }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        calendarModel.diaryTypefilterDate()
+        calendarModel.diaryTypefilterDate(calendar: calendar)
         mainview.tableView.reloadData()
         mainview.cellTitle.text = CustomFormatter.setCellTitleDateFormatter(date: date)
         

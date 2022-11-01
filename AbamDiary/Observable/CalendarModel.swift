@@ -8,6 +8,7 @@
 import Foundation
 
 import RealmSwift
+import FSCalendar
 
 final class CalendarModel {
 
@@ -19,38 +20,36 @@ final class CalendarModel {
     
     var moningTask: Observable<Diary?> = Observable(nil)
     var nightTask: Observable<Diary?> = Observable(nil)
-    var diaryList: Observable<[Diary?]?> = Observable(nil)
+    var diaryList: Observable<[Diary?]?> = Observable([nil])
 
-    var selectedDate: Observable<Date?> = Observable(nil)
-    var calendarToday: Observable<Date> = Observable(Date())
-    
     let digit: Float = pow(10, 2) // 10의 2제곱
     var progress: Float = 0 // 변수로 빼줘야 동작
 
     var filterMorningcount: Observable<Int> = Observable(0)
     var filterNightcount: Observable<Int> = Observable(0)
+    
     //MARK: 여기서 아침일기 저녁일기 task 생성
-    func diaryTypefilterDate() {
+    func diaryTypefilterDate(calendar: FSCalendar) {
         
         //mainview.calendar.selectedDate
-        let selectedDate = CustomFormatter.setDateFormatter(date: selectedDate.value ?? Date())
+        let selectedDate = CustomFormatter.setDateFormatter(date: calendar.selectedDate ?? Date())
         // mainview.calendar.today!
-        let calendarToday = CustomFormatter.setDateFormatter(date: calendarToday.value)
+        let calendarToday = CustomFormatter.setDateFormatter(date: calendar.today ?? Date())
         let today =  CustomFormatter.setDateFormatter(date: Date())
         //self.dateFilterTask = OneDayDiaryRepository.shared.fetchDate(date: Date())[0] -> 왜 이렇게 하면안됨? 오늘 작성한게 많을수도 있잖아
         
         // 오늘인 캘린더를 띄워서 경우
-        if self.selectedDate.value == nil, calendarToday == today  {
-            moningTask.value = OneDayDiaryRepository.shared.fetchDate(date: self.calendarToday.value, type: 0).first
-            nightTask.value = OneDayDiaryRepository.shared.fetchDate(date: self.calendarToday.value, type: 1).first
+        if calendar.selectedDate == nil, calendarToday == today  {
+            moningTask.value = OneDayDiaryRepository.shared.fetchDate(date: calendar.today!, type: 0).first
+            nightTask.value = OneDayDiaryRepository.shared.fetchDate(date: calendar.today!, type: 1).first
             // 오늘을 선택한 경우
-        } else if self.selectedDate.value != nil, selectedDate == today {
-            moningTask.value = OneDayDiaryRepository.shared.fetchDate(date: self.calendarToday.value, type: 0).first // nil이 들어올 수 있음
-            nightTask.value = OneDayDiaryRepository.shared.fetchDate(date: self.calendarToday.value, type: 1).first
+        } else if calendar.selectedDate != nil, selectedDate == today {
+            moningTask.value = OneDayDiaryRepository.shared.fetchDate(date: calendar.today!, type: 0).first // nil이 들어올 수 있음
+            nightTask.value = OneDayDiaryRepository.shared.fetchDate(date: calendar.today!, type: 1).first
             // 오늘이 아닌 다른 날을 선택한 경우
-        } else if self.selectedDate.value != nil, selectedDate != today {
-            moningTask.value = OneDayDiaryRepository.shared.fetchDate(date: self.selectedDate.value ?? Date(), type: 0).first
-            nightTask.value = OneDayDiaryRepository.shared.fetchDate(date: self.selectedDate.value ?? Date(), type: 1).first
+        } else if calendar.selectedDate != nil, selectedDate != today {
+            moningTask.value = OneDayDiaryRepository.shared.fetchDate(date: calendar.selectedDate ?? Date(), type: 0).first
+            nightTask.value = OneDayDiaryRepository.shared.fetchDate(date: calendar.selectedDate ?? Date(), type: 1).first
         } else {
             moningTask.value = nil
             nightTask.value = nil
@@ -81,9 +80,9 @@ final class CalendarModel {
         return moringCountRatio
     }
     
-    func fetchRealm() {
+    func fetchRealm(calendar: FSCalendar) {
         tasks.value = OneDayDiaryRepository.shared.fetchLatestOrder()
-        diaryTypefilterDate()
+        diaryTypefilterDate(calendar: calendar)
         
         //시간잘 맞춰서 해당 달의 날짜가 들어옴
         monthFilterTasks.value = OneDayDiaryRepository.shared.fetchFilterMonth(start: CustomFormatter.isStarDateOfMonth(), last: CustomFormatter.isDateEndOfMonth())
