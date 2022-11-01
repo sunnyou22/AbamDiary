@@ -39,18 +39,27 @@ class CalendarViewController: BaseViewController {
                 }
                 print("Realm is located at:", OneDayDiaryRepository.shared.localRealm.configuration.fileURL!)
                 print("리로드캘린더♻️")
+
             }
             
+            //데이터 fetch
             calendarModel.fetchRealm()
             
-            calendarModel.changeMorningcount.bind { [weak self] _ in
-                self?.calendarModel.calculateMornigDiary()
+            //한달 일기 아침task count 구하기
+            calendarModel.monthFilterTasks.bind { [weak self] list in
+                guard let list = list else {
+                    return
+                }
+              
+                self?.calendarModel.filterMorningcount.value = list.filter { task in
+                        return task.type == 0
+                    }.count
+               
+                self?.calendarModel.filterNightcount.value = list.filter { task in
+                        return task.type == 1
+                    }.count
             }
-            
-            calendarModel.changeNightcount.bind { [weak self] _ in
-                self?.calendarModel.calculateNightDiary()
-            }
-        }
+         }
     
     //MARK: - LoadView
     override func loadView() {
@@ -124,13 +133,20 @@ class CalendarViewController: BaseViewController {
      
         bindData()
         
-        //카운트 세팅
+        //애니메이션
         calendarModel.checkCount {
-            animationUIImage()
+            DispatchQueue.main.async { [weak self] in
+                self?.animationUIImage()
+            }
             mainview.progressBar.progress = 0.5
         } nonzero: {
-            calendarModel.setProgressRetio()
-            animationUIImage()
+            print("nonzero========================")
+            DispatchQueue.main.async { [weak self] in
+                self?.animationUIImage()
+            }
+            calendarModel.setProgressRetio { [weak self] progress in
+                self?.mainview.progressBar.setProgress(progress, animated: true)
+            }
         }
         
         //랜덤응원메세지 반영
@@ -149,6 +165,7 @@ class CalendarViewController: BaseViewController {
 extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        // 고정값이면 rowheight으로 바꾸기
         return mainview.tableView.frame.height / 2.1
     }
     // 타이틀적인 요소는 섹션도 좋음
@@ -429,6 +446,8 @@ extension CalendarViewController {
         let width = Float(self.mainview.progressBar.frame.size.width) * moringCountRatio - (Float(self.mainview.progressBar.frame.size.width) / 2)
         let newWidth = (round(width) * digit) / digit
         
+        print(moringCountRatio, width, newWidth, "=============😽")
+        
         UIImageView.animate(withDuration: 0.4) {
             
             self.mainview.progressBar.transform = .identity
@@ -441,17 +460,16 @@ extension CalendarViewController {
                 self.mainview.profileImage.transform = .identity
             }
         } completion: { [weak self] _ in
-            guard let self = self else { return }
             
             if moringCountRatio < 0.5 {
-                self.mainview.profileImage.transform = .identity
-                self.mainview.profileImage.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
+                self?.mainview.profileImage.transform = .identity
+                self?.mainview.profileImage.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
             } else if moringCountRatio > 0.5 {
-                
-                self.mainview.profileImage.transform = .identity
-                self.mainview.profileImage.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
+                print(moringCountRatio, width, newWidth, "=============😽📍📍")
+                self?.mainview.profileImage.transform = .identity
+                self?.mainview.profileImage.transform = CGAffineTransform(translationX: CGFloat(newWidth), y: 0)
             } else {
-                self.mainview.profileImage.transform = .identity
+                self?.mainview.profileImage.transform = .identity
             }
         }
     }

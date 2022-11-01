@@ -112,11 +112,11 @@ class PopUpViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewModel.changeMorningcount.bind { [weak self] value in
+        viewModel.filterMorningcount.bind { [weak self] value in
             self?.popView.morningDiaryCount.text = "아침일기: \(value)개"
         }
         
-        viewModel.changeNightcount.bind { [weak self] value in
+        viewModel.filterNightcount.bind { [weak self] value in
             self?.popView.nightDiaryCount.text = "저녁일기: \(value)개"
         }
         
@@ -141,7 +141,7 @@ class PopUpViewController: BaseViewController {
        }
     
     //MARK: - 메서드
-    private func setResultLabelComponent(m: Float, n: Float) -> String? {
+    private func setResultLabelComponent(m: Int, n: Int) -> String? {
         
         if m > n {
             return "아침형"
@@ -155,8 +155,10 @@ class PopUpViewController: BaseViewController {
     }
     
     private func setResultLabel(_ view: UILabel) {
-        let m = viewModel.changeMorningcount.value
-        let n = viewModel.changeNightcount.value
+        
+        let m = viewModel.filterMorningcount.value
+        
+        let n = viewModel.filterNightcount.value
         
         guard let result = setResultLabelComponent(m: m, n: n) else {
             view.text = "어떤 아밤인지 모르겠어요 🤔"
