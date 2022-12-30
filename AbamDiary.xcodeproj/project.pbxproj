@@ -24,6 +24,7 @@
 		900AEE1C28CC9A5B00F18360 /* GageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900AEE1B28CC9A5B00F18360 /* GageModel.swift */; };
 		900AEE1E28CC9EA000F18360 /* UserDefaultHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900AEE1D28CC9EA000F18360 /* UserDefaultHelper.swift */; };
 		900AEE2028CC9F5300F18360 /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900AEE1F28CC9F5300F18360 /* Reusable.swift */; };
+		901F0C17295F7511000834E5 /* UIViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901F0C16295F7511000834E5 /* UIViewController + Extension.swift */; };
 		903B429528E15C7B00012204 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903B429428E15C7B00012204 /* SearchTableViewCell.swift */; };
 		903B429B28E464B900012204 /* AcknowList in Frameworks */ = {isa = PBXBuildFile; productRef = 903B429A28E464B900012204 /* AcknowList */; };
 		903B429D28E4690700012204 /* Package.resolved in Resources */ = {isa = PBXBuildFile; fileRef = 903B429C28E4690700012204 /* Package.resolved */; };
@@ -91,6 +92,7 @@
 		900AEE1B28CC9A5B00F18360 /* GageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GageModel.swift; sourceTree = "<group>"; };
 		900AEE1D28CC9EA000F18360 /* UserDefaultHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultHelper.swift; sourceTree = "<group>"; };
 		900AEE1F28CC9F5300F18360 /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
+		901F0C16295F7511000834E5 /* UIViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Extension.swift"; sourceTree = "<group>"; };
 		903B429428E15C7B00012204 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		903B429C28E4690700012204 /* Package.resolved */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Package.resolved; path = AbamDiary.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved; sourceTree = "<group>"; };
 		904492B228D5ACC90028F920 /* CheeupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheeupView.swift; sourceTree = "<group>"; };
@@ -336,6 +338,7 @@
 				907FF54928D78F5A0037BF28 /* FileManager+Extension.swift */,
 				90DF633028D9DD300046A3E7 /* Alert.swift */,
 				90D919E228E0DA8000CB3307 /* TapBarController.swift */,
+				901F0C16295F7511000834E5 /* UIViewController + Extension.swift */,
 			);
 			path = Constant;
 			sourceTree = "<group>";
@@ -478,6 +481,7 @@
 				90B7211228CDACE300B243AE /* MonthDiaryViewController.swift in Sources */,
 				905E099428D1C3700084ADAE /* SearchView.swift in Sources */,
 				90F0592328D80E1D00F61899 /* SettiongConstants.swift in Sources */,
+				901F0C17295F7511000834E5 /* UIViewController + Extension.swift in Sources */,
 				90DF633128D9DD300046A3E7 /* Alert.swift in Sources */,
 				904492B528D5BD1D0028F920 /* CheerupTableViewCell.swift in Sources */,
 				90B7210E28CDACBE00B243AE /* CheerupViewController.swift in Sources */,
